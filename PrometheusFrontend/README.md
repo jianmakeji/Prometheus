@@ -1,4 +1,4 @@
-# xy_mgrsystem
+# 项目管理后台的前端
 
 > A Vue.js project
 
