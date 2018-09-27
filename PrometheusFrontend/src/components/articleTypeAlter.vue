@@ -5,12 +5,15 @@
 	            <Icon type="ios-build" size="24"/>好文类别管理
 	        </BreadcrumbItem>
 			<BreadcrumbItem>
-	            <Icon type="md-add" size="24"/>新建视频类别
+	            <Icon type="md-add" size="24"/>新建好文类别
 	        </BreadcrumbItem>
 	    </Breadcrumb><br>
 		<Form :model="formItem" :label-width="80">
-		   <FormItem label="好文类别:">
+		   <FormItem label="类别名:">
 			   <Input v-model="formItem.articleType" placeholder="请输入好文类别名称..." clearable></Input>
+		   </FormItem>
+		   <FormItem label="类别名:">
+			   <Input v-model="formItem.introduce" placeholder="请输入好文类别名称..." type="textarea"></Input>
 		   </FormItem>
 		   	<FormItem>
 	            <Button type="primary" long @click="submitClick">提交</Button>
@@ -25,7 +28,8 @@ export default {
 	data(){
 		return{
 			formItem:{
-				articleType:""
+				articleType:"",
+				introduce:""
 			}
 		}
 	},

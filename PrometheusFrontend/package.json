@@ -14,7 +14,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@xkeshi/vue-qrcode": "github:xkeshi/vue-qrcode",
     "iview": "^3.1.1",
+    "qrcode": "^1.2.2",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "wangeditor": "^3.1.1"

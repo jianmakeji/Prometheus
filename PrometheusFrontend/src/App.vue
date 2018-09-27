@@ -7,13 +7,13 @@
 						<MenuItem name="0" >
                           	<img  style="width:100%;height:auto;" src= "./assets/logo.jpg"/>
                       	</MenuItem>
-                      	<MenuItem name="1" >
+                      	<MenuItem name="1">
+                          	<Icon type="ios-videocam" />
+                          	<span>视频专题管理</span>
+                      	</MenuItem>
+                      	<MenuItem name="2" >
                           	<Icon type="ios-videocam" />
                           	<span>视频类别管理</span>
-                      	</MenuItem>
-                      	<MenuItem name="2">
-                          	<Icon type="ios-videocam" />
-                          	<span>视频年级管理</span>
                       	</MenuItem>
                       	<MenuItem name="3">
                           	<Icon type="ios-videocam" />
@@ -26,6 +26,14 @@
 					  	<MenuItem name="5">
                           	<Icon type="md-paper" />
                           	<span>好文管理</span>
+                      	</MenuItem>
+						<MenuItem name="6">
+                          	<Icon type="md-paper" />
+                          	<span>用户管理</span>
+                      	</MenuItem>
+						<MenuItem name="7">
+                          	<Icon type="md-paper" />
+                          	<span>老师管理</span>
                       	</MenuItem>
                   	</Menu>
               	</Sider>
@@ -72,20 +80,25 @@ export default {
 	  	menuTap (event){
 		  	let that = this;
 			if(event == 1){
-				this.$router.push({name:"videoType"});
+				this.$router.push({name:"videoSpecialColumn"});
 			}else if(event == 2){
-				this.$router.push({name:"videoClass"});
+				// this.$router.push({name:"videoClass"});
+				this.$router.push({name:"videoType"});
 			}else if(event == 3){
 				this.$router.push({name:"videoManage"});
 			}else if(event == 4){
 				this.$router.push({name:"articleType"});
 			}else if(event == 5){
 				this.$router.push({name:"articleManage"});
+			}else if(event == 6){
+				this.$router.push({name:"userManage"});
+			}else if(event == 7){
+				this.$router.push({name:"teacherManage"});
 			}
 	  	}
   	},
 	created(){
-		this.$router.push({name:"videoType"});
+		this.$router.push({name:"videoSpecialColumn"});
 	}
 }
 </script>

@@ -1,38 +1,27 @@
 <template lang="html">
-	<div class="videoType">
+  	<div class="teacherManage">
 		<Breadcrumb>
-	        <BreadcrumbItem>
-	            <Icon type="ios-build" size="24"/>视频类别管理
-	        </BreadcrumbItem>
-	    </Breadcrumb><br />
-		<Button icon="md-add" type="primary" @click="newType">新建</Button><br /><br />
+			<BreadcrumbItem>
+				<Icon type="ios-build" size="24"/>老师管理
+			</BreadcrumbItem>
+		</Breadcrumb><br />
+		<Button icon="md-add" type="primary" @click="newTeacher">新建</Button><br /><br />
 		<Table :columns="columns" :data="dataList"></Table><br />
 		<Page :total="total" show-total/>
-    </div>
+  	</div>
 </template>
 
 <script>
 export default {
-    name:"videoType",
-    data () {
-        return {
+	name:"teacherManage",
+	data(){
+		return{
 			total:100,
 			columns:[
-				{
-                    title: 'id',
-                    key: 'id',
-					align: 'center'
-                },
-                {
-                    title: '类型名称',
-                    key: 'title',
-					align: 'center'
-                },
-                {
-                    title: '所属专栏',
-                    key: "specialColumn",
-					align: 'center'
-                },
+				{ 	title: 'id',	key: 'id',	align: 'center'	},
+				{	title: '姓名',	key: 'name',	align: 'center'},
+				{	title: "学科",	key: 'subject',	align: 'center'},
+				{	title: "专题",	key: 'specialColumn',	align: 'center'},
 				{ title: '操作', key: 'opt', align: 'center',
 					render: (h, params) => {
 						return h("div",[
@@ -67,20 +56,19 @@ export default {
 						])
 					}
 			 	}
+
 			],
-			dataList: [
-                { id:1, title: '领先课堂', specialColumn: '精品课程'},
-	            { id:2, title: '培优课堂', specialColumn: '精品课程'},
-		        { id:3, title: '汇智课堂', specialColumn: '精品课程'},
-			    { id:4, title: '计算专题', specialColumn: '专题突破'},
-			    { id:4, title: '集合专题', specialColumn: '专题突破'},
-			    { id:4, title: '压轴题专题', specialColumn: '专题突破'},
-            ]
-        }
-    },
-    methods: {
-		newType(){
-			this.$router.push({name:"videoTypeAlter"});
+			dataList:[
+				{id:1,name:"张三",subject:"数学",specialColumn:"精品课程"},
+				{id:2,name:"李四",subject:"英语",specialColumn:"精品课程"},
+				{id:3,name:"王五",subject:"物理",specialColumn:"精品课程"},
+				{id:4,name:"赵六",subject:"化学",specialColumn:"专题图片"},
+			]
+		}
+	},
+	methods:{
+		newTeacher(){
+			this.$router.push({name:"teacherAlter"});
 		},
 		changeTap(index){
 			console.log(index);
@@ -88,12 +76,12 @@ export default {
 		removeTap(index){
 			console.log(index);
 		}
-    }
+	}
 }
 </script>
 
 <style lang="css">
-.videoType{
+.teacherManage{
 	padding: 20px;
 }
 </style>
