@@ -9,7 +9,10 @@
   			</BreadcrumbItem>
   		</Breadcrumb><br />
 		<Form :model="formItem" :label-width="150">
-		   	<FormItem label="好文文章名:">
+			<FormItem label="缩略图:">
+			   	<Input v-model="formItem.articleName" placeholder="请输入文章名..." clearable></Input>
+		   	</FormItem>
+		   	<FormItem label="文章名:">
 			   	<Input v-model="formItem.articleName" placeholder="请输入文章名..." clearable></Input>
 		   	</FormItem>
 			<FormItem label="好文摘要:">
@@ -20,11 +23,11 @@
 			        <div ref="editorElem" style="text-align:left"></div>
 			    </div>
 			</FormItem>
-			<FormItem label="文章类型:">
+			<FormItem label="所属类型:">
 	            <Select v-model="formItem.articleType" placeholder="选择类型...">
-	                <Option value="1">New York</Option>
-	                <Option value="2">London</Option>
-	                <Option value="3">Sydney</Option>
+	                <Option value="1">父子篇</Option>
+	                <Option value="2">成长篇</Option>
+	                <Option value="3">亲子篇</Option>
 	            </Select>
 	        </FormItem>
 			<FormItem>

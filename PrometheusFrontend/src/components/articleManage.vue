@@ -19,49 +19,72 @@ export default {
 			total:100,
 			columns:[
 				{
-					title: 'Name',
-					key: 'name'
+					title: 'id',
+					key: 'id',
+					align: 'center'
 				},
 				{
-					title: 'Age',
-					key: 'age'
+					title: '名称',
+					key: 'title',
+					align: 'center'
 				},
 				{
-					title: 'Address',
-					key: 'address'
-				}
+					title: '类型',
+					key: 'type',
+					align: 'center'
+				},
+				{ title: '操作', key: 'opt', align: 'center',
+					render: (h, params) => {
+						return h("div",[
+							h('Button', {
+	                               	props: {
+	                                   	type: 'primary',
+	                                   	size: 'small'
+	                               	},
+	                               	style: {
+	                                   	marginRight: '5px'
+	                               	},
+	                               	on: {
+	                                   	click: () => {
+	                                       	this.changeTap(params.index)
+	                                   	}
+	                               	}
+	                           	}, '修改'),
+						   	h('Button', {
+                           	props: {
+                               	type: 'error',
+                               	size: 'small'
+                           	},
+                           	style: {
+                               	marginRight: '5px'
+                           	},
+                           	on: {
+                               	click: () => {
+                                   	this.removeTap(params.index)
+                               	}
+                           	}
+                       	},'删除')
+						])
+					}
+			 	}
 			],
 			dataList: [
-				{
-					name: 'John Brown',
-					age: 18,
-					address: 'New York No. 1 Lake Park',
-					date: '2016-10-03'
-				},
-				{
-					name: 'Jim Green',
-					age: 24,
-					address: 'London No. 1 Lake Park',
-					date: '2016-10-01'
-				},
-				{
-					name: 'Joe Black',
-					age: 30,
-					address: 'Sydney No. 1 Lake Park',
-					date: '2016-10-02'
-				},
-				{
-					name: 'Jon Snow',
-					age: 26,
-					address: 'Ottawa No. 2 Lake Park',
-					date: '2016-10-04'
-				}
+				{id:1, title:"父子好文1",type:"父子篇" },
+				{id:1, title:"成长好文1",type:"成长篇" },
+				{id:1, title:"亲子好文1",type:"亲子篇" },
+
 			]
 		}
 	},
 	methods:{
 		newArticle(){
 			this.$router.push({name:"articleAlter"});
+		},
+		changeTap(index){
+			console.log(index);
+		},
+		removeTap(index){
+			console.log(index);
 		}
 	}
 }

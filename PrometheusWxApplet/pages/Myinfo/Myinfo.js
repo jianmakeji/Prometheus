@@ -12,12 +12,12 @@ Page({
    // 获取用户信息
    userInfoHandler: function (res) {
       if (res.detail.userInfo) {
-         var that = this;
-         that.setData({
+        var that = this;
+        that.setData({
             shouquan: 1,
             headimgurl: res.detail.userInfo.avatarUrl,
             nickname: res.detail.userInfo.nickName
-         })
+        })
          wx.showToast({
             title: '获取信息成功'
          })
