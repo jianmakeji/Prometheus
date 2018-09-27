@@ -31,6 +31,7 @@ describe('test/app/controller/specialColumn.test.js', () => {
       let res = await app.httpRequest().post('/specialColumn')
         .send({
           courseType: 1,
+          teacherId: 1,
           name: 'jack',
           describe: '奥术大师大所多撒大',
           price: 190.00,

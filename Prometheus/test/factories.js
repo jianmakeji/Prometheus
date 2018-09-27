@@ -36,6 +36,7 @@ module.exports = app => {
   factory.define('specialColumn', app.model.SpecialColumn, {
     name: '专题突破',
     courseType: 1,
+    teacherId: 1,
     thumb: 'TRS78AUSD.jpg',
     describe: '专题突破专栏',
     price: '198.00',
@@ -46,5 +47,12 @@ module.exports = app => {
     abstractContent: '9月26日下午，习近平从黑龙江齐齐哈尔乘火车抵达吉林省松原市。一下车，他就前往查干湖，了解生态保护和渔民捕捞作业情况。查干湖是我国十大淡水湖之一，渔产资源丰富。',
     mainContent: '9月26日下午，习近平从黑龙江齐齐哈尔乘火车抵达吉林省松原市。一下车，他就前往查干湖，了解生态保护和渔民捕捞作业情况。查干湖是我国十大淡水湖之一，渔产资源丰富。',
     thumb: 'NKJHBNBH7878.jpg',
+  });
+
+  factory.define('teacher', app.model.Teacher, {
+    name: '陈老师',
+    subject: '数学',
+    brief: '10年中小学教学经验',
+    thumb: 'TRS78AUSD.jpg',
   });
 };
