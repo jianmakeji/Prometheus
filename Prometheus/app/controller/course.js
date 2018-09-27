@@ -9,17 +9,17 @@ class CourseController extends Controller {
       limit: ctx.helper.parseInt(ctx.query.limit),
       offset: ctx.helper.parseInt(ctx.query.offset),
     };
-    ctx.body = await ctx.service.Course.list(query);
+    ctx.body = await ctx.service.course.list(query);
   }
 
   async show() {
     const ctx = this.ctx;
-    ctx.body = await ctx.service.Course.find(ctx.helper.parseInt(ctx.params.id));
+    ctx.body = await ctx.service.course.find(ctx.helper.parseInt(ctx.params.id));
   }
 
   async create() {
     const ctx = this.ctx;
-    const course = await ctx.service.Course.create(ctx.request.body);
+    const course = await ctx.service.course.create(ctx.request.body);
     ctx.status = 201;
     ctx.body = course;
   }
@@ -31,13 +31,13 @@ class CourseController extends Controller {
       title: ctx.request.body.title,
       content: ctx.request.body.content,
     };
-    ctx.body = await ctx.service.Course.update({ id, updates });
+    ctx.body = await ctx.service.course.update({ id, updates });
   }
 
   async destroy() {
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.id);
-    await ctx.service.Course.destroy({ id });
+    await ctx.service.course.del(id);
     ctx.status = 200;
   }
 }

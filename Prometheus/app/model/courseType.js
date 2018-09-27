@@ -3,7 +3,7 @@
 module.exports = app => {
   const { STRING, INTEGER, DATE } = app.Sequelize;
 
-  const CourseType = app.model.define('courseType', {
+  const CourseType = app.model.define('course_type', {
     Id: {
       type: INTEGER,
       primaryKey: true,

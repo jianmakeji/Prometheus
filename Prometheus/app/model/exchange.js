@@ -13,7 +13,6 @@ module.exports = app => {
     special_column: INTEGER,
     price: FLOAT,
     created_at: DATE,
-    updated_at: DATE,
   });
 
   return Exchange;

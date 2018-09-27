@@ -9,17 +9,17 @@ class ExchangeController extends Controller {
       limit: ctx.helper.parseInt(ctx.query.limit),
       offset: ctx.helper.parseInt(ctx.query.offset),
     };
-    ctx.body = await ctx.service.Exchange.list(query);
+    ctx.body = await ctx.service.exchange.list(query);
   }
 
   async show() {
     const ctx = this.ctx;
-    ctx.body = await ctx.service.Exchange.find(ctx.helper.parseInt(ctx.params.id));
+    ctx.body = await ctx.service.exchange.find(ctx.helper.parseInt(ctx.params.id));
   }
 
   async create() {
     const ctx = this.ctx;
-    const exchange = await ctx.service.Exchange.create(ctx.request.body);
+    const exchange = await ctx.service.exchange.create(ctx.request.body);
     ctx.status = 201;
     ctx.body = exchange;
   }
@@ -31,13 +31,13 @@ class ExchangeController extends Controller {
       title: ctx.request.body.title,
       content: ctx.request.body.content,
     };
-    ctx.body = await ctx.service.Exchange.update({ id, updates });
+    ctx.body = await ctx.service.exchange.update({ id, updates });
   }
 
   async destroy() {
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.id);
-    await ctx.service.Exchange.destroy({ id });
+    await ctx.service.exchange.del(id);
     ctx.status = 200;
   }
 }
