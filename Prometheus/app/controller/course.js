@@ -37,7 +37,7 @@ class CourseController extends Controller {
   async destroy() {
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.id);
-    await ctx.service.Course.destroy({ id});
+    await ctx.service.Course.destroy({ id });
     ctx.status = 200;
   }
 }

@@ -10,10 +10,12 @@ module.exports = appInfo => {
   config.middleware = [];
 
   config.sequelize = {
-      dialect:'mysql',
-      host:'192.168.3.110',
-      port:3306,
-      database:'Prometheus',
+    dialect: 'mysql',
+    host: '192.168.3.110',
+    port: 3306,
+    username: 'root',
+    password: 'root',
+    database: 'Prometheus',
   };
 
   return config;

@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = app => {
-  const { STRING, INTEGER, DATE, FLOAT } = app.Sequelize;
+  const { INTEGER, DATE, FLOAT } = app.Sequelize;
 
   const Exchange = app.model.define('exchange', {
     Id: {

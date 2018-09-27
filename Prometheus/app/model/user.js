@@ -9,7 +9,7 @@ module.exports = app => {
       primaryKey: true,
       autoIncrement: true,
     },
-    name: STRING(30),
+    username: STRING(30),
     password: STRING(50),
     headicon: STRING(100),
     created_at: DATE,
