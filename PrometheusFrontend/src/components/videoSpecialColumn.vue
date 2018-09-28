@@ -6,8 +6,17 @@
 		</BreadcrumbItem>
 	</Breadcrumb><br />
 	<Button icon="md-add" type="primary" @click="newClass">新建</Button><br /><br />
-	<Table :columns="columns" :data="data"></Table><br />
-	<Page :total="total" show-total/>
+	<Table :columns="columns" :data="dataList"></Table><br />
+	<Page :total="total" show-total @on-change="pageChange"/>
+	<Modal v-model="deleteModel" width="360" @on-ok="okTap">
+        <p slot="header" style="color:#ed4014;text-align:center;font-size:18px;">
+            <Icon type="ios-information-circle" size="20"></Icon>
+            <span>确定要删除专题</span>
+        </p>
+        <div style="text-align:center">
+            {{specialColumnTitle}}
+        </div>
+    </Modal>
   </div>
 </template>
 
@@ -16,6 +25,9 @@ export default {
 	name:"videoSpecialColumn",
 	data(){
 		return{
+			deleteModel:false,
+			specialColumnTitle:"",
+			index:"",
 			total:100,
 			columns:[
 				{ title: 'id', key: 'id', align: 'center' },
@@ -55,20 +67,31 @@ export default {
 					}
 			 	}
 			],
-			data: [
+			dataList: [
                 {id:1,title:"精品课程"}, {id:2,title:"专题突破"}
             ]
 		}
 	},
 	methods:{
+		pageChange(index){
+			console.log(index);
+		},
 		newClass(){
-			this.$router.push({name:"videoSpecialColumnAlter"});
+			this.$router.push({name:"videoSpecialColumnAlter",query:{id:0}});
 		},
 		changeTap(index){
-			console.log(index);
+			let specialColumnId = this.dataList[index].id;
+			console.log(specialColumnId);
+			this.$router.push({name:"videoSpecialColumnAlter",query:{id:specialColumnId}});
 		},
 		removeTap(index){
 			console.log(index);
+			this.index = index;
+			this.deleteModel = true;
+			this.specialColumnTitle = this.dataList[index].title;
+		},
+		okTap(){
+			console.log(this.index);
 		}
 	}
 }

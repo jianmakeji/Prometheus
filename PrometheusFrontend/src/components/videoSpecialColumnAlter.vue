@@ -27,6 +27,8 @@ export default {
 	name:"videoSpecialColumnAlter",
 	data(){
 		return{
+			id:"",
+			submitUrl:"",
 			formItem:{
 				title:"",	//年级item
 				introduce:""	//年级item
@@ -37,6 +39,17 @@ export default {
 		submitClick(){
 			console.log("submit");
 			this.$router.push({name:"videoSpecialColumn"});
+		}
+	},
+	created(){
+		// console.log(this.$route.query.id);
+		this.id = this.$route.query.id;
+		if(this.id != 0){		//修改
+			console.log("修改",this.id,typeof this.id);
+			// this.submitUrl = "" 		//新建专栏的链接
+		}else{					//新建
+			// this.submitUrl = "" 		//修改专栏的链接
+			console.log("新建",this.id);
 		}
 	}
 }

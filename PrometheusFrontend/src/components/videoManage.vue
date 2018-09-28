@@ -32,7 +32,7 @@
 	        </FormItem>
 	    </Form>
 		<Table :columns="columns" :data="dataList"></Table><br />
-		<Page :total="total" show-total/>
+		<Page :total="total" show-total @on-change="pageChange"/>
 		<Modal v-model="codeModal"  @on-ok="downloadCode" ok-text="下载图片至本地">
 			<p slot="header" style="color:#19be6b;text-align:center;font-size:18px;">
 	            <Icon type="ios-brush-outline" />
@@ -41,6 +41,15 @@
 			<div style="text-align:center" v-show="qrcodeUrl" class="response">
 				<qrcode id="codeImage" :value="qrcodeUrl" v-if="qrcodeUrl"	:options="{ size: 120 }"></qrcode>
 			</div>
+	    </Modal>
+		<Modal v-model="deleteModel" width="360" @on-ok="okTap">
+	        <p slot="header" style="color:#ed4014;text-align:center;font-size:18px;">
+	            <Icon type="ios-information-circle" size="20"></Icon>
+	            <span>确定要删除视频</span>
+	        </p>
+	        <div style="text-align:center">
+	            {{videoTitle}}
+	        </div>
 	    </Modal>
   	</div>
 </template>
@@ -52,6 +61,8 @@ export default {
 	data(){
 		return{
 			index:"",
+			deleteModel:false,
+			videoTitle:"",
 			qrcodeUrl:"", 		//二维码url内容
 			codeTitle:"",		//弹出层标题(视频名称)
 			codeModal:false,
@@ -150,16 +161,24 @@ export default {
         qrcode : Qrcode
     },
 	methods:{
+		pageChange(index){
+			console.log(index);
+		},
 		newVideo(){
-			this.$router.push({name:"videoAlter"});
+			this.$router.push({name:"videoAlter",query:{id:0}});
 		},
 		//修改
 		changeTap(index){
-			console.log(index);
+			let videoId = this.dataList[index].id;
+			console.log(videoId);
+			this.$router.push({name:"videoAlter",query:{id:videoId}});
 		},
 		//删除
 		removeTap(index){
 			console.log(index);
+			this.index = index;
+			this.deleteModel = true;
+			this.videoTitle = this.dataList[index].title;
 		},
 		//生成二维码
 		generateCode(index){
@@ -175,6 +194,9 @@ export default {
 			a.href = myCanvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
 			a.download = this.dataList[this.index].title +".png";
 			a.click();
+		},
+		okTap(){
+			console.log(this.index);
 		}
 	}
 }

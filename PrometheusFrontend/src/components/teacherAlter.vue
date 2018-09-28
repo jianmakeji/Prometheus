@@ -39,6 +39,8 @@ export default {
 	name:"teacherAlter",
 	data(){
 		return{
+			id:"",
+			submitUrl:"",
 			subjectData:globel_.subjectData,
 			formItem:{
 				name:"",
@@ -50,6 +52,16 @@ export default {
 	methods:{
 		submitClick(){
 			console.log("submit");
+		}
+	},
+	created(){
+		this.id = this.$route.query.id;
+		if(this.id != 0){		//修改
+			console.log("修改",this.id,typeof this.id);
+			// this.submitUrl = "" 		//新建专栏的链接
+		}else{					//新建
+			// this.submitUrl = "" 		//修改专栏的链接
+			console.log("新建",this.id);
 		}
 	}
 }

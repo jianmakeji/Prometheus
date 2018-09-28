@@ -28,11 +28,11 @@
                           	<span>好文管理</span>
                       	</MenuItem>
 						<MenuItem name="6">
-                          	<Icon type="md-paper" />
+                          	<Icon type="md-person" />
                           	<span>用户管理</span>
                       	</MenuItem>
 						<MenuItem name="7">
-                          	<Icon type="md-paper" />
+                          	<Icon type="md-person" />
                           	<span>老师管理</span>
                       	</MenuItem>
                   	</Menu>
@@ -82,7 +82,6 @@ export default {
 			if(event == 1){
 				this.$router.push({name:"videoSpecialColumn"});
 			}else if(event == 2){
-				// this.$router.push({name:"videoClass"});
 				this.$router.push({name:"videoType"});
 			}else if(event == 3){
 				this.$router.push({name:"videoManage"});

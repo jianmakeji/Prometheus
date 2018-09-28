@@ -6,7 +6,7 @@
 	        </BreadcrumbItem>
 	    </Breadcrumb><br />
 		<Table :columns="columns" :data="dataList"></Table><br />
-		<Page :total="total" show-total/>
+		<Page :total="total" show-total @on-change="pageChange"/>
   	</div>
 </template>
 
@@ -27,6 +27,11 @@ export default {
 				{id:4,name:"赵六"},
 			]
 		}
+	},
+	methods:{
+		pageChange(index){
+			console.log(index);
+		},
 	}
 }
 </script>

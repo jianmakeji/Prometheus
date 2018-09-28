@@ -7,7 +7,16 @@
 	    </Breadcrumb><br />
 		<Button icon="md-add" type="primary" @click="newArticle">新建</Button><br /><br />
 		<Table :columns="columns" :data="dataList"></Table><br />
-		<Page :total="total" show-total/>
+		<Page :total="total" show-total @on-change="pageChange"/>
+		<Modal v-model="deleteModel" width="360" @on-ok="okTap">
+	        <p slot="header" style="color:#ed4014;text-align:center;font-size:18px;">
+	            <Icon type="ios-information-circle" size="20"></Icon>
+	            <span>确定要删除好文</span>
+	        </p>
+	        <div style="text-align:center">
+	            {{articleTitle}}
+	        </div>
+	    </Modal>
   	</div>
 </template>
 
@@ -16,6 +25,9 @@ export default {
 	name:"articleManage",
 	data(){
 		return{
+			index:"",
+			deleteModel:false,
+			articleTitle:"",
 			total:100,
 			columns:[
 				{
@@ -77,13 +89,23 @@ export default {
 		}
 	},
 	methods:{
-		newArticle(){
-			this.$router.push({name:"articleAlter"});
-		},
-		changeTap(index){
+		pageChange(index){
 			console.log(index);
 		},
+		newArticle(){
+			this.$router.push({name:"articleAlter",query:{id:0}});
+		},
+		changeTap(index){
+			let articleId = this.dataList[index].id;
+			console.log(articleId);
+			this.$router.push({name:"articleAlter",query:{id:articleId}});
+		},
 		removeTap(index){
+			this.index = index;
+			this.articleTitle = this.dataList[index].title;
+			this.deleteModel = true;
+		},
+		okTap(){
 			console.log(index);
 		}
 	}
