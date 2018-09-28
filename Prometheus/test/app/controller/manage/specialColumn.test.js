@@ -2,12 +2,12 @@
 
 const { assert, app } = require('egg-mock/bootstrap');
 
-describe('test/app/controller/specialColumn.test.js', () => {
+describe('test/app/controller/manage/specialColumn.test.js', () => {
 
-  describe('GET /specialColumn', () => {
+  describe('GET /api/manage/specialColumn', () => {
     it('should work', async () => {
       await app.factory.createMany('specialColumn', 3);
-      const res = await app.httpRequest().get('/specialColumn?limit=2&offset=0');
+      const res = await app.httpRequest().get('/api/manage/specialColumn?limit=2&offset=0');
       assert(res.status === 200);
       assert(res.body.count === 3);
       assert(res.body.rows.length === 2);
@@ -16,19 +16,19 @@ describe('test/app/controller/specialColumn.test.js', () => {
     });
   });
 
-  describe('GET /specialColumn/:id', () => {
+  describe('GET /api/manage/specialColumn/:id', () => {
     it('should work', async () => {
       const specialColumn = await app.factory.create('specialColumn');
-      const res = await app.httpRequest().get(`/specialColumn/${specialColumn.Id}`);
+      const res = await app.httpRequest().get(`/api/manage/specialColumn/${specialColumn.Id}`);
       assert(res.status === 200);
       assert(res.body.name === specialColumn.name);
     });
   });
 
-  describe('POST /specialColumn', () => {
+  describe('POST /api/manage/specialColumn', () => {
     it('should work', async () => {
       app.mockCsrf();
-      let res = await app.httpRequest().post('/specialColumn')
+      let res = await app.httpRequest().post('/api/manage/specialColumn')
         .send({
           courseType: 1,
           teacherId: 1,
@@ -39,17 +39,17 @@ describe('test/app/controller/specialColumn.test.js', () => {
       assert(res.status === 201);
       assert(res.body.Id);
 
-      res = await app.httpRequest().get(`/specialColumn/${res.body.Id}`);
+      res = await app.httpRequest().get(`/api/manage/specialColumn/${res.body.Id}`);
       assert(res.status === 200);
       assert(res.body.name === 'jack');
     });
   });
 
-  describe('DELETE /specialColumn/:id', () => {
+  describe('DELETE /api/manage/specialColumn/:id', () => {
     it('should work', async () => {
       const specialColumn = await app.factory.create('specialColumn');
       app.mockCsrf();
-      const res = await app.httpRequest().delete(`/specialColumn/${specialColumn.Id}`);
+      const res = await app.httpRequest().delete(`/api/manage/specialColumn/${specialColumn.Id}`);
       assert(res.status === 200);
     });
   });

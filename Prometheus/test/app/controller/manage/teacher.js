@@ -2,12 +2,12 @@
 
 const { assert, app } = require('egg-mock/bootstrap');
 
-describe('test/app/controller/teacher.test.js', () => {
+describe('test/app/controller/manage/teacher.test.js', () => {
 
-  describe('GET /teacher', () => {
+  describe('GET /api/manage/teacher', () => {
     it('should work', async () => {
       await app.factory.createMany('teacher', 3);
-      const res = await app.httpRequest().get('/teacher?limit=2&offset=0');
+      const res = await app.httpRequest().get('/api/manage/teacher?limit=2&offset=0');
       assert(res.status === 200);
       assert(res.body.count === 3);
       assert(res.body.rows.length === 2);
@@ -16,19 +16,19 @@ describe('test/app/controller/teacher.test.js', () => {
     });
   });
 
-  describe('GET /teacher/:id', () => {
+  describe('GET /api/manage/teacher/:id', () => {
     it('should work', async () => {
       const teacher = await app.factory.create('teacher');
-      const res = await app.httpRequest().get(`/teacher/${teacher.Id}`);
+      const res = await app.httpRequest().get(`/api/manage/teacher/${teacher.Id}`);
       assert(res.status === 200);
       assert(res.body.name === teacher.name);
     });
   });
 
-  describe('POST /teacher', () => {
+  describe('POST /api/manage/teacher', () => {
     it('should work', async () => {
       app.mockCsrf();
-      let res = await app.httpRequest().post('/teacher')
+      let res = await app.httpRequest().post('/api/manage/teacher')
         .send({
           subject: 'asdasdsad爱的那是的撒旦',
           name: 'jack',
@@ -37,17 +37,17 @@ describe('test/app/controller/teacher.test.js', () => {
       assert(res.status === 201);
       assert(res.body.Id);
 
-      res = await app.httpRequest().get(`/teacher/${res.body.Id}`);
+      res = await app.httpRequest().get(`/api/manage/teacher/${res.body.Id}`);
       assert(res.status === 200);
       assert(res.body.name === 'jack');
     });
   });
 
-  describe('DELETE /teacher/:id', () => {
+  describe('DELETE /api/manage/teacher/:id', () => {
     it('should work', async () => {
       const teacher = await app.factory.create('teacher');
       app.mockCsrf();
-      const res = await app.httpRequest().delete(`/teacher/${teacher.Id}`);
+      const res = await app.httpRequest().delete(`/api/manage/teacher/${teacher.Id}`);
       assert(res.status === 200);
     });
   });

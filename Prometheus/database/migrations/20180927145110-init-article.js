@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const { INTEGER, DATE, STRING } = Sequelize;
+    const { INTEGER, DATE, STRING, TEXT } = Sequelize;
     await queryInterface.createTable('article', {
       Id: {
         type: INTEGER,

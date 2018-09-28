@@ -7,7 +7,11 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1537598392692_2118';
 
   // add your config here
-  config.middleware = [];
+  config.middleware = [ 'errorHandler' ];
+
+  config.errorHandler = {
+    match: '/api',
+  };
 
   config.sequelize = {
     dialect: 'mysql',
