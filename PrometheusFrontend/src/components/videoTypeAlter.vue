@@ -44,8 +44,8 @@
 var g_object_name = "";
 var key = '';
 var hostPrefix = "http://dc-yl.oss-cn-hangzhou.aliyuncs.com/";
-
 var uploadImage = "https://www.baidu.com/img/bd_logo1.png?where=super";
+
 function random_string(len) {
     var len = len || 32;
     var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
@@ -98,16 +98,33 @@ export default {
 			console.log("submit");
 		},
 		//图片上传事件没实现
-		handleSuccess(){
-
+		handleSuccess(res, file) {
+			this.formItem.thumb = hostPrefix + g_object_name + "?x-oss-process=style/thumb-300";
+			this.formItem.imageUrl = hostPrefix + g_object_name;
 		},
-		handleFormatError(){
-
+		handleFormatError(file) {
+			this.$Message.error("文件格式错误！");
 		},
-		handleMaxSize(){
-
+		handleMaxSize(file) {
+			this.$Message.error("文件不能超过2M！");
 		},
-		handleBeforeUpload(){
+		handleBeforeUpload(file) {
+			let message = this.$Message;
+			var self = this;
+
+			this.$http.get('/api/uploadKey/1').then(function(result){
+				self.$refs.upload.data.host = result.host;
+ 			   	self.$refs.upload.data.policy = result.policy;
+ 			   	self.$refs.upload.data.OSSAccessKeyId = result.accessid;
+ 			   	self.$refs.upload.data.signature = result.signature;
+ 			   	self.$refs.upload.data.callback = '';
+ 			   	key = result.dir;
+ 			   	g_object_name = result.dir;
+ 			   	calculate_object_name(file.name)
+ 			   	self.$refs.upload.data.key = g_object_name;
+			}).catch(function(err){
+			    alert(err);
+			})
 
 		}
 	},

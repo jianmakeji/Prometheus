@@ -29,7 +29,9 @@
 
 			<!-- 视频上传 -->
 			<FormItem label="视频文件:">
-
+				<Upload :action="videoHost" :format="['mp4']" :on-format-error="videoUploadFormatError" :before-upload="videoUploadBeforeUpload" :on-success="videoUploadSuccess" >
+			        <Button icon="ios-cloud-upload-outline">上传视频文件</Button>
+			    </Upload>
 		   	</FormItem>
 
 
@@ -117,7 +119,7 @@ export default {
 			signature: '',
 			host: hostPrefix,
 			//视频上传参数
-
+			videoHost:"",
 
 			formItem:{
 				thumb:uploadImage,
@@ -145,6 +147,16 @@ export default {
 		},
 		handleBeforeUpload(){
 
+		},
+		// 视频上传事件
+		videoUploadFormatError(){
+			console.log("videoUploadFormatError");
+		},
+		videoUploadBeforeUpload(){
+			console.log("videoUploadBeforeUpload");
+		},
+		videoUploadSuccess(){
+			console.log("videoUploadSuccess");
 		}
 	},
 	created(){
