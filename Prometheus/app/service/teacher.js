@@ -16,7 +16,7 @@ class Teacher extends Service {
       include: [{
           model: this.ctx.model.SpecialColumn,
           as: 'specialColumns',
-          attributes: ['name','thubm','describe','price'],
+          attributes: ['name','thumb','describe','price'],
       }],
     });
     if (!teacher) {
