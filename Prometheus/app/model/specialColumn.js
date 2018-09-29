@@ -19,5 +19,15 @@ module.exports = app => {
     updated_at: DATE,
   });
 
+  SpecialColumn.associate = function() {
+    app.model.SpecialColumn.belongsTo(app.model.Teacher, { as: 'teacher', foreignKey: 'teacherId',targetKey: 'Id' });
+  };
+
+  SpecialColumn.findByIdWithTeacher = async function(id, teacherId) {
+    return await this.findOne({
+      where: { id, teacherId: teacherId },
+    });
+  };
+
   return SpecialColumn;
 };

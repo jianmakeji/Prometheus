@@ -28,10 +28,10 @@ class UserController extends Controller {
     const ctx = this.ctx;
     const id = ctx.params.id;
     const updates = {
-      title: ctx.request.body.title,
-      content: ctx.request.body.content,
+      headicon: ctx.request.body.headicon,
+      password: ctx.request.body.password,
     };
-    ctx.body = await ctx.service.user.update({ id, user_id: ctx.request.body.user_id, updates });
+    ctx.body = await ctx.service.user.update({ id, updates });
   }
 
   async destroy() {

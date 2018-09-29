@@ -43,6 +43,26 @@ describe('test/app/controller/manage/user.test.js', () => {
     });
   });
 
+  describe('PUT /api/manage/users/:id', () => {
+    it('should work', async () => {
+      app.mockCsrf();
+      const user = await app.factory.create('user');
+      const resObj = await app.httpRequest().get(`/api/manage/users/${user.Id}`);
+
+      let res = await app.httpRequest().put('/api/manage/users/'+resObj.body.Id)
+        .send({
+          password: '1213yyuywqe78ew',
+          headicon: 'YUSADSAasDAS.jpg',
+        });
+      assert(res.status === 201);
+      assert(res.body.Id);
+
+      res = await app.httpRequest().get(`/api/manage/users/${res.body.Id}`);
+      assert(res.status === 200);
+      assert(res.body.username === 'jack');
+    });
+  });
+
   describe('DELETE /api/manage/users/:id', () => {
     it('should work', async () => {
       const user = await app.factory.create('user');

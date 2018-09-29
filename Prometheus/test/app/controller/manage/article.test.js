@@ -44,6 +44,28 @@ describe('test/app/controller/manage/article.test.js', () => {
     });
   });
 
+  describe('PUT /api/manage/article/:id', () => {
+    it('should work', async () => {
+      app.mockCsrf();
+      const article = await app.factory.create('article');
+      const resObj = await app.httpRequest().get(`/api/manage/article/${article.Id}`);
+
+      let res = await app.httpRequest().put('/api/manage/article/' + resObj.body.Id)
+        .send({
+          abstractContent: 'asdasdsad爱的那是的撒旦',
+          name: 'jack',
+          mainContent: '奥术大师大所多撒大',
+          thumb: 'REGDDM7768B45FD.jpg',
+        });
+      assert(res.status === 201);
+      assert(res.body.Id);
+
+      res = await app.httpRequest().get(`/api/manage/article/${res.body.Id}`);
+      assert(res.status === 200);
+      assert(res.body.name === 'jack');
+    });
+  });
+
   describe('DELETE /api/manage/article/:id', () => {
     it('should work', async () => {
       const article = await app.factory.create('article');

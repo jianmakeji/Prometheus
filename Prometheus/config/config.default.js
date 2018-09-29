@@ -30,7 +30,7 @@ module.exports = appInfo => {
     },
   };
 
-  config.onerror: {
+  config.onerror = {
     all(err, ctx) {
       // 在此处定义针对所有响应类型的错误处理方法
       // 注意，定义了 config.all 之后，其他错误处理方法不会再生效
@@ -47,7 +47,20 @@ module.exports = appInfo => {
       ctx.body = { message: 'error' };
       ctx.status = 500;
     }
-  },
+  };
+
+  config.security = {
+    csrf:{
+      enable:false,
+      ignoreJSON:true
+    },
+    domainWhiteList: ['*']
+  };
+
+  config.cors = {
+      origin:'*',
+      allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH'
+  };
 
   return config;
 };

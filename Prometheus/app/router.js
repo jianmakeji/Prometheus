@@ -14,7 +14,7 @@ module.exports = app => {
   router.resources('manage.courseType', '/api/manage/courseType', controller.manage.courseType);
   router.resources('manage.exchange', '/api/manage/exchange', controller.manage.exchange);
   router.resources('manage.specialColumn', '/api/manage/specialColumn', controller.manage.specialColumn);
-
+  router.resources('manage.teacher', '/api/manage/teacher', controller.manage.teacher);
   //微信小程序数据接口
   router.resources('wx.users', '/api/wx/users', controller.wx.user);
   router.resources('wx.article', '/api/wx/article', controller.wx.article);

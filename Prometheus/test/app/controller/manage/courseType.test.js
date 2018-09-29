@@ -43,6 +43,27 @@ describe('test/app/controller/manage/courseType.test.js', () => {
     });
   });
 
+  describe('PUT /api/manage/courseType/:id', () => {
+    it('should work', async () => {
+      app.mockCsrf();
+      const courseType = await app.factory.create('courseType');
+      const resObj = await app.httpRequest().get(`/api/manage/courseType/${courseType.Id}`);
+
+      let res = await app.httpRequest().put('/api/manage/courseType/' + resObj.bdoy.Id)
+        .send({
+          describe: 'asdasdsad爱的那是的撒旦',
+          name: 'jack',
+          grade: 1,
+        });
+      assert(res.status === 201);
+      assert(res.body.Id);
+
+      res = await app.httpRequest().get(`/api/manage/courseType/${res.body.Id}`);
+      assert(res.status === 200);
+      assert(res.body.name === 'jack');
+    });
+  });
+
   describe('DELETE /api/manage/courseType/:id', () => {
     it('should work', async () => {
       const courseType = await app.factory.create('courseType');

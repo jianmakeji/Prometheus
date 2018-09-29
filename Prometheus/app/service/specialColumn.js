@@ -12,7 +12,14 @@ class SpecialColumn extends Service {
   }
 
   async find(id) {
-    const specialColumn = await this.ctx.model.SpecialColumn.findById(id);
+    const specialColumn = await this.ctx.model.SpecialColumn.findById(id,{
+      include: [{
+          model: this.ctx.model.Teacher,
+          as: 'teacher',
+          attributes: ['name','subject','brief'],
+      }],
+    });
+
     if (!specialColumn) {
       this.ctx.throw(404, 'specialColumn not found');
     }

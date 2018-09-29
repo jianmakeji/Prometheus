@@ -16,5 +16,9 @@ module.exports = app => {
     updated_at: DATE,
   });
 
+  Teacher.prototype.associate = function() {
+    app.model.Teacher.hasMany(app.model.SpecialColumn, { as: 'specialColumns'});
+  };
+
   return Teacher;
 };

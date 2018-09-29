@@ -43,6 +43,26 @@ describe('test/app/controller/manage/teacher.test.js', () => {
     });
   });
 
+  describe('PUT /api/manage/teacher/:id', () => {
+    it('should work', async () => {
+      app.mockCsrf();
+      const teacher = await app.factory.create('teacher');
+      const resObj = await app.httpRequest().get(`/api/manage/teacher/${teacher.Id}`);
+      let res = await app.httpRequest().put('/api/manage/teacher/'+resObj.body.Id)
+        .send({
+          subject: 'asdasdsad爱的那是的撒qw旦',
+          name: 'jack',
+          brief: '奥术大师大所多撒大qwqwe',
+        });
+      assert(res.status === 201);
+      assert(res.body.Id);
+
+      res = await app.httpRequest().get(`/api/manage/teacher/${res.body.Id}`);
+      assert(res.status === 200);
+      assert(res.body.name === 'jack');
+    });
+  });
+
   describe('DELETE /api/manage/teacher/:id', () => {
     it('should work', async () => {
       const teacher = await app.factory.create('teacher');

@@ -12,7 +12,13 @@ class Teacher extends Service {
   }
 
   async find(id) {
-    const teacher = await this.ctx.model.Teacher.findById(id);
+    const teacher = await this.ctx.model.Teacher.findById(id,{
+      include: [{
+          model: this.ctx.model.SpecialColumn,
+          as: 'specialColumns',
+          attributes: ['name','thubm','describe','price'],
+      }],
+    });
     if (!teacher) {
       this.ctx.throw(404, 'teacher not found');
     }

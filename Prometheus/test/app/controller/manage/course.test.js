@@ -46,6 +46,30 @@ describe('test/app/controller/manage/course.test.js', () => {
     });
   });
 
+  describe('PUT /api/manage/course/:id', () => {
+    it('should work', async () => {
+      app.mockCsrf();
+      const course = await app.factory.create('course');
+      const resObj = await app.httpRequest().get(`/api/manage/course/${course.Id}`);
+
+      let res = await app.httpRequest().put('/api/manage/course/'+resObj.body.Id)
+        .send({
+          describe: 'asdasdsad爱RRWWQW',
+          name: 'jack',
+          courseType: 1,
+          specialColumn: 1,
+          videoAddress: 'JJSSADIO87GTH8.mp4',
+          thumb: 'REGDDM7768B45FD.jpg',
+        });
+      assert(res.status === 201);
+      assert(res.body.Id);
+
+      res = await app.httpRequest().get(`/api/manage/course/${res.body.Id}`);
+      assert(res.status === 200);
+      assert(res.body.name === 'jack');
+    });
+  });
+
   describe('DELETE /api/manage/course/:id', () => {
     it('should work', async () => {
       const course = await app.factory.create('course');
