@@ -15,8 +15,8 @@ class Teacher extends Service {
     const teacher = await this.ctx.model.Teacher.findById(id,{
       include: [{
           model: this.ctx.model.SpecialColumn,
-          as: 'specialColumns',
-          attributes: ['name','thubm','describe','price'],
+          attributes: ['name','thumb','describe','price'],
+          as: 'specialColumn',
       }],
     });
     if (!teacher) {

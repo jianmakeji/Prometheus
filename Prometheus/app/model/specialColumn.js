@@ -20,7 +20,8 @@ module.exports = app => {
   });
 
   SpecialColumn.associate = function() {
-    app.model.SpecialColumn.belongsTo(app.model.Teacher, { as: 'teacher', foreignKey: 'teacherId',targetKey: 'Id' });
+    app.model.SpecialColumn.belongsTo(app.model.Teacher, { as: 'teacher', foreignKey: 'teacherId'});
+    app.model.SpecialColumn.belongsTo(app.model.CourseType, { foreignKey: 'courseType'});
   };
 
   SpecialColumn.findByIdWithTeacher = async function(id, teacherId) {

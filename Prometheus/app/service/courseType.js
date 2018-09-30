@@ -12,7 +12,11 @@ class CourseType extends Service {
   }
 
   async find(id) {
-    const courseType = await this.ctx.model.CourseType.findById(id);
+    const courseType = await this.ctx.model.CourseType.findById(id,{
+      include:[{
+        model:this.ctx.model.SpecialColumn
+      }]
+    });
     if (!courseType) {
       this.ctx.throw(404, 'courseType not found');
     }

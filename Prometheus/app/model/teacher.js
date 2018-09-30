@@ -17,7 +17,7 @@ module.exports = app => {
   });
 
   Teacher.prototype.associate = function() {
-    app.model.Teacher.hasMany(app.model.SpecialColumn, { as: 'specialColumns'});
+    app.model.Teacher.hasMany(app.model.SpecialColumn, { as: 'specialColumn', foreignKey: 'teacherId', targetId:'Id'});
   };
 
   return Teacher;

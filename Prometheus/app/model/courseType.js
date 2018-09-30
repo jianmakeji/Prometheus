@@ -16,5 +16,9 @@ module.exports = app => {
     updated_at: DATE,
   });
 
+  CourseType.prototype.associate = function() {
+    app.model.CourseType.hasMany(app.model.SpecialColumn, { foreignKey: 'courseType'});
+  };
+
   return CourseType;
 };

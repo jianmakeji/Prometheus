@@ -15,8 +15,11 @@ class SpecialColumn extends Service {
     const specialColumn = await this.ctx.model.SpecialColumn.findById(id,{
       include: [{
           model: this.ctx.model.Teacher,
-          as: 'teacher',
           attributes: ['name','subject','brief'],
+          as: 'teacher',
+      },{
+        model: this.ctx.model.CourseType,
+        attributes: ['name','grade'],
       }],
     });
 
