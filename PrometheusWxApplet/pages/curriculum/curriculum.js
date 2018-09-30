@@ -1,4 +1,5 @@
 // pages/curriculum/curriculum.js
+var fileData = require('../../utils/xyData.js')
 Page({
 
     /**
@@ -6,7 +7,8 @@ Page({
      */
     data: {
         currentTab: "0",
-        dataList: [],
+        jingpin_dataList: [], 
+        zhuanti_dataList: [],
         autoHeight: 2400
     },
     handleChange: function(event) {
@@ -37,10 +39,12 @@ Page({
             });
         }
     },
+    //data-course-type-id='1' data-course-type-name='{{item.name}}'  data-course-type-grade='{{item.grade}}'
     catchtap: function(event) {
+        console.log(event);
         wx.navigateTo({
-            url: '/pages/curriculum/curriculumList/curriculumList?classId=' + event.currentTarget.dataset.classId +
-                "&classTitle=" + event.currentTarget.dataset.classTitle,
+            url: '/pages/curriculum/curriculumList/curriculumList?classId=' + event.currentTarget.dataset.courseTypeId +
+                "&classTitle=" + event.currentTarget.dataset.courseTypeGrade + "·" +        event.currentTarget.dataset.courseTypeName
         })
     },
 
@@ -49,7 +53,11 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-
+        this.setData({
+            jingpin_dataList: fileData.xyData().jingpin_course_type,
+            zhuanti_dataList: fileData.xyData().zhuanti_course_type,
+        })
+        console.log(this.data.dataList)
     },
 
     /**

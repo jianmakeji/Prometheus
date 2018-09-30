@@ -1,4 +1,5 @@
 // pages/curriculum/curriculumDetail/curriculumDetail.js
+var fileData = require('../../../utils/xyData.js')
 Page({
 
     /**

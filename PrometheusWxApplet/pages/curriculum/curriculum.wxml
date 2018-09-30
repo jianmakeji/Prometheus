@@ -12,7 +12,13 @@
                <text class='class_name'>七年级</text>
             </view>
             <view>
-               <view class='LX_class' data-class-id='1' data-class-title='七年级·领先课堂' catchtap='catchtap'>
+                <block wx:for="{{jingpin_dataList}}" wx:for-item="item">
+                    <view class='LX_class' data-course-type-id='1' data-course-type-name='{{item.name}}'  data-course-type-grade='{{item.grade}}' catchtap='catchtap'>
+                        <i-card title="{{item.name}}" extra="{{item.describe}}" thumb="{{item.thumb}}">
+                        </i-card>
+                    </view>
+                </block>
+               <!-- <view class='LX_class' data-class-id='1' data-class-title='七年级·领先课堂' catchtap='catchtap'>
                   <i-card title="领先课堂" extra="额外内容" thumb="/images/eg.jpg">
                   </i-card>
                </view>
@@ -23,7 +29,7 @@
                <view class='HZ_class' data-class-id='3' data-class-title='七年级·汇智课堂' catchtap='catchtap'>
                   <i-card title="汇智课堂" extra="额外内容" thumb="/images/eg.jpg">
                   </i-card>
-               </view>
+               </view> -->
             </view>
          </view>
          <view>
@@ -32,18 +38,12 @@
                <text class='class_name'>八年级</text>
             </view>
             <view>
-               <view class='LX_class' data-class-id='4' data-class-title='八年级·领先课堂' catchtap='catchtap'>
-                  <i-card title="领先课堂" extra="额外内容" thumb="/images/eg.jpg">
-                  </i-card>
-               </view>
-               <view class='PY_class' data-class-id='5' data-class-title='八年级·培优课堂' catchtap='catchtap'>
-                  <i-card title="培优课堂" extra="额外内容" thumb="/images/eg.jpg">
-                  </i-card>
-               </view>
-               <view class='HZ_class' data-class-id='6' data-class-title='八年级·汇智课堂' catchtap='catchtap'>
-                  <i-card title="汇智课堂" extra="额外内容" thumb="/images/eg.jpg">
-                  </i-card>
-               </view>
+               <block wx:for="{{jingpin_dataList}}" wx:for-item="item">
+                    <view class='LX_class' data-course-type-id='1' data-course-type-name='{{item.name}}'  data-course-type-grade='{{item.grade}}' catchtap='catchtap'>
+                        <i-card title="{{item.name}}" extra="{{item.describe}}" thumb="{{item.thumb}}">
+                        </i-card>
+                    </view>
+                </block>
             </view>
          </view>
          <view>
@@ -52,25 +52,25 @@
                <text class='class_name'>九年级</text>
             </view>
             <view>
-               <view class='LX_class' data-class-id='7' data-class-title='九年级·领先课堂' catchtap='catchtap'>
-                  <i-card title="领先课堂" extra="额外内容" thumb="/images/eg.jpg">
-                  </i-card>
-               </view>
-               <view class='PY_class' data-class-id='8' data-class-title='九年级·培优课堂' catchtap='catchtap'>
-                  <i-card title="培优课堂" extra="额外内容" thumb="/images/eg.jpg">
-                  </i-card>
-               </view>
-               <view class='HZ_class' data-class-id='9' data-class-title='九年级·汇智课堂' catchtap='catchtap'>
-                  <i-card title="汇智课堂" extra="额外内容" thumb="/images/eg.jpg">
-                  </i-card>
-               </view>
+               <block wx:for="{{jingpin_dataList}}" wx:for-item="item">
+                    <view class='LX_class' data-course-type-id='1' data-course-type-name='{{item.name}}'  data-course-type-grade='{{item.grade}}' catchtap='catchtap'>
+                        <i-card title="{{item.name}}" extra="{{item.describe}}" thumb="{{item.thumb}}">
+                        </i-card>
+                    </view>
+                </block>
             </view>
          </view>
    
       </swiper-item>
       <swiper-item class="swiperItem">
          <view>
-            <view class='LX_class' data-class-id='10' data-class-title='计算专题' catchtap='catchtap'>
+            <block wx:for="{{zhuanti_dataList}}" wx:for-item="item">
+                <view class='LX_class' data-course-type-id='1' data-course-type-name='{{item.name}}'  data-course-type-grade='{{item.grade}}' catchtap='catchtap'>
+                    <i-card title="{{item.name}}" extra="{{item.describe}}" thumb="{{item.thumb}}">
+                    </i-card>
+                </view>
+            </block>
+            <!-- <view class='LX_class' data-class-id='10' data-class-title='计算专题' catchtap='catchtap'>
                <i-card title="计算专题" extra="额外内容" thumb="/images/eg.jpg">
                </i-card>
             </view>
@@ -81,7 +81,7 @@
             <view class='HZ_class' data-class-id='12' data-class-title='压轴题专题' catchtap='catchtap'>
                <i-card title="压轴题专题" extra="额外内容" thumb="/images/eg.jpg">
                </i-card>
-            </view>
+            </view> -->
          </view>
       </swiper-item>
    </swiper>
