@@ -1,37 +1,39 @@
 <template lang="html">
-  <div class="videoSpecialColumn">
-	<Breadcrumb>
-		<BreadcrumbItem>
-			<Icon type="ios-build" size="24"/>视频专题管理
-		</BreadcrumbItem>
-	</Breadcrumb><br />
-	<Button icon="md-add" type="primary" @click="newClass">新建</Button><br /><br />
-	<Table :columns="columns" :data="dataList"></Table><br />
-	<Page :total="total" show-total @on-change="pageChange"/>
-	<Modal v-model="deleteModel" width="360" @on-ok="okTap">
-        <p slot="header" style="color:#ed4014;text-align:center;font-size:18px;">
-            <Icon type="ios-information-circle" size="20"></Icon>
-            <span>确定要删除专题</span>
-        </p>
-        <div style="text-align:center">
-            {{specialColumnTitle}}
-        </div>
-    </Modal>
-  </div>
+  	<div class="teacher">
+		<Breadcrumb>
+			<BreadcrumbItem>
+				<Icon type="ios-build" size="24"/>老师管理
+			</BreadcrumbItem>
+		</Breadcrumb><br />
+		<Button icon="md-add" type="primary" @click="newTeacher">新建</Button><br /><br />
+		<Table :columns="columns" :data="dataList"></Table><br />
+		<Page :total="total" show-total @on-change="pageChange"/>
+		<Modal v-model="deleteModel" width="360" @on-ok="okTap">
+	        <p slot="header" style="color:#ed4014;text-align:center;font-size:18px;">
+	            <Icon type="ios-information-circle" size="20"></Icon>
+	            <span>确定要删除老师</span>
+	        </p>
+	        <div style="text-align:center">
+	            {{teacherName}}
+	        </div>
+	    </Modal>
+  	</div>
 </template>
 
 <script>
 export default {
-	name:"videoSpecialColumn",
+	name:"teacher",
 	data(){
 		return{
-			deleteModel:false,
-			specialColumnTitle:"",
 			index:"",
+			teacherName:"",
+			deleteModel:false,
 			total:100,
 			columns:[
-				{ title: 'id', key: 'id', align: 'center' },
-                { title: '专题名称', key: 'title', align: 'center' },
+				{ 	title: 'id',	key: 'id',	align: 'center'	},
+				{	title: '姓名',	key: 'name',	align: 'center'},
+				{	title: "学科",	key: 'subject',	align: 'center'},
+				{	title: "专题",	key: 'specialColumn',	align: 'center'},
 				{ title: '操作', key: 'opt', align: 'center',
 					render: (h, params) => {
 						return h("div",[
@@ -66,29 +68,32 @@ export default {
 						])
 					}
 			 	}
+
 			],
-			dataList: [
-                {id:1,title:"精品课程"}, {id:2,title:"专题突破"}
-            ]
+			dataList:[
+				{id:1,name:"张三",subject:"数学",specialColumn:"精品课程"},
+				{id:2,name:"李四",subject:"英语",specialColumn:"精品课程"},
+				{id:3,name:"王五",subject:"物理",specialColumn:"精品课程"},
+				{id:4,name:"赵六",subject:"化学",specialColumn:"专题图片"},
+			]
 		}
 	},
 	methods:{
 		pageChange(index){
 			console.log(index);
 		},
-		newClass(){
-			this.$router.push({name:"videoSpecialColumnAlter",query:{id:0}});
+		newTeacher(){
+			this.$router.push({name:"addTeacher",query:{id:0}});
 		},
 		changeTap(index){
-			let specialColumnId = this.dataList[index].id;
-			console.log(specialColumnId);
-			this.$router.push({name:"videoSpecialColumnAlter",query:{id:specialColumnId}});
+			let teacherId = this.dataList[index].id;
+			console.log(teacherId);
+			this.$router.push({name:"addTeacher",query:{id:teacherId}});
 		},
 		removeTap(index){
-			console.log(index);
 			this.index = index;
+			this.teacherName = this.dataList[index].name;
 			this.deleteModel = true;
-			this.specialColumnTitle = this.dataList[index].title;
 		},
 		okTap(){
 			console.log(this.index);
@@ -98,7 +103,7 @@ export default {
 </script>
 
 <style lang="css">
-.videoSpecialColumn{
+.teacher{
 	padding: 20px;
 }
 </style>

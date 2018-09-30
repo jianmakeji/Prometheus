@@ -1,18 +1,18 @@
 <template lang="html">
- 	<div class="videoSpecialColumnAlter">
+ 	<div class="addCourseType">
 	  	<Breadcrumb>
   			<BreadcrumbItem to="/videoSpecialColumn">
-  				<Icon type="ios-build" size="24"/>视频专题管理
+  				<Icon type="ios-build" size="24"/>视频类别管理
   			</BreadcrumbItem>
 			<BreadcrumbItem>
-  				<Icon type="md-add" size="24"/>新建专题
+  				<Icon type="md-add" size="24"/>新建类别
   			</BreadcrumbItem>
   		</Breadcrumb><br />
 		<Form :model="formItem" :label-width="80">
-		   	<FormItem label="专题名:">
-			   	<Input v-model="formItem.title" placeholder="请输入专题名称..." clearable></Input>
+		   	<FormItem label="类别名:">
+			   	<Input v-model="formItem.title" placeholder="请输入类别名称..." clearable></Input>
 		   	</FormItem>
-			<FormItem label="专题介绍:">
+			<FormItem label="类别介绍:">
 			   	<Input v-model="formItem.introduce" type="textarea" placeholder="请输入介绍内容..."></Input>
 		   	</FormItem>
 			<FormItem>
@@ -24,7 +24,7 @@
 
 <script>
 export default {
-	name:"videoSpecialColumnAlter",
+	name:"addCourseType",
 	data(){
 		return{
 			id:"",
@@ -38,7 +38,7 @@ export default {
 	methods:{
 		submitClick(){
 			console.log("submit");
-			this.$router.push({name:"videoSpecialColumn"});
+			this.$router.push({name:"courseType"});
 		}
 	},
 	created(){
@@ -56,7 +56,7 @@ export default {
 </script>
 
 <style lang="css">
-.videoSpecialColumnAlter{
+.addCourseType{
 	padding: 20px;
 }
 form{

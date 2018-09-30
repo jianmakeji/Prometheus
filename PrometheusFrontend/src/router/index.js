@@ -1,18 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import videoSpecialColumn from '@/components/videoSpecialColumn'
-import videoSpecialColumnAlter from '@/components/videoSpecialColumnAlter'
-import videoType from '@/components/videoType'
-import videoTypeAlter from '@/components/videoTypeAlter'
-import videoManage from '@/components/videoManage'
-import videoAlter from '@/components/videoAlter'
+import courseType from '@/components/courseType'
+import addCourseType from '@/components/addCourseType'
+import specialColumn from '@/components/specialColumn'
+import addSpecialColumn from '@/components/addSpecialColumn'
+import course from '@/components/course'
+import addCourse from '@/components/addCourse'
 import articleType from '@/components/articleType'
-import articleTypeAlter from '@/components/articleTypeAlter'
-import articleManage from '@/components/articleManage'
-import articleAlter from '@/components/articleAlter'
-import userManage from '@/components/userManage'
-import teacherManage from '@/components/teacherManage'
-import teacherAlter from '@/components/teacherAlter'
+import addArticleType from '@/components/addArticleType'
+import articles from '@/components/articles'
+import addArticle from '@/components/addArticle'
+import user from '@/components/user'
+import teacher from '@/components/teacher'
+import addTeacher from '@/components/addTeacher'
 
 Vue.use(Router)
 
@@ -20,60 +20,60 @@ export default new Router({
   	routes: [
 		{
 	    	path: '/',
-	    	name: 'videoSpecialColumn',
-	    	component: videoSpecialColumn
+	    	name: 'courseType',
+	    	component: courseType
 	    },{
-	    	path: '/videoSpecialColumn',
-	    	name: 'videoSpecialColumn',
-	    	component: videoSpecialColumn
+	    	path: '/courseType',
+	    	name: 'courseType',
+	    	component: courseType
 	    },{
-	    	path: '/videoType',
-	    	name: 'videoType',
-	    	component: videoType
+	    	path: '/specialColumn',
+	    	name: 'specialColumn',
+	    	component: specialColumn
 	    },{
-	    	path: '/videoType/videoTypeAlter',
-	    	name: 'videoTypeAlter',
-	    	component: videoTypeAlter
+	    	path: '/specialColumn/addSpecialColumn',
+	    	name: 'addSpecialColumn',
+	    	component: addSpecialColumn
 	    },{
-	    	path: '/videoClass/videoSpecialColumnAlter',
-	    	name: 'videoSpecialColumnAlter',
-	    	component: videoSpecialColumnAlter
+	    	path: '/courseType/addCourseType',
+	    	name: 'addCourseType',
+	    	component: addCourseType
 	    },{
-	    	path: '/videoManage',
-	    	name: 'videoManage',
-	    	component: videoManage
+	    	path: '/course',
+	    	name: 'course',
+	    	component: course
 	    },{
-	    	path: '/videoAlter',
-	    	name: 'videoAlter',
-	    	component: videoAlter
+	    	path: '/addCourse',
+	    	name: 'addCourse',
+	    	component: addCourse
 	    },{
 	    	path: '/articleType',
 	    	name: 'articleType',
 	    	component: articleType
 	    },{
-	    	path: '/articleType/articleTypeAlter',
-	    	name: 'articleTypeAlter',
-	    	component: articleTypeAlter
+	    	path: '/articleType/addArticleType',
+	    	name: 'addArticleType',
+	    	component: addArticleType
 	    },{
-	    	path: '/articleManage',
-	    	name: 'articleManage',
-	    	component: articleManage
+	    	path: '/articles',
+	    	name: 'articles',
+	    	component: articles
 	    },{
-	    	path: '/articleManage/articleAlter',
-	    	name: 'articleAlter',
-	    	component: articleAlter
+	    	path: '/articles/addArticle',
+	    	name: 'addArticle',
+	    	component: addArticle
 	    },{
-	    	path: '/userManage',
-	    	name: 'userManage',
-	    	component: userManage
+	    	path: '/user',
+	    	name: 'user',
+	    	component: user
 	    },{
-	    	path: '/teacherManage',
-	    	name: 'teacherManage',
-	    	component: teacherManage
+	    	path: '/teacher',
+	    	name: 'teacher',
+	    	component: teacher
 	    },{
-	    	path: '/teacherManage/teacherAlter',
-	    	name: 'teacherAlter',
-	    	component: teacherAlter
+	    	path: '/teacher/addTeacher',
+	    	name: 'addTeacher',
+	    	component: addTeacher
 	    }
 	]
 })

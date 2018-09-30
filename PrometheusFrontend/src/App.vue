@@ -9,11 +9,11 @@
                       	</MenuItem>
                       	<MenuItem name="1">
                           	<Icon type="ios-videocam" />
-                          	<span>视频专题管理</span>
+                          	<span>类别管理</span>
                       	</MenuItem>
                       	<MenuItem name="2" >
                           	<Icon type="ios-videocam" />
-                          	<span>视频类别管理</span>
+                          	<span>专栏管理</span>
                       	</MenuItem>
                       	<MenuItem name="3">
                           	<Icon type="ios-videocam" />
@@ -80,24 +80,24 @@ export default {
 	  	menuTap (event){
 		  	let that = this;
 			if(event == 1){
-				this.$router.push({name:"videoSpecialColumn"});
+				this.$router.push({name:"courseType"});		//类型
 			}else if(event == 2){
-				this.$router.push({name:"videoType"});
+				this.$router.push({name:"specialColumn"});		//专栏
 			}else if(event == 3){
-				this.$router.push({name:"videoManage"});
+				this.$router.push({name:"course"});
 			}else if(event == 4){
 				this.$router.push({name:"articleType"});
 			}else if(event == 5){
-				this.$router.push({name:"articleManage"});
+				this.$router.push({name:"articles"});
 			}else if(event == 6){
-				this.$router.push({name:"userManage"});
+				this.$router.push({name:"user"});
 			}else if(event == 7){
-				this.$router.push({name:"teacherManage"});
+				this.$router.push({name:"teacher"});
 			}
 	  	}
   	},
 	created(){
-		this.$router.push({name:"videoSpecialColumn"});
+		this.$router.push({name:"courseType"});
 	}
 }
 </script>

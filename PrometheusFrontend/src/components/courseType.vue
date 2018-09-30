@@ -1,50 +1,37 @@
 <template lang="html">
-  	<div class="articleManage">
-		<Breadcrumb>
-	        <BreadcrumbItem>
-	            <Icon type="ios-build" size="24"/>好文管理
-	        </BreadcrumbItem>
-	    </Breadcrumb><br />
-		<Button icon="md-add" type="primary" @click="newArticle">新建</Button><br /><br />
-		<Table :columns="columns" :data="dataList"></Table><br />
-		<Page :total="total" show-total @on-change="pageChange"/>
-		<Modal v-model="deleteModel" width="360" @on-ok="okTap">
-	        <p slot="header" style="color:#ed4014;text-align:center;font-size:18px;">
-	            <Icon type="ios-information-circle" size="20"></Icon>
-	            <span>确定要删除好文</span>
-	        </p>
-	        <div style="text-align:center">
-	            {{articleTitle}}
-	        </div>
-	    </Modal>
-  	</div>
+  <div class="courseType">
+	<Breadcrumb>
+		<BreadcrumbItem>
+			<Icon type="ios-build" size="24"/>类别管理
+		</BreadcrumbItem>
+	</Breadcrumb><br />
+	<Button icon="md-add" type="primary" @click="newClass">新建</Button><br /><br />
+	<Table :columns="columns" :data="dataList"></Table><br />
+	<Page :total="total" show-total @on-change="pageChange"/>
+	<Modal v-model="deleteModel" width="360" @on-ok="okTap">
+        <p slot="header" style="color:#ed4014;text-align:center;font-size:18px;">
+            <Icon type="ios-information-circle" size="20"></Icon>
+            <span>确定要删除类别</span>
+        </p>
+        <div style="text-align:center">
+            {{specialColumnTitle}}
+        </div>
+    </Modal>
+  </div>
 </template>
 
 <script>
 export default {
-	name:"articleManage",
+	name:"courseType",
 	data(){
 		return{
-			index:"",
 			deleteModel:false,
-			articleTitle:"",
+			specialColumnTitle:"",
+			index:"",
 			total:100,
 			columns:[
-				{
-					title: 'id',
-					key: 'id',
-					align: 'center'
-				},
-				{
-					title: '名称',
-					key: 'title',
-					align: 'center'
-				},
-				{
-					title: '类型',
-					key: 'type',
-					align: 'center'
-				},
+				{ title: 'id', key: 'id', align: 'center' },
+                { title: '专题名称', key: 'title', align: 'center' },
 				{ title: '操作', key: 'opt', align: 'center',
 					render: (h, params) => {
 						return h("div",[
@@ -81,39 +68,37 @@ export default {
 			 	}
 			],
 			dataList: [
-				{id:1, title:"父子好文1",type:"父子篇" },
-				{id:1, title:"成长好文1",type:"成长篇" },
-				{id:1, title:"亲子好文1",type:"亲子篇" },
-
-			]
+                {id:1,title:"精品课程"}, {id:2,title:"专题突破"}
+            ]
 		}
 	},
 	methods:{
 		pageChange(index){
 			console.log(index);
 		},
-		newArticle(){
-			this.$router.push({name:"articleAlter",query:{id:0}});
+		newClass(){
+			this.$router.push({name:"addCourseType",query:{id:0}});
 		},
 		changeTap(index){
-			let articleId = this.dataList[index].id;
-			console.log(articleId);
-			this.$router.push({name:"articleAlter",query:{id:articleId}});
+			let specialColumnId = this.dataList[index].id;
+			console.log(specialColumnId);
+			this.$router.push({name:"addCourseType",query:{id:specialColumnId}});
 		},
 		removeTap(index){
+			console.log(index);
 			this.index = index;
-			this.articleTitle = this.dataList[index].title;
 			this.deleteModel = true;
+			this.specialColumnTitle = this.dataList[index].title;
 		},
 		okTap(){
-			console.log(index);
+			console.log(this.index);
 		}
 	}
 }
 </script>
 
 <style lang="css">
-.articleManage{
+.courseType{
 	padding: 20px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template lang="html">
-  	<div class="videoManage">
+  	<div class="course">
 		<Breadcrumb>
 			<BreadcrumbItem>
 				<Icon type="ios-build" size="24"/>视频管理
@@ -57,7 +57,7 @@
 <script>
 import Qrcode from '@xkeshi/vue-qrcode';
 export default {
-	name:"videoManage",
+	name:"course",
 	data(){
 		return{
 			index:"",
@@ -165,13 +165,13 @@ export default {
 			console.log(index);
 		},
 		newVideo(){
-			this.$router.push({name:"videoAlter",query:{id:0}});
+			this.$router.push({name:"addCourse",query:{id:0}});
 		},
 		//修改
 		changeTap(index){
 			let videoId = this.dataList[index].id;
 			console.log(videoId);
-			this.$router.push({name:"videoAlter",query:{id:videoId}});
+			this.$router.push({name:"addCourse",query:{id:videoId}});
 		},
 		//删除
 		removeTap(index){
@@ -203,7 +203,7 @@ export default {
 </script>
 
 <style lang="css">
-.videoManage{
+.course{
 	padding: 20px;
 }
 .ivu-select-selection{

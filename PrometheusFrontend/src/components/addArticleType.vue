@@ -1,5 +1,5 @@
 <template lang="html">
-  	<div class="articleTypeAlter">
+  	<div class="addArticleType">
 		<Breadcrumb>
 	        <BreadcrumbItem  to="/articleType">
 	            <Icon type="ios-build" size="24"/>好文类别管理
@@ -24,7 +24,7 @@
 
 <script>
 export default {
-	name:"articleTypeAlter",
+	name:"addArticleType",
 	data(){
 		return{
 			id:"",
@@ -54,7 +54,7 @@ export default {
 </script>
 
 <style lang="css">
-.articleTypeAlter{
+.addArticleType{
 	padding: 20px;
 }
 form{

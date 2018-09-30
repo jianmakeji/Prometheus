@@ -1,5 +1,5 @@
 <template lang="html">
-  	<div class="userManage">
+  	<div class="user">
 		<Breadcrumb>
 	        <BreadcrumbItem>
 	            <Icon type="ios-build" size="24"/>用户管理
@@ -12,7 +12,7 @@
 
 <script>
 export default {
-	name:"userManage",
+	name:"user",
 	data(){
 		return{
 			total:100,
@@ -37,7 +37,7 @@ export default {
 </script>
 
 <style lang="css">
-.userManage{
+.user{
 	padding: 20px;
 }
 </style>

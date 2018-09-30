@@ -85,12 +85,12 @@ export default {
 			console.log(index);
 		},
 		newType(){
-			this.$router.push({name:"articleTypeAlter",query:{id:0}});
+			this.$router.push({name:"addArticleType",query:{id:0}});
 		},
 		changeTap(index){
 			let typeId = this.dataList[index].id;
 			console.log(typeId);
-			this.$router.push({name:"articleTypeAlter",query:{id:typeId}});
+			this.$router.push({name:"addArticleType",query:{id:typeId}});
 		},
 		removeTap(index){
 			this.index = index;

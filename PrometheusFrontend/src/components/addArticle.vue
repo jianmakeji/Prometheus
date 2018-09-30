@@ -1,7 +1,7 @@
 <template lang="html">
-  	<div class="articleAlter">
+  	<div class="addArticle">
 		<Breadcrumb>
-  			<BreadcrumbItem to="/articleManage">
+  			<BreadcrumbItem to="/articles">
   				<Icon type="ios-build" size="24"/>好文管理
   			</BreadcrumbItem>
 			<BreadcrumbItem>
@@ -40,7 +40,7 @@
 <script>
 import WangEditor from 'wangeditor'
 export default {
-	name:"articleAlter",
+	name:"addArticle",
 	data(){
 		return{
 			id:"",
@@ -84,7 +84,7 @@ export default {
 </script>
 
 <style lang="css">
-.articleAlter{
+.addArticle{
 	padding: 20px;
 }
 form{

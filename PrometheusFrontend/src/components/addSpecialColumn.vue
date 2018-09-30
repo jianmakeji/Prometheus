@@ -1,5 +1,5 @@
 <template lang="html">
-	<div class="videoTypeAlter">
+	<div class="addSpecialColumn">
 		<Breadcrumb>
 	        <BreadcrumbItem  to="/videoType">
 	            <Icon type="ios-build" size="24"/>视频类别管理
@@ -74,7 +74,7 @@ function get_uploaded_object_name(filename) {
     return g_object_name;
 }
 export default {
-	name:"videoTypeAlter",
+	name:"addSpecialColumn",
 	data(){
 		return{
 			id:"",
@@ -143,7 +143,7 @@ export default {
 </script>
 
 <style lang="css">
-.videoTypeAlter{
+.addSpecialColumn{
 	padding: 20px;
 }
 form{

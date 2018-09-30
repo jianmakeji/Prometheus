@@ -1,7 +1,7 @@
 <template lang="html">
-  	<div class="videoAlter">
+  	<div class="addCourse">
 		<Breadcrumb>
-  			<BreadcrumbItem to="/videoManage">
+  			<BreadcrumbItem to="/course">
   				<Icon type="ios-build" size="24"/>视频管理
   			</BreadcrumbItem>
 			<BreadcrumbItem>
@@ -106,7 +106,7 @@ function get_uploaded_object_name(filename) {
     return g_object_name;
 }
 export default {
-	name:"videoAlter",
+	name:"addCourse",
 	data(){
 		return{
 			id:"",
@@ -173,7 +173,7 @@ export default {
 </script>
 
 <style lang="css">
-.videoAlter{
+.addCourse{
 	padding: 20px;
 }
 form{

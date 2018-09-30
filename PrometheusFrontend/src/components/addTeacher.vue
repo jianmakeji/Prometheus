@@ -1,7 +1,7 @@
 <template lang="html">
-  	<div class="teacherAlter">
+  	<div class="addTeacher">
 		<Breadcrumb>
-  			<BreadcrumbItem to="/teacherManage">
+  			<BreadcrumbItem to="/teacher">
   				<Icon type="ios-build" size="24"/>老师管理
   			</BreadcrumbItem>
 			<BreadcrumbItem>
@@ -36,7 +36,7 @@
 <script>
 import globel_ from './../config/global.vue'
 export default {
-	name:"teacherAlter",
+	name:"addTeacher",
 	data(){
 		return{
 			id:"",
@@ -68,7 +68,7 @@ export default {
 </script>
 
 <style lang="css">
-.teacherAlter{
+.addTeacher{
 	padding: 20px;
 }
 </style>
