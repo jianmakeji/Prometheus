@@ -20,7 +20,6 @@ module.exports = app => {
   });
 
   SpecialColumn.associate = function() {
-    console.log("*****************************@@@@@@@@@@@@@@@@@**:"+app.model.Teacher);
     app.model.SpecialColumn.belongsTo(app.model.Teacher, {targetKey: 'Id', foreignKey: 'teacherId'});
     app.model.SpecialColumn.belongsTo(app.model.CourseType, { foreignKey: 'courseType'});
   };
