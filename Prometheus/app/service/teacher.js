@@ -13,16 +13,9 @@ class Teacher extends Service {
 
   async find(id) {
     const teacher = await this.ctx.model.Teacher.findById(id,{
-      include: [{
-          model: this.ctx.model.SpecialColumn,
-<<<<<<< HEAD
-          attributes: ['name','thumb','describe','price'],
-          as: 'specialColumn',
-=======
-          as: 'specialColumns',
-          attributes: ['name','thumb','describe','price'],
->>>>>>> origin/master
-      }],
+      include:[{
+        model:this.ctx.model.SpecialColumn
+      }]
     });
     if (!teacher) {
       this.ctx.throw(404, 'teacher not found');

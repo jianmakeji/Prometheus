@@ -16,13 +16,9 @@ module.exports = app => {
     updated_at: DATE,
   });
 
-  Teacher.prototype.associate = function() {
-<<<<<<< HEAD
-    app.model.Teacher.hasMany(app.model.SpecialColumn, { as: 'specialColumn', foreignKey: 'teacherId', targetId:'Id'});
-=======
-    app.model.Teacher.hasMany(app.model.SpecialColumn, { as: 'specialColumns' });
->>>>>>> origin/master
+  Teacher.associate = function() {
+    app.model.Teacher.hasMany(app.model.SpecialColumn, {sourceKey:'Id',foreignKey: 'teacherId'});
   };
-  
+
   return Teacher;
 };
