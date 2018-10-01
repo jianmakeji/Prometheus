@@ -6,14 +6,14 @@
 			</BreadcrumbItem>
 		</Breadcrumb><br />
 		<Button icon="md-add" type="primary" @click="newVideo">新建</Button><br /><br />
-		<Form :model="formItem" label-position="right" :label-width="80" inline>
-			<FormItem label="专题">
+		<Form :model="formItem" label-position="right" :label-width="80" inline style="width:100%;">
+			<FormItem label="类别">
 	            <Select v-model="formItem.specialColumn">
 					<Option value="beijing">精品课程</Option>
 	                <Option value="shanghai">专题突破</Option>
 	            </Select>
 	        </FormItem>
-			<FormItem label="类型">
+			<FormItem label="专栏">
 	            <Select v-model="formItem.type">
 					<Option value="beijing">领先课堂</Option>
 	                <Option value="shanghai">培优课堂</Option>
@@ -25,9 +25,7 @@
 	        </FormItem>
 			<FormItem label="年级">
 	            <Select v-model="formItem.grade">
-					<Option value="beijing">七年级</Option>
-	                <Option value="shanghai">八年级</Option>
-	                <Option value="shenzhen">九年级</Option>
+					<Option v-for="item in gradeData" :value="item.id">{{item.title}}</Option>
 	            </Select>
 	        </FormItem>
 	    </Form>
@@ -55,18 +53,21 @@
 </template>
 
 <script>
+import globel_ from './../config/global.vue'
 import Qrcode from '@xkeshi/vue-qrcode';
 export default {
 	name:"course",
 	data(){
 		return{
+			offset:0,
 			index:"",
 			deleteModel:false,
 			videoTitle:"",
 			qrcodeUrl:"", 		//二维码url内容
 			codeTitle:"",		//弹出层标题(视频名称)
 			codeModal:false,
-			total:100,
+			total:0,
+			gradeData:globel_.gradeData,
 			formItem:{
 				specialColumn:"",	//专题
 				type:"",			//类型
@@ -75,7 +76,7 @@ export default {
 			columns:[
 				{
 					title: 'id',
-					key: 'id',
+					key: 'Id',
 					align: 'center'
 				},
 				{
@@ -84,12 +85,12 @@ export default {
 					align: 'center'
 				},
 				{
-					title: '类型',
+					title: '类别',
 					key: 'type',
 					align: 'center'
 				},
 				{
-					title: '专题',
+					title: '专栏',
 					key: 'specialColumn',
 					align: 'center'
 				},
@@ -147,14 +148,7 @@ export default {
 					}
 			 	}
 			],
-			dataList: [
-				{id:1,title:"领先课堂1",type:"领先课堂",specialColumn:"精品课程",grade:"七年级", codeUrl:"http://www.baidu.com"},
-				{id:2,title:"培优课堂1",type:"培优课堂",specialColumn:"精品课程",grade:"八年级", codeUrl:"http://iconfont.cn"},
-				{id:3,title:"汇智课堂1",type:"汇智课堂",specialColumn:"精品课程",grade:"九年级", codeUrl:"https://www.iviewui.com"},
-				{id:4,title:"计算专题1",type:"计算专题",specialColumn:"专题突破",grade:"七年级", codeUrl:"https://cn.vuejs.org"},
-				{id:5,title:"几何专题1",type:"几何专题",specialColumn:"专题突破",grade:"七年级", codeUrl:"http://www.techbrood.com"},
-				{id:6,title:"压轴题专题1",type:"压轴题专题",specialColumn:"专题突破",grade:"七年级", codeUrl:"https://developers.weixin.qq.com"}
-			]
+			dataList: []
 		}
 	},
 	components:{
@@ -198,6 +192,17 @@ export default {
 		okTap(){
 			console.log(this.index);
 		}
+	},
+	created(){
+		console.log(globel_.serverHost);
+		let that = this;
+		this.$http.get( globel_.serverHost+'/api/manage/course?limit=10&offset='+ this.offset +'').then(function(result){
+			console.log(result);
+			that.dataList = result.data.rows;
+			that.total = result.data.count;
+		}).catch(function(err){
+				console.log(err);
+		})
 	}
 }
 </script>

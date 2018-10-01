@@ -59,9 +59,7 @@
 	        </FormItem>
 			<FormItem label="年级:">
 	            <Select v-model="formItem.grade" placeholder="选择年级...">
-	                <Option value="beijing">七年级</Option>
-	                <Option value="shanghai">八年级</Option>
-	                <Option value="shenzhen">九年级</Option>
+	                <Option v-for="item in gradeData" :value="item.id">{{item.title}}</Option>
 	            </Select>
 	        </FormItem>
 			<FormItem>
@@ -72,12 +70,12 @@
 </template>
 
 <script>
+import globel_ from './../config/global.vue'
 
 var g_object_name = "";
 var key = '';
 var hostPrefix = "http://dc-yl.oss-cn-hangzhou.aliyuncs.com/";
 
-var uploadImage = "https://www.baidu.com/img/bd_logo1.png?where=super";
 function random_string(len) {
     var len = len || 32;
     var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
@@ -111,6 +109,7 @@ export default {
 		return{
 			id:"",
 			submitUrl:"",
+			gradeData:globel_.gradeData,
 			//图片上传参数
 			g_object_name: '',
 			policyBase64: '',
@@ -122,7 +121,7 @@ export default {
 			videoHost:"",
 
 			formItem:{
-				thumb:uploadImage,
+				thumb:globel_.defaultImage,
 				videoName:"",
 				introduce:"",
 				specialColumn:"",

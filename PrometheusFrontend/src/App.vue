@@ -35,6 +35,10 @@
                           	<Icon type="md-person" />
                           	<span>老师管理</span>
                       	</MenuItem>
+						<MenuItem name="8">
+                          	<Icon type="logo-bitcoin" />
+                          	<span>交易管理</span>
+                      	</MenuItem>
                   	</Menu>
               	</Sider>
               	<Layout>
@@ -93,6 +97,8 @@ export default {
 				this.$router.push({name:"user"});
 			}else if(event == 7){
 				this.$router.push({name:"teacher"});
+			}else if(event == 8){
+				this.$router.push({name:"exchange"});
 			}
 	  	}
   	},

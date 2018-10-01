@@ -21,28 +21,35 @@
 </template>
 
 <script>
+import globel_ from './../config/global.vue'
 export default {
     name:"specialColumn",
     data () {
         return {
+			offset:0,
 			deleteModel:false,
 			typeTitle:"",
 			index:"",
-			total:100,
+			total:0,
 			columns:[
 				{
                     title: 'id',
-                    key: 'id',
+                    key: 'Id',
 					align: 'center'
                 },
                 {
-                    title: '类型名称',
-                    key: 'title',
+                    title: '专栏名称',
+                    key: 'name',
 					align: 'center'
                 },
                 {
-                    title: '所属专栏',
-                    key: "specialColumn",
+                    title: '所属类型',
+                    key: "courseType",
+					align: 'center'
+                },
+				{
+                    title: '对应老师id',
+                    key: "teacherId",
 					align: 'center'
                 },
 				{ title: '操作', key: 'opt', align: 'center',
@@ -80,38 +87,73 @@ export default {
 					}
 			 	}
 			],
-			dataList: [
-                { id:1, title: '领先课堂', specialColumn: '精品课程'},
-	            { id:2, title: '培优课堂', specialColumn: '精品课程'},
-		        { id:3, title: '汇智课堂', specialColumn: '精品课程'},
-			    { id:4, title: '计算专题', specialColumn: '专题突破'},
-			    { id:4, title: '集合专题', specialColumn: '专题突破'},
-			    { id:4, title: '压轴题专题', specialColumn: '专题突破'},
-            ]
+			dataList: []
         }
     },
     methods: {
 		pageChange(index){
-			console.log(index);
+			this.offset = (index - 1) * 10;
+			let that = this,
+			 	getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialColumnData + that.offset;
+			this.$Loading.start();
+			this.$http.get( getDataUrl ).then(function(result){
+				that.$Loading.finish();
+				that.dataList = result.data.rows;
+			}).catch(function(err){
+				console.log(err);
+				that.$Loading.error();
+				that.$Message.error('获取数据失败！');
+			})
 		},
 		newType(){
 			this.$router.push({name:"addSpecialColumn",query:{id:0}});
 		},
 		changeTap(index){
-			let typeId = this.dataList[index].id;
-			console.log(typeId);
+			let typeId = this.dataList[index].Id;
 			this.$router.push({name:"addSpecialColumn",query:{id:typeId}});
 		},
 		removeTap(index){
-			console.log(index);
 			this.index = index;
 			this.deleteModel = true;
 			this.typeTitle = this.dataList[index].title;
 		},
 		okTap(){
-			console.log(this.index);
+			let that = this,
+				deleteUrl = globel_.serverHost + globel_.configAPI.deleteSpecialColumnById.replace(":id",this.dataList[this.index].Id);
+			this.$Loading.start();
+			this.$http.delete(deleteUrl).then(function(result){
+				// console.log(result);
+				if(result.status == 200){
+					that.$Message.success("删除成功！");
+					let getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialColumnData + that.offset;
+					that.$http.get( getDataUrl ).then(function(result){
+						that.$Loading.finish();
+						that.dataList = result.data.rows;
+					}).catch(function(err){
+						that.$Loading.error();
+						that.$Message.error("获取数据失败！");
+					})
+				}
+				that.dataList = result.data.rows;
+			}).catch(function(err){
+					console.log(err);
+					that.$Loading.error();
+					that.$Message.error("删除失败！");
+			})
 		}
-    }
+    },
+	created(){
+		console.log(globel_.serverHost);
+		let that = this,
+			getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialColumnData + that.offset;
+		this.$http.get( getDataUrl ).then(function(result){
+			console.log(result);
+			that.dataList = result.data.rows;
+			that.total = result.data.count;
+		}).catch(function(err){
+				console.log(err);
+		})
+	}
 }
 </script>
 

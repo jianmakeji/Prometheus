@@ -14,24 +14,26 @@
             <span>确定要删除类别</span>
         </p>
         <div style="text-align:center">
-            {{specialColumnTitle}}
+            {{courseTypeTitle}}
         </div>
     </Modal>
   </div>
 </template>
 
 <script>
+import globel_ from './../config/global.vue'
 export default {
 	name:"courseType",
 	data(){
 		return{
+			offset:0,
 			deleteModel:false,
-			specialColumnTitle:"",
+			courseTypeTitle:"",
 			index:"",
 			total:100,
 			columns:[
-				{ title: 'id', key: 'id', align: 'center' },
-                { title: '专题名称', key: 'title', align: 'center' },
+				{ title: 'id', key: 'Id', align: 'center' },
+                { title: '专题名称', key: 'name', align: 'center' },
 				{ title: '操作', key: 'opt', align: 'center',
 					render: (h, params) => {
 						return h("div",[
@@ -68,31 +70,78 @@ export default {
 			 	}
 			],
 			dataList: [
-                {id:1,title:"精品课程"}, {id:2,title:"专题突破"}
-            ]
+				{Id:1,name:"111111111"}
+			]
 		}
 	},
 	methods:{
+		//分页页数改变事件
 		pageChange(index){
 			console.log(index);
+			this.offset = (index - 1) * 10;
+			let that = this,
+			 	getDataUrl = globel_.serverHost + globel_.configAPI.getCourseTypeData + that.offset;
+			this.$Loading.start();
+			this.$http.get( getDataUrl ).then(function(result){
+				that.$Loading.finish();
+				that.dataList = result.data.rows;
+			}).catch(function(err){
+				console.log(err);
+				that.$Loading.error();
+				that.$Message.error('获取数据失败！');
+			})
 		},
 		newClass(){
 			this.$router.push({name:"addCourseType",query:{id:0}});
 		},
 		changeTap(index){
-			let specialColumnId = this.dataList[index].id;
-			console.log(specialColumnId);
+			let specialColumnId = this.dataList[index].Id;
 			this.$router.push({name:"addCourseType",query:{id:specialColumnId}});
 		},
 		removeTap(index){
-			console.log(index);
+			// console.log(index);
 			this.index = index;
 			this.deleteModel = true;
-			this.specialColumnTitle = this.dataList[index].title;
+			this.courseTypeTitle = this.dataList[index].title;
 		},
 		okTap(){
 			console.log(this.index);
+			let that = this,
+				deleteUrl = globel_.serverHost + globel_.configAPI.deleteCourseTypeById.replace(":id",this.dataList[this.index].Id);
+			this.$Loading.start();
+			this.$http.delete(deleteUrl).then(function(result){
+				// console.log(result);
+				if(result.status == 200){
+					that.$Message.success("删除成功！");
+					let getDataUrl = globel_.serverHost + globel_.configAPI.getCourseTypeData + that.offset;
+					that.$http.get( getDataUrl ).then(function(result){
+						that.$Loading.finish();
+						that.dataList = result.data.rows;
+					}).catch(function(err){
+						that.$Loading.error();
+						that.$Message.error("获取数据失败！");
+					})
+				}
+				that.dataList = result.data.rows;
+			}).catch(function(err){
+					console.log(err);
+					that.$Loading.error();
+					that.$Message.error("删除失败！");
+			})
 		}
+	},
+	created(){
+		let that = this,
+			getDataUrl = globel_.serverHost + globel_.configAPI.getCourseTypeData + that.offset;
+		this.$Loading.start();
+		this.$http.get( getDataUrl ).then(function(result){
+			console.log(result);
+			that.$Loading.finish();
+			that.dataList = result.data.rows;
+		}).catch(function(err){
+			console.log(err);
+			that.$Loading.error();
+		})
 	}
 }
 </script>

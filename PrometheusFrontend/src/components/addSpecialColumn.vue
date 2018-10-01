@@ -1,11 +1,11 @@
 <template lang="html">
 	<div class="addSpecialColumn">
 		<Breadcrumb>
-	        <BreadcrumbItem  to="/videoType">
-	            <Icon type="ios-build" size="24"/>视频类别管理
+	        <BreadcrumbItem  to="/specialColumn">
+	            <Icon type="ios-build" size="24"/>专栏管理
 	        </BreadcrumbItem>
 			<BreadcrumbItem>
-	            <Icon type="md-add" size="24"/>新建视频类别
+	            <Icon type="md-add" size="24"/>新建专栏
 	        </BreadcrumbItem>
 	    </Breadcrumb><br>
 		<Form :model="formItem" :label-width="80">
@@ -24,11 +24,11 @@
                     </div>
                 </Upload>
 	        </FormItem>
-		   	<FormItem label="类别名称:">
-			   	<Input v-model="formItem.title" placeholder="请输入视频类别名称..." clearable></Input>
+		   	<FormItem label="专栏名称:">
+			   	<Input v-model="formItem.title" placeholder="请输入视频专栏名称..." clearable></Input>
 		   	</FormItem>
-		   	<FormItem label="所属专栏:">
-				<Select v-model="formItem.specialColumn" placeholder="选择类型...">
+		   	<FormItem label="所属类别:">
+				<Select v-model="formItem.courseType" placeholder="选择类别...">
 	                <Option value="beijing">精品课程</Option>
 	                <Option value="shanghai">专题突破</Option>
 	            </Select>
@@ -41,10 +41,11 @@
 </template>
 
 <script>
+import globel_ from './../config/global.vue'
+
 var g_object_name = "";
 var key = '';
 var hostPrefix = "http://dc-yl.oss-cn-hangzhou.aliyuncs.com/";
-var uploadImage = "https://www.baidu.com/img/bd_logo1.png?where=super";
 
 function random_string(len) {
     var len = len || 32;
@@ -87,15 +88,15 @@ export default {
 	        signature: '',
 	        host: hostPrefix,
 			formItem:{
+				thumb:globel_.defaultImage,
 				title:"",
-				specialColumn:"",
-				thumb:uploadImage
+				courseType:""
 			}
 		}
 	},
 	methods:{
 		submitClick(){
-			console.log("submit");
+			console.log("submit",this.formItem);
 		},
 		//图片上传事件没实现
 		handleSuccess(res, file) {
@@ -111,7 +112,6 @@ export default {
 		handleBeforeUpload(file) {
 			let message = this.$Message;
 			var self = this;
-
 			this.$http.get('/api/uploadKey/1').then(function(result){
 				self.$refs.upload.data.host = result.host;
  			   	self.$refs.upload.data.policy = result.policy;

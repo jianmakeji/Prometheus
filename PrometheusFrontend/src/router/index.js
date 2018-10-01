@@ -13,6 +13,7 @@ import addArticle from '@/components/addArticle'
 import user from '@/components/user'
 import teacher from '@/components/teacher'
 import addTeacher from '@/components/addTeacher'
+import exchange from '@/components/exchange'
 
 Vue.use(Router)
 
@@ -74,6 +75,10 @@ export default new Router({
 	    	path: '/teacher/addTeacher',
 	    	name: 'addTeacher',
 	    	component: addTeacher
+	    },{
+	    	path: '/exchange',
+	    	name: 'exchange',
+	    	component: exchange
 	    }
 	]
 })

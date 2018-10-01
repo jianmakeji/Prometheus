@@ -20,8 +20,8 @@
 					<Option v-for="item in subjectData" :value="item.id">{{item.title}}</Option>
 	            </Select>
 		   	</FormItem>
-			<FormItem label="对应专题:">
-				<Select v-model="formItem.specialColumn" placeholder="选择专题...">
+			<FormItem label="对应类别:">
+				<Select v-model="formItem.courseType" placeholder="选择专题...">
 	                <Option value="1">精品课程</Option>
 	                <Option value="2">专题突破</Option>
 	            </Select>
@@ -45,7 +45,8 @@ export default {
 			formItem:{
 				name:"",
 				introduce:"",
-				subject:""
+				subject:"",
+				courseType:""
 			}
 		}
 	},

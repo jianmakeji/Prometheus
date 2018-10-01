@@ -9,25 +9,35 @@
   			</BreadcrumbItem>
   		</Breadcrumb><br />
 		<Form :model="formItem" :label-width="150">
-			<FormItem label="缩略图:">
-			   	<Input v-model="formItem.articleName" placeholder="请输入文章名..." clearable></Input>
+			<FormItem label="封面图:">
+                <Upload ref="upload" :action="host" :on-success="handleSuccess" :format="['jpg','jpeg','png']" :max-size="2048" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" :before-upload="handleBeforeUpload"
+					:data="{
+                  		'key': g_object_name,
+                  		'policy': policyBase64,
+                  		'OSSAccessKeyId': accessid,
+                  		'success_action_status': '200',
+                  		'callback': callbackbody,
+                  		'signature': signature,
+                  	}" :show-upload-list="false">
+                    <div style="width:100px;height:auto">
+                        <img :src="formItem.thumb" style="width: 100%">
+                    </div>
+                </Upload>
+	        </FormItem>
+		   	<FormItem label="名称:">
+			   	<Input v-model="formItem.name" placeholder="请输入文章名..." clearable></Input>
 		   	</FormItem>
-		   	<FormItem label="文章名:">
-			   	<Input v-model="formItem.articleName" placeholder="请输入文章名..." clearable></Input>
+			<FormItem label="摘要:">
+			   	<Input v-model="formItem.abstract" placeholder="请输入摘要..." clearable></Input>
 		   	</FormItem>
-			<FormItem label="好文摘要:">
-			   	<Input v-model="formItem.articleAbstract" placeholder="请输入摘要内容..." clearable></Input>
-		   	</FormItem>
-			<FormItem label="文章内容:">
+			<FormItem label="内容:">
 				<div id="WangEditor">
 			        <div ref="editorElem" style="text-align:left"></div>
 			    </div>
 			</FormItem>
-			<FormItem label="所属类型:">
-	            <Select v-model="formItem.articleType" placeholder="选择类型...">
-	                <Option value="1">父子篇</Option>
-	                <Option value="2">成长篇</Option>
-	                <Option value="3">亲子篇</Option>
+			<FormItem label="所属类别:">
+	            <Select v-model="formItem.articleType" placeholder="选择类别...">
+	                <Option v-for="item in articleTypeData" :value="item.id">{{item.title}}</Option>
 	            </Select>
 	        </FormItem>
 			<FormItem>
@@ -39,27 +49,79 @@
 
 <script>
 import WangEditor from 'wangeditor'
+import globel_ from "./../config/global.vue"
+var g_object_name = "";
+var key = '';
+var hostPrefix = "http://dc-yl.oss-cn-hangzhou.aliyuncs.com/";
+
+function random_string(len) {
+    var len = len || 32;
+    var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
+    var maxPos = chars.length;
+    var pwd = '';
+    for (var i = 0; i < len; i++) {
+        pwd += chars.charAt(Math.floor(Math.random() * maxPos));
+    }
+    return pwd;
+}
+function get_suffix(filename) {
+    var pos = filename.lastIndexOf('.')
+    var suffix = ''
+    if (pos != -1) {
+        suffix = filename.substring(pos)
+    }
+    return suffix;
+}
+function calculate_object_name(filename) {
+
+    var suffix = get_suffix(filename)
+    g_object_name = key + random_string(10) + suffix
+
+}
+function get_uploaded_object_name(filename) {
+    return g_object_name;
+}
 export default {
 	name:"addArticle",
 	data(){
 		return{
 			id:"",
 			submitUrl:"",
+			articleTypeData:globel_.articleTypeData,
 			formItem:{
-				articleName:"",
-				articleType:"1",
-				articleAbstract:""
+				thumb:globel_.defaultImage,
+				name:"",
+				abstract:"",
+				content:"",
+				articleType:"",
 			},
-			editorContent: ''
+			//图片上传参数
+			g_object_name: '',
+			policyBase64: '',
+			accessid: '',
+			callbackbody: '',
+			signature: '',
+			host: hostPrefix,
 		}
 	},
 	methods:{
 		submitClick(){
 			console.log("submit");
 		},
-		getContent: function () {
-            alert(this.editorContent)
-        }
+		//图片上传事件没实现
+		handleSuccess(){
+
+		},
+		handleFormatError(){
+
+		},
+		handleMaxSize(){
+
+		},
+		handleBeforeUpload(){
+
+		},
+
 	},
 	created(){
 		this.id = this.$route.query.id;
@@ -76,6 +138,7 @@ export default {
 		this.editor = new WangEditor('#WangEditor')  //这个地方传入div元素的id 需要加#号
 		this.editor.change = function () {
 		  	console.log(this.txt.html())
+			that.content = this.txt.html();
 	  	}
 		this.editor.create()     // 生成编辑器
 		this.editor.txt.html('<p>输入内容...</p>')   //注意：这个地方是txt  不是官方文档中的$txt
