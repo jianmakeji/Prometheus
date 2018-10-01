@@ -44,6 +44,26 @@ class CourseController extends Controller {
     await ctx.service.course.del(id);
     ctx.body = ctx.app.success('删除成功!');
   }
+
+  async getCourseBySpecialColumnId(){
+    const ctx = this.ctx;
+    const query = {
+      limit: ctx.helper.parseInt(ctx.query.limit),
+      offset: ctx.helper.parseInt(ctx.query.offset),
+      id: ctx.params.id,
+    };
+    ctx.body = await ctx.service.course.getCourseBySpecialColumnId(query);
+  }
+
+  async getCourseByCourseTypeId(){
+    const ctx = this.ctx;
+    const query = {
+      limit: ctx.helper.parseInt(ctx.query.limit),
+      offset: ctx.helper.parseInt(ctx.query.offset),
+      id: ctx.params.id,
+    };
+    ctx.body = await ctx.service.course.getCourseByCourseTypeId(query);
+  }
 }
 
 module.exports = CourseController;

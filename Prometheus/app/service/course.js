@@ -53,6 +53,36 @@ class Course extends Service {
     }
     return course.destroy();
   }
+
+  async getCourseBySpecialColumnId({id = 0, limit = 10, offset =0}){
+    return this.ctx.model.Course.findAndCountAll({
+      offset,
+      limit,
+      order: [[ 'id', 'asc' ]],
+      include: [{
+        model: this.ctx.model.CourseType,
+        attributes: ['name','Id'],
+      }],
+      where: {
+          specialColumn:id,
+      },
+    });
+  }
+
+  async getCourseByCourseTypeId({id = 0, limit = 10, offset =0}){
+    return this.ctx.model.Course.findAndCountAll({
+      offset,
+      limit,
+      order: [[ 'id', 'asc' ]],
+      include: [{
+          model: this.ctx.model.SpecialColumn,
+          attributes: ['name','Id'],
+      }],
+      where: {
+          courseType:id,
+      },
+    });
+  }
 }
 
 module.exports = Course;
