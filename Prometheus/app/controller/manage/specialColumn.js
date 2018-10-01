@@ -44,6 +44,16 @@ class SpecialColumnController extends Controller {
     await ctx.service.specialColumn.del(id);
     ctx.body = ctx.app.success('删除成功!');
   }
+
+  async getSpecialColumnsByTeacherId(){
+    const ctx = this.ctx;
+    const query = {
+      limit: ctx.helper.parseInt(ctx.query.limit),
+      offset: ctx.helper.parseInt(ctx.query.offset),
+      id: ctx.params.id,
+    };
+    ctx.body = await ctx.service.specialColumn.getSpecialColumnsByTeacherId(query);
+  }
 }
 
 module.exports = SpecialColumnController;

@@ -56,6 +56,17 @@ class SpecialColumn extends Service {
     }
     return specialColumn.destroy();
   }
+
+  async getSpecialColumnsByTeacherId({id = 0, limit = 10, offset =0}){
+    return this.ctx.model.SpecialColumn.findAndCountAll({
+      offset,
+      limit,
+      order: [[ 'id', 'asc' ]],
+      where: {
+          teacherId:id,
+      },
+    });
+  }
 }
 
 module.exports = SpecialColumn;

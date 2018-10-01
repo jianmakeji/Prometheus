@@ -21,21 +21,12 @@ class AliOSSController extends Controller {
       accessKeySecret: aliConfigObj.AccessKeySecret
     });
 
-    client.assumeRole(aliConfigObj.RoleArn, policy, aliConfigObj.TokenExpireTime).then((result) => {
-        console.log("*****************:"+result);
-        ctx.body = result;
-
-        console.log("AccessKeyId:", result.credentials.AccessKeyId );
-        console.log("AccessKeySecret:", result.credentials.AccessKeySecret );
-        console.log("SecurityToken:", result.credentials.SecurityToken );
-        console.log("Expiration:", result.credentials.Expiration );
+    await client.assumeRole(aliConfigObj.RoleArn, policy, aliConfigObj.TokenExpireTime).then((result) => {
+      ctx.body = result;
     }).catch((err) => {
-      console.log(err);
-      ctx.body = err;
+      ctx.body = ctx.app.failure(err);
     });
   }
-
-
 }
 
 module.exports = AliOSSController;
