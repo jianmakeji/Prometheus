@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import globel_ from './../config/global.vue'
 export default {
 	name:"teacher",
 	data(){
@@ -30,10 +31,29 @@ export default {
 			deleteModel:false,
 			total:100,
 			columns:[
-				{ 	title: 'id',	key: 'id',	align: 'center'	},
+				{ 	title: 'id',	key: 'Id',	align: 'center'	},
 				{	title: '姓名',	key: 'name',	align: 'center'},
 				{	title: "学科",	key: 'subject',	align: 'center'},
-				{	title: "专题",	key: 'specialColumn',	align: 'center'},
+				{	title: "详情",	key: 'opt',	align: 'center',
+					render: (h, params) => {
+						return h("div",[
+							h('Button', {
+								props: {
+									type: 'primary',
+									size: 'small'
+								},
+								style: {
+									marginRight: '5px'
+								},
+								on: {
+									click: () => {
+										this.checkTap(params.index)
+									}
+								}
+							}, '查看')
+						])
+					}
+				},
 				{ title: '操作', key: 'opt', align: 'center',
 					render: (h, params) => {
 						return h("div",[
@@ -70,12 +90,7 @@ export default {
 			 	}
 
 			],
-			dataList:[
-				{id:1,name:"张三",subject:"数学",specialColumn:"精品课程"},
-				{id:2,name:"李四",subject:"英语",specialColumn:"精品课程"},
-				{id:3,name:"王五",subject:"物理",specialColumn:"精品课程"},
-				{id:4,name:"赵六",subject:"化学",specialColumn:"专题图片"},
-			]
+			dataList:[]
 		}
 	},
 	methods:{
@@ -85,9 +100,12 @@ export default {
 		newTeacher(){
 			this.$router.push({name:"addTeacher",query:{id:0}});
 		},
+		checkTap(index){
+			let teacherId = this.dataList[index].Id;
+			this.$router.push({name:"teacherDetail",query:{id:teacherId}});
+		},
 		changeTap(index){
-			let teacherId = this.dataList[index].id;
-			console.log(teacherId);
+			let teacherId = this.dataList[index].Id;
 			this.$router.push({name:"addTeacher",query:{id:teacherId}});
 		},
 		removeTap(index){
@@ -98,6 +116,19 @@ export default {
 		okTap(){
 			console.log(this.index);
 		}
+	},
+	created(){
+		let that = this,
+			getDataUrl = globel_.serverHost + globel_.configAPI.getTeacherData + that.offset;
+		this.$Loading.start();
+		this.$http.get( getDataUrl ).then(function(result){
+			console.log(result);
+			that.$Loading.finish();
+			that.dataList = result.data.rows;
+			that.total = result.data.count;
+		}).catch(function(err){
+			that.$Loading.error();
+		})
 	}
 }
 </script>

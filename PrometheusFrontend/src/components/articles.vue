@@ -21,14 +21,16 @@
 </template>
 
 <script>
+import globel_ from './../config/global.vue'
 export default {
 	name:"articles",
 	data(){
 		return{
+			offset:0,
 			index:"",
 			deleteModel:false,
 			articleTitle:"",
-			total:100,
+			total:0,
 			columns:[
 				{
 					title: 'id',
@@ -80,12 +82,7 @@ export default {
 					}
 			 	}
 			],
-			dataList: [
-				{id:1, title:"父子好文1",type:"父子篇" },
-				{id:1, title:"成长好文1",type:"成长篇" },
-				{id:1, title:"亲子好文1",type:"亲子篇" },
-
-			]
+			dataList: []
 		}
 	},
 	methods:{
@@ -108,6 +105,20 @@ export default {
 		okTap(){
 			console.log(index);
 		}
+	},
+	created(){
+		let that = this,
+			getDataUrl = globel_.serverHost + globel_.configAPI.getArticleData + that.offset;
+		this.$Loading.start();
+		this.$http.get( getDataUrl ).then(function(result){
+			console.log(result);
+			that.$Loading.finish();
+			that.dataList = result.data.rows;
+			that.total = result.data.count;
+		}).catch(function(err){
+			that.$Loading.error();
+		})
+
 	}
 }
 </script>

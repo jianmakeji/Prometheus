@@ -25,13 +25,23 @@
                 </Upload>
 	        </FormItem>
 		   	<FormItem label="专栏名称:">
-			   	<Input v-model="formItem.title" placeholder="请输入视频专栏名称..." clearable></Input>
+			   	<Input v-model="formItem.name" placeholder="请输入专栏名称..." clearable></Input>
+		   	</FormItem>
+			<FormItem label="专栏介绍:">
+			   	<Input v-model="formItem.describe" placeholder="请输入专栏介绍..." type="textarea"></Input>
 		   	</FormItem>
 		   	<FormItem label="所属类别:">
 				<Select v-model="formItem.courseType" placeholder="选择类别...">
-	                <Option value="beijing">精品课程</Option>
-	                <Option value="shanghai">专题突破</Option>
+	                <Option v-for="item in courseTypeData" :value="item.Id">{{item.name}}</Option>
 	            </Select>
+		   	</FormItem>
+			<FormItem label="对应老师:">
+				<Select v-model="formItem.teacherId" placeholder="选择老师...">
+					<Option v-for="item in teacherData" :value="item.Id">{{item.name}}</Option>
+				</Select>
+			</FormItem>
+			<FormItem label="价格:">
+				<InputNumber v-model="formItem.price" @on-change="priceChange"></InputNumber>
 		   	</FormItem>
 		   	<FormItem>
 	            <Button type="primary" long @click="submitClick">提交</Button>
@@ -87,16 +97,67 @@ export default {
 	        callbackbody: '',
 	        signature: '',
 	        host: hostPrefix,
+
+			courseTypeData:"",	//所属类别的数据
+			teacherData:"",
 			formItem:{
-				thumb:globel_.defaultImage,
-				title:"",
-				courseType:""
+				thumb:"globel_.defaultImage",
+				teacherId:"",
+				name:"",
+				describe:"",
+				courseType:"",
+				price:0
 			}
 		}
 	},
 	methods:{
 		submitClick(){
-			console.log("submit",this.formItem);
+			let that = this;
+			this.$Loading.start();
+			if(this.id == 0){		//新建	post
+				this.$http.post( this.submitUrl ,{
+					thumb:this.formItem.thumb,
+					teacherId:this.formItem.teacherId,
+					name:this.formItem.name,
+					describe:this.formItem.describe,
+					courseType:this.formItem.courseType,
+					price:this.formItem.price
+				}).then(function(result){
+					if(result.status == 200){
+						that.$Loading.finish();
+						that.$Message.success({duration:2,content:globel_.configMessage.operateSuccess});
+						setTimeout(function(){
+							that.$router.push({name:"specialColumn"});
+						},3000)
+					}
+				}).catch(function(err){
+					that.$Loading.error();
+					that.$Message.error({duration:2,content:err});
+				})
+			}else{				//修改	put
+				this.$http.put( this.submitUrl ,{
+					thumb:this.formItem.thumb,
+					teacherId:this.formItem.teacherId,
+					name:this.formItem.name,
+					describe:this.formItem.describe,
+					courseType:this.formItem.courseType,
+					price:this.formItem.price
+				}).then(function(result){
+					if(result.status == 200){
+						that.$Loading.finish();
+						that.$Message.success({duration:2,content:globel_.configMessage.operateSuccess});
+						setTimeout(function(){
+							that.$router.push({name:"specialColumn"});
+						},3000)
+					}
+				}).catch(function(err){
+					that.$Loading.error();
+					that.$Message.error({duration:2,content:err});
+				})
+			}
+		},
+		priceChange(num){
+			this.formItem.price = num;
 		},
 		//图片上传事件没实现
 		handleSuccess(res, file) {
@@ -129,14 +190,40 @@ export default {
 		}
 	},
 	created(){
-		// console.log(this.$route.query.id);
+		let that = this,
+			getCourseTyoeDataUrl = globel_.serverHost + "/api/manage/courseType?limit=1000&offset=0",
+			getTeacherDataUrl = globel_.serverHost + "/api/manage/teacher?limit=1000&offset=0";
+		this.$Loading.start();
+
+		// 获取类别数据作为选择项
+		this.$http.get( getCourseTyoeDataUrl ).then(function(result){
+			that.courseTypeData = result.data.rows;
+		}).catch(function(err){
+			that.$Loading.error();
+		});
+		//获取老师数据作为选择项
+		this.$http.get( getTeacherDataUrl ).then(function(result){
+			that.teacherData = result.data.rows;
+		}).catch(function(err){
+			that.$Loading.error();
+		})
+
 		this.id = this.$route.query.id;
 		if(this.id != 0){		//修改
-			console.log("修改",this.id,typeof this.id);
-			// this.submitUrl = "" 		//新建专栏的链接
+			this.submitUrl = globel_.serverHost + globel_.configAPI.updataSpecialColumnById.replace(":id",this.id);
+			let that = this,
+				getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialColumnDataById.replace(":id",this.id);
+			this.$Loading.start();
+			this.$http.get( getDataUrl ).then(function(result){
+				// 数据赋值
+				that.$Loading.finish();
+				that.formItem = result.data;
+			}).catch(function(err){
+				that.$Loading.error();
+				that.$Message.error({duration:3,content:err});
+			})
 		}else{					//新建
-			// this.submitUrl = "" 		//修改专栏的链接
-			console.log("新建",this.id);
+			this.submitUrl = globel_.serverHost + globel_.configAPI.createSpecialColumn;
 		}
 	}
 }

@@ -47,40 +47,60 @@ export default {
 		submitClick(){
 			let that = this;
 			this.$Loading.start();
-			this.$http.post( this.submitUrl ,{
-				name:this.formItem.name,
-				describe:this.formItem.describe,
-				grade:this.formItem.grade
-			}).then(function(result){
-				console.log(result);
-				if(result.status == 200){
-					that.$Loading.finish();
-					this.$router.push({name:"courseType"});
-				}
-			}).catch(function(err){
-				that.$Loading.error();
-				console.log(err);
-			})
+			if(this.id == 0){		//新建	post
+				this.$http.post( this.submitUrl ,{
+					name:this.formItem.name,
+					describe:this.formItem.describe,
+					grade:this.formItem.grade
+				}).then(function(result){
+					if(result.status == 200){
+						that.$Loading.finish();
+						that.$Message.success({duration:2,content:globel_.configMessage.operateSuccess});
+						setTimeout(function(){
+							that.$router.push({name:"courseType"});
+						},3000)
+					}
+				}).catch(function(err){
+					that.$Loading.error();
+					that.$Message.error({duration:2,content:err});
+				})
+			}else{				//修改	put
+				this.$http.put( this.submitUrl ,{
+					name:this.formItem.name,
+					describe:this.formItem.describe,
+					grade:this.formItem.grade
+				}).then(function(result){
+					if(result.status == 200){
+						that.$Loading.finish();
+						that.$Message.success({duration:2,content:globel_.configMessage.operateSuccess});
+						setTimeout(function(){
+							that.$router.push({name:"courseType"});
+						},3000)
+					}
+				}).catch(function(err){
+					that.$Loading.error();
+					that.$Message.error({duration:2,content:err});
+				})
+			}
 		}
 	},
 	created(){
 		this.id = this.$route.query.id;
 		if(this.id != 0){		//修改
-			this.submitUrl = globel_.configAPI.updataCourseTypeById.replace(":id",this.id);
+			this.submitUrl = globel_.serverHost + globel_.configAPI.updataCourseTypeById.replace(":id",this.id);
 			let that = this,
 				getDataUrl = globel_.serverHost + globel_.configAPI.getCourseTypeDataById.replace(":id",this.id);
 			this.$Loading.start();
 			this.$http.get( getDataUrl ).then(function(result){
-				console.log(result);
 				// 数据赋值
-				// that.$Loading.finish();
-				// that.dataList = result.data.rows;
+				that.$Loading.finish();
+				that.formItem = result.data;
 			}).catch(function(err){
-				console.log(err);
 				that.$Loading.error();
+				that.$Message.error({duration:3,content:err});
 			})
 		}else{					//新建
-			this.submitUrl = globel_.configAPI.createCourseType;
+			this.submitUrl = globel_.serverHost + globel_.configAPI.createCourseType;
 		}
 	}
 }

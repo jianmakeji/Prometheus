@@ -33,7 +33,7 @@ export default {
 			total:100,
 			columns:[
 				{ title: 'id', key: 'Id', align: 'center' },
-                { title: '专题名称', key: 'name', align: 'center' },
+                { title: '类别名称', key: 'name', align: 'center' },
 				{ title: '操作', key: 'opt', align: 'center',
 					render: (h, params) => {
 						return h("div",[
@@ -69,15 +69,12 @@ export default {
 					}
 			 	}
 			],
-			dataList: [
-				{Id:1,name:"111111111"}
-			]
+			dataList: []
 		}
 	},
 	methods:{
 		//分页页数改变事件
 		pageChange(index){
-			console.log(index);
 			this.offset = (index - 1) * 10;
 			let that = this,
 			 	getDataUrl = globel_.serverHost + globel_.configAPI.getCourseTypeData + that.offset;
@@ -86,7 +83,6 @@ export default {
 				that.$Loading.finish();
 				that.dataList = result.data.rows;
 			}).catch(function(err){
-				console.log(err);
 				that.$Loading.error();
 				that.$Message.error('获取数据失败！');
 			})
@@ -99,34 +95,30 @@ export default {
 			this.$router.push({name:"addCourseType",query:{id:specialColumnId}});
 		},
 		removeTap(index){
-			// console.log(index);
 			this.index = index;
 			this.deleteModel = true;
-			this.courseTypeTitle = this.dataList[index].title;
+			this.courseTypeTitle = this.dataList[index].name;
 		},
 		okTap(){
-			console.log(this.index);
 			let that = this,
 				deleteUrl = globel_.serverHost + globel_.configAPI.deleteCourseTypeById.replace(":id",this.dataList[this.index].Id);
 			this.$Loading.start();
 			this.$http.delete(deleteUrl).then(function(result){
-				// console.log(result);
 				if(result.status == 200){
-					that.$Message.success("删除成功！");
+					that.$Message.success({duration:3,content:globel_.configMessage.deleteSuccess});
 					let getDataUrl = globel_.serverHost + globel_.configAPI.getCourseTypeData + that.offset;
 					that.$http.get( getDataUrl ).then(function(result){
 						that.$Loading.finish();
 						that.dataList = result.data.rows;
+						that.total = result.data.count;
 					}).catch(function(err){
 						that.$Loading.error();
-						that.$Message.error("获取数据失败！");
+						that.$Message.error({duration:3,content:err});
 					})
 				}
-				that.dataList = result.data.rows;
 			}).catch(function(err){
-					console.log(err);
 					that.$Loading.error();
-					that.$Message.error("删除失败！");
+					that.$Message.error({duration:3,content:err});
 			})
 		}
 	},
@@ -135,11 +127,10 @@ export default {
 			getDataUrl = globel_.serverHost + globel_.configAPI.getCourseTypeData + that.offset;
 		this.$Loading.start();
 		this.$http.get( getDataUrl ).then(function(result){
-			console.log(result);
 			that.$Loading.finish();
 			that.dataList = result.data.rows;
+			that.total = result.data.count;
 		}).catch(function(err){
-			console.log(err);
 			that.$Loading.error();
 		})
 	}

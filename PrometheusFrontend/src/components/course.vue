@@ -59,6 +59,7 @@ export default {
 	name:"course",
 	data(){
 		return{
+			id:"",
 			offset:0,
 			index:"",
 			deleteModel:false,
@@ -81,23 +82,28 @@ export default {
 				},
 				{
 					title: '名称',
-					key: 'title',
+					key: 'name',
 					align: 'center'
 				},
 				{
 					title: '类别',
-					key: 'type',
-					align: 'center'
+					key: 'courseType',
+					align: 'center',
+					render:(h, params) =>{
+						return h('div',[
+							h('p', params.row.course_type.name)
+						])
+					}
 				},
 				{
 					title: '专栏',
 					key: 'specialColumn',
-					align: 'center'
-				},
-				{
-					title: '年级',
-					key: 'grade',
-					align: 'center'
+					align: 'center',
+					render:(h, params) =>{
+						return h('div',[
+							h('p', params.row.special_column.name)
+						])
+					}
 				},
 				{ title: '操作', key: 'opt', align: 'center',
 					render: (h, params) => {
@@ -163,7 +169,7 @@ export default {
 		},
 		//修改
 		changeTap(index){
-			let videoId = this.dataList[index].id;
+			let videoId = this.dataList[index].Id;
 			console.log(videoId);
 			this.$router.push({name:"addCourse",query:{id:videoId}});
 		},
@@ -190,7 +196,26 @@ export default {
 			a.click();
 		},
 		okTap(){
-			console.log(this.index);
+			let that = this,
+				deleteUrl = globel_.serverHost + globel_.configAPI.deleteCourseById.replace(":id",this.dataList[this.index].Id);
+			this.$Loading.start();
+			this.$http.delete(deleteUrl).then(function(result){
+				if(result.status == 200){
+					that.$Message.success({duration:3,content:globel_.configMessage.deleteSuccess});
+					let getDataUrl = globel_.serverHost + globel_.configAPI.getCourseData + that.offset;
+					that.$http.get( getDataUrl ).then(function(result){
+						that.$Loading.finish();
+						that.dataList = result.data.rows;
+						that.total = result.data.count;
+					}).catch(function(err){
+						that.$Loading.error();
+						that.$Message.error({duration:3,content:err});
+					})
+				}
+			}).catch(function(err){
+					that.$Loading.error();
+					that.$Message.error({duration:3,content:err});
+			})
 		}
 	},
 	created(){

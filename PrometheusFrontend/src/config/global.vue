@@ -1,5 +1,5 @@
 <script type="text/javascript">
-	const serverHost = "http://192.168.3.163:7001";
+	const serverHost = "http://192.168.3.166:7001";
 	const defaultImage = "https://www.baidu.com/img/bd_logo1.png?where=super";
 	const subjectData=[
 		{id:1,title:"数学"},
@@ -8,6 +8,7 @@
 		{id:4,title:"化学"}
 	];
 	const gradeData=[
+		{id:6,title:"六年级"},
 		{id:7,title:"七年级"},
 		{id:8,title:"八年级"},
 		{id:9,title:"九年级"}
@@ -17,6 +18,10 @@
 		{id:2,title:"成长篇"},
 		{id:3,title:"亲子篇"}
 	];
+	const configMessage = {
+		operateSuccess:"操作成功，等待2秒后返回！",
+		deleteSuccess:"删除成功！"
+	};
 	const configAPI = {
 		//课程类别增删改查
 		createCourseType:"/api/manage/courseType",
@@ -59,6 +64,7 @@
 		subjectData,		//学科数组
 		gradeData,			//年级
 		configAPI,			//接口数据
+		configMessage,		//提示信息
 		articleTypeData		//好文分享类别数据
 	}
 </script>

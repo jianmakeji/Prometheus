@@ -91,8 +91,8 @@ export default {
 			formItem:{
 				thumb:globel_.defaultImage,
 				name:"",
-				abstract:"",
-				content:"",
+				mainContent:"",
+				abstractContent:"",
 				articleType:"",
 			},
 			//图片上传参数

@@ -2,7 +2,7 @@
 	<div class="specialColumn">
 		<Breadcrumb>
 	        <BreadcrumbItem>
-	            <Icon type="ios-build" size="24"/>视频类别管理
+	            <Icon type="ios-build" size="24"/>专栏管理
 	        </BreadcrumbItem>
 	    </Breadcrumb><br />
 		<Button icon="md-add" type="primary" @click="newType">新建</Button><br /><br />
@@ -11,10 +11,10 @@
 		<Modal v-model="deleteModel" width="360" @on-ok="okTap">
 	        <p slot="header" style="color:#ed4014;text-align:center;font-size:18px;">
 	            <Icon type="ios-information-circle" size="20"></Icon>
-	            <span>确定要删除类别</span>
+	            <span>确定要删除专栏</span>
 	        </p>
 	        <div style="text-align:center">
-	            {{typeTitle}}
+	            {{specialColumnTitle}}
 	        </div>
 	    </Modal>
     </div>
@@ -28,7 +28,7 @@ export default {
         return {
 			offset:0,
 			deleteModel:false,
-			typeTitle:"",
+			specialColumnTitle:"",
 			index:"",
 			total:0,
 			columns:[
@@ -43,14 +43,24 @@ export default {
 					align: 'center'
                 },
                 {
-                    title: '所属类型',
+                    title: '所属类别',
                     key: "courseType",
-					align: 'center'
+					align: 'center',
+					render:(h, params) =>{
+						return h('div',[
+							h('p', params.row.course_type.name)
+						])
+					}
                 },
 				{
                     title: '对应老师id',
-                    key: "teacherId",
-					align: 'center'
+                    key: "teacher",
+					align: 'center',
+					render:(h, params) =>{
+						return h('div',[
+							h('p', params.row.teacher.name)
+						])
+					}
                 },
 				{ title: '操作', key: 'opt', align: 'center',
 					render: (h, params) => {
@@ -65,7 +75,7 @@ export default {
 	                               	},
 	                               	on: {
 	                                   	click: () => {
-	                                       	this.changeTap(params.index)
+											this.changeTap(params.index)
 	                                   	}
 	                               	}
 	                           	}, '修改'),
@@ -100,7 +110,6 @@ export default {
 				that.$Loading.finish();
 				that.dataList = result.data.rows;
 			}).catch(function(err){
-				console.log(err);
 				that.$Loading.error();
 				that.$Message.error('获取数据失败！');
 			})
@@ -115,43 +124,41 @@ export default {
 		removeTap(index){
 			this.index = index;
 			this.deleteModel = true;
-			this.typeTitle = this.dataList[index].title;
+			this.specialColumnTitle = this.dataList[index].name;
 		},
 		okTap(){
 			let that = this,
 				deleteUrl = globel_.serverHost + globel_.configAPI.deleteSpecialColumnById.replace(":id",this.dataList[this.index].Id);
 			this.$Loading.start();
 			this.$http.delete(deleteUrl).then(function(result){
-				// console.log(result);
 				if(result.status == 200){
-					that.$Message.success("删除成功！");
+					that.$Message.success({duration:3,content:globel_.configMessage.deleteSuccess});
 					let getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialColumnData + that.offset;
 					that.$http.get( getDataUrl ).then(function(result){
 						that.$Loading.finish();
 						that.dataList = result.data.rows;
+						that.total = result.data.count;
 					}).catch(function(err){
 						that.$Loading.error();
-						that.$Message.error("获取数据失败！");
+						that.$Message.error({duration:3,content:err});
 					})
 				}
-				that.dataList = result.data.rows;
 			}).catch(function(err){
-					console.log(err);
 					that.$Loading.error();
-					that.$Message.error("删除失败！");
+					that.$Message.error({duration:3,content:err});
 			})
 		}
     },
 	created(){
-		console.log(globel_.serverHost);
 		let that = this,
 			getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialColumnData + that.offset;
+		this.$Loading.start();
 		this.$http.get( getDataUrl ).then(function(result){
-			console.log(result);
+			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;
 		}).catch(function(err){
-				console.log(err);
+			that.$Loading.error();
 		})
 	}
 }
