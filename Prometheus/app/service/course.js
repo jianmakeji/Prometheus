@@ -8,11 +8,26 @@ class Course extends Service {
       offset,
       limit,
       order: [[ 'created_at', 'desc' ], [ 'id', 'desc' ]],
+      include: [{
+          model: this.ctx.model.SpecialColumn,
+          attributes: ['name','Id'],
+      },{
+        model: this.ctx.model.CourseType,
+        attributes: ['name','Id'],
+      }],
     });
   }
 
   async find(id) {
-    const course = await this.ctx.model.Course.findById(id);
+    const course = await this.ctx.model.Course.findById(id,{
+      include: [{
+          model: this.ctx.model.SpecialColumn,
+          attributes: ['name','Id'],
+      },{
+        model: this.ctx.model.CourseType,
+        attributes: ['name','Id'],
+      }],
+    });
     if (!course) {
       this.ctx.throw(404, 'course not found');
     }

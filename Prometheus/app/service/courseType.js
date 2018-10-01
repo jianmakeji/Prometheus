@@ -7,7 +7,7 @@ class CourseType extends Service {
     return this.ctx.model.CourseType.findAndCountAll({
       offset,
       limit,
-      order: [[ 'created_at', 'desc' ], [ 'id', 'desc' ]],
+      order: [[ 'id', 'asc' ]],
     });
   }
 

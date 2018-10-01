@@ -18,6 +18,13 @@ module.exports = app => {
 
   User.prototype.associate = function() {
     app.model.User.hasMany(app.model.Exchange, { as: 'exchange' });
+    app.model.User.belongsToMany(app.model.SpecialColumn,{
+      foreignKey:'userId',
+      through:{
+        model:app.model.Exchange,
+        unique:false,
+      }
+    });
   };
 
   return User;

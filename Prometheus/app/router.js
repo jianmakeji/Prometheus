@@ -7,6 +7,8 @@ module.exports = app => {
   const { router, controller } = app;
   router.get('/', controller.manage.home.index);
 
+  router.get('/getSTSSignature', controller.manage.alioss.getSTSSignature);
+
   //管理后台API接口
   router.resources('manage.users', '/api/manage/users', controller.manage.user);
   router.resources('manage.article', '/api/manage/article', controller.manage.article);

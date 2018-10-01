@@ -22,7 +22,7 @@ module.exports = app => {
   SpecialColumn.associate = function() {
     app.model.SpecialColumn.belongsTo(app.model.Teacher, {targetKey: 'Id', foreignKey: 'teacherId'});
     app.model.SpecialColumn.belongsTo(app.model.CourseType, { foreignKey: 'courseType'});
-    app.model.SpecialColumn.hasMany(app.model.Course,{sourceKey:'Id',foreignKey: 'specialColumn'}});
+    app.model.SpecialColumn.hasMany(app.model.Course,{sourceKey:'Id',foreignKey: 'specialColumn'});
 
     app.model.SpecialColumn.belongsToMany(app.model.User,{
       foreignKey:'special_column',

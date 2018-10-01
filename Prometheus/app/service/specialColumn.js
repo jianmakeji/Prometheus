@@ -7,7 +7,15 @@ class SpecialColumn extends Service {
     return this.ctx.model.SpecialColumn.findAndCountAll({
       offset,
       limit,
-      order: [[ 'created_at', 'desc' ], [ 'id', 'desc' ]],
+      order: [[ 'id', 'asc' ]],
+      include: [{
+          model: this.ctx.model.Teacher,
+          attributes: ['name','Id'],
+          as: 'teacher',
+      },{
+        model: this.ctx.model.CourseType,
+        attributes: ['name','Id'],
+      }],
     });
   }
 

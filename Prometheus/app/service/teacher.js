@@ -7,7 +7,7 @@ class Teacher extends Service {
     return this.ctx.model.Teacher.findAndCountAll({
       offset,
       limit,
-      order: [[ 'created_at', 'desc' ], [ 'id', 'desc' ]],
+      order: [[ 'id', 'asc' ]],
     });
   }
 
