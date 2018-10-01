@@ -20,25 +20,29 @@ class SpecialColumnController extends Controller {
   async create() {
     const ctx = this.ctx;
     const post = await ctx.service.specialColumn.create(ctx.request.body);
-    ctx.status = 201;
-    ctx.body = post;
+    ctx.body = ctx.app.success('创建成功!');
   }
 
   async update() {
     const ctx = this.ctx;
     const id = ctx.params.id;
     const updates = {
-      title: ctx.request.body.title,
-      content: ctx.request.body.content,
+      name: ctx.request.body.name,
+      courseType: ctx.request.body.courseType,
+      teacherId: ctx.request.body.teacherId,
+      thumb: ctx.request.body.thumb,
+      describe: ctx.request.body.describe,
+      price: ctx.request.body.price,
     };
-    ctx.body = await ctx.service.specialColumn.update({ id, updates });
+    await ctx.service.specialColumn.update({ id, updates });
+    ctx.body = ctx.app.success('更新成功!');
   }
 
   async destroy() {
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.id);
     await ctx.service.specialColumn.del(id);
-    ctx.status = 200;
+    ctx.body = ctx.app.success('删除成功!');
   }
 }
 

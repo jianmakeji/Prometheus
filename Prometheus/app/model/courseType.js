@@ -18,6 +18,7 @@ module.exports = app => {
 
   CourseType.associate = function() {
     app.model.CourseType.hasMany(app.model.SpecialColumn, { foreignKey: 'courseType'});
+    app.model.SpecialColumn.hasMany(app.model.Course,{sourceKey:'Id',foreignKey: 'courseType'});
   };
 
   return CourseType;

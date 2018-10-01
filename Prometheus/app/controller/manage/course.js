@@ -20,25 +20,29 @@ class CourseController extends Controller {
   async create() {
     const ctx = this.ctx;
     const course = await ctx.service.course.create(ctx.request.body);
-    ctx.status = 201;
-    ctx.body = course;
+    ctx.body = ctx.app.success('创建成功!');
   }
 
   async update() {
     const ctx = this.ctx;
     const id = ctx.params.id;
     const updates = {
-      title: ctx.request.body.title,
-      content: ctx.request.body.content,
+      name: ctx.request.body.name,
+      describe: ctx.request.body.describe,
+      courseType: ctx.request.body.courseType,
+      specialColumn: ctx.request.body.specialColumn,
+      thumb: ctx.request.body.thumb,
+      videoAddress: ctx.request.body.videoAddress,
     };
-    ctx.body = await ctx.service.course.update({ id, updates });
+    await ctx.service.course.update({ id, updates });
+    ctx.body = ctx.app.success('更新成功!');
   }
 
   async destroy() {
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.id);
     await ctx.service.course.del(id);
-    ctx.status = 200;
+    ctx.body = ctx.app.success('删除成功!');
   }
 }
 

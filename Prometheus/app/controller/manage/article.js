@@ -20,25 +20,27 @@ class ArticleController extends Controller {
   async create() {
     const ctx = this.ctx;
     const article = await ctx.service.article.create(ctx.request.body);
-    ctx.status = 201;
-    ctx.body = article;
+    ctx.body = ctx.app.success('创建成功!');
   }
 
   async update() {
     const ctx = this.ctx;
     const id = ctx.params.id;
     const updates = {
-      title: ctx.request.body.title,
-      content: ctx.request.body.content,
+      name: ctx.request.body.name,
+      abstractContent: ctx.request.body.abstractContent,
+      mainContent: ctx.request.body.mainContent,
+      thumb: ctx.request.body.thumb,
     };
-    ctx.body = await ctx.service.article.update({ id, updates });
+    await ctx.service.article.update({ id, updates });
+    ctx.body = ctx.app.success('更新成功!');
   }
 
   async destroy() {
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.id);
     await ctx.service.article.del(id);
-    ctx.status = 200;
+    ctx.body = ctx.app.success('删除成功!');
   }
 }
 

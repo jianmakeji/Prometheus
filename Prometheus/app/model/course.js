@@ -19,5 +19,10 @@ module.exports = app => {
     updated_at: DATE,
   });
 
+  Course.associate = function() {
+    app.model.Course.belongsTo(app.model.SpecialColumn, {targetKey: 'Id', foreignKey: 'specialColumn'});
+    app.model.Course.belongsTo(app.model.CourseType, {targetKey: 'Id', foreignKey: 'courseType'});
+  };
+
   return Course;
 };
