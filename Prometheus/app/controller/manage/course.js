@@ -64,6 +64,18 @@ class CourseController extends Controller {
     };
     ctx.body = await ctx.service.course.getCourseByCourseTypeId(query);
   }
+
+  async getCourseByCondition(){
+    const ctx = this.ctx;
+    const query = {
+      limit: ctx.helper.parseInt(ctx.query.limit),
+      offset: ctx.helper.parseInt(ctx.query.offset),
+      courseType: ctx.helper.parseInt(ctx.query.courseType),
+      specialColumn: ctx.helper.parseInt(ctx.query.specialColumn),
+    };
+    ctx.body = await ctx.service.course.getCourseByCondition(query);
+  }
+
 }
 
 module.exports = CourseController;

@@ -10,6 +10,7 @@ module.exports = {
     alioss.PolicyFile = 'policy/all_policy.txt';
     alioss.RoleArn = 'acs:ram::1751937945456422:role/prometheusfileoperation';
     alioss.TokenExpireTime = '3600';
+    alioss.bucket = 'jm-prometheus';
 
     return alioss;
   },

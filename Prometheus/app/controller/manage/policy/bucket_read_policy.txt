@@ -6,7 +6,7 @@
         "oss:ListObjects"
       ],
       "Effect": "Allow",
-      "Resource": ["acs:oss:*:*:$BUCKET_NAME/*", "acs:oss:*:*:$BUCKET_NAME"]
+      "Resource": ["acs:oss:*:*:jm-prometheus/*"]
     }
   ],
   "Version": "1"

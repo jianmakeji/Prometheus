@@ -7,11 +7,12 @@ module.exports = app => {
   const { router, controller } = app;
   router.get('/', controller.manage.home.index);
 
-  router.get('/api/getSTSSignature', controller.manage.alioss.getSTSSignature);
+  router.get('/api/getSTSSignature/:fileType', controller.manage.alioss.getSTSSignature);
   router.get('/api/manage/specialColumn/getSpecialColumnsByTeacherId/:id', controller.manage.specialColumn.getSpecialColumnsByTeacherId);
   router.get('/api/manage/course/getCourseBySpecialColumnId/:id', controller.manage.course.getCourseBySpecialColumnId);
   router.get('/api/manage/course/getCourseByCourseTypeId/:id', controller.manage.course.getCourseByCourseTypeId);
-
+  router.get('/api/manage/course/getCourseByCondition', controller.manage.course.getCourseByCondition);
+  
   //管理后台API接口
   router.resources('manage.users', '/api/manage/users', controller.manage.user);
   router.resources('manage.article', '/api/manage/article', controller.manage.article);
@@ -39,5 +40,5 @@ module.exports = app => {
   router.resources('website.courseType', '/api/website/courseType', controller.website.courseType);
   router.resources('website.exchange', '/api/website/exchange', controller.website.exchange);
   router.resources('website.specialColumn', '/api/website/specialColumn', controller.website.specialColumn);
-  
+
 };

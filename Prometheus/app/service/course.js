@@ -83,6 +83,43 @@ class Course extends Service {
       },
     });
   }
+
+  async getCourseByCondition({courseType = 0,specialColumn = 0,limit = 10, offset =0}){
+    let condition = {
+      offset,
+      limit,
+      order: [[ 'id', 'asc' ]],
+    };
+    
+    if (courseType == 0 && specialColumn == 0){
+      condition.include = [{
+        model: this.ctx.model.SpecialColumn,
+        attributes: ['name','Id'],
+      },{
+        model: this.ctx.model.CourseType,
+        attributes: ['name','Id'],
+      }];
+    }
+    else if (courseType != 0 && specialColumn == 0){
+      condition.include = [{
+        model: this.ctx.model.SpecialColumn,
+        attributes: ['name','Id'],
+      }];
+      condition.where = {
+        courseType:courseType,
+      };
+    }
+    else if (courseType == 0 && specialColumn != 0){
+      condition.include = [{
+        model: this.ctx.model.CourseType,
+        attributes: ['name','Id'],
+      }];
+      condition.where = {
+        specialColumn:specialColumn,
+      };
+    }
+    return this.ctx.model.Course.findAndCountAll(condition);
+  }
 }
 
 module.exports = Course;
