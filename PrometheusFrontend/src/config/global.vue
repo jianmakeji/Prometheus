@@ -1,6 +1,7 @@
 <script type="text/javascript">
-	const serverHost = "http://192.168.3.166:7001";
+	const serverHost = "http://192.168.3.163:7001";
 	const defaultImage = "https://www.baidu.com/img/bd_logo1.png?where=super";
+	// const defaultImage = "./../assets/logo.jpg";
 	const subjectData=[
 		{id:1,title:"数学"},
 		{id:2,title:"英语"},
@@ -43,6 +44,8 @@
 		updataCourseById:"/api/manage/course/:id",
 		getCourseData:"/api/manage/course?limit=10&offset=",
 		getCourseDataById:"/api/manage/course/:id",
+		getCourseDataBySpecialColumn:"/api/manage/course/getCourseBySpecialColumnId/:id?limit=10000&offset=0",
+		getCourseByCondition:"/api/manage/course/getCourseByCondition?limit=10&offset=",
 
 		//好文增删改查
 		createArticle:"/api/manage/article",

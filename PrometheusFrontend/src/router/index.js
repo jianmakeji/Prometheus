@@ -12,9 +12,9 @@ import articles from '@/components/articles'
 import addArticle from '@/components/addArticle'
 import user from '@/components/user'
 import teacher from '@/components/teacher'
+import teacherDetail from '@/components/teacherDetail'
 import addTeacher from '@/components/addTeacher'
 import exchange from '@/components/exchange'
-import teacherDetail from '@/components/teacherDetail'
 
 Vue.use(Router)
 

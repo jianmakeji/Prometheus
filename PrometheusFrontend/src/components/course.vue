@@ -8,24 +8,13 @@
 		<Button icon="md-add" type="primary" @click="newVideo">新建</Button><br /><br />
 		<Form :model="formItem" label-position="right" :label-width="80" inline style="width:100%;">
 			<FormItem label="类别">
-	            <Select v-model="formItem.specialColumn">
-					<Option value="beijing">精品课程</Option>
-	                <Option value="shanghai">专题突破</Option>
-	            </Select>
-	        </FormItem>
+				<Select v-model="formItem.courseType" @on-change="courseTypeChange">
+					<Option v-for="item in courseTypeData" :value="item.Id">{{item.name}}</Option>
+				</Select>
+			</FormItem>
 			<FormItem label="专栏">
-	            <Select v-model="formItem.type">
-					<Option value="beijing">领先课堂</Option>
-	                <Option value="shanghai">培优课堂</Option>
-					<Option value="shenzhen">汇智课堂</Option>
-					<Option value="shenzhen">计算专题</Option>
-					<Option value="shenzhen">几何专题</Option>
-	                <Option value="shenzhen">压轴题专题</Option>
-	            </Select>
-	        </FormItem>
-			<FormItem label="年级">
-	            <Select v-model="formItem.grade">
-					<Option v-for="item in gradeData" :value="item.id">{{item.title}}</Option>
+	            <Select v-model="formItem.specialColumn" @on-change="specialColumnChange">
+					<Option v-for="item in specialColumnData" :value="item.Id">{{item.name}}</Option>
 	            </Select>
 	        </FormItem>
 	    </Form>
@@ -55,6 +44,93 @@
 <script>
 import globel_ from './../config/global.vue'
 import Qrcode from '@xkeshi/vue-qrcode';
+
+
+var courseTypeObj = {
+	title: '类别',
+	key: 'courseType',
+	align: 'center',
+	render:(h, params) =>{
+		return h('div',[
+			h('p', params.row.course_type.name)
+		])
+	}
+},
+specialColumnObj = {
+	title: '专栏',
+	key: 'specialColumn',
+	align: 'center',
+	render:(h, params) =>{
+		return h('div',[
+			h('p', params.row.special_column.name)
+		])
+	}
+},
+	tableHeadeBefore = [
+	{
+		title: 'id',
+		key: 'Id',
+		align: 'center'
+	},
+	{
+		title: '名称',
+		key: 'name',
+		align: 'center'
+	}
+],
+	tableHeadeBetween = [
+		courseTypeObj,specialColumnObj
+	],
+	tableHeadBehind = [
+		{ title: '操作', key: 'opt', align: 'center',
+			render: (h, params) => {
+				return h("div",[
+					h('Button', {
+						props: {
+							type: 'primary',
+							size: 'small'
+						},
+						style: {
+							marginRight: '5px'
+						},
+						on: {
+							click: () => {
+								this.changeTap(params.index)
+							}
+						}
+					}, '修改'),
+					h('Button', {
+						props: {
+							type: 'error',
+							size: 'small'
+						},
+						style: {
+							marginRight: '5px'
+						},
+						on: {
+							click: () => {
+								this.removeTap(params.index)
+							}
+						}
+					},'删除'),
+					h('Button', {
+						props: {
+							type: 'info',
+							size: 'small'
+						},
+						style: {
+							marginRight: '5px'
+						},
+						on: {
+							click: () => {
+								this.generateCode(params.index)
+							}
+						}
+					},'生成二维码')
+				])
+			}
+		}
+	];
 export default {
 	name:"course",
 	data(){
@@ -68,92 +144,15 @@ export default {
 			codeTitle:"",		//弹出层标题(视频名称)
 			codeModal:false,
 			total:0,
-			gradeData:globel_.gradeData,
+
+			specialColumnData:[{Id:0,name:"全部"}],courseTypeData:[{Id:0,name:"全部"}],
+			specialColumnId:0,courseTypeId:0,
+
 			formItem:{
-				specialColumn:"",	//专题
-				type:"",			//类型
-				grade:""			//年级
+				specialColumn:0,	//专题
+				courseType:0			//类型
 			},
-			columns:[
-				{
-					title: 'id',
-					key: 'Id',
-					align: 'center'
-				},
-				{
-					title: '名称',
-					key: 'name',
-					align: 'center'
-				},
-				{
-					title: '类别',
-					key: 'courseType',
-					align: 'center',
-					render:(h, params) =>{
-						return h('div',[
-							h('p', params.row.course_type.name)
-						])
-					}
-				},
-				{
-					title: '专栏',
-					key: 'specialColumn',
-					align: 'center',
-					render:(h, params) =>{
-						return h('div',[
-							h('p', params.row.special_column.name)
-						])
-					}
-				},
-				{ title: '操作', key: 'opt', align: 'center',
-					render: (h, params) => {
-						return h("div",[
-							h('Button', {
-                               	props: {
-                                   	type: 'primary',
-                                   	size: 'small'
-                               	},
-                               	style: {
-                                   	marginRight: '5px'
-                               	},
-                               	on: {
-                                   	click: () => {
-                                       	this.changeTap(params.index)
-                                   	}
-                               	}
-                           	}, '修改'),
-						   	h('Button', {
-	                           	props: {
-	                               	type: 'error',
-	                               	size: 'small'
-	                           	},
-	                           	style: {
-	                               	marginRight: '5px'
-	                           	},
-	                           	on: {
-	                               	click: () => {
-	                                   	this.removeTap(params.index)
-	                               	}
-	                           	}
-                       		},'删除'),
-							h('Button', {
-	                           	props: {
-	                               	type: 'info',
-	                               	size: 'small'
-	                           	},
-	                           	style: {
-	                               	marginRight: '5px'
-	                           	},
-	                           	on: {
-	                               	click: () => {
-	                                   	this.generateCode(params.index)
-	                               	}
-	                           	}
-                       		},'生成二维码')
-						])
-					}
-			 	}
-			],
+			columns:[],
 			dataList: []
 		}
 	},
@@ -216,17 +215,91 @@ export default {
 					that.$Loading.error();
 					that.$Message.error({duration:3,content:err});
 			})
-		}
+		},
+		courseTypeChange(value){
+			if(value != 0){		//确定一个类型
+				if(tableHeadeBetween.length == 2){				//删除第一个元素
+					tableHeadeBetween = tableHeadeBetween.splice(1,1);
+					this.columns = tableHeadeBefore.concat(tableHeadeBetween, tableHeadBehind);
+				}else if(tableHeadeBetween.length == 1 && tableHeadeBetween[0].title == "类别"){
+					tableHeadeBetween = tableHeadeBetween.splice(1,1);
+					this.columns = tableHeadeBefore.concat(tableHeadeBetween, tableHeadBehind);
+				}
+			}else{												//添加为第一个元素
+				tableHeadeBetween.unshift(courseTypeObj);
+				this.columns = tableHeadeBefore.concat(tableHeadeBetween, tableHeadBehind);
+			}
+			this.courseTypeId = value;
+			let that = this,
+				getDataUrl = globel_.serverHost+ globel_.configAPI.getCourseByCondition + this.offset +'&courseType='+ this.courseTypeId + '&specialColumn=' + this.specialColumnId;
+			this.$Loading.start();
+			this.$http.get( getDataUrl ).then(function(result){
+				that.$Loading.finish();
+				that.dataList = result.data.rows;
+				that.total = result.data.count;
+			}).catch(function(err){
+				that.$Loading.error();
+				that.$Message.error({duration:3,content:err});
+			})
+		},
+		specialColumnChange(value){
+			if(value != 0){					//删除最后一个元素
+				if(tableHeadeBetween.length == 2){
+					tableHeadeBetween.pop();
+					this.columns = tableHeadeBefore.concat(tableHeadeBetween, tableHeadBehind);
+				}else if(tableHeadeBetween.length == 1 && tableHeadeBetween[0].title == "专栏"){
+					tableHeadeBetween.pop();
+					this.columns = tableHeadeBefore.concat(tableHeadeBetween, tableHeadBehind);
+				}
+				console.log(tableHeadeBetween);
+			}else{							//添加为最后一个元素
+				tableHeadeBetween.push(specialColumnObj);
+				this.columns = tableHeadeBefore.concat(tableHeadeBetween, tableHeadBehind);
+				console.log(tableHeadeBetween);
+			}
+			this.specialColumnId = value;
+			let that = this,
+				getDataUrl = globel_.serverHost+ globel_.configAPI.getCourseByCondition + this.offset +'&courseType='+ this.courseTypeId + '&specialColumn=' + this.specialColumnId;
+			this.$Loading.start();
+			this.$http.get( getDataUrl ).then(function(result){
+				that.$Loading.finish();
+				that.dataList = result.data.rows;
+				that.total = result.data.count;
+			}).catch(function(err){
+				that.$Loading.error();
+				that.$Message.error({duration:3,content:err});
+			})
+		},
 	},
 	created(){
-		console.log(globel_.serverHost);
-		let that = this;
-		this.$http.get( globel_.serverHost+'/api/manage/course?limit=10&offset='+ this.offset +'').then(function(result){
-			console.log(result);
+		this.columns = tableHeadeBefore.concat(tableHeadeBetween, tableHeadBehind);
+		console.log(tableHeadeBetween);
+		let that = this,
+			getCourseTyoeDataUrl = globel_.serverHost + "/api/manage/courseType?limit=1000&offset=0",
+			getSpecialColumnDataUrl = globel_.serverHost + "/api/manage/specialColumn?limit=1000&offset=0";
+		this.$Loading.start();
+
+		// 获取类别数据作为选择项
+		this.$http.get( getCourseTyoeDataUrl ).then(function(result){
+			that.courseTypeData = that.courseTypeData.concat(result.data.rows);
+		}).catch(function(err){
+			that.$Loading.error();
+		});
+		//获取专栏数据作为选择项
+		this.$http.get( getSpecialColumnDataUrl ).then(function(result){
+			that.specialColumnData = that.specialColumnData.concat(result.data.rows);
+		}).catch(function(err){
+			that.$Loading.error();
+		});
+
+		let getDataUrl = globel_.serverHost+ globel_.configAPI.getCourseByCondition + this.offset +'&courseType='+ this.courseTypeId + '&specialColumn=' + this.specialColumnId;
+		this.$http.get( getDataUrl ).then(function(result){
+			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;
 		}).catch(function(err){
-				console.log(err);
+			that.$Loading.error();
+			that.$Message.error({duration:3,content:err});
 		})
 	}
 }

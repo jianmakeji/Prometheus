@@ -53,7 +53,7 @@ export default {
 					}
                 },
 				{
-                    title: '对应老师id',
+                    title: '对应老师',
                     key: "teacher",
 					align: 'center',
 					render:(h, params) =>{

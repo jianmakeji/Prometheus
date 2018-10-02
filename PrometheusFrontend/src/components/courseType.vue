@@ -30,7 +30,7 @@ export default {
 			deleteModel:false,
 			courseTypeTitle:"",
 			index:"",
-			total:100,
+			total:0,
 			columns:[
 				{ title: 'id', key: 'Id', align: 'center' },
                 { title: '类别名称', key: 'name', align: 'center' },

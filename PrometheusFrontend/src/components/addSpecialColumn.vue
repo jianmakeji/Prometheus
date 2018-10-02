@@ -12,15 +12,15 @@
 			<FormItem label="封面图:">
                 <Upload ref="upload" :action="host" :on-success="handleSuccess" :format="['jpg','jpeg','png']" :max-size="2048" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" :before-upload="handleBeforeUpload"
 					:data="{
-                  		'key': g_object_name,
-                  		'policy': policyBase64,
-                  		'OSSAccessKeyId': accessid,
-                  		'success_action_status': '200',
-                  		'callback': callbackbody,
-                  		'signature': signature,
+						'AccessKeyId': AccessKeyId,
+						'AccessKeySecret':AccessKeySecret,
+						'Expiration':Expiration,
+						'SecurityToken':SecurityToken,
+						'dir':dir,
                   	}" :show-upload-list="false">
                     <div style="width:100px;height:auto">
-                        <img :src="formItem.thumb" style="width: 100%">
+						<img :src="formItem.thumb" style="width: 100%">
+                        <!-- <img src="./../assets/logo.jpg" style="width: 100%"> -->
                     </div>
                 </Upload>
 	        </FormItem>
@@ -52,10 +52,11 @@
 
 <script>
 import globel_ from './../config/global.vue'
+import $ from 'jquery'
 
 var g_object_name = "";
 var key = '';
-var hostPrefix = "http://dc-yl.oss-cn-hangzhou.aliyuncs.com/";
+var hostPrefix = "http://jm-prometheus.oss-cn-hangzhou.aliyuncs.com";
 
 function random_string(len) {
     var len = len || 32;
@@ -91,17 +92,19 @@ export default {
 			id:"",
 			submitUrl:"",
 			//图片上传参数
+			AccessKeyId:"",
+			AccessKeySecret:"",
+			Expiration:"",
+			SecurityToken:"",
+			dir:"",
+			host:hostPrefix,
 			g_object_name: '',
-	        policyBase64: '',
-	        accessid: '',
-	        callbackbody: '',
-	        signature: '',
-	        host: hostPrefix,
 
 			courseTypeData:"",	//所属类别的数据
 			teacherData:"",
 			formItem:{
-				thumb:"globel_.defaultImage",
+				// thumb:globel_.defaultImage,
+				thumb:globel_.defaultImage,
 				teacherId:"",
 				name:"",
 				describe:"",
@@ -161,8 +164,8 @@ export default {
 		},
 		//图片上传事件没实现
 		handleSuccess(res, file) {
-			this.formItem.thumb = hostPrefix + g_object_name + "?x-oss-process=style/thumb-300";
-			this.formItem.imageUrl = hostPrefix + g_object_name;
+			//this.formItem.thumb = hostPrefix + g_object_name;
+			//this.formItem.imageUrl = hostPrefix + g_object_name;
 		},
 		handleFormatError(file) {
 			this.$Message.error("文件格式错误！");
@@ -171,21 +174,64 @@ export default {
 			this.$Message.error("文件不能超过2M！");
 		},
 		handleBeforeUpload(file) {
+			console.log(globel_.serverHost);
 			let message = this.$Message;
-			var self = this;
-			this.$http.get('/api/uploadKey/1').then(function(result){
-				self.$refs.upload.data.host = result.host;
- 			   	self.$refs.upload.data.policy = result.policy;
- 			   	self.$refs.upload.data.OSSAccessKeyId = result.accessid;
- 			   	self.$refs.upload.data.signature = result.signature;
- 			   	self.$refs.upload.data.callback = '';
- 			   	key = result.dir;
- 			   	g_object_name = result.dir;
- 			   	calculate_object_name(file.name)
- 			   	self.$refs.upload.data.key = g_object_name;
-			}).catch(function(err){
-			    alert(err);
-			})
+			var that = this;
+			console.log(that.host);
+			$.ajax({
+                type: 'GET',
+                url: globel_.serverHost + '/api/getSTSSignature/1',
+                async: false,
+                dataType: 'json',
+                success: function(result) {
+					// console.log(result);
+
+					that.$refs.upload.data.AccessKeyId = result.credentials.AccessKeyId;
+	            	that.$refs.upload.data.AccessKeySecret = result.credentials.AccessKeySecret;
+	            	that.$refs.upload.data.Expiration = result.credentials.Expiration;
+	            	that.$refs.upload.data.SecurityToken = result.credentials.SecurityToken;
+	            	that.$refs.upload.data.dir = result.credentials.dir;
+	                that.$refs.upload.data.host = result.credentials.host;
+
+	                // key = result.credentials.dir;
+	                // g_object_name = result.credentials.dir;
+	                // calculate_object_name(file.name)
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+					console.log(XMLHttpRequest,textStatus,errorThrown);
+                	that.$Notice.error({title:errorThrown});
+                }
+            });
+
+			// this.$http.get( globel_.serverHost + '/api/getSTSSignature/1',{
+			// 	async:false
+			// }).then(function(result){
+			// 	console.log(result,file.name);
+			// 	// that.AccessKeyId = result.AccessKeyId;
+			// 	// that.AccessKeySecret = result.AccessKeySecret;
+			// 	// that.Expiration = result.Expiration;
+			// 	// that.SecurityToken = result.SecurityToken;
+			// 	// that.dir = result.dir;
+			// 	// that.host = result.host;
+			// 	// key = result.dir;
+			// 	// g_object_name = result.dir;
+			// 	// calculate_object_name(file.name)
+			// 	// that.key = g_object_name;
+			// 	console.log("============",that.$refs.upload.data.host);
+			// 	that.$refs.upload.data.AccessKeyId = result.data.credentials.AccessKeyId;
+            // 	that.$refs.upload.data.AccessKeySecret = result.data.credentials.AccessKeySecret;
+            // 	that.$refs.upload.data.Expiration = result.data.credentials.Expiration;
+            // 	that.$refs.upload.data.SecurityToken = result.data.credentials.SecurityToken;
+            // 	that.$refs.upload.data.dir = result.data.credentials.dir;
+            //     that.$refs.upload.data.host = result.data.credentials.host;
+			//
+			// 	console.log("============",that.$refs.upload.data.host);
+            //     key = result.data.credentials.dir;
+            //     g_object_name = result.data.credentials.dir;
+            //     calculate_object_name(file.name)
+			// }).catch(function(err){
+			//     alert(err);
+			// })
 
 		}
 	},
@@ -206,7 +252,7 @@ export default {
 			that.teacherData = result.data.rows;
 		}).catch(function(err){
 			that.$Loading.error();
-		})
+		});
 
 		this.id = this.$route.query.id;
 		if(this.id != 0){		//修改
