@@ -17,6 +17,7 @@
 						'Expiration':Expiration,
 						'SecurityToken':SecurityToken,
 						'dir':dir,
+						'key':key
                   	}" :show-upload-list="false">
                     <div style="width:100px;height:auto">
 						<img :src="formItem.thumb" style="width: 100%">
@@ -99,6 +100,7 @@ export default {
 			dir:"",
 			host:hostPrefix,
 			g_object_name: '',
+			key:"",
 
 			courseTypeData:"",	//所属类别的数据
 			teacherData:"",
@@ -164,8 +166,8 @@ export default {
 		},
 		//图片上传事件没实现
 		handleSuccess(res, file) {
-			//this.formItem.thumb = hostPrefix + g_object_name;
-			//this.formItem.imageUrl = hostPrefix + g_object_name;
+			this.formItem.thumb = hostPrefix + g_object_name;
+			this.formItem.imageUrl = hostPrefix + g_object_name;
 		},
 		handleFormatError(file) {
 			this.$Message.error("文件格式错误！");
@@ -174,10 +176,10 @@ export default {
 			this.$Message.error("文件不能超过2M！");
 		},
 		handleBeforeUpload(file) {
-			console.log(globel_.serverHost);
+			// console.log(globel_.serverHost);
 			let message = this.$Message;
 			var that = this;
-			console.log(that.host);
+			// console.log(that.host);
 			$.ajax({
                 type: 'GET',
                 url: globel_.serverHost + '/api/getSTSSignature/1',
@@ -192,7 +194,14 @@ export default {
 	            	that.$refs.upload.data.SecurityToken = result.credentials.SecurityToken;
 	            	that.$refs.upload.data.dir = result.credentials.dir;
 	                that.$refs.upload.data.host = result.credentials.host;
+					// that.$refs.upload.data.key = result.credentials.dir;
 
+					// key = result.credentials.dir;
+					g_object_name = result.credentials.dir;
+                    calculate_object_name(file.name)
+                    that.$refs.upload.data.key = g_object_name;
+
+					console.log("g_object_name",g_object_name);
 	                // key = result.credentials.dir;
 	                // g_object_name = result.credentials.dir;
 	                // calculate_object_name(file.name)
