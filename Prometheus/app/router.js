@@ -5,6 +5,8 @@
  */
 module.exports = app => {
   const { router, controller } = app;
+  const checktoken = app.middleware.checktoken();
+  
   router.get('/', controller.manage.home.index);
 
   router.get('/api/getSTSSignature/:fileType', controller.manage.alioss.getSTSSignature);
@@ -12,7 +14,7 @@ module.exports = app => {
   router.get('/api/manage/course/getCourseBySpecialColumnId/:id', controller.manage.course.getCourseBySpecialColumnId);
   router.get('/api/manage/course/getCourseByCourseTypeId/:id', controller.manage.course.getCourseByCourseTypeId);
   router.get('/api/manage/course/getCourseByCondition', controller.manage.course.getCourseByCondition);
-  
+
   //管理后台API接口
   router.resources('manage.users', '/api/manage/users', controller.manage.user);
   router.resources('manage.article', '/api/manage/article', controller.manage.article);

@@ -19,7 +19,7 @@ class SpecialColumnController extends Controller {
 
   async create() {
     const ctx = this.ctx;
-    const post = await ctx.service.specialColumn.create(ctx.request.body);
+    const specialColumn = await ctx.service.specialColumn.create(ctx.request.body);
     ctx.body = ctx.app.success('创建成功!');
   }
 
