@@ -28,8 +28,8 @@ class ManageUser extends Service {
       return user;
   }
 
-  async create(user) {
-    return this.ctx.model.ManageUser.create(user);
+  async create(manageUser) {
+    return this.ctx.model.ManageUser.create(manageUser);
   }
 
   async update({ id, updates }) {

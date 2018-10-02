@@ -3,7 +3,7 @@
 module.exports = app => {
   const { STRING, INTEGER, DATE } = app.Sequelize;
 
-  const ManageUser = app.model.define('manageUser', {
+  const ManageUser = app.model.define('manage_user', {
     Id: {
       type: INTEGER,
       primaryKey: true,

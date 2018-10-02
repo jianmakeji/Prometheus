@@ -6,8 +6,11 @@
 module.exports = app => {
   const { router, controller } = app;
   const checktoken = app.middleware.checktoken();
-  
+
   router.get('/', controller.manage.home.index);
+
+  router.post('/api/manage/login',controller.manage.manageUser.login);
+  router.post('/api/manage/registerManageUser',controller.manage.manageUser.registerManageUser);
 
   router.get('/api/getSTSSignature/:fileType', controller.manage.alioss.getSTSSignature);
   router.get('/api/manage/specialColumn/getSpecialColumnsByTeacherId/:id', controller.manage.specialColumn.getSpecialColumnsByTeacherId);

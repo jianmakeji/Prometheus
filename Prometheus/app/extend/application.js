@@ -15,6 +15,9 @@ module.exports = {
     return alioss;
   },
 
+  jwtSlot:() =>{
+    return 'LTAIkUgFNkgDjcr8zklMJfJUoAgdcT';
+  },
   //接口统一返回数据操作
   success: (message)=>{
     const result = {
