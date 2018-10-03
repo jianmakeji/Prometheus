@@ -21,18 +21,35 @@ class AliOSSController extends Controller {
       dir = "courseVideo/";
     }
     let host = "http://" + aliConfigObj.bucket + "." + aliConfigObj.endpoint;
-    let policy;
+    var policy = {
+      "Version": "1",
+      "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+            "oss:GetObject",
+            "oss:PutObject"
+            ],
+            "Resource": [
+            "acs:oss:*:*:jm-prometheus",
+            "acs:oss:*:*:jm-prometheus/*"
+            ]
+        }
+      ]
+  };
 
-    if (aliConfigObj.PolicyFile) {
-      policy = fs.readFileSync(path.resolve(__dirname, aliConfigObj.PolicyFile)).toString('utf-8');
-    }
+    let roleSessionName = 'jianma-001';
+
+    // if (aliConfigObj.PolicyFile) {
+    //   policy = fs.readFileSync(path.resolve(__dirname, aliConfigObj.PolicyFile)).toString('utf-8');
+    // }
 
     const client = new STS({
       accessKeyId: aliConfigObj.AccessKeyId,
       accessKeySecret: aliConfigObj.AccessKeySecret
     });
 
-    await client.assumeRole(aliConfigObj.RoleArn, policy, aliConfigObj.TokenExpireTime).then((result) => {
+    await client.assumeRole(aliConfigObj.RoleArn, policy, aliConfigObj.TokenExpireTime, roleSessionName).then((result) => {
       result.credentials.host = host;
       result.credentials.dir = dir;
       ctx.body = result;
