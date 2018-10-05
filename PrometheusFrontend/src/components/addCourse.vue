@@ -9,30 +9,17 @@
   			</BreadcrumbItem>
   		</Breadcrumb><br />
 		<Form :model="formItem" :label-width="80">
-
 			<!-- 图片上传 -->
-			<FormItem label="封面图:">
-                <Upload ref="upload" :action="host" :on-success="handleSuccess" :format="['jpg','jpeg','png']" :max-size="2048" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" :before-upload="handleBeforeUpload"
-					:data="{
-                  		'key': g_object_name,
-                  		'policy': policyBase64,
-                  		'OSSAccessKeyId': accessid,
-                  		'success_action_status': '200',
-                  		'callback': callbackbody,
-                  		'signature': signature,
-                  	}" :show-upload-list="false">
-                    <div style="width:100px;height:auto">
-                        <img :src="formItem.thumb" style="width: 100%">
-                    </div>
-                </Upload>
+            <FormItem label="封面图:">
+				<img v-if="imgUrl.length" :src="imgUrl" class="specialColumnImg"><br>
+                <input type="file" @change="doUpload" ref="inputFile"/>
+				<Progress :percent="progressPercent" />
 	        </FormItem>
 
 			<!-- 视频上传 -->
 			<FormItem label="视频文件:">
-				<Upload :action="videoHost" :format="['mp4']" :on-format-error="videoUploadFormatError" :before-upload="videoUploadBeforeUpload" :on-success="videoUploadSuccess" >
-					<p>{{formItem.videoAddress}}</p>
-			        <Button icon="ios-cloud-upload-outline">上传视频文件</Button>
-			    </Upload>
+                <input type="file" @change="doVideoUpload" ref="inputFile"/>
+				<Progress :percent="videoProgressPercent" />
 		   	</FormItem>
 
 
@@ -52,11 +39,6 @@
 	                <Option v-for="item in specialColumnData" :value="item.Id">{{item.name}}</Option>
 	            </Select>
 	        </FormItem>
-			<!-- <FormItem label="年级:">
-	            <Select v-model="formItem.grade" placeholder="选择年级...">
-	                <Option v-for="item in gradeData" :value="item.id">{{item.title}}</Option>
-	            </Select>
-	        </FormItem> -->
 			<FormItem>
 				<Button type="primary" long @click="submitClick">提交</Button>
 			</FormItem>
@@ -66,6 +48,8 @@
 
 <script>
 import globel_ from './../config/global.vue'
+import $ from 'jquery'
+import OSS from 'ali-oss'
 
 var g_object_name = "";
 var key = '';
@@ -107,13 +91,12 @@ export default {
 			gradeData:globel_.gradeData,
 			//图片上传参数
 			g_object_name: '',
-			policyBase64: '',
-			accessid: '',
-			callbackbody: '',
-			signature: '',
-			host: hostPrefix,
 			//视频上传参数
 			videoHost:"",
+
+            videoProgressPercent:0,
+            progressPercent: 0,
+	        imgUrl:"",
 
 			courseTypeData:"",
 			specialColumnData:"",
@@ -122,8 +105,8 @@ export default {
 		        describe: "",
 		        courseType: "",
 		        specialColumn: "",
-		        thumb: "ctx.request.body.thumb",
-		        videoAddress: "ctx.request.body.videoAddress"
+		        thumb: "",
+		        videoAddress: ""
 				// grade:""
 			}
 		}
@@ -174,29 +157,120 @@ export default {
 				})
 			}
 		},
-		//图片上传事件没实现
-		handleSuccess(){
+        priceChange(num) {
+          this.formItem.price = num;
+        },
+        //图片上传
+        doUpload(files) {
+          let that = this;
+          var file = files.target.files[0]; //获取要上传的文件对象
+          this.$http({
+            method: 'get',
+            url: globel_.serverHost + '/api/getSTSSignature/1'
+          }).then((res) => {
+            // console.log(res);
+            var client = new OSS({
+              region: 'oss-cn-hangzhou',
+              accessKeyId: res.data.credentials.AccessKeyId,
+              accessKeySecret: res.data.credentials.AccessKeySecret,
+              stsToken: res.data.credentials.SecurityToken,
+              bucket: 'jm-prometheus'
+            });
 
-		},
-		handleFormatError(){
+    		calculate_object_name(file.name);
+            var newFilename =  g_object_name;
+            client.multipartUpload('courseImages/' + newFilename, file, {
+    	        progress(p) {
+    	            that.progressPercent = p * 100;
+    	        }
+            }).then(function(result) {
+    			// let filePath =  result.name;
+    			that.$http.get(globel_.serverHost + globel_.configAPI.getUrlSignature + result.name).then(function(result){
+                    that.formItem.thumb = newFilename;
+                  	that.$Loading.finish();
+    	            that.$Message.success({
+    	              duration: 2,
+    	              content: globel_.configMessage.uploadImgSuccess
+    	            });
+    				that.imgUrl = result.data;
+    			}).catch(function(err){
+    				that.$Loading.error();
+    				that.$Message.success({
+    				  duration: 2,
+    				  content:err
+    				});
+    			})
 
-		},
-		handleMaxSize(){
+            }).catch(function(err) {
+    			that.$Loading.error();
+    			that.$Message.success({
+    			  duration: 2,
+    			  content: err
+    			});
+            });
+          }).catch((err) => {
+    		  that.$Loading.error();
+    		  that.$Message.success({
+    			duration: 2,
+    			content: err
+    		  });
+          });
+      },
+      //视频上传
+      doVideoUpload(files) {
+        let that = this;
+        var file = files.target.files[0]; //获取要上传的文件对象
+        this.$http({
+          method: 'get',
+          url: globel_.serverHost + '/api/getSTSSignature/2'
+        }).then((res) => {
+          // console.log(res);
+          var client = new OSS({
+            region: 'oss-cn-hangzhou',
+            accessKeyId: res.data.credentials.AccessKeyId,
+            accessKeySecret: res.data.credentials.AccessKeySecret,
+            stsToken: res.data.credentials.SecurityToken,
+            bucket: 'jm-prometheus'
+          });
 
-		},
-		handleBeforeUpload(){
+          calculate_object_name(file.name);
+          var newFilename =  g_object_name;
+          client.multipartUpload('courseVideos/' + newFilename, file, {
+              progress(p) {
+                  that.videoProgressPercent = p * 100;
+              }
+          }).then(function(result) {
+              console.log("上传成功",result);
+              that.$http.get(globel_.serverHost + globel_.configAPI.getUrlSignature + result.name).then(function(result){
+                  that.videoAddress = newFilename;
+                  that.$Loading.finish();
+                  that.$Message.success({
+                    duration: 2,
+                    content: globel_.configMessage.uploadVideoSuccess
+                  });
+              }).catch(function(err){
+                  that.$Loading.error();
+                  that.$Message.error({
+                    duration: 2,
+                    content:err
+                  });
+              })
 
-		},
-		// 视频上传事件
-		videoUploadFormatError(){
-			console.log("videoUploadFormatError");
-		},
-		videoUploadBeforeUpload(){
-			console.log("videoUploadBeforeUpload");
-		},
-		videoUploadSuccess(){
-			console.log("videoUploadSuccess");
-		}
+          }).catch(function(err) {
+              that.$Loading.error();
+              that.$Message.error({
+                duration: 2,
+                content: err
+              });
+          });
+        }).catch((err) => {
+            that.$Loading.error();
+            that.$Message.error({
+              duration: 2,
+              content: err
+            });
+        });
+    },
 	},
 	created(){
 		let that = this,
@@ -206,14 +280,14 @@ export default {
 
 		// 获取类别数据作为选择项
 		this.$http.get( getCourseTypeDataUrl ).then(function(result){
-			console.log("courseTypeData",result);
+			// console.log("courseTypeData",result);
 			that.courseTypeData = result.data.rows;
 		}).catch(function(err){
 			that.$Loading.error();
 		});
 		//获取专题数据作为选择项
 		this.$http.get( getSpecialColumnDataUrl ).then(function(result){
-			console.log("specialColumnData",result);
+			// console.log("specialColumnData",result);
 			that.specialColumnData = result.data.rows;
 		}).catch(function(err){
 			that.$Loading.error();
@@ -221,13 +295,17 @@ export default {
 
 		this.id = this.$route.query.id;
 		if(this.id != 0){		//修改
+            this.progressPercent = 100;
+            this.videoProgressPercent = 100;
 			this.submitUrl = globel_.serverHost + globel_.configAPI.updataCourseById.replace(":id",this.id);
 			let that = this,
 				getDataUrl = globel_.serverHost + globel_.configAPI.getCourseDataById.replace(":id",this.id);
 			this.$Loading.start();
 			this.$http.get( getDataUrl ).then(function(result){
+                console.log(result);
 				// 数据赋值
 				that.$Loading.finish();
+        		that.imgUrl = result.data.thumb;
 				that.formItem = result.data;
 			}).catch(function(err){
 				that.$Loading.error();

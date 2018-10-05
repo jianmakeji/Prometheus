@@ -1,7 +1,8 @@
 <script type="text/javascript">
-	const serverHost = "http://192.168.3.103:7001";
-	const defaultImage = "https://www.baidu.com/img/bd_logo1.png?where=super";
-	// const defaultImage = "./../assets/logo.jpg";
+	let loginFlag = 0;
+
+	const serverHost = "http://192.168.3.163:7001";
+
 	const subjectData=[
 		{id:1,title:"数学"},
 		{id:2,title:"英语"},
@@ -20,10 +21,15 @@
 		{id:3,title:"亲子篇"}
 	];
 	const configMessage = {
+		uploadImgSuccess:"图片上传成功！",
+		uploadVideoSuccess:"视频上传成功！",
 		operateSuccess:"操作成功，等待2秒后返回！",
 		deleteSuccess:"删除成功！"
 	};
 	const configAPI = {
+		login:"/api/manage/login",
+		getUrlSignature:"/api/getUrlSignature?objectPath=",				//获取图片或视频时请求
+
 		//课程类别增删改查
 		createCourseType:"/api/manage/courseType",
 		deleteCourseTypeById:"/api/manage/courseType/:id",
@@ -62,8 +68,8 @@
 		getTeacherDataById:"/api/manage/teacher/:id",
 	};
 	export default{
+		loginFlag,			//记录登陆信息
 		serverHost,			//ip地址
-		defaultImage,		//上传默认占位图
 		subjectData,		//学科数组
 		gradeData,			//年级
 		configAPI,			//接口数据

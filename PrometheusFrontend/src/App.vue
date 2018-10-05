@@ -55,11 +55,13 @@
 </template>
 
 <script>
+import globel_ from './config/global.vue'
 export default {
   	name: 'App',
   	data () {
 	  	return {
 			activeName:"1",
+            layoutShow:globel_.loginFlag,
 		  	isCollapsed: false
 	  	}
   	},
@@ -82,28 +84,33 @@ export default {
 		  	this.$refs.side1.toggleCollapse();
 	  	},
 	  	menuTap (event){
-		  	let that = this;
-			if(event == 1){
-				this.$router.push({name:"courseType"});		//类型
-			}else if(event == 2){
-				this.$router.push({name:"specialColumn"});		//专栏
-			}else if(event == 3){
-				this.$router.push({name:"course"});
-			}else if(event == 4){
-				this.$router.push({name:"articleType"});
-			}else if(event == 5){
-				this.$router.push({name:"articles"});
-			}else if(event == 6){
-				this.$router.push({name:"user"});
-			}else if(event == 7){
-				this.$router.push({name:"teacher"});
-			}else if(event == 8){
-				this.$router.push({name:"exchange"});
-			}
+            if(globel_.loginFlag){
+                let that = this;
+    			if(event == 1){
+    				this.$router.push({name:"courseType"});		//类型
+    			}else if(event == 2){
+    				this.$router.push({name:"specialColumn"});		//专栏
+    			}else if(event == 3){
+    				this.$router.push({name:"course"});
+    			}else if(event == 4){
+    				this.$router.push({name:"articleType"});
+    			}else if(event == 5){
+    				this.$router.push({name:"articles"});
+    			}else if(event == 6){
+    				this.$router.push({name:"user"});
+    			}else if(event == 7){
+    				this.$router.push({name:"teacher"});
+    			}else if(event == 8){
+    				this.$router.push({name:"exchange"});
+    			}
+            }
 	  	}
   	},
 	created(){
-		this.$router.push({name:"courseType"});
+        if(globel_.loginFlag == 1){
+            console.log("21223123122");
+        }
+		this.$router.push({name:"login"});
 	}
 }
 </script>
