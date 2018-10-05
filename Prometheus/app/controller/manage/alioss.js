@@ -21,6 +21,7 @@ class AliOSSController extends Controller {
       dir = "courseVideo/";
     }
     let host = "http://" + aliConfigObj.bucket + "." + aliConfigObj.endpoint;
+
     var policy = {
       "Version": "1",
       "Statement": [
@@ -40,10 +41,6 @@ class AliOSSController extends Controller {
 
     let roleSessionName = 'jianma-001';
 
-    // if (aliConfigObj.PolicyFile) {
-    //   policy = fs.readFileSync(path.resolve(__dirname, aliConfigObj.PolicyFile)).toString('utf-8');
-    // }
-
     const client = new STS({
       accessKeyId: aliConfigObj.AccessKeyId,
       accessKeySecret: aliConfigObj.AccessKeySecret
@@ -56,6 +53,11 @@ class AliOSSController extends Controller {
     }).catch((err) => {
       ctx.body = ctx.app.failure(err);
     });
+  }
+
+  async getUrlSignature(){
+    const ctx = this.ctx;
+    ctx.body = ctx.app.signatureUrl(ctx.query.objectPath);
   }
 }
 

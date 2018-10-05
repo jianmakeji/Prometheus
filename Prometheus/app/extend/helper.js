@@ -6,4 +6,5 @@ module.exports = {
     if (!string) return string;
     return parseInt(string) || 0;
   },
+
 };

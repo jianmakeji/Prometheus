@@ -13,6 +13,8 @@ module.exports = app => {
   router.post('/api/manage/registerManageUser',controller.manage.manageUser.registerManageUser);
 
   router.get('/api/getSTSSignature/:fileType', controller.manage.alioss.getSTSSignature);
+  router.get('/api/getUrlSignature', controller.manage.alioss.getUrlSignature);
+
   router.get('/api/manage/specialColumn/getSpecialColumnsByTeacherId/:id', controller.manage.specialColumn.getSpecialColumnsByTeacherId);
   router.get('/api/manage/course/getCourseBySpecialColumnId/:id', controller.manage.course.getCourseBySpecialColumnId);
   router.get('/api/manage/course/getCourseByCourseTypeId/:id', controller.manage.course.getCourseByCourseTypeId);

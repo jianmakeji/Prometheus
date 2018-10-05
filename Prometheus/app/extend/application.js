@@ -1,3 +1,7 @@
+'use strict';
+
+let OSS = require('ali-oss');
+
 module.exports = {
 
   aliConfig: () => {
@@ -13,6 +17,17 @@ module.exports = {
     alioss.bucket = 'jm-prometheus';
 
     return alioss;
+  },
+
+  signatureUrl(objectPath){
+    const config = this.aliConfig();
+    let client = new OSS({
+      region: config.region,
+      accessKeyId: config.AccessKeyId,
+      accessKeySecret: config.AccessKeySecret,
+      bucket: config.bucket,
+    });
+    return client.signatureUrl(objectPath, {expires: 3600});
   },
 
   jwtSlot:() =>{
