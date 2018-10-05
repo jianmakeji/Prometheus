@@ -19,9 +19,9 @@ class SpecialColumn extends Service {
     });
 
     const app = this.ctx.app;
-    for (let i = 0; i < resultObj.rows.length; i++){
-      resultObj.rows[i].thumb = app.signatureUrl(app.getCourseImagePath() + resultObj.rows[i].thumb);
-    }
+    resultObj.rows.forEach((element, index)=>{
+      element.thumb = app.signatureUrl(app.getCourseImagePath() + element.thumb);
+    });
 
     return resultObj;
   }
@@ -80,9 +80,10 @@ class SpecialColumn extends Service {
     });
 
     const app = this.ctx.app;
-    for (let i = 0; i < resultObj.rows.length; i++){
-      resultObj.rows[i].thumb = this.ctx.app.signatureUrl(app.getCourseImagePath() + resultObj.rows[i].thumb);
-    }
+  
+    resultObj.rows.forEach((element, index)=>{
+      element.thumb = app.signatureUrl(app.getCourseImagePath() + element.thumb);
+    });
 
     return resultObj;
   }

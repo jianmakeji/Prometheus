@@ -11,9 +11,10 @@ class Article extends Service {
     });
 
     const app = this.ctx.app;
-    for (let i = 0; i < resultObj.rows.length; i++){
-      resultObj.rows[i].thumb = app.signatureUrl(app.getArticleImagePath() + resultObj.rows[i].thumb);
-    }
+  
+    resultObj.rows.forEach((element, index)=>{
+      element.thumb = app.signatureUrl(app.getArticleImagePath() + element.thumb);
+    });
 
     return resultObj;
 
