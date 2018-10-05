@@ -42,6 +42,18 @@ module.exports = {
     return client.delete(objectPath);
   },
 
+  async deleteOssMultiObject(objectArrayPath){
+    const config = this.aliConfig();
+    let client = new OSS({
+      region: config.region,
+      accessKeyId: config.AccessKeyId,
+      accessKeySecret: config.AccessKeySecret,
+      bucket: config.bucket,
+    });
+
+    return client.deleteMulti(objectArrayPath);
+  },
+
   jwtSlot:() =>{
     return 'LTAIkUgFNkgDjcr8zklMJfJUoAgdcT';
   },

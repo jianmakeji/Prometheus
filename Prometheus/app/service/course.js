@@ -60,9 +60,8 @@ class Course extends Service {
       this.ctx.throw(404, 'course not found');
     }
     const app =this.ctx.app;
-    await app.deleteOssObject(app.getCourseImagePath() + course.thumb);
-    await app.deleteOssObject(app.getCourseVideoPath() + course.videoAddress);
-    
+    await app.deleteOssMultiObject([app.getCourseImagePath() + course.thumb,app.getCourseVideoPath() + course.videoAddress]);
+
     return course.destroy();
   }
 
