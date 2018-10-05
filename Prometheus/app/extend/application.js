@@ -33,6 +33,19 @@ module.exports = {
   jwtSlot:() =>{
     return 'LTAIkUgFNkgDjcr8zklMJfJUoAgdcT';
   },
+
+  getCourseImagePath()=>{
+    return 'courseImages/';
+  },
+
+  getCourseVideoPath()=>{
+    return 'courseVideos/';
+  },
+
+  getArticleImagePath()=>{
+    return 'articleImages/';
+  }
+
   //接口统一返回数据操作
   success: (message)=>{
     const result = {

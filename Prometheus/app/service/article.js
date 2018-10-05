@@ -4,11 +4,19 @@ const Service = require('egg').Service;
 
 class Article extends Service {
   async list({ offset = 0, limit = 10 }) {
-    return this.ctx.model.Article.findAndCountAll({
+    let resultObj = await return this.ctx.model.Article.findAndCountAll({
       offset,
       limit,
       order: [[ 'created_at', 'desc' ], [ 'id', 'desc' ]],
     });
+
+    const app = this.ctx.app;
+    for (let i = 0; i < resultObj.rows.length; i++){
+      resultObj.rows[i].thumb = app.signatureUrl(app.getArticleImagePath() + resultObj.rows[i].thumb);
+    }
+
+    return resultObj;
+
   }
 
   async find(id) {
@@ -16,6 +24,8 @@ class Article extends Service {
     if (!article) {
       this.ctx.throw(404, 'article not found');
     }
+    article.thumb = this.ctx.app.signatureUrl(article.thumb);
+
     return article;
   }
 

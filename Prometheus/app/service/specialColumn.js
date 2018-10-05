@@ -4,7 +4,7 @@ const Service = require('egg').Service;
 
 class SpecialColumn extends Service {
   async list({ offset = 0, limit = 10 }) {
-    return this.ctx.model.SpecialColumn.findAndCountAll({
+      let resultObj = await this.ctx.model.SpecialColumn.findAndCountAll({
       offset,
       limit,
       order: [[ 'id', 'asc' ]],
@@ -17,6 +17,13 @@ class SpecialColumn extends Service {
         attributes: ['name','Id'],
       }],
     });
+
+    const app = this.ctx.app;
+    for (let i = 0; i < resultObj.rows.length; i++){
+      resultObj.rows[i].thumb = app.signatureUrl(app.getCourseImagePath() + resultObj.rows[i].thumb);
+    }
+
+    return resultObj;
   }
 
   async find(id) {
@@ -34,6 +41,7 @@ class SpecialColumn extends Service {
     if (!specialColumn) {
       this.ctx.throw(404, 'specialColumn not found');
     }
+    specialColumn.thumb = this.ctx.app.signatureUrl(specialColumn.thumb);
     return specialColumn;
   }
 
@@ -58,7 +66,7 @@ class SpecialColumn extends Service {
   }
 
   async getSpecialColumnsByTeacherId({id = 0, limit = 10, offset =0}){
-    return this.ctx.model.SpecialColumn.findAndCountAll({
+    const resultObj =  this.ctx.model.SpecialColumn.findAndCountAll({
       offset,
       limit,
       order: [[ 'id', 'asc' ]],
@@ -66,6 +74,13 @@ class SpecialColumn extends Service {
           teacherId:id,
       },
     });
+
+    const app = this.ctx.app;
+    for (let i = 0; i < resultObj.rows.length; i++){
+      resultObj.rows[i].thumb = this.ctx.app.signatureUrl(app.getCourseImagePath() + resultObj.rows[i].thumb);
+    }
+
+    return resultObj;
   }
 }
 

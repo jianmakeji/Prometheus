@@ -4,7 +4,7 @@ const Service = require('egg').Service;
 
 class Course extends Service {
   async list({ offset = 0, limit = 10 }) {
-    return this.ctx.model.Course.findAndCountAll({
+    let resultObj = await this.ctx.model.Course.findAndCountAll({
       offset,
       limit,
       order: [[ 'created_at', 'desc' ], [ 'id', 'desc' ]],
@@ -16,6 +16,13 @@ class Course extends Service {
         attributes: ['name','Id'],
       }],
     });
+
+    const app = this.ctx.app;
+    for (let i = 0; i < resultObj.rows.length; i++){
+      resultObj.rows[i].thumb = app.signatureUrl(app.getCourseImagePath() + resultObj.rows[i].thumb);
+    }
+
+    return resultObj;
   }
 
   async find(id) {
@@ -31,6 +38,7 @@ class Course extends Service {
     if (!course) {
       this.ctx.throw(404, 'course not found');
     }
+    course.thumb = this.ctx.app.signatureUrl(course.thumb);
     return course;
   }
 
@@ -55,7 +63,7 @@ class Course extends Service {
   }
 
   async getCourseBySpecialColumnId({id = 0, limit = 10, offset =0}){
-    return this.ctx.model.Course.findAndCountAll({
+    let resultObj = await this.ctx.model.Course.findAndCountAll({
       offset,
       limit,
       order: [[ 'id', 'asc' ]],
@@ -67,10 +75,17 @@ class Course extends Service {
           specialColumn:id,
       },
     });
+
+    const app = this.ctx.app;
+    for (let i = 0; i < resultObj.rows.length; i++){
+      resultObj.rows[i].thumb = app.signatureUrl(app.getCourseImagePath() + resultObj.rows[i].thumb);
+    }
+
+    return resultObj;
   }
 
   async getCourseByCourseTypeId({id = 0, limit = 10, offset =0}){
-    return this.ctx.model.Course.findAndCountAll({
+    let resultObj = await this.ctx.model.Course.findAndCountAll({
       offset,
       limit,
       order: [[ 'id', 'asc' ]],
@@ -82,6 +97,13 @@ class Course extends Service {
           courseType:id,
       },
     });
+
+    const app = this.ctx.app;
+    for (let i = 0; i < resultObj.rows.length; i++){
+      resultObj.rows[i].thumb = app.signatureUrl(app.getCourseImagePath() + resultObj.rows[i].thumb);
+    }
+
+    return resultObj;
   }
 
   async getCourseByCondition({courseType = 0,specialColumn = 0,limit = 10, offset =0}){
@@ -90,7 +112,7 @@ class Course extends Service {
       limit,
       order: [[ 'id', 'asc' ]],
     };
-    
+
     if (courseType == 0 && specialColumn == 0){
       condition.include = [{
         model: this.ctx.model.SpecialColumn,
@@ -118,7 +140,14 @@ class Course extends Service {
         specialColumn:specialColumn,
       };
     }
-    return this.ctx.model.Course.findAndCountAll(condition);
+    let resultObj = await this.ctx.model.Course.findAndCountAll(condition);
+
+    const app = this.ctx.app;
+    for (let i = 0; i < resultObj.rows.length; i++){
+      resultObj.rows[i].thumb = app.signatureUrl(app.getCourseImagePath() + resultObj.rows[i].thumb);
+    }
+
+    return resultObj;
   }
 }
 

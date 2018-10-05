@@ -15,11 +15,15 @@ class AliOSSController extends Controller {
     const fileType = ctx.params.fileType;
     let dir = '';
     if (fileType == 1){
-      dir = "courseImages/";
+      dir = ctx.app.getCourseImagePath();
     }
     else if (fileType == 2){
-      dir = "courseVideo/";
+      dir = ctx.app.getCourseVideoPath();
     }
+    else if (fileType == 3){
+      dir = ctx.app.getArticleImagePath();
+    }
+
     let host = "http://" + aliConfigObj.bucket + "." + aliConfigObj.endpoint;
 
     var policy = {
