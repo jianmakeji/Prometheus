@@ -41,7 +41,8 @@ class SpecialColumn extends Service {
     if (!specialColumn) {
       this.ctx.throw(404, 'specialColumn not found');
     }
-    specialColumn.thumb = this.ctx.app.signatureUrl(specialColumn.thumb);
+    const app = this.ctx.app;
+    specialColumn.thumb = this.ctx.app.signatureUrl(app.getCourseImagePath() + specialColumn.thumb);
     return specialColumn;
   }
 
@@ -80,7 +81,7 @@ class SpecialColumn extends Service {
     });
 
     const app = this.ctx.app;
-  
+
     resultObj.rows.forEach((element, index)=>{
       element.thumb = app.signatureUrl(app.getCourseImagePath() + element.thumb);
     });

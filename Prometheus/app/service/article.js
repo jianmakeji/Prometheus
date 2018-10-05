@@ -11,7 +11,7 @@ class Article extends Service {
     });
 
     const app = this.ctx.app;
-  
+
     resultObj.rows.forEach((element, index)=>{
       element.thumb = app.signatureUrl(app.getArticleImagePath() + element.thumb);
     });
@@ -25,7 +25,8 @@ class Article extends Service {
     if (!article) {
       this.ctx.throw(404, 'article not found');
     }
-    article.thumb = this.ctx.app.signatureUrl(article.thumb);
+    const app = this.ctx.app;
+    article.thumb = this.ctx.app.signatureUrl(app.getArticleImagePath() + article.thumb);
 
     return article;
   }

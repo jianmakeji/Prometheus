@@ -21,7 +21,7 @@ class Course extends Service {
     resultObj.rows.forEach((element, index)=>{
       element.thumb = app.signatureUrl(app.getCourseImagePath() + element.thumb);
     });
-    
+
     return resultObj;
   }
 
@@ -38,7 +38,8 @@ class Course extends Service {
     if (!course) {
       this.ctx.throw(404, 'course not found');
     }
-    course.thumb = this.ctx.app.signatureUrl(course.thumb);
+    const app = this.ctx.app;
+    course.thumb = this.ctx.app.signatureUrl(app.getCourseImagePath() + course.thumb);
     return course;
   }
 
