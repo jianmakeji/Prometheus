@@ -62,6 +62,10 @@ class SpecialColumn extends Service {
     if (!specialColumn) {
       this.ctx.throw(404, 'specialColumn not found');
     }
+
+    const app =this.ctx.app;
+    await app.deleteOssObject(app.getCourseImagePath() + specialColumn.thumb);
+
     return specialColumn.destroy();
   }
 

@@ -30,21 +30,33 @@ module.exports = {
     return client.signatureUrl(objectPath, {expires: 3600});
   },
 
+  async deleteOssObject(objectPath){
+    const config = this.aliConfig();
+    let client = new OSS({
+      region: config.region,
+      accessKeyId: config.AccessKeyId,
+      accessKeySecret: config.AccessKeySecret,
+      bucket: config.bucket,
+    });
+
+    return client.delete(objectPath);
+  },
+
   jwtSlot:() =>{
     return 'LTAIkUgFNkgDjcr8zklMJfJUoAgdcT';
   },
 
-  getCourseImagePath()=>{
+  getCourseImagePath:() =>{
     return 'courseImages/';
   },
 
-  getCourseVideoPath()=>{
+  getCourseVideoPath:() =>{
     return 'courseVideos/';
   },
 
-  getArticleImagePath()=>{
+  getArticleImagePath:() =>{
     return 'articleImages/';
-  }
+  },
 
   //接口统一返回数据操作
   success: (message)=>{

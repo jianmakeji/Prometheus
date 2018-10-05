@@ -4,7 +4,7 @@ const Service = require('egg').Service;
 
 class Article extends Service {
   async list({ offset = 0, limit = 10 }) {
-    let resultObj = await return this.ctx.model.Article.findAndCountAll({
+    let resultObj = await this.ctx.model.Article.findAndCountAll({
       offset,
       limit,
       order: [[ 'created_at', 'desc' ], [ 'id', 'desc' ]],
@@ -46,6 +46,9 @@ class Article extends Service {
     if (!article) {
       this.ctx.throw(404, 'article not found');
     }
+
+    const app =this.ctx.app;
+    await app.deleteOssObject(app.getArticleImagePath() + article.thumb);
     return article.destroy();
   }
 }
