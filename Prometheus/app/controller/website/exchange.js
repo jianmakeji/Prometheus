@@ -3,6 +3,7 @@
 const Controller = require('egg').Controller;
 
 class ExchangeController extends Controller {
+  
   async index() {
     const ctx = this.ctx;
     const query = {
@@ -20,25 +21,26 @@ class ExchangeController extends Controller {
   async create() {
     const ctx = this.ctx;
     const exchange = await ctx.service.exchange.create(ctx.request.body);
-    ctx.status = 201;
-    ctx.body = exchange;
+    ctx.body = ctx.app.success('创建成功!');
   }
 
   async update() {
     const ctx = this.ctx;
     const id = ctx.params.id;
     const updates = {
-      title: ctx.request.body.title,
-      content: ctx.request.body.content,
+      userId: ctx.request.body.userId,
+      special_column: ctx.request.body.special_column,
+      price: ctx.request.body.price,
     };
-    ctx.body = await ctx.service.exchange.update({ id, updates });
+    await ctx.service.exchange.update({ id, updates });
+    ctx.body = ctx.app.success('更新成功!');
   }
 
   async destroy() {
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.id);
     await ctx.service.exchange.del(id);
-    ctx.status = 200;
+    ctx.body = ctx.app.success('删除成功!');
   }
 }
 

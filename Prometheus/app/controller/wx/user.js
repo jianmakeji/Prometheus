@@ -20,25 +20,25 @@ class UserController extends Controller {
   async create() {
     const ctx = this.ctx;
     const user = await ctx.service.user.create(ctx.request.body);
-    ctx.status = 201;
-    ctx.body = user;
+    ctx.body = ctx.app.success('创建成功!');
   }
 
   async update() {
     const ctx = this.ctx;
     const id = ctx.params.id;
     const updates = {
-      title: ctx.request.body.title,
-      content: ctx.request.body.content,
+      headicon: ctx.request.body.headicon,
+      password: ctx.request.body.password,
     };
-    ctx.body = await ctx.service.user.update({ id, user_id: ctx.request.body.user_id, updates });
+    await ctx.service.user.update({ id, updates });
+    ctx.body = ctx.app.success('更新成功!');
   }
 
   async destroy() {
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.id);
     await ctx.service.user.del(id);
-    ctx.status = 200;
+    ctx.body = ctx.app.success('删除成功!');
   }
 }
 

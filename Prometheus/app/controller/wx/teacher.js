@@ -20,26 +20,9 @@ class TeacherController extends Controller {
   async create() {
     const ctx = this.ctx;
     const teacher = await ctx.service.teacher.create(ctx.request.body);
-    ctx.status = 201;
-    ctx.body = teacher;
+    ctx.body = ctx.app.success('创建成功!');
   }
 
-  async update() {
-    const ctx = this.ctx;
-    const id = ctx.params.id;
-    const updates = {
-      title: ctx.request.body.title,
-      content: ctx.request.body.content,
-    };
-    ctx.body = await ctx.service.teacher.update({ id, updates });
-  }
-
-  async destroy() {
-    const ctx = this.ctx;
-    const id = ctx.helper.parseInt(ctx.params.id);
-    await ctx.service.teacher.del(id);
-    ctx.status = 200;
-  }
 }
 
 module.exports = TeacherController;

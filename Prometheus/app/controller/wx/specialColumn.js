@@ -17,28 +17,14 @@ class SpecialColumnController extends Controller {
     ctx.body = await ctx.service.specialColumn.find(ctx.helper.parseInt(ctx.params.id));
   }
 
-  async create() {
+  async getSpecialColumnsByTeacherId(){
     const ctx = this.ctx;
-    const post = await ctx.service.specialColumn.create(ctx.request.body);
-    ctx.status = 201;
-    ctx.body = post;
-  }
-
-  async update() {
-    const ctx = this.ctx;
-    const id = ctx.params.id;
-    const updates = {
-      title: ctx.request.body.title,
-      content: ctx.request.body.content,
+    const query = {
+      limit: ctx.helper.parseInt(ctx.query.limit),
+      offset: ctx.helper.parseInt(ctx.query.offset),
+      id: ctx.params.id,
     };
-    ctx.body = await ctx.service.specialColumn.update({ id, updates });
-  }
-
-  async destroy() {
-    const ctx = this.ctx;
-    const id = ctx.helper.parseInt(ctx.params.id);
-    await ctx.service.specialColumn.del(id);
-    ctx.status = 200;
+    ctx.body = await ctx.service.specialColumn.getSpecialColumnsByTeacherId(query);
   }
 }
 

@@ -17,29 +17,37 @@ class CourseController extends Controller {
     ctx.body = await ctx.service.course.find(ctx.helper.parseInt(ctx.params.id));
   }
 
-  async create() {
+  async getCourseBySpecialColumnId(){
     const ctx = this.ctx;
-    const course = await ctx.service.course.create(ctx.request.body);
-    ctx.status = 201;
-    ctx.body = course;
-  }
-
-  async update() {
-    const ctx = this.ctx;
-    const id = ctx.params.id;
-    const updates = {
-      title: ctx.request.body.title,
-      content: ctx.request.body.content,
+    const query = {
+      limit: ctx.helper.parseInt(ctx.query.limit),
+      offset: ctx.helper.parseInt(ctx.query.offset),
+      id: ctx.params.id,
     };
-    ctx.body = await ctx.service.course.update({ id, updates });
+    ctx.body = await ctx.service.course.getCourseBySpecialColumnId(query);
   }
 
-  async destroy() {
+  async getCourseByCourseTypeId(){
     const ctx = this.ctx;
-    const id = ctx.helper.parseInt(ctx.params.id);
-    await ctx.service.course.del(id);
-    ctx.status = 200;
+    const query = {
+      limit: ctx.helper.parseInt(ctx.query.limit),
+      offset: ctx.helper.parseInt(ctx.query.offset),
+      id: ctx.params.id,
+    };
+    ctx.body = await ctx.service.course.getCourseByCourseTypeId(query);
   }
+
+  async getCourseByCondition(){
+    const ctx = this.ctx;
+    const query = {
+      limit: ctx.helper.parseInt(ctx.query.limit),
+      offset: ctx.helper.parseInt(ctx.query.offset),
+      courseType: ctx.helper.parseInt(ctx.query.courseType),
+      specialColumn: ctx.helper.parseInt(ctx.query.specialColumn),
+    };
+    ctx.body = await ctx.service.course.getCourseByCondition(query);
+  }
+
 }
 
 module.exports = CourseController;

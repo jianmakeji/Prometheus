@@ -9,6 +9,7 @@ class CourseTypeController extends Controller {
       limit: ctx.helper.parseInt(ctx.query.limit),
       offset: ctx.helper.parseInt(ctx.query.offset),
     };
+
     ctx.body = await ctx.service.courseType.list(query);
   }
 
@@ -20,26 +21,9 @@ class CourseTypeController extends Controller {
   async create() {
     const ctx = this.ctx;
     const courseType = await ctx.service.courseType.create(ctx.request.body);
-    ctx.status = 201;
-    ctx.body = courseType;
+    ctx.body = ctx.app.success('创建成功!');
   }
 
-  async update() {
-    const ctx = this.ctx;
-    const id = ctx.params.id;
-    const updates = {
-      title: ctx.request.body.title,
-      content: ctx.request.body.content,
-    };
-    ctx.body = await ctx.service.courseType.update({ id, updates });
-  }
-
-  async destroy() {
-    const ctx = this.ctx;
-    const id = ctx.helper.parseInt(ctx.params.id);
-    await ctx.service.courseType.del(id);
-    ctx.status = 200;
-  }
 }
 
 module.exports = CourseTypeController;

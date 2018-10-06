@@ -31,6 +31,10 @@ module.exports = app => {
 
 
   //微信小程序数据接口
+  router.get('/api/wx/specialColumn/getSpecialColumnsByTeacherId/:id', controller.wx.specialColumn.getSpecialColumnsByTeacherId);
+  router.get('/api/wx/course/getCourseBySpecialColumnId/:id', controller.wx.course.getCourseBySpecialColumnId);
+  router.get('/api/wx/course/getCourseByCourseTypeId/:id', controller.wx.course.getCourseByCourseTypeId);
+  router.get('/api/wx/course/getCourseByCondition', controller.wx.course.getCourseByCondition);
 
   router.resources('wx.users', '/api/wx/users', controller.wx.user);
   router.resources('wx.article', '/api/wx/article', controller.wx.article);
@@ -40,6 +44,10 @@ module.exports = app => {
   router.resources('wx.specialColumn', '/api/wx/specialColumn', controller.wx.specialColumn);
 
   //网站接口
+  router.get('/api/website/specialColumn/getSpecialColumnsByTeacherId/:id', controller.website.specialColumn.getSpecialColumnsByTeacherId);
+  router.get('/api/website/course/getCourseBySpecialColumnId/:id', controller.website.course.getCourseBySpecialColumnId);
+  router.get('/api/website/course/getCourseByCourseTypeId/:id', controller.website.course.getCourseByCourseTypeId);
+  router.get('/api/website/course/getCourseByCondition', controller.website.course.getCourseByCondition);
 
   router.resources('website.users', '/api/website/users', controller.website.user);
   router.resources('website.article', '/api/website/article', controller.website.article);
