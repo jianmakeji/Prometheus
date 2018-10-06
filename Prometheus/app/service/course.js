@@ -149,6 +149,13 @@ class Course extends Service {
         specialColumn:specialColumn,
       };
     }
+    else if (courseType != 0 && specialColumn != 0){
+      condition.where = {
+        courseType:courseType,
+        specialColumn:specialColumn,
+      };
+    }
+
     let resultObj = await this.ctx.model.Course.findAndCountAll(condition);
 
     const app = this.ctx.app;
