@@ -13,7 +13,7 @@ class Article extends Service {
     const app = this.ctx.app;
 
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = app.signatureUrl(app.getArticleImagePath() + element.thumb);
+      element.thumb = app.signatureUrl(app.articleImagePath + element.thumb);
     });
 
     return resultObj;
@@ -26,7 +26,7 @@ class Article extends Service {
       this.ctx.throw(404, 'article not found');
     }
     const app = this.ctx.app;
-    article.thumb = this.ctx.app.signatureUrl(app.getArticleImagePath() + article.thumb);
+    article.thumb = this.ctx.app.signatureUrl(app.articleImagePath + article.thumb);
 
     return article;
   }
@@ -50,7 +50,7 @@ class Article extends Service {
     }
 
     const app =this.ctx.app;
-    await app.deleteOssObject(app.getArticleImagePath() + article.thumb);
+    await app.deleteOssObject(app.articleImagePath + article.thumb);
     return article.destroy();
   }
 }

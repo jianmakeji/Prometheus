@@ -54,21 +54,13 @@ module.exports = {
     return client.deleteMulti(objectArrayPath);
   },
 
-  jwtSlot:() =>{
-    return 'LTAIkUgFNkgDjcr8zklMJfJUoAgdcT';
-  },
+  jwtSlot: 'LTAIkUgFNkgDjcr8zklMJfJUoAgdcT',
 
-  getCourseImagePath:() =>{
-    return 'courseImages/';
-  },
+  courseImagePath:'courseImages/',
 
-  getCourseVideoPath:() =>{
-    return 'courseVideos/';
-  },
+  courseVideoPath:'courseVideos/',
 
-  getArticleImagePath:() =>{
-    return 'articleImages/';
-  },
+  articleImagePath: 'articleImages/',
 
   //接口统一返回数据操作
   success: (message)=>{

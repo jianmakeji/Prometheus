@@ -23,7 +23,7 @@ class ManageUserController extends Controller {
         let token = jwt.sign({
           user_id: manageUser[0].Id,
           user_name: manageUser[0].username
-        }, ctx.app.jwtSlot(), {
+        }, ctx.app.jwtSlot, {
           expiresIn: '10 days'
         });
         this.ctx.cookies.set('token', token, {

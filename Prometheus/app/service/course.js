@@ -19,7 +19,8 @@ class Course extends Service {
 
     const app = this.ctx.app;
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = app.signatureUrl(app.getCourseImagePath() + element.thumb);
+      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb);
+      element.videoAddress = app.signatureUrl(app.courseVideoPath + element.videoAddress);
     });
 
     return resultObj;
@@ -39,7 +40,8 @@ class Course extends Service {
       this.ctx.throw(404, 'course not found');
     }
     const app = this.ctx.app;
-    course.thumb = this.ctx.app.signatureUrl(app.getCourseImagePath() + course.thumb);
+    course.thumb = app.signatureUrl(app.courseImagePath + course.thumb);
+    course.videoAddress = app.signatureUrl(app.courseVideoPath + course.videoAddress);
     return course;
   }
 
@@ -61,7 +63,7 @@ class Course extends Service {
       this.ctx.throw(404, 'course not found');
     }
     const app =this.ctx.app;
-    await app.deleteOssMultiObject([app.getCourseImagePath() + course.thumb,app.getCourseVideoPath() + course.videoAddress]);
+    await app.deleteOssMultiObject([app.courseImagePath + course.thumb, app.courseVideoPath + course.videoAddress]);
 
     return course.destroy();
   }
@@ -83,7 +85,8 @@ class Course extends Service {
     const app = this.ctx.app;
 
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = app.signatureUrl(app.getCourseImagePath() + element.thumb);
+      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb);
+      element.videoAddress = app.signatureUrl(app.courseVideoPath + element.videoAddress);
     });
 
     return resultObj;
@@ -105,7 +108,8 @@ class Course extends Service {
 
     const app = this.ctx.app;
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = app.signatureUrl(app.getCourseImagePath() + element.thumb);
+      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb);
+      element.videoAddress = app.signatureUrl(app.courseVideoPath + element.videoAddress);
     });
 
     return resultObj;
@@ -150,7 +154,8 @@ class Course extends Service {
     const app = this.ctx.app;
 
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = app.signatureUrl(app.getCourseImagePath() + element.thumb);
+      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb);
+      element.videoAddress = app.signatureUrl(app.courseVideoPath + element.videoAddress);
     });
 
     return resultObj;

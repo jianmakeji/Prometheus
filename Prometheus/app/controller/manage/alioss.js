@@ -11,17 +11,17 @@ class AliOSSController extends Controller {
 
     const ctx = this.ctx;
     const aliConfigObj = ctx.app.aliConfig();
-
+    
     const fileType = ctx.params.fileType;
     let dir = '';
     if (fileType == 1){
-      dir = ctx.app.getCourseImagePath();
+      dir = ctx.app.courseImagePath;
     }
     else if (fileType == 2){
-      dir = ctx.app.getCourseVideoPath();
+      dir = ctx.app.courseVideoPath;
     }
     else if (fileType == 3){
-      dir = ctx.app.getArticleImagePath();
+      dir = ctx.app.articleImagePath;
     }
 
     let host = "http://" + aliConfigObj.bucket + "." + aliConfigObj.endpoint;

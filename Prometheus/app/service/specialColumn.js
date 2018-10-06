@@ -20,7 +20,7 @@ class SpecialColumn extends Service {
 
     const app = this.ctx.app;
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = app.signatureUrl(app.getCourseImagePath() + element.thumb);
+      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb);
     });
 
     return resultObj;
@@ -42,7 +42,7 @@ class SpecialColumn extends Service {
       this.ctx.throw(404, 'specialColumn not found');
     }
     const app = this.ctx.app;
-    specialColumn.thumb = this.ctx.app.signatureUrl(app.getCourseImagePath() + specialColumn.thumb);
+    specialColumn.thumb = this.ctx.app.signatureUrl(app.courseImagePath + specialColumn.thumb);
     return specialColumn;
   }
 
@@ -65,7 +65,7 @@ class SpecialColumn extends Service {
     }
 
     const app =this.ctx.app;
-    await app.deleteOssObject(app.getCourseImagePath() + specialColumn.thumb);
+    await app.deleteOssObject(app.courseImagePath + specialColumn.thumb);
 
     return specialColumn.destroy();
   }
@@ -83,7 +83,7 @@ class SpecialColumn extends Service {
     const app = this.ctx.app;
 
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = app.signatureUrl(app.getCourseImagePath() + element.thumb);
+      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb);
     });
 
     return resultObj;
