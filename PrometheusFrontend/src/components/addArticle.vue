@@ -5,7 +5,7 @@
   				<Icon type="ios-build" size="24"/>好文管理
   			</BreadcrumbItem>
 			<BreadcrumbItem>
-  				<Icon type="md-add" size="24"/>新建好文
+  				<Icon type="md-add" size="24"/>{{BreadcrumbTitle}}
   			</BreadcrumbItem>
   		</Breadcrumb><br />
 		<Form :model="formItem" :label-width="150">
@@ -86,6 +86,7 @@ export default {
 	data(){
 		return{
 			id:"",
+            BreadcrumbTitle:"",
 			submitUrl:"",
 			articleTypeData:globel_.articleTypeData,
 			formItem:{
@@ -126,9 +127,11 @@ export default {
 	created(){
 		this.id = this.$route.query.id;
 		if(this.id != 0){		//修改
+            this.BreadcrumbTitle = "修改文章";
 			console.log("修改",this.id,typeof this.id);
 			// this.submitUrl = "" 		//新建专栏的链接
 		}else{					//新建
+            this.BreadcrumbTitle = "新建文章";
 			// this.submitUrl = "" 		//新建专栏的链接
 			console.log("新建",this.id);
 		}

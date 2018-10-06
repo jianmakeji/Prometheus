@@ -84,7 +84,7 @@ export default {
 		  	this.$refs.side1.toggleCollapse();
 	  	},
 	  	menuTap (event){
-            if(globel_.loginFlag){
+            // if(globel_.loginFlag){
                 let that = this;
     			if(event == 1){
     				this.$router.push({name:"courseType"});		//类型
@@ -103,14 +103,11 @@ export default {
     			}else if(event == 8){
     				this.$router.push({name:"exchange"});
     			}
-            }
+            // }
 	  	}
   	},
 	created(){
-        if(globel_.loginFlag == 1){
-            console.log("21223123122");
-        }
-		this.$router.push({name:"login"});
+		this.$router.push({name:"courseType"});
 	}
 }
 </script>

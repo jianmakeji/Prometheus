@@ -5,7 +5,7 @@
   				<Icon type="ios-build" size="24"/>老师管理
   			</BreadcrumbItem>
 			<BreadcrumbItem>
-  				<Icon type="md-add" size="24"/>新建老师
+  				<Icon type="md-add" size="24"/>{{BreadcrumbTitle}}
   			</BreadcrumbItem>
   		</Breadcrumb><br />
 		<Form :model="formItem" :label-width="80">
@@ -34,6 +34,7 @@ export default {
 	data(){
 		return{
 			id:"",
+            BreadcrumbTitle:"",
 			submitUrl:"",
 			subjectData:globel_.subjectData,
 			formItem:{
@@ -87,12 +88,12 @@ export default {
 	created(){
 		this.id = this.$route.query.id;
 		if(this.id != 0){		//修改
+            this.BreadcrumbTitle = "修改老师";
 			this.submitUrl = globel_.serverHost + globel_.configAPI.updataTeacherById.replace(":id",this.id);
 			let that = this,
 				getDataUrl = globel_.serverHost + globel_.configAPI.getTeacherDataById.replace(":id",this.id);
 			this.$Loading.start();
 			this.$http.get( getDataUrl ).then(function(result){
-				console.log(result);
 				// 数据赋值
 				that.$Loading.finish();
 				that.formItem = result.data;
@@ -101,6 +102,7 @@ export default {
 				that.$Message.error({duration:3,content:err});
 			})
 		}else{					//新建
+            this.BreadcrumbTitle  = "新建老师";
 			this.submitUrl = globel_.serverHost + globel_.configAPI.createTeacher;
 		}
 	}

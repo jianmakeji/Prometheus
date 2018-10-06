@@ -235,7 +235,6 @@ export default {
     },
 	methods:{
 		pageChange(index){
-			console.log(index);
             this.offset  = (index-1)*10;
             let that = this,
 				getDataUrl = globel_.serverHost+ globel_.configAPI.getCourseByCondition + this.offset +'&courseType='+ this.courseTypeId + '&specialColumn=' + this.specialColumnId;
@@ -268,7 +267,7 @@ export default {
 			this.index = index;
 			this.codeModal = true;
 			this.codeTitle = this.dataList[this.index].name;
-			this.qrcodeUrl = this.dataList[this.index].codeUrl;
+			this.qrcodeUrl = this.dataList[this.index].videoAddress;
 		},
 		//下载二维码
 		downloadCode(){
@@ -302,21 +301,6 @@ export default {
 		},
 		courseTypeChange(option){
             let value = option.value;
-            // this.courseTypeLabel = option.label;
-            // console.log(value,this.courseTypeLabel);
-
-			// if(value != 0){		//确定一个类型
-			// 	if(tableHeadeBetween.length == 2){				//删除第一个元素
-			// 		tableHeadeBetween = tableHeadeBetween.splice(1,1);
-			// 		this.columns = tableHeadeBefore.concat(tableHeadeBetween, tableHeadBehind);
-			// 	}else if(tableHeadeBetween.length == 1 && tableHeadeBetween[0].title == "类别"){
-			// 		tableHeadeBetween = tableHeadeBetween.splice(1,1);
-			// 		this.columns = tableHeadeBefore.concat(tableHeadeBetween, tableHeadBehind);
-			// 	}
-			// }else{												//添加为第一个元素
-			// 	tableHeadeBetween.unshift(courseTypeObj);
-			// 	this.columns = tableHeadeBefore.concat(tableHeadeBetween, tableHeadBehind);
-			// }
 			this.courseTypeId = value;
 			let that = this,
 				getDataUrl = globel_.serverHost+ globel_.configAPI.getCourseByCondition + this.offset +'&courseType='+ this.courseTypeId + '&specialColumn=' + this.specialColumnId;
@@ -332,23 +316,6 @@ export default {
 		},
 		specialColumnChange(option){
             let value = option.value;
-            // this.specialColumnLabel = option.label;
-            // console.log(value,this.specialColumnLabel);
-			// if(value != 0){					//删除最后一个元素
-			// 	if(tableHeadeBetween.length == 2){
-			// 		tableHeadeBetween.pop();
-			// 		this.columns = tableHeadeBefore.concat(tableHeadeBetween, tableHeadBehind);
-			// 	}else if(tableHeadeBetween.length == 1 && tableHeadeBetween[0].title == "专栏"){
-			// 		tableHeadeBetween.pop();
-			// 		this.columns = tableHeadeBefore.concat(tableHeadeBetween, tableHeadBehind);
-			// 	}
-			// 	console.log(tableHeadeBetween);
-			// }else{							//添加为最后一个元素
-			// 	tableHeadeBetween.push(specialColumnObj);
-			// 	this.columns = tableHeadeBefore.concat(tableHeadeBetween, tableHeadBehind);
-			// 	console.log(tableHeadeBetween);
-			// }
-
 			this.specialColumnId = value;
 			let that = this,
 				getDataUrl = globel_.serverHost+ globel_.configAPI.getCourseByCondition + this.offset +'&courseType='+ this.courseTypeId + '&specialColumn=' + this.specialColumnId;
@@ -364,8 +331,6 @@ export default {
 		},
 	},
 	created(){
-		// this.columns = tableHeadeBefore.concat(tableHeadeBetween, tableHeadBehind);
-		// console.log(tableHeadeBetween);
 		let that = this,
 			getCourseTyoeDataUrl = globel_.serverHost + "/api/manage/courseType?limit=1000&offset=0",
 			getSpecialColumnDataUrl = globel_.serverHost + "/api/manage/specialColumn?limit=1000&offset=0";

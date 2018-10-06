@@ -69,7 +69,18 @@ export default {
 	},
 	methods:{
 		pageChange(index){
-			console.log(index);
+            this.offset = (index - 1) * 10;
+            let that = this,
+    			getDataUrl = globel_.serverHost + globel_.configAPI.getTeacherDataById.replace(":id",this.id);
+    		this.$http.get( getDataUrl ).then(function(result){
+    			// 数据赋值
+    			that.$Loading.finish();
+    			that.dataList = result.data.special_columns;
+    			that.total = result.data.special_columns.length;
+    		}).catch(function(err){
+    			that.$Loading.error();
+    			that.$Message.error({duration:3,content:err});
+    		})
 		},
 		checkTap(index){
 			this.specialColumnTitle = this.dataList[index].name;
@@ -78,7 +89,6 @@ export default {
 				that = this,
 				getDataUrl = globel_.serverHost + globel_.configAPI.getCourseDataBySpecialColumn.replace(":id",specialColumnId);
 			this.$http.get( getDataUrl ).then(function(result){
-				console.log(result);
 				// 数据赋值
 				that.$Loading.finish();
 				that.courseList = result.data.rows;
@@ -94,7 +104,6 @@ export default {
 		let that = this,
 			getDataUrl = globel_.serverHost + globel_.configAPI.getTeacherDataById.replace(":id",this.id);
 		this.$http.get( getDataUrl ).then(function(result){
-			console.log(result);
 			// 数据赋值
 			that.$Loading.finish();
 			that.dataList = result.data.special_columns;

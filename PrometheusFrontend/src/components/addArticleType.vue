@@ -5,7 +5,7 @@
 	            <Icon type="ios-build" size="24"/>好文类别管理
 	        </BreadcrumbItem>
 			<BreadcrumbItem>
-	            <Icon type="md-add" size="24"/>新建好文类别
+	            <Icon type="md-add" size="24"/>{{BreadcrumbTitle}}
 	        </BreadcrumbItem>
 	    </Breadcrumb><br>
 		<Form :model="formItem" :label-width="80">
@@ -28,6 +28,7 @@ export default {
 	data(){
 		return{
 			id:"",
+            BreadcrumbTitle:"",
 			submitUrl:"",
 			formItem:{
 				articleType:"",
@@ -43,9 +44,11 @@ export default {
 	created(){
 		this.id = this.$route.query.id;
 		if(this.id != 0){		//修改
+            this.BreadcrumbTitle = "修改好文类型";
 			console.log("修改",this.id,typeof this.id);
 			// this.submitUrl = "" 		//新建专栏的链接
 		}else{					//新建
+            this.BreadcrumbTitle = "新建好文类型";
 			// this.submitUrl = "" 		//修改专栏的链接
 			console.log("新建",this.id);
 		}

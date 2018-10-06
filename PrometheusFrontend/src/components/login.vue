@@ -31,13 +31,11 @@ export default {
     },
     methods:{
         submit(){
-            console.log(this.formItem);
             let that = this;
             this.$http.post( globel_.serverHost + globel_.configAPI.login ,{
                 username : this.formItem.username,
                 password : this.formItem.password
             }).then(function(result){
-                console.log(result);
                 if (result.data.status == 200) {
                     globel_.loginFlag = 1;
                     that.$router.push({name:"courseType"});
@@ -48,7 +46,6 @@ export default {
                     });
                 }
             }).catch(function(err){
-                console.log(err);
             })
         }
     }

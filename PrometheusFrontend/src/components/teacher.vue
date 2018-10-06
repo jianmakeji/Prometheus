@@ -96,7 +96,17 @@ export default {
 	},
 	methods:{
 		pageChange(index){
-			console.log(index);
+            this.offset = (index - 1) * 10;
+			let that = this,
+			 	getDataUrl = globel_.serverHost + globel_.configAPI.getTeacherData + that.offset;
+			this.$Loading.start();
+			this.$http.get( getDataUrl ).then(function(result){
+				that.$Loading.finish();
+				that.dataList = result.data.rows;
+			}).catch(function(err){
+				that.$Loading.error();
+				that.$Message.error('获取数据失败！');
+			})
 		},
 		newTeacher(){
 			this.$router.push({name:"addTeacher",query:{id:0}});
@@ -115,7 +125,26 @@ export default {
 			this.deleteModel = true;
 		},
 		okTap(){
-			console.log(this.index);
+            let that = this,
+				deleteUrl = globel_.serverHost + globel_.configAPI.deleteTeacherById.replace(":id",this.dataList[this.index].Id);
+			this.$Loading.start();
+			this.$http.delete(deleteUrl).then(function(result){
+				if(result.status == 200){
+					that.$Message.success({duration:3,content:globel_.configMessage.deleteSuccess});
+					let getDataUrl = globel_.serverHost + globel_.configAPI.getTeacherData + that.offset;
+					that.$http.get( getDataUrl ).then(function(result){
+						that.$Loading.finish();
+						that.dataList = result.data.rows;
+						that.total = result.data.count;
+					}).catch(function(err){
+						that.$Loading.error();
+						that.$Message.error({duration:3,content:err});
+					})
+				}
+			}).catch(function(err){
+					that.$Loading.error();
+					that.$Message.error({duration:3,content:err});
+			})
 		}
 	},
 	created(){
@@ -123,7 +152,6 @@ export default {
 			getDataUrl = globel_.serverHost + globel_.configAPI.getTeacherData + that.offset;
 		this.$Loading.start();
 		this.$http.get( getDataUrl ).then(function(result){
-			console.log(result);
 			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;

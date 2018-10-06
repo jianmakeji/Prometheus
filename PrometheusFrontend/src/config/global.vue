@@ -2,6 +2,7 @@
 	let loginFlag = 0;
 
 	const serverHost = "http://192.168.3.163:7001";
+	const aliHttp = "http://jm-prometheus.oss-cn-hangzhou.aliyuncs.com/"
 
 	const subjectData=[
 		{id:1,title:"数学"},
@@ -68,6 +69,7 @@
 		getTeacherDataById:"/api/manage/teacher/:id",
 	};
 	export default{
+		aliHttp,			//阿里云文件存储
 		loginFlag,			//记录登陆信息
 		serverHost,			//ip地址
 		subjectData,		//学科数组
