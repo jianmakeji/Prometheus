@@ -76,7 +76,7 @@ export default {
   	name: 'App',
   	data () {
 	  	return {
-            displayLayout:"none",
+            displayLayout:"",
 			activeName:"1",
             layoutShow:globel_.loginFlag,
 		  	isCollapsed: false,
@@ -150,6 +150,8 @@ export default {
         }
   	},
 	created(){
+        // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiJtYXhpbXVzbGVlIiwiaWF0IjoxNTM4ODc5NTgxLCJleHAiOjE1Mzk3NDM1ODF9.Zjo8dUXlK-w3sQKUfwndIaAYBcoOWZtrZtWEYfV97zg
+
         // this.windowHeight = $(window).height();
         // $(".login").css("height",$(window).height());
 		this.$router.push({name:"courseType"});

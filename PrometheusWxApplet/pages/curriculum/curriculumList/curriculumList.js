@@ -12,7 +12,7 @@ Page({
     },
     clickClass: function(event) {
         wx.navigateTo({
-            url: '/pages/curriculum/curriculumDetail/curriculumDetail?id=' + event.currentTarget.dataset.id + "&classType=" + this.data.classType + "&classTitle=" + event.currentTarget.dataset.title
+            url: '/pages/curriculum/curriculumDetail/curriculumDetail?id=' + event.currentTarget.dataset.id + "&classType=" + this.data.classType + "&courseTitle=" + event.currentTarget.dataset.title
         })
     },
     /**
@@ -20,10 +20,10 @@ Page({
      */
     onLoad: function(options) {
         wx.setNavigationBarTitle({
-            title: options.classTitle,
+            title: options.specialColumnTitle,
         })
         this.setData({
-            classType: options.classTitle,
+            classType: options.specialColumnTitle,
             dataList: fileData.xyData().videoList
         })
     },
