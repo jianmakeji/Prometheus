@@ -43,7 +43,7 @@
               	</Sider>
               	<Layout>
                   	<Header :style="{padding: 0}" class="layout-header-bar">
-                      	<Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0 20px'}" type="md-menu" size="24"></Icon>心一教育后台管理系统
+                      	<Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0 20px'}" type="md-menu" size="24"></Icon>Prometheus后台管理系统
                   	</Header>
                   	<Content :style="{margin: '20px', background: '#fff', minHeight: '800px'}">
   						<router-view/>
