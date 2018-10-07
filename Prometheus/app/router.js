@@ -24,7 +24,7 @@ module.exports = app => {
   router.resources('manage.users', '/api/manage/users', controller.manage.user);
   router.resources('manage.article', '/api/manage/article', controller.manage.article);
   router.resources('manage.course', '/api/manage/course', controller.manage.course);
-  router.resources('manage.courseType', '/api/manage/courseType', controller.manage.courseType);
+  router.resources('manage.courseType', '/api/manage/courseType', checktoken,controller.manage.courseType);
   router.resources('manage.exchange', '/api/manage/exchange', controller.manage.exchange);
   router.resources('manage.specialColumn', '/api/manage/specialColumn', controller.manage.specialColumn);
   router.resources('manage.teacher', '/api/manage/teacher', controller.manage.teacher);

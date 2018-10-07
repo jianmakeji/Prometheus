@@ -135,6 +135,7 @@ export default {
                 if (result.data.status == 200) {
                     globel_.loginFlag = 1;
                     // that.$router.push({name:"courseType"});
+                    that.$http.defaults.headers.common['Authorization'] = result.data.token;
                 }else{
                     that.$Message.error({
                       duration: 2,
