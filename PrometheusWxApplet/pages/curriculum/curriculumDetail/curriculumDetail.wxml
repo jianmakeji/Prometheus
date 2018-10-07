@@ -16,5 +16,6 @@
          </view>
       </view>
       <i-divider class="divider">视频介绍</i-divider>
+      <text class='courseDes'>App通常用restful api跟server打交道。Rest是stateless的，也就是app不需要像browser那样用cookie来保存session,因此用session token来标示自己就够了，session/state由api server的逻辑处理。 如果你的后端不是stateless的rest api, 那么你可能需要在app里保存session.可以在app里嵌入webkit,用一个隐藏的browser来管理cookie session.</text>
    </view>
 </view>

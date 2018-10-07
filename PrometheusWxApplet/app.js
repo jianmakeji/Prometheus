@@ -24,6 +24,13 @@ App({
         })
     },
     globalData: {
-        userInfo: null
-    }
+        userInfo: null,
+        serverHost : "http://192.168.3.163:7001",
+        globalAPI: {
+            getCourseData: "/api/manage/course",
+            getCourseTypeData: "/api/manage/courseType",
+            getSpecialColumnData:"/api/manage/specialColumn",
+        }
+    },
+    
 })
