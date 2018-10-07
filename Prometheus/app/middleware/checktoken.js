@@ -11,7 +11,7 @@ module.exports = () => {
 
       } catch (error) {
         if (error.name == 'TokenExpiredError') {
-          
+
           token = jwt.sign({
               user_id: decoded.user_id,
               user_name: decoded.user_name

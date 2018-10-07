@@ -40,12 +40,14 @@ export default {
                     globel_.loginFlag = 1;
                     that.$router.push({name:"courseType"});
                 }else{
+                    console.log("222222222222",result);
                     that.$Message.error({
                       duration: 2,
                       content: result.data.message
                     });
                 }
             }).catch(function(err){
+                console.log("111111111",err);
             })
         }
     }
