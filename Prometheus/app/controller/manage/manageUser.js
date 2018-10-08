@@ -60,6 +60,26 @@ class ManageUserController extends Controller {
       ctx.body = ctx.app.success('创建失败!');
     }
   }
+
+  async checkToken(){
+    const ctx = this.ctx;
+    let token = ctx.params.token;
+
+    let decoded; //解码token
+    try {
+      decoded = jwt.verify(token, ctx.app.jwtSlot);
+      ctx.body = ctx.app.success('成功!');
+    } catch (error) {
+      if (error.name == 'TokenExpiredError') {
+        ctx.status = 402;
+        ctx.body = ctx.app.failure('token失效!');
+      } else {
+        ctx.status = 401;
+        ctx.body = ctx.app.failure(error.name);
+        return;
+      }
+    }
+  }
 }
 
 module.exports = ManageUserController;

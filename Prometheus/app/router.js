@@ -12,7 +12,7 @@ module.exports = app => {
 
   router.post('/api/manage/login',controller.manage.manageUser.login);
   router.post('/api/manage/registerManageUser',checktoken, controller.manage.manageUser.registerManageUser);
-
+  router.get('/api/manage/checkToken/:token',controller.manage.manageUser.checkToken);
   router.get('/api/getSTSSignature/:fileType', checktoken, controller.manage.alioss.getSTSSignature);
   router.get('/api/getUrlSignature', checktoken, controller.manage.alioss.getUrlSignature);
 
