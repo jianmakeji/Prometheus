@@ -26,7 +26,7 @@ class ManageUserController extends Controller {
         }, ctx.app.jwtSlot, {
           expiresIn: '10 days'
         });
-        this.ctx.cookies.set('token', token, {
+        ctx.cookies.set('token', token, {
           maxAge: 60 * 1000 * 60 * 24 * 10,
           httpOnly: false,
           overwrite: true,
@@ -35,7 +35,7 @@ class ManageUserController extends Controller {
         ctx.body = ctx.app.success('登录成功!');;
       } else {
         //密码错误
-        ctx.body = ctx.app.success('密码错误!');
+        ctx.body = ctx.app.failure('密码错误!');
       }
     } else {
       //用户不存在
