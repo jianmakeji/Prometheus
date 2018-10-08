@@ -1,7 +1,7 @@
 <script type="text/javascript">
 	let loginFlag = 0;
 
-	const serverHost = "http://192.168.3.163:7001";
+	const serverHost = "http://localhost:7001";
 	const aliHttp = "http://jm-prometheus.oss-cn-hangzhou.aliyuncs.com/"
 
 	const subjectData=[

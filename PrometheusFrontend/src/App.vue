@@ -1,7 +1,21 @@
 <template>
   	<div id="app">
-	  	<div class="layout">
-          	<Layout>
+        <div class="login" style="width:25%;margin:200px auto;" v-cloak>
+    		<Form class="myForm">
+    			<h2 style="text-align:center;margin-top:15px;margin-bottom:20px;">单点登录系统</h2>
+    	    	<FormItem>
+    	            <Input v-model="formItem.username" placeholder="请输入用户名..." type="email" name="username" clearable >{{formItem.username}}</Input>
+    	        </FormItem>
+    	        <FormItem>
+    	            <Input v-model="formItem.password" placeholder="请输入密码..." type="password" name="password" clearable >{{formItem.password}}</Input>
+    	        </FormItem>
+    	        <FormItem>
+    	        	<Button type="primary" v-on:click="submit"  long>确定</Button>
+    	        </FormItem>
+    	    </Form>
+    	</div>
+	  	<div class="layout" :style="{display:displayLayout}">
+          	<Layout >
               	<Sider ref="side1" hide-trigger collapsible :collapsed-width="78" width="240" v-model="isCollapsed">
                   	<Menu :active-name="activeName" theme="dark" width="auto" :class="menuitemClasses" @on-select="menuTap">
 						<MenuItem name="0" >
@@ -43,7 +57,7 @@
               	</Sider>
               	<Layout>
                   	<Header :style="{padding: 0}" class="layout-header-bar">
-                      	<Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0 20px'}" type="md-menu" size="24"></Icon>心一教育后台管理系统
+                      	<Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0 20px'}" type="md-menu" size="24"></Icon>Prometheus后台管理系统
                   	</Header>
                   	<Content :style="{margin: '20px', background: '#fff', minHeight: '800px'}">
   						<router-view/>
@@ -56,13 +70,20 @@
 
 <script>
 import globel_ from './config/global.vue'
+import $ from 'jquery'
+
 export default {
   	name: 'App',
   	data () {
 	  	return {
+            displayLayout:"",
 			activeName:"1",
             layoutShow:globel_.loginFlag,
-		  	isCollapsed: false
+		  	isCollapsed: false,
+            formItem:{
+                username:"",
+                password:""
+            }
 	  	}
   	},
   	computed: {
@@ -84,7 +105,7 @@ export default {
 		  	this.$refs.side1.toggleCollapse();
 	  	},
 	  	menuTap (event){
-            // if(globel_.loginFlag){
+            if(globel_.loginFlag){
                 let that = this;
     			if(event == 1){
     				this.$router.push({name:"courseType"});		//类型
@@ -103,10 +124,37 @@ export default {
     			}else if(event == 8){
     				this.$router.push({name:"exchange"});
     			}
-            // }
-	  	}
+            }
+	  	},
+        submit(){
+            let that = this;
+            this.$http.post( globel_.serverHost + globel_.configAPI.login ,{
+                username : this.formItem.username,
+                password : this.formItem.password
+            }).then(function(result){
+                if (result.data.status == 200) {
+                    globel_.loginFlag = 1;
+                    // that.$router.push({name:"courseType"});
+                    that.$http.defaults.headers.common['Authorization'] = result.data.token;
+                }else{
+                    that.$Message.error({
+                      duration: 2,
+                      content: result.data.message
+                    });
+                }
+            }).catch(function(err){
+                that.$Message.error({
+                  duration: 2,
+                  content: err
+                });
+            })
+        }
   	},
 	created(){
+        // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiJtYXhpbXVzbGVlIiwiaWF0IjoxNTM4ODc5NTgxLCJleHAiOjE1Mzk3NDM1ODF9.Zjo8dUXlK-w3sQKUfwndIaAYBcoOWZtrZtWEYfV97zg
+
+        // this.windowHeight = $(window).height();
+        // $(".login").css("height",$(window).height());
 		this.$router.push({name:"courseType"});
 	}
 }

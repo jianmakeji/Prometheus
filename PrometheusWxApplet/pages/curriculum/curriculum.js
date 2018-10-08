@@ -1,5 +1,6 @@
 // pages/curriculum/curriculum.js
-var fileData = require('../../utils/xyData.js')
+var fileData = require('../../utils/xyData.js');
+var app = getApp();
 Page({
 
     /**
@@ -7,10 +8,12 @@ Page({
      */
     data: {
         currentTab: "0",
+        courseType:[],
         jingpin_dataList: [], 
         zhuanti_dataList: [],
         autoHeight: 2400
     },
+    // 导航栏切换监听事件
     handleChange: function(event) {
         this.setData({
             currentTab: event.detail.key
@@ -25,6 +28,7 @@ Page({
             });
         }
     },
+    // scroll滑动监听事件
     bindchange: function(event) {
         this.setData({
             currentTab: event.detail.current
@@ -39,12 +43,13 @@ Page({
             });
         }
     },
+    //点击专题进行跳转
     //data-course-type-id='1' data-course-type-name='{{item.name}}'  data-course-type-grade='{{item.grade}}'
     catchtap: function(event) {
         console.log(event);
         wx.navigateTo({
-            url: '/pages/curriculum/curriculumList/curriculumList?classId=' + event.currentTarget.dataset.courseTypeId +
-                "&classTitle=" + event.currentTarget.dataset.courseTypeGrade + "·" +        event.currentTarget.dataset.courseTypeName
+            url: '/pages/curriculum/curriculumList/curriculumList?specialColumnId=' + event.currentTarget.dataset.specialColumnId +
+                "&specialColumnTitle=" + event.currentTarget.dataset.specialColumnGrade + "·" + event.currentTarget.dataset.specialColumnName
         })
     },
 
@@ -54,10 +59,10 @@ Page({
      */
     onLoad: function(options) {
         this.setData({
-            jingpin_dataList: fileData.xyData().jingpin_course_type,
-            zhuanti_dataList: fileData.xyData().zhuanti_course_type,
-        })
-        console.log(this.data.dataList)
+            courseType:fileData.xyData().courseType,                    //模拟课程类型数据
+            jingpin_dataList: fileData.xyData().jingpin_course_type,    //模拟精品课程数据
+            zhuanti_dataList: fileData.xyData().zhuanti_course_type,    //模拟专题突破数据
+        });
     },
 
     /**

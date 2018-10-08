@@ -11,17 +11,18 @@ module.exports = app => {
   router.get('/', controller.manage.home.index);
 
   router.post('/api/manage/login',controller.manage.manageUser.login);
-  router.post('/api/manage/registerManageUser',controller.manage.manageUser.registerManageUser);
+  router.post('/api/manage/registerManageUser',checktoken, controller.manage.manageUser.registerManageUser);
 
-  router.get('/api/getSTSSignature/:fileType', controller.manage.alioss.getSTSSignature);
-  router.get('/api/getUrlSignature', controller.manage.alioss.getUrlSignature);
+  router.get('/api/getSTSSignature/:fileType', checktoken, controller.manage.alioss.getSTSSignature);
+  router.get('/api/getUrlSignature', checktoken, controller.manage.alioss.getUrlSignature);
 
-  router.get('/api/manage/specialColumn/getSpecialColumnsByTeacherId/:id', controller.manage.specialColumn.getSpecialColumnsByTeacherId);
-  router.get('/api/manage/course/getCourseBySpecialColumnId/:id', controller.manage.course.getCourseBySpecialColumnId);
-  router.get('/api/manage/course/getCourseByCourseTypeId/:id', controller.manage.course.getCourseByCourseTypeId);
-  router.get('/api/manage/course/getCourseByCondition', controller.manage.course.getCourseByCondition);
+  router.get('/api/manage/specialColumn/getSpecialColumnsByTeacherId/:id', checktoken, controller.manage.specialColumn.getSpecialColumnsByTeacherId);
+  router.get('/api/manage/course/getCourseBySpecialColumnId/:id', checktoken, controller.manage.course.getCourseBySpecialColumnId);
+  router.get('/api/manage/course/getCourseByCourseTypeId/:id', checktoken, controller.manage.course.getCourseByCourseTypeId);
+  router.get('/api/manage/course/getCourseByCondition', checktoken, controller.manage.course.getCourseByCondition);
 
   //管理后台API接口
+<<<<<<< HEAD
   router.resources('manage.users', '/api/manage/users', controller.manage.user);
   router.resources('manage.article', '/api/manage/article', controller.manage.article);
   router.resources('manage.course', '/api/manage/course', controller.manage.course);
@@ -29,6 +30,15 @@ module.exports = app => {
   router.resources('manage.exchange', '/api/manage/exchange', controller.manage.exchange);
   router.resources('manage.specialColumn', '/api/manage/specialColumn', controller.manage.specialColumn);
   router.resources('manage.teacher', '/api/manage/teacher', controller.manage.teacher);
+=======
+  router.resources('manage.users', '/api/manage/users', checktoken, controller.manage.user);
+  router.resources('manage.article', '/api/manage/article', checktoken, controller.manage.article);
+  router.resources('manage.course', '/api/manage/course', checktoken, controller.manage.course);
+  router.resources('manage.courseType', '/api/manage/courseType', checktoken, controller.manage.courseType);
+  router.resources('manage.exchange', '/api/manage/exchange', checktoken, controller.manage.exchange);
+  router.resources('manage.specialColumn', '/api/manage/specialColumn', checktoken, controller.manage.specialColumn);
+  router.resources('manage.teacher', '/api/manage/teacher', checktoken, controller.manage.teacher);
+>>>>>>> origin/master
 
 
   //微信小程序数据接口

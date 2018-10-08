@@ -8,13 +8,15 @@ import axios from 'axios'
 import 'iview/dist/styles/iview.css'
 
 Vue.use(iView)
+
 Vue.prototype.$http = axios
 Vue.config.productionTip = false
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })

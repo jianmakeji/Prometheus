@@ -71,6 +71,15 @@ module.exports = {
     return result;
   },
 
+  loginSuccess: (message,token)=>{
+    const result = {
+      'status':200,
+      'message':message,
+      'token':token
+    };
+    return result;
+  },
+
   failure: (message)=>{
     const result = {
       'status':500,
