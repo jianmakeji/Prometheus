@@ -1,24 +1,24 @@
 <template>
   	<div id="app">
-        <div class="login" style="width:25%;margin:200px auto;" v-cloak>
-    		<Form class="myForm">
-    			<h2 style="text-align:center;margin-top:15px;margin-bottom:20px;">单点登录系统</h2>
-    	    	<FormItem>
-    	            <Input v-model="formItem.username" placeholder="请输入用户名..." type="email" name="username" clearable >{{formItem.username}}</Input>
-    	        </FormItem>
-    	        <FormItem>
-    	            <Input v-model="formItem.password" placeholder="请输入密码..." type="password" name="password" clearable >{{formItem.password}}</Input>
-    	        </FormItem>
-    	        <FormItem>
-    	        	<Button type="primary" v-on:click="submit"  long>确定</Button>
-    	        </FormItem>
-    	    </Form>
-    	</div>
-	  	<div class="layout" :style="{display:displayLayout}">
+        <Modal id="modalDialog" v-model="loginModal" width="360" :closable="false" :footer-hide="true" :mask-closable="false" :loading="true">
+            <Form class="myForm">
+                <h2 style="text-align:center;margin-top:15px;margin-bottom:20px;">Prometheus登录系统</h2>
+                <FormItem>
+                    <Input v-model="formItem.username" placeholder="请输入用户名..." type="email" name="username" clearable >{{formItem.username}}</Input>
+                </FormItem>
+                <FormItem>
+                    <Input v-model="formItem.password" placeholder="请输入密码..." type="password" name="password" clearable >{{formItem.password}}</Input>
+                </FormItem>
+                <FormItem>
+                    <Button type="primary" v-on:click="submit"  long>确定</Button>
+                </FormItem>
+            </Form>
+        </Modal>
+	  	<div class="layout">
           	<Layout >
               	<Sider ref="side1" hide-trigger collapsible :collapsed-width="78" width="240" v-model="isCollapsed">
                   	<Menu :active-name="activeName" theme="dark" width="auto" :class="menuitemClasses" @on-select="menuTap">
-						<MenuItem name="0" >
+						<MenuItem name="login" >
                           	<img  style="width:100%;height:auto;" src= "./assets/logo.jpg"/>
                       	</MenuItem>
                       	<MenuItem name="1">
@@ -57,7 +57,10 @@
               	</Sider>
               	<Layout>
                   	<Header :style="{padding: 0}" class="layout-header-bar">
-                      	<Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0 20px'}" type="md-menu" size="24"></Icon>Prometheus后台管理系统
+                      	<div>
+                            <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0 20px'}" type="md-menu" size="24"></Icon>Prometheus后台管理系统
+                            <Button type="text" style="margin-left:65%;color:#ed4014;" @click="loginOut">退出</Button>
+                        </div>
                   	</Header>
                   	<Content :style="{margin: '20px', background: '#fff', minHeight: '800px'}">
   						<router-view/>
@@ -76,9 +79,8 @@ export default {
   	name: 'App',
   	data () {
 	  	return {
-            displayLayout:"",
+            loginModal:true,
 			activeName:"1",
-            layoutShow:globel_.loginFlag,
 		  	isCollapsed: false,
             formItem:{
                 username:"",
@@ -105,9 +107,8 @@ export default {
 		  	this.$refs.side1.toggleCollapse();
 	  	},
 	  	menuTap (event){
-            if(globel_.loginFlag){
                 let that = this;
-    			if(event == 1){
+                if(event == 1){
     				this.$router.push({name:"courseType"});		//类型
     			}else if(event == 2){
     				this.$router.push({name:"specialColumn"});		//专栏
@@ -124,25 +125,30 @@ export default {
     			}else if(event == 8){
     				this.$router.push({name:"exchange"});
     			}
-            }
 	  	},
+        loginOut(){
+            this.$router.push('../');
+            this.loginModal = true;
+        },
         submit(){
             let that = this;
+            this.$Loading.start();
             this.$http.post( globel_.serverHost + globel_.configAPI.login ,{
                 username : this.formItem.username,
                 password : this.formItem.password
             }).then(function(result){
                 if (result.data.status == 200) {
-                    globel_.loginFlag = 1;
-                    // that.$router.push({name:"courseType"});
+                    that.$Loading.finish();
+                    that.loginModal = false;
                     that.$http.defaults.headers.common['Authorization'] = result.data.token;
+            		that.$router.push({name:"courseType"});
                 }else{
-                    that.$Message.error({
-                      duration: 2,
-                      content: result.data.message
-                    });
+                    that.$Loading.finish();
+                    that.loginModal = true;
+                    that.$Message.error({ duration: 2, content: result.data.message});
                 }
             }).catch(function(err){
+                that.$Loading.finish();
                 that.$Message.error({
                   duration: 2,
                   content: err
@@ -151,12 +157,8 @@ export default {
         }
   	},
 	created(){
-        // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyX25hbWUiOiJtYXhpbXVzbGVlIiwiaWF0IjoxNTM4ODc5NTgxLCJleHAiOjE1Mzk3NDM1ODF9.Zjo8dUXlK-w3sQKUfwndIaAYBcoOWZtrZtWEYfV97zg
-
-        // this.windowHeight = $(window).height();
-        // $(".login").css("height",$(window).height());
-		this.$router.push({name:"courseType"});
-	}
+        this.$router.push('../');
+	},
 }
 </script>
 
@@ -215,5 +217,8 @@ export default {
     transition: font-size .2s ease .2s, transform .2s ease .2s;
     vertical-align: middle;
     font-size: 22px;
+}
+.ivu-modal-mask{
+    background-color: rgba(55,55,55,1);
 }
 </style>

@@ -1,8 +1,7 @@
 <script type="text/javascript">
-	let loginFlag = 0;
 
-	const serverHost = "http://localhost:7001";
-	const aliHttp = "http://jm-prometheus.oss-cn-hangzhou.aliyuncs.com/"
+	const serverHost = "http://192.168.3.163:7001";
+	const aliHttp = "https://jm-prometheus.oss-cn-hangzhou.aliyuncs.com/"
 
 	const subjectData=[
 		{id:1,title:"数学"},
@@ -29,6 +28,7 @@
 	};
 	const configAPI = {
 		login:"/api/manage/login",
+		checkToken:"/api/manage/checkToken/:token",
 		getUrlSignature:"/api/getUrlSignature?objectPath=",				//获取图片或视频时请求
 
 		//课程类别增删改查
@@ -70,7 +70,6 @@
 	};
 	export default{
 		aliHttp,			//阿里云文件存储
-		loginFlag,			//记录登陆信息
 		serverHost,			//ip地址
 		subjectData,		//学科数组
 		gradeData,			//年级

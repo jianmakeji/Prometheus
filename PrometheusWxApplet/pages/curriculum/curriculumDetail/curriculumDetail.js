@@ -6,7 +6,8 @@ Page({
      * 页面的初始数据
      */
     data: {
-        id: "",
+        id: "", 
+        classTitle:"",
         classType: "",
         collectFlag: 0 //0:未收藏，1:已收藏
     },
@@ -31,7 +32,7 @@ Page({
             classType: options.classType
         })
         wx.setNavigationBarTitle({
-            title: options.classTitle,
+            title: options.courseTitle,
         })
     },
 

@@ -1,6 +1,6 @@
 <!--pages/curriculum/curriculumDetail/curriculumDetail.wxml-->
 <view>
-   <video class='video' src="http://zeus-education.oss-cn-hangzhou.aliyuncs.com/edu1.mp4"
+   <video class='video' src="https://zeus-education.oss-cn-hangzhou.aliyuncs.com/edu1.mp4"
       page-gesture="true">
    </video>
    <view class='content_view'>

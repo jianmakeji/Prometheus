@@ -154,6 +154,7 @@ export default {
 			getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialColumnData + that.offset;
 		this.$Loading.start();
 		this.$http.get( getDataUrl ).then(function(result){
+			console.log(that.$http.defaults);
 			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;

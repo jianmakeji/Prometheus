@@ -43,94 +43,7 @@
 
 <script>
 import globel_ from './../config/global.vue'
-import Qrcode from '@xkeshi/vue-qrcode';
-
-var courseTypeObj = {
-	title: '类别',
-	key: 'courseType',
-	align: 'center',
-	render:(h, params) =>{
-		return h('div',[
-			h('p', params.row.course_type ? params.row.course_type.name : "")
-		])
-	}
-},
-specialColumnObj = {
-	title: '专栏',
-	key: 'specialColumn',
-	align: 'center',
-	render:(h, params) =>{
-		return h('div',[
-			h('p', params.row.special_column ? params.row.special_column.name : "")
-		])
-	}
-},
-	tableHeadeBefore = [
-	{
-		title: 'id',
-		key: 'Id',
-		align: 'center'
-	},
-	{
-		title: '名称',
-		key: 'name',
-		align: 'center'
-	}
-],
-	tableHeadeBetween = [
-		courseTypeObj,specialColumnObj
-	],
-	tableHeadBehind = [
-		{ title: '操作', key: 'opt', align: 'center',
-			render: (h, params) => {
-				return h("div",[
-					h('Button', {
-						props: {
-							type: 'primary',
-							size: 'small'
-						},
-						style: {
-							marginRight: '5px'
-						},
-						on: {
-							click: () => {
-                                this.changeTap(params.index)
-								// this.changeTap(params.index)
-							}
-						}
-					}, '修改'),
-					h('Button', {
-						props: {
-							type: 'error',
-							size: 'small'
-						},
-						style: {
-							marginRight: '5px'
-						},
-						on: {
-							click: () => {
-								this.removeTap(params.index)
-							}
-						}
-					},'删除'),
-					h('Button', {
-						props: {
-							type: 'info',
-							size: 'small'
-						},
-						style: {
-							marginRight: '5px'
-						},
-						on: {
-							click: () => {
-								this.generateCode(params.index)
-							}
-						}
-					},'生成二维码')
-				])
-			}
-		}
-	];
+import Qrcode from '@xkeshi/vue-qrcode'
 export default {
 	name:"course",
 	data(){
@@ -340,13 +253,13 @@ export default {
 		this.$http.get( getCourseTyoeDataUrl ).then(function(result){
 			that.courseTypeData = that.courseTypeData.concat(result.data.rows);
 		}).catch(function(err){
-			that.$Loading.error();
+
 		});
 		//获取专栏数据作为选择项
 		this.$http.get( getSpecialColumnDataUrl ).then(function(result){
 			that.specialColumnData = that.specialColumnData.concat(result.data.rows);
 		}).catch(function(err){
-			that.$Loading.error();
+
 		});
 
 		let getDataUrl = globel_.serverHost+ globel_.configAPI.getCourseByCondition + this.offset +'&courseType='+ this.courseTypeId + '&specialColumn=' + this.specialColumnId;

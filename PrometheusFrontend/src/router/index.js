@@ -21,10 +21,10 @@ Vue.use(Router)
 
 export default new Router({
   	routes: [{
-	    	path: '/courseType',
-	    	name: 'courseType',
+            path:"/",
+            name: '',
 	    	component: courseType
-	    },{
+        },{
 	    	path: '/courseType',
 	    	name: 'courseType',
 	    	component: courseType

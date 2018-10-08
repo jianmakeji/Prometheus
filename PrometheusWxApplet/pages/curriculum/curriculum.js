@@ -46,7 +46,6 @@ Page({
     //点击专题进行跳转
     //data-course-type-id='1' data-course-type-name='{{item.name}}'  data-course-type-grade='{{item.grade}}'
     catchtap: function(event) {
-        console.log(event);
         wx.navigateTo({
             url: '/pages/curriculum/curriculumList/curriculumList?specialColumnId=' + event.currentTarget.dataset.specialColumnId +
                 "&specialColumnTitle=" + event.currentTarget.dataset.specialColumnGrade + "·" + event.currentTarget.dataset.specialColumnName
