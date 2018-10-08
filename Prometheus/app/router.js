@@ -22,15 +22,7 @@ module.exports = app => {
   router.get('/api/manage/course/getCourseByCondition', checktoken, controller.manage.course.getCourseByCondition);
 
   //管理后台API接口
-<<<<<<< HEAD
-  router.resources('manage.users', '/api/manage/users', controller.manage.user);
-  router.resources('manage.article', '/api/manage/article', controller.manage.article);
-  router.resources('manage.course', '/api/manage/course', controller.manage.course);
-  router.resources('manage.courseType', '/api/manage/courseType',checktoken, controller.manage.courseType);
-  router.resources('manage.exchange', '/api/manage/exchange', controller.manage.exchange);
-  router.resources('manage.specialColumn', '/api/manage/specialColumn', controller.manage.specialColumn);
-  router.resources('manage.teacher', '/api/manage/teacher', controller.manage.teacher);
-=======
+
   router.resources('manage.users', '/api/manage/users', checktoken, controller.manage.user);
   router.resources('manage.article', '/api/manage/article', checktoken, controller.manage.article);
   router.resources('manage.course', '/api/manage/course', checktoken, controller.manage.course);
@@ -38,7 +30,6 @@ module.exports = app => {
   router.resources('manage.exchange', '/api/manage/exchange', checktoken, controller.manage.exchange);
   router.resources('manage.specialColumn', '/api/manage/specialColumn', checktoken, controller.manage.specialColumn);
   router.resources('manage.teacher', '/api/manage/teacher', checktoken, controller.manage.teacher);
->>>>>>> origin/master
 
 
   //微信小程序数据接口
