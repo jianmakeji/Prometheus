@@ -37,6 +37,7 @@ module.exports = app => {
   router.get('/api/wx/course/getCourseBySpecialColumnId/:id', controller.wx.course.getCourseBySpecialColumnId);
   router.get('/api/wx/course/getCourseByCourseTypeId/:id', controller.wx.course.getCourseByCourseTypeId);
   router.get('/api/wx/course/getCourseByCondition', controller.wx.course.getCourseByCondition);
+  router.get('/api/wx/specialColumn/getSpecialColumnsByCourseType', controller.wx.specialColumn.getSpecialColumnsByCourseType);
 
   router.resources('wx.users', '/api/wx/users', controller.wx.user);
   router.resources('wx.article', '/api/wx/article', controller.wx.article);

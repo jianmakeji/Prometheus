@@ -13,6 +13,7 @@ module.exports = app => {
     courseType: INTEGER,
     teacherId: INTEGER,
     thumb: STRING(30),
+    grade: INTEGER,
     describe: STRING(50),
     price: FLOAT,
     created_at: DATE,

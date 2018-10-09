@@ -88,6 +88,24 @@ class SpecialColumn extends Service {
 
     return resultObj;
   }
+
+  async getSpecialColumnsByCourseType({courseType = 0}){
+    const resultObj =  await this.ctx.model.SpecialColumn.findAll({
+      order: [[ 'grade', 'asc' ]],
+      where: {
+          courseType:courseType,
+      },
+    });
+
+    const app = this.ctx.app;
+    
+    resultObj.forEach((element, index)=>{
+      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb);
+    });
+
+    return resultObj;
+  }
+
 }
 
 module.exports = SpecialColumn;

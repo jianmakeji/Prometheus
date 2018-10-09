@@ -26,6 +26,14 @@ class SpecialColumnController extends Controller {
     };
     ctx.body = await ctx.service.specialColumn.getSpecialColumnsByTeacherId(query);
   }
+
+  async getSpecialColumnsByCourseType(){
+    const ctx = this.ctx;
+    const query = {
+      courseType: ctx.query.courseType,
+    };
+    ctx.body = await ctx.service.specialColumn.getSpecialColumnsByCourseType(query);
+  }
 }
 
 module.exports = SpecialColumnController;
