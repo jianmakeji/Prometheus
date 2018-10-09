@@ -59,7 +59,7 @@
                   	<Header :style="{padding: 0}" class="layout-header-bar">
                       	<div>
                             <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0 20px'}" type="md-menu" size="24"></Icon>Prometheus后台管理系统
-                            <Button type="text" style="margin-left:65%;color:#ed4014;" @click="loginOut">退出</Button>
+                            <Button type="text" style="position: absolute;right: 5%;top: 15px;color: rgb(237, 64, 20);" @click="loginOut">退出</Button>
                         </div>
                   	</Header>
                   	<Content :style="{margin: '20px', background: '#fff', minHeight: '800px'}">
@@ -220,5 +220,8 @@ export default {
 }
 .ivu-modal-mask{
     background-color: rgba(55,55,55,1);
+}
+.ivu-modal{
+    top: 250px;
 }
 </style>
