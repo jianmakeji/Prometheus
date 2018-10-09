@@ -36,7 +36,7 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
 .user{
 	padding: 20px;
 }

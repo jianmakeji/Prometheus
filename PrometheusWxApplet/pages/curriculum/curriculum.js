@@ -52,16 +52,40 @@ Page({
         })
     },
 
-
-    /**
-     * 生命周期函数--监听页面加载
-     */
     onLoad: function(options) {
-        this.setData({
-            courseType:fileData.xyData().courseType,                    //模拟课程类型数据
-            jingpin_dataList: fileData.xyData().jingpin_course_type,    //模拟精品课程数据
-            zhuanti_dataList: fileData.xyData().zhuanti_course_type,    //模拟专题突破数据
-        });
+        let that = this;
+        wx.request({
+            url: app.globalData.serverHost + app.globalData.globalAPI.getCourseTypeData,
+            data:{
+                limit:10,
+                offset:0
+            },
+            success(res) {
+                console.log('获取所有的类型',res);
+                that.setData({
+                    courseType: res.data.rows,
+                    // jingpin_dataList: fileData.xyData().jingpin_course_type,    //模拟精品课程数据
+                    // zhuanti_dataList: fileData.xyData().zhuanti_course_type,    //模拟专题突破数据
+                });
+                wx.request({
+                    url: app.globalData.serverHost + app.globalData.globalAPI.getCourseByCourseTypeId.replace(":id", res.data.rows[0].Id),
+                    data:{
+                        limit: 10,
+                        offset: 0
+                    },
+                    success(res) {
+                        console.log("获取所有的专栏",res);
+                    }
+                })
+            }
+        })
+
+
+        // this.setData({
+        //     courseType:fileData.xyData().courseType,                    //模拟课程类型数据
+        //     jingpin_dataList: fileData.xyData().jingpin_course_type,    //模拟精品课程数据
+        //     zhuanti_dataList: fileData.xyData().zhuanti_course_type,    //模拟专题突破数据
+        // });
     },
 
     /**

@@ -50,13 +50,13 @@ export default {
 	},
 	methods:{
 		pageChange(index){
-			
+
 		}
 	}
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
 .exchange{
 	padding: 20px;
 }

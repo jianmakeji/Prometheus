@@ -149,7 +149,7 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
 .addArticle{
 	padding: 20px;
 }

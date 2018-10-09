@@ -275,7 +275,7 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
 .course{
 	padding: 20px;
 }

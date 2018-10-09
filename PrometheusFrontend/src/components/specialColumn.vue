@@ -164,7 +164,7 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
 .specialColumn{
 	padding: 20px;
 }

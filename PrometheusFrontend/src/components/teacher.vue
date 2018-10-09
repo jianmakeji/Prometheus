@@ -162,7 +162,7 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
 .teacher{
 	padding: 20px;
 }
