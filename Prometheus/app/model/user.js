@@ -9,9 +9,16 @@ module.exports = app => {
       primaryKey: true,
       autoIncrement: true,
     },
+    openId: STRING(60);
     username: STRING(30),
     password: STRING(50),
-    headicon: STRING(100),
+    nickName: STRING(30),
+    avatarUrl: STRING(100),
+    gender: INTEGER,
+    province: STRING(20);
+    city: STRING(20);
+    country: STRING(30);
+    mobile: STRING(16);
     created_at: DATE,
     updated_at: DATE,
   });
