@@ -1,7 +1,7 @@
 <template>
   	<div id="app">
-        <Modal id="modalDialog" v-model="loginModal" width="360" :closable="false" :footer-hide="true" :mask-closable="false" :loading="true">
-            <Form class="myForm">
+        <Modal class="modalDialog" v-model="loginModal" width="360" :closable="false" :footer-hide="true" :mask-closable="false" :fullscreen="true">
+            <Form class="myForm" style="width:300px;margin:250px auto;">
                 <h2 style="text-align:center;margin-top:15px;margin-bottom:20px;">Prometheus登录系统</h2>
                 <FormItem>
                     <Input v-model="formItem.username" placeholder="请输入用户名..." type="email" name="username" clearable >{{formItem.username}}</Input>
@@ -162,7 +162,7 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
+<style>
 #app {
   	font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
   	-webkit-font-smoothing: antialiased;
@@ -218,10 +218,10 @@ export default {
     vertical-align: middle;
     font-size: 22px;
 }
-.ivu-modal-mask{
+.modalDialog .ivu-modal-body{
     background-color: rgba(55,55,55,1);
 }
-.ivu-modal{
-    top: 250px;
+.modalDialog .ivu-form h2{
+    color:white;
 }
 </style>
