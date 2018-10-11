@@ -1,7 +1,7 @@
 <!--pages/Myinfo/Myinfo.wxml-->
 <view class="list-wrap">
     <view class="index_user">
-        <button plain='true' wx:if='{{shouquan == 0}}' class='userinfo_btn' open-type='getUserInfo' bindgetuserinfo='userInfoHandler'></button>
+        <!-- <button plain='true' wx:if='{{shouquan == 0}}' class='userinfo_btn' open-type='getUserInfo' bindgetuserinfo='userInfoHandler'></button> -->
         <image class='user_icon' wx:if='{{shouquan == 0}}' src='/images/click_author.png'></image>
         <image class='user_icon' wx:else src="{{headimgurl}}"></image>
         <view wx:if='{{shouquan == 1}}'>{{nickname}}</view>

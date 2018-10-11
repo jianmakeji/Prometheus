@@ -1,5 +1,8 @@
 <!--pages/curriculum/curriculum.wxml-->
 <view>
+    <i-modal title="需要获取您的信息哦！" visible="{{ loginModal }}" bind:ok="handleClose1" bind:cancel="handleClose1" show-cancel="{{false}}" show-ok="{{false}}">
+        <i-button type="info" size="small" open-type='getUserInfo' bindgetuserinfo='userInfoHandler'>确定</i-button>
+    </i-modal>
    <i-tabs current="{{currentTab}}" bindchange="handleChange">
         <block wx:for="{{courseType}}" wx:for-item="item" wx:for-index="index">
             <i-tab key="{{index}}" title="{{item.name}}"></i-tab>
@@ -9,14 +12,14 @@
    </i-tabs>
    <swiper current="{{currentTab}}" bindchange="bindchange" style="text-align:center;height:{{autoHeight}}rpx;">
       <swiper-item class="swiperItem">
-         <!-- <view>
+         <view>
             <view class='item_header'>
                <i-avatar src="/images/fire.png" size="small"></i-avatar>
                <text class='class_name'>七年级</text>
             </view>
             <view>
-                <block wx:for="{{jingpin_dataList}}" wx:for-item="item">
-                    <view class='LX_class' data-course-type-id='1' data-course-type-name='{{item.name}}'  data-course-type-grade='{{item.grade}}' catchtap='catchtap'>
+                <block wx:for="{{JPgrade7_data}}" wx:for-item="item">
+                    <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}'  data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
                         <i-card title="{{item.name}}" extra="{{item.describe}}" thumb="{{item.thumb}}">
                         </i-card>
                     </view>
@@ -29,22 +32,22 @@
                <text class='class_name'>八年级</text>
             </view>
             <view>
-               <block wx:for="{{jingpin_dataList}}" wx:for-item="item">
-                    <view class='LX_class' data-course-type-id='1' data-course-type-name='{{item.name}}'  data-course-type-grade='{{item.grade}}' catchtap='catchtap'>
+               <block wx:for="{{JPgrade8_data}}" wx:for-item="item">
+                    <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}'  data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
                         <i-card title="{{item.name}}" extra="{{item.describe}}" thumb="{{item.thumb}}">
                         </i-card>
                     </view>
                 </block>
             </view>
-         </view> -->
+         </view>
          <view>
             <view class='item_header'>
                <i-avatar src="/images/fire.png" size="small"></i-avatar>
                <text class='class_name'>九年级</text>
             </view>
             <view>
-               <block wx:for="{{jingpin_dataList}}" wx:for-item="item">
-                    <view class='LX_class' data-special-column-id='1' data-special-column-name='{{item.name}}'  data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
+               <block wx:for="{{JPgrade9_data}}" wx:for-item="item">
+                    <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}'  data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
                         <i-card title="{{item.name}}" extra="{{item.describe}}" thumb="{{item.thumb}}">
                         </i-card>
                     </view>
@@ -55,8 +58,8 @@
       </swiper-item>
       <swiper-item class="swiperItem">
          <view>
-            <block wx:for="{{zhuanti_dataList}}" wx:for-item="item">
-                <view class='LX_class' data-special-column-id='1' data-special-column-name='{{item.name}}'  data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
+            <block wx:for="{{ZT_data}}" wx:for-item="item">
+                <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}'  data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
                     <i-card title="{{item.name}}" extra="{{item.describe}}" thumb="{{item.thumb}}">
                     </i-card>
                 </view>

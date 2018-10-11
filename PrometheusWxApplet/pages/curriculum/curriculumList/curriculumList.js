@@ -1,30 +1,40 @@
 // pages/curriculum/curriculumList/curriculumList.js
-var fileData = require('../../../utils/xyData.js')
+var fileData = require('../../../utils/xyData.js');
+var app = getApp();
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        classType: "",
+        courseType: "",
         classTitle: "",
+        specialColumnName:"",   //标题
         dataList: []
     },
     clickClass: function(event) {
+        console.log(event.currentTarget.dataset);
         wx.navigateTo({
-            url: '/pages/curriculum/curriculumDetail/curriculumDetail?id=' + event.currentTarget.dataset.id + "&classType=" + this.data.classType + "&courseTitle=" + event.currentTarget.dataset.title
+            url: '/pages/curriculum/curriculumDetail/curriculumDetail?id=' + event.currentTarget.dataset.courseId + "&courseName=" + event.currentTarget.dataset.courseName + "&videoAddress=" + event.currentTarget.dataset.videoAddress + "&courseDescribe=" + event.currentTarget.dataset.courseDescribe
         })
     },
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
+        let that = this;
+        console.log("------", options);
         wx.setNavigationBarTitle({
-            title: options.specialColumnTitle,
+            title: options.specialColumnName,
         })
-        this.setData({
-            classType: options.specialColumnTitle,
-            dataList: fileData.xyData().videoList
+        wx.request({
+            url: app.globalData.serverHost + app.globalData.globalAPI.getCourseBySpecialColumnId.replace(":id", options.specialColumnId),
+            success(res){
+                console.log("==========",res);
+                that.setData({
+                    dataList: res.data.rows
+                })
+            }
         })
     },
 

@@ -1,10 +1,10 @@
 <!--pages/curriculum/curriculumDetail/curriculumDetail.wxml-->
 <view>
-   <video class='video' src="https://zeus-education.oss-cn-hangzhou.aliyuncs.com/edu1.mp4"
+   <video class='video' src="{{videoAddress}}"
       page-gesture="true">
    </video>
    <view class='content_view'>
-      <text class='classType'>{{classType}}</text>
+      <text class='classType'>{{courseName}}</text>
       <view class='share_collect'>
          <view class='share'>
             <image class='iconImg' src='/images/shareIcon.png'></image>

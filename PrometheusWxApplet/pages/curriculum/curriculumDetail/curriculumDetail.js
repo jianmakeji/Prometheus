@@ -7,8 +7,8 @@ Page({
      */
     data: {
         id: "", 
-        classTitle:"",
-        classType: "",
+        courseName:"",
+        videoAddress: "",
         collectFlag: 0 //0:未收藏，1:已收藏
     },
     // 添加至收藏
@@ -25,14 +25,15 @@ Page({
     },
     /**
      * 生命周期函数--监听页面加载
-     */
+     */ 
     onLoad: function(options) {
+        console.log("++++++++++++++",options);
         this.setData({
             id: options.id,
-            classType: options.classType
+            videoAddress: options.videoAddress
         })
         wx.setNavigationBarTitle({
-            title: options.courseTitle,
+            title: options.courseName,
         })
     },
 
