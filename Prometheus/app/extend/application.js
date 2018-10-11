@@ -86,5 +86,14 @@ module.exports = {
       'message':message,
     };
     return result;
-  }
+  },
+
+  expireToken:(message,token)=>{
+    const result = {
+      'status':409,
+      'message':message,
+      'token':token
+    };
+    return result;
+  },
 }

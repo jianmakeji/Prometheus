@@ -1,6 +1,8 @@
 'use strict';
 
 const Controller = require('egg').Controller;
+const crypto = require("crypto");
+const jwt = require('jsonwebtoken');
 
 class UserController extends Controller {
   async index() {
@@ -19,8 +21,20 @@ class UserController extends Controller {
 
   async create() {
     const ctx = this.ctx;
-    const user = await ctx.service.user.create(ctx.request.body);
-    ctx.body = ctx.app.success('创建成功!');
+    try{
+      const user = await ctx.service.user.create(ctx.request.body);
+      let jwt = require('jsonwebtoken');
+      let token = jwt.sign({
+        username: user.username,
+        openId: user.openId
+      }, ctx.app.jwtSlot, {
+        expiresIn: '10 days'
+      });
+      ctx.body = ctx.app.loginSuccess('登录成功!',token);
+    }
+    catch(error){
+      ctx.body = ctx.app.failure(error);
+    }
   }
 
   async update() {

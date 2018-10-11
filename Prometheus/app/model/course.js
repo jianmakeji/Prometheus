@@ -22,6 +22,7 @@ module.exports = app => {
   Course.associate = function() {
     app.model.Course.belongsTo(app.model.SpecialColumn, {targetKey: 'Id', foreignKey: 'specialColumn'});
     app.model.Course.belongsTo(app.model.CourseType, {targetKey: 'Id', foreignKey: 'courseType'});
+    app.model.Course.hasMany(app.model.Comment,{sourceKey:'Id',foreignKey:'courseId'});
   };
 
   return Course;

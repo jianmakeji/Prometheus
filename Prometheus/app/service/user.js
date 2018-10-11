@@ -20,7 +20,17 @@ class User extends Service {
   }
 
   async create(user) {
-    return this.ctx.model.User.create(user);
+    const userObj = await this.ctx.model.User.findAll({
+      where:{
+        openId:user.openId
+      }
+    });
+    if (userObj){
+      return this.ctx.model.User.create(user);
+    }
+    else{
+      throw new Error('用户已存在');
+    }
   }
 
   async update({ id, updates }) {
@@ -37,6 +47,14 @@ class User extends Service {
       this.ctx.throw(404, 'user not found');
     }
     return user.destroy();
+  }
+
+  async findByOpenId(openId){
+    return this.ctx.model.User.findAll({
+      where:{
+        openId:user.openId
+      }
+    });
   }
 }
 
