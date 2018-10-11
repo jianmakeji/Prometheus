@@ -15,7 +15,7 @@ module.exports = () => {
 
       } catch (error) {
         if (error.name == 'TokenExpiredError') {
-          const user = ctx.service.user.findByOpenId(openId);
+          const user = await ctx.service.user.findByOpenId(openId);
           token = jwt.sign({
             username: user.username,
             openId: user.openId
@@ -25,6 +25,7 @@ module.exports = () => {
 
           ctx.status = 409;
           ctx.body = ctx.app.expireToken('token失效!', token);
+          return;
         }
         else if (error.name == 'JsonWebTokenError')//被伪造
         {

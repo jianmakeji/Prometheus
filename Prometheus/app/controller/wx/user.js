@@ -54,6 +54,7 @@ class UserController extends Controller {
     await ctx.service.user.del(id);
     ctx.body = ctx.app.success('删除成功!');
   }
+
 }
 
 module.exports = UserController;

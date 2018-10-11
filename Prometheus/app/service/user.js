@@ -20,17 +20,23 @@ class User extends Service {
   }
 
   async create(user) {
-    const userObj = await this.ctx.model.User.findAll({
-      where:{
-        openId:user.openId
-      }
-    });
-    if (userObj){
-      return this.ctx.model.User.create(user);
+    if (user.openId == '' || user.openId == null){
+      throw new Error('用户openId不能为空');
     }
     else{
-      throw new Error('用户已存在');
+      const userObj = await this.ctx.model.User.findAll({
+        where:{
+          openId:user.openId
+        }
+      });
+      if (userObj){
+        return this.ctx.model.User.create(user);
+      }
+      else{
+        throw new Error('用户已存在');
+      }
     }
+
   }
 
   async update({ id, updates }) {
@@ -50,9 +56,10 @@ class User extends Service {
   }
 
   async findByOpenId(openId){
-    return this.ctx.model.User.findAll({
+    
+    return await this.ctx.model.User.findAll({
       where:{
-        openId:user.openId
+        openId:{[this.app.Sequelize.Op.eq]:openId}
       }
     });
   }
