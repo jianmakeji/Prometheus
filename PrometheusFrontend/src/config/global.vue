@@ -67,6 +67,10 @@
 		updataTeacherById:"/api/manage/teacher/:id",
 		getTeacherData:"/api/manage/teacher?limit=10&offset=",
 		getTeacherDataById:"/api/manage/teacher/:id",
+
+		//评论
+		deleteCommentById:"/api/manage/comment/:id",
+		getCommentData:"/api/manage/comment?limit=10&offset="
 	};
 	export default{
 		aliHttp,			//阿里云文件存储

@@ -16,6 +16,7 @@ import teacher from '@/components/teacher'
 import teacherDetail from '@/components/teacherDetail'
 import addTeacher from '@/components/addTeacher'
 import exchange from '@/components/exchange'
+import comment from '@/components/comment'
 
 Vue.use(Router)
 
@@ -84,6 +85,10 @@ export default new Router({
 	    	path: '/teacherDetail',
 	    	name: 'teacherDetail',
 	    	component: teacherDetail
+	    },{
+	    	path: '/comment',
+	    	name: 'comment',
+	    	component: comment
 	    }
 	]
 })

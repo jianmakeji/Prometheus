@@ -42,11 +42,11 @@ Page({
             title: '清除缓存成功',
         })
     },
-    myCollect: function(event) {
-        wx.navigateTo({
-            url: '/pages/Myinfo/myCollect/myCollect',
-        })
-    },
+    // myCollect: function(event) {
+    //     wx.navigateTo({
+    //         url: '/pages/Myinfo/myCollect/myCollect',
+    //     })
+    // },
     /**
      * 生命周期函数--监听页面加载
      */

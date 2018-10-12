@@ -53,6 +53,10 @@
                           	<Icon type="logo-bitcoin" />
                           	<span>交易管理</span>
                       	</MenuItem>
+                        <MenuItem name="9">
+                          	<Icon type="ios-chatboxes-outline" />
+                          	<span>评论管理</span>
+                      	</MenuItem>
                   	</Menu>
               	</Sider>
               	<Layout>
@@ -124,6 +128,8 @@ export default {
     				this.$router.push({name:"teacher"});
     			}else if(event == 8){
     				this.$router.push({name:"exchange"});
+    			}else if(event == 9){
+    				this.$router.push({name:"comment"});
     			}
 	  	},
         loginOut(){
@@ -223,5 +229,8 @@ export default {
 }
 .modalDialog .ivu-form h2{
     color:white;
+}
+.layout .ivu-layout .ivu-layout-header{
+    background: white;
 }
 </style>

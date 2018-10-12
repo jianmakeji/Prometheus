@@ -7,6 +7,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        authorization:"",
         courseType: "",
         classTitle: "",
         specialColumnName:"",   //标题
@@ -15,22 +16,26 @@ Page({
     clickClass: function(event) {
         console.log(event.currentTarget.dataset);
         wx.navigateTo({
-            url: '/pages/curriculum/curriculumDetail/curriculumDetail?id=' + event.currentTarget.dataset.courseId + "&courseName=" + event.currentTarget.dataset.courseName + "&videoAddress=" + event.currentTarget.dataset.videoAddress + "&courseDescribe=" + event.currentTarget.dataset.courseDescribe
+            url: '/pages/curriculum/curriculumDetail/curriculumDetail?id=' + event.currentTarget.dataset.courseId + "&courseName=" + event.currentTarget.dataset.courseName
         })
     },
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function(options) {
+    onLoad: function (options) {
         let that = this;
-        console.log("------", options);
+        this.setData({
+            authorization: wx.getStorageSync("Authorization")
+        })
         wx.setNavigationBarTitle({
             title: options.specialColumnName,
         })
         wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.getCourseBySpecialColumnId.replace(":id", options.specialColumnId),
+            header:{
+                "Authorization": that.data.authorization
+            },
             success(res){
-                console.log("==========",res);
                 that.setData({
                     dataList: res.data.rows
                 })

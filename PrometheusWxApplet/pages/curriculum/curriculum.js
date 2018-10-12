@@ -63,7 +63,6 @@ Page({
         wx.hideTabBar();
         wx.getUserInfo({
             success(res) {
-                console.log("获取用户信息",res.userInfo);
                 wx.setStorageSync("nickName", res.userInfo.nickName);
                 wx.setStorageSync("avatarUrl", res.userInfo.avatarUrl);
                 wx.setStorageSync("gender", res.userInfo.gender);
@@ -83,7 +82,6 @@ Page({
                                     'content-type': 'application/json'
                                 },
                                 success: function (res) {
-                                    console.log("获取openid", res.data.openid);
                                     wx.setStorageSync("openid", res.data.openid);
                                     that.setData({
                                         userInfo: wx.getStorageSync("userInfo")
@@ -102,7 +100,6 @@ Page({
                                             openId: wx.getStorageSync("openid"),
                                         },
                                         success(res) {
-                                            console.log("添加用户并获取token",res.data);
                                             wx.hideNavigationBarLoading();
                                             wx.showTabBar();
                                             wx.setStorageSync("token", res.data.token);
@@ -137,7 +134,6 @@ Page({
     onLoad: function(options) {
 
         wx.showNavigationBarLoading();
-        console.log(app);
         let that = this;
         this.setData({
             authorization: wx.getStorageSync("Authorization")
@@ -156,7 +152,6 @@ Page({
                     "Authorization": this.data.authorization
                 },
                 success(res) {
-                    console.log("数据请求",res);
                     if (res.statusCode == 200){
                         that.setData({
                             courseType: res.data.rows
@@ -170,7 +165,6 @@ Page({
                                 "Authorization": that.data.authorization
                             },
                             success(res) {
-                                console.log("数据请求1111", res);
                                 let grade7arr = [],
                                     grade8arr = [],
                                     grade9arr = [];
