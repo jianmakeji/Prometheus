@@ -42,11 +42,11 @@ module.exports = app => {
 
   router.resources('wx.users', '/api/wx/users', controller.wx.user);
   router.resources('wx.article', '/api/wx/article', controller.wx.article);
-  router.resources('wx.course', '/api/wx/course', controller.wx.course);
+  router.resources('wx.course', '/api/wx/course', wxChecktoken, controller.wx.course);
   router.resources('wx.courseType',  '/api/wx/courseType', wxChecktoken, controller.wx.courseType);
-  router.resources('wx.exchange', '/api/wx/exchange', controller.wx.exchange);
-  router.resources('wx.specialColumn', '/api/wx/specialColumn', controller.wx.specialColumn);
-  router.resources('wx.comment', '/api/wx/comment', controller.wx.comment);
+  router.resources('wx.exchange', '/api/wx/exchange', wxChecktoken, controller.wx.exchange);
+  router.resources('wx.specialColumn', '/api/wx/specialColumn', wxChecktoken, controller.wx.specialColumn);
+  router.resources('wx.comment', '/api/wx/comment', wxChecktoken, controller.wx.comment);
 
   //网站接口
   router.get('/api/website/specialColumn/getSpecialColumnsByTeacherId/:id', controller.website.specialColumn.getSpecialColumnsByTeacherId);
