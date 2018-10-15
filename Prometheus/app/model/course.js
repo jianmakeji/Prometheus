@@ -14,6 +14,7 @@ module.exports = app => {
     courseType: INTEGER,
     specialColumn: INTEGER,
     thumb: STRING(30),
+    duration: INTEGER,
     videoAddress: STRING(30),
     created_at: DATE,
     updated_at: DATE,
