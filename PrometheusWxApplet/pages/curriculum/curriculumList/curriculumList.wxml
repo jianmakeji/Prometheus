@@ -1,10 +1,10 @@
 <!--pages/curriculum/curriculumList/curriculumList.wxml-->
-<view class='curriculum_list' wx:for="{{dataList}}" wx:for-item="item" >
-   <i-cell-group>
-      <i-cell title="{{item.name}}" is-link data-course-id="{{item.Id}}" data-course-name="{{item.name}}"  bind:click="clickClass">
-         <view slot="icon">
-            <image class='icon_image' src='{{item.thumb}}'></image>
-         </view>
-      </i-cell>
-   </i-cell-group>
+<view class='curriculum_list' wx:for="{{dataList}}" wx:for-item="item">
+    <i-cell-group style="background:red;">
+        <i-cell title="{{item.name}}" value="{{item.duration}}" is-link data-course-id="{{item.Id}}" data-course-name="{{item.name}}" bind:click="clickClass">
+            <view slot="icon">
+                <image class='icon_image' src='{{item.thumb}}'></image>
+            </view>
+        </i-cell>
+    </i-cell-group>
 </view>

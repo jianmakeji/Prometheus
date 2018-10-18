@@ -1,4 +1,0 @@
-<!--pages/index/index.wxml-->
-<view>
-    <button open-type='getUserInfo' bindgetuserinfo='userInfoHandler'>开启学习之旅</button>
-</view>

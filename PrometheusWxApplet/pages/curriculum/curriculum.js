@@ -15,7 +15,7 @@ Page({
         JPgrade8_data: [], //八年级精品课程数据
         JPgrade9_data: [], //九年级精品课程数据
         ZT_data: [],
-        autoHeight: 2400
+        autoHeight: 1020
     },
     // 导航栏切换监听事件
     handleChange: function(event) {
@@ -24,11 +24,11 @@ Page({
         });
         if (event.detail.key == "0") {
             this.setData({
-                autoHeight: 2400
+                autoHeight: 402 + 204 * (this.data.JPgrade7_data.length + this.data.JPgrade8_data.length + this.data.JPgrade9_data.length)
             });
         } else {
             this.setData({
-                autoHeight: 1020
+                autoHeight: this.data.ZT_data.length * (216 + 10)
             });
         }
     },
@@ -39,11 +39,11 @@ Page({
         });
         if (event.detail.current == "0") {
             this.setData({
-                autoHeight: 2400
+                autoHeight: 402 + 204 * (this.data.JPgrade7_data.length + this.data.JPgrade8_data.length + this.data.JPgrade9_data.length)
             });
         } else {
             this.setData({
-                autoHeight: 1020
+                autoHeight: this.data.ZT_data.length *( 216 + 10 )
             });
         }
     },
@@ -103,6 +103,8 @@ Page({
                                             wx.hideNavigationBarLoading();
                                             wx.showTabBar();
                                             wx.setStorageSync("token", res.data.token);
+                                            wx.setStorageSync("userId", res.data.userId);
+                                            wx.setStorageSync("userName", res.data.userId);
                                             wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
                                             that.setData({
                                                 loginModal: false

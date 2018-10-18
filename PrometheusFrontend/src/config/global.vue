@@ -1,7 +1,8 @@
 <script type="text/javascript">
 
 	const serverHost = "http://192.168.3.163:7001";
-	const aliHttp = "https://jm-prometheus.oss-cn-hangzhou.aliyuncs.com/"
+	const aliHttp = "http://jm-prometheus.oss-cn-hangzhou.aliyuncs.com/";
+	// const aliHttp = "https://jm-prometheus.oss-cn-hangzhou.aliyuncs.com/";
 
 	const subjectData=[
 		{id:1,title:"数学"},

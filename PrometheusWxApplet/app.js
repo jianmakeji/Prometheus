@@ -28,7 +28,10 @@ App({
             getCourseBySpecialColumnId: '/api/wx/course/getCourseBySpecialColumnId/:id',
             getCourseByCourseTypeId: '/api/wx/course/getCourseByCourseTypeId/:id',
             getCourseByCondition: '/api/wx/course/getCourseByCondition',
-            getSpecialColumnsByCourseType: "/api/wx/specialColumn/getSpecialColumnsByCourseType"
+            getSpecialColumnsByCourseType: "/api/wx/specialColumn/getSpecialColumnsByCourseType",
+            getCommentByCourseId:"/api/wx/comment/getCommentByCourseId?limit=10&offset=",
+
+            createComment:"/api/wx/comment"         //添加评论
         }
     }
 })

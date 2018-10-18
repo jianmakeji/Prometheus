@@ -111,7 +111,6 @@ export default {
 			getDataUrl = globel_.serverHost + globel_.configAPI.getArticleData + that.offset;
 		this.$Loading.start();
 		this.$http.get( getDataUrl ).then(function(result){
-			console.log(result);
 			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;

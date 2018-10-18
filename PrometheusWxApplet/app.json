@@ -3,8 +3,8 @@
         "pages/curriculum/curriculum",
         "pages/curriculum/curriculumList/curriculumList",
         "pages/curriculum/curriculumDetail/curriculumDetail",
-        "pages/pieceShare/pieceShareDetail/pieceShareDetail",
         "pages/pieceShare/pieceShare",
+        "pages/pieceShare/pieceShareDetail/pieceShareDetail",
         "pages/search/search",
         "pages/Myinfo/Myinfo",
         "pages/Myinfo/myCollect/myCollect"
@@ -43,5 +43,6 @@
                 "selectedIconPath": "images/user_h.png"
             }
         ]
-    }
+    },
+    "resizable":true
 }

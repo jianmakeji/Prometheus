@@ -9,25 +9,7 @@ Page({
         nickname: "",
         headimgurl: ""
     },
-    // // 获取用户信息
-    // userInfoHandler: function(res) {
-    //     if (res.detail.userInfo) {
-    //         var that = this;
-    //         that.setData({
-    //             shouquan: 1,
-    //             headimgurl: res.detail.userInfo.avatarUrl,
-    //             nickname: res.detail.userInfo.nickName
-    //         })
-    //         wx.showToast({
-    //             title: '获取信息成功'
-    //         })
-    //     } else {
-    //         wx.showToast({
-    //             title: '获取信息失败',
-    //             icon: "none"
-    //         })
-    //     }
-    // },
+    //扫一扫
     scanClick: function(event) {
         wx.scanCode({
             onlyFromCamera: false,
@@ -36,22 +18,32 @@ Page({
             }
         })
     },
-    clearStorageClick: function(event) {
-        wx.clearStorageSync();
-        wx.showToast({
-            title: '清除缓存成功',
-        })
-    },
-    // myCollect: function(event) {
-    //     wx.navigateTo({
-    //         url: '/pages/Myinfo/myCollect/myCollect',
+    // clearStorageClick: function(event) {
+    //     wx.clearStorageSync();
+    //     wx.showToast({
+    //         title: '清除缓存成功',
     //     })
     // },
+    myCollect: function(event) {
+        wx.navigateTo({
+            url: '/pages/Myinfo/myCollect/myCollect',
+        })
+    },
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        
+        if (wx.getStorageSync("openid")) {
+            this.setData({
+                shouquan:1,
+                headimgurl: wx.getStorageSync("avatarUrl"),
+                nickname: wx.getStorageSync("nickName")
+            })
+        }else{
+            this.setData({
+                shouquan: 0
+            })
+        }
     },
 
     /**

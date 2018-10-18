@@ -3,68 +3,69 @@
     <i-modal title="需要获取您的信息哦！" visible="{{ loginModal }}" bind:ok="handleClose1" bind:cancel="handleClose1" show-cancel="{{false}}" show-ok="{{false}}">
         <i-button type="info" size="small" open-type='getUserInfo' bindgetuserinfo='userInfoHandler'>确定</i-button>
     </i-modal>
-   <i-tabs current="{{currentTab}}" bindchange="handleChange">
+    <i-tabs current="{{currentTab}}" bindchange="handleChange">
         <block wx:for="{{courseType}}" wx:for-item="item" wx:for-index="index">
             <i-tab key="{{index}}" title="{{item.name}}"></i-tab>
         </block>
-      <!-- <i-tab key="0" title="精品课程"></i-tab>
-      <i-tab key="1" title="专题突破"></i-tab> -->
-   </i-tabs>
-   <swiper current="{{currentTab}}" bindchange="bindchange" style="text-align:center;height:{{autoHeight}}rpx;">
-      <swiper-item class="swiperItem">
-         <view>
-            <view class='item_header'>
-               <i-avatar src="/images/fire.png" size="small"></i-avatar>
-               <text class='class_name'>七年级</text>
-            </view>
+    </i-tabs>
+    <swiper current="{{currentTab}}" bindchange="bindchange" style="text-align:center;height:{{autoHeight}}rpx;">
+        <swiper-item class="swiperItem">
             <view>
-                <block wx:for="{{JPgrade7_data}}" wx:for-item="item">
-                    <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}'  data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
-                        <i-card title="{{item.name}}" extra="{{item.describe}}" thumb="{{item.thumb}}">
-                        </i-card>
-                    </view>
-                </block>
-            </view>
-         </view>
-         <view>
-            <view class='item_header'>
-               <i-avatar src="/images/fire.png" size="small"></i-avatar>
-               <text class='class_name'>八年级</text>
-            </view>
-            <view>
-               <block wx:for="{{JPgrade8_data}}" wx:for-item="item">
-                    <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}'  data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
-                        <i-card title="{{item.name}}" extra="{{item.describe}}" thumb="{{item.thumb}}">
-                        </i-card>
-                    </view>
-                </block>
-            </view>
-         </view>
-         <view>
-            <view class='item_header'>
-               <i-avatar src="/images/fire.png" size="small"></i-avatar>
-               <text class='class_name'>九年级</text>
-            </view>
-            <view>
-               <block wx:for="{{JPgrade9_data}}" wx:for-item="item">
-                    <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}'  data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
-                        <i-card title="{{item.name}}" extra="{{item.describe}}" thumb="{{item.thumb}}">
-                        </i-card>
-                    </view>
-                </block>
-            </view>
-         </view>
-   
-      </swiper-item>
-      <swiper-item class="swiperItem">
-         <view>
-            <block wx:for="{{ZT_data}}" wx:for-item="item">
-                <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}'  data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
-                    <i-card title="{{item.name}}" extra="{{item.describe}}" thumb="{{item.thumb}}">
-                    </i-card>
+                <view class='item_header'>
+                    <i-avatar src="/images/fire.png" size="small"></i-avatar>
+                    <text class='class_name'>七年级</text>
                 </view>
-            </block>
-         </view>
-      </swiper-item>
-   </swiper>
+                <view>
+                    <block wx:for="{{JPgrade7_data}}" wx:for-item="item">
+                        <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}' data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
+                            <i-card title="{{item.name}}" extra="{{item.describe}}" thumb="{{item.thumb}}">
+                            </i-card>
+                        </view>
+                    </block>
+                </view>
+                <i-divider wx:if="{{!JPgrade7_data.length}}" line-color="#ed3f14" color="#ed3f14" height="20" content="暂无数据"></i-divider>
+            </view>
+            <view>
+                <view class='item_header'>
+                    <i-avatar src="/images/fire.png" size="small"></i-avatar>
+                    <text class='class_name'>八年级</text>
+                </view>
+                <view>
+                    <block wx:for="{{JPgrade8_data}}" wx:for-item="item">
+                        <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}' data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
+                            <i-card title="{{item.name}}" extra="{{item.describe}}" thumb="{{item.thumb}}">
+                            </i-card>
+                        </view>
+                    </block>
+                </view>
+                <i-divider wx:if="{{!JPgrade8_data.length}}" line-color="#ed3f14" color="#ed3f14" height="20" content="暂无数据"></i-divider>
+            </view>
+            <view>
+                <view class='item_header'>
+                    <i-avatar src="/images/fire.png" size="small"></i-avatar>
+                    <text class='class_name'>九年级</text>
+                </view>
+                <view>
+                    <block wx:for="{{JPgrade9_data}}" wx:for-item="item">
+                        <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}' data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
+                            <i-card title="{{item.name}}" extra="{{item.describe}}" thumb="{{item.thumb}}">
+                            </i-card>
+                        </view>
+                    </block>
+                </view>                
+                <i-divider wx:if="{{!JPgrade9_data.length}}" line-color="#ed3f14" color="#ed3f14" height="20" content="暂无数据"></i-divider>
+            </view>
+
+        </swiper-item>
+        <swiper-item class="swiperItem">
+            <view>
+                <block wx:for="{{ZT_data}}" wx:for-item="item">
+                    <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}' data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
+                        <i-card title="{{item.name}}" extra="{{item.describe}}" thumb="{{item.thumb}}">
+                        </i-card>
+                    </view>
+                </block>
+            </view>
+        </swiper-item>
+    </swiper>
 </view>

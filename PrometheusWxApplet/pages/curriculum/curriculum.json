@@ -5,6 +5,7 @@
         "i-card": "/dist/card/index",
         "i-avatar": "/dist/avatar/index",
         "i-modal": "/dist/modal/index",
-        "i-button": "/dist/button/index"
+        "i-button": "/dist/button/index",
+        "i-divider": "/dist/divider/index"
     }
 }

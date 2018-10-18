@@ -39,6 +39,9 @@
 	                <Option v-for="item in specialColumnData" :value="item.Id">{{item.name}}</Option>
 	            </Select>
 	        </FormItem>
+            <FormItem label="时长:">
+	            <InputNumber v-model="formItem.duration"></InputNumber> s
+	        </FormItem>
 			<FormItem>
 				<Button type="primary" long @click="submitClick">提交</Button>
 			</FormItem>
@@ -109,7 +112,8 @@ export default {
 		        courseType: "",
 		        specialColumn: "",
 		        thumb: "",
-		        videoAddress: ""
+		        videoAddress: "",
+                duration:0
 				// grade:""
 			}
 		}
@@ -127,7 +131,8 @@ export default {
 					courseType:this.formItem.courseType,
 					specialColumn:this.formItem.specialColumn,
 					thumb:this.formItem.thumb,
-					videoAddress:this.formItem.videoAddress
+					videoAddress:this.formItem.videoAddress,
+                    duration:this.formItem.duration
 				}).then(function(result){
 					if(result.status == 200){
 						that.$Loading.finish();
@@ -147,7 +152,8 @@ export default {
 					courseType:this.formItem.courseType,
 					specialColumn:this.formItem.specialColumn,
 					thumb:this.formItem.thumb,
-					videoAddress:this.formItem.videoAddress
+					videoAddress:this.formItem.videoAddress,
+                    duration:this.formItem.duration
 				}).then(function(result){
 					if(result.status == 200){
 						that.$Loading.finish();
@@ -243,7 +249,7 @@ export default {
                 }
             }).then(function(result) {
                 that.$http.get(globel_.serverHost + globel_.configAPI.getUrlSignature + result.name).then(function(result){
-                    that.videoAddress = newFilename;
+                    that.fileVideo = newFilename;
                     that.$Loading.finish();
                     that.$Message.success({
                         duration: 2,

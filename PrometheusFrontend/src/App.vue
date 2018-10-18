@@ -2,7 +2,7 @@
   	<div id="app">
         <Modal class="modalDialog" v-model="loginModal" width="360" :closable="false" :footer-hide="true" :mask-closable="false" :fullscreen="true">
             <Form class="myForm" style="width:300px;margin:250px auto;">
-                <h2 style="text-align:center;margin-top:15px;margin-bottom:20px;">Prometheus登录系统</h2>
+                <h2 style="text-align:center;margin-top:15px;margin-bottom:20px;">登录系统</h2>
                 <FormItem>
                     <Input v-model="formItem.username" placeholder="请输入用户名..." type="email" name="username" clearable >{{formItem.username}}</Input>
                 </FormItem>
@@ -62,11 +62,11 @@
               	<Layout>
                   	<Header :style="{padding: 0}" class="layout-header-bar">
                       	<div>
-                            <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0 20px'}" type="md-menu" size="24"></Icon>Prometheus后台管理系统
-                            <Button type="text" style="position: absolute;right: 5%;top: 15px;color: rgb(237, 64, 20);" @click="loginOut">退出</Button>
+                            <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0 20px'}" type="md-menu" size="24"></Icon>简码科技中小学视频教育管理系统
+                            <Button type="text" icon="md-log-out" style="position: absolute;right: 5%;top: 15px;color: rgb(237, 64, 20);" @click="loginOut">退出</Button>
                         </div>
                   	</Header>
-                  	<Content :style="{margin: '20px', background: '#fff', minHeight: '800px'}">
+                  	<Content :style="{margin: '20px', background: '#fff', minHeight: mHeight}">
   						<router-view/>
                   	</Content>
               	</Layout>
@@ -83,6 +83,7 @@ export default {
   	name: 'App',
   	data () {
 	  	return {
+            mHeight:0,
             loginModal:true,
 			activeName:"1",
 		  	isCollapsed: false,
@@ -148,6 +149,9 @@ export default {
                     that.loginModal = false;
                     that.$http.defaults.headers.common['Authorization'] = result.data.token;
             		that.$router.push({name:"courseType"});
+
+                    that.mHeight = document.documentElement.clientHeight - 110 +"px";
+                    console.log(document.documentElement.clientHeight+"px");
                 }else{
                     that.$Loading.finish();
                     that.loginModal = true;

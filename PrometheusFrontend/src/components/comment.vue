@@ -32,11 +32,18 @@ export default {
             commentTitle:"",
             deleteModel:false,
             columns:[
-                { title: 'id', key: 'Id', align: 'center' },
-                { title: '用户', key: 'userId', align: 'center' },
-                { title: '课程', key: 'courseId', align: 'center' },
+                { title: 'id', key: 'Id', align: 'center', width:150},
+                { title: '用户ID', key: 'userId', align: 'center', width:200 },
+                { title: '用户名称', key: 'nickName', align: 'center', width:200,
+                    render:(h, params) =>{
+                        return h('div',[
+                            h('p', params.row.user.nickName)
+                        ])
+                    }
+                },
+                { title: '课程', key: 'courseId', align: 'center', width:200},
                 { title: '内容', key: 'content', align: 'center' },
-                { title: '操作', key: 'opt', align: 'center',
+                { title: '操作', key: 'opt', align: 'center', width:200,
         			render: (h, params) => {
         				return h("div",[
         					h('Button', {
@@ -62,7 +69,18 @@ export default {
     },
     methods:{
         pageChange(index){
-
+            this.offset  = (index-1)*10;
+            let that = this,
+                getDataUrl = globel_.serverHost+ globel_.configAPI.getCommentData + this.offset;
+            this.$Loading.start();
+            this.$http.get( getDataUrl ).then(function(result){
+    			that.$Loading.finish();
+    			that.dataList = result.data.rows;
+    			that.total = result.data.count;
+    		}).catch(function(err){
+    			that.$Loading.error();
+    			that.$Message.error({duration:3,content:err});
+    		})
         },
         removeTap(index){
 			this.index = index;
@@ -98,7 +116,6 @@ export default {
 		let getDataUrl = globel_.serverHost+ globel_.configAPI.getCommentData + this.offset;
         console.log(getDataUrl);
 		this.$http.get( getDataUrl ).then(function(result){
-            console.log("res",result);
 			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;

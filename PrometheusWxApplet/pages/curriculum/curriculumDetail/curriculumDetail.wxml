@@ -1,21 +1,41 @@
 <!--pages/curriculum/curriculumDetail/curriculumDetail.wxml-->
 <view>
-   <video class='video' src="{{videoAddress}}"
-      page-gesture="true">
-   </video>
-   <view class='content_view'>
-      <text class='classType'>{{courseTypeAndSpecial}}</text>
-      <view class='share_collect'>
-         <view class='share'>
-            <image class='iconImg' src='/images/shareIcon.png'></image>
-            <button class='text' open-type='share'>分享</button>
-         </view>
-         <view class='collect' catchtap='collectTap'>
-            <image class='iconImg' src='{{collectFlag ? "/images/collectIcon_h.png" : "/images/collectIcon.png"}}'></image>
-            <button class='text'>{{collectFlag ? "取消收藏" : "收藏"}}</button>
-         </view>
-      </view>
-      <i-divider class="divider">视频介绍</i-divider>
-      <text class='courseDes'>{{describe}}</text>
-   </view>
+    <video class='video' src="{{videoAddress}}" page-gesture="true">
+    </video>
+    <view class='content_view'>
+        <text class='classType'>{{courseTypeAndSpecial}}</text>
+        <view class='share_collect'>
+            <view class='share'>
+                <image class='iconImg' src='/images/shareIcon.png'></image>
+                <button class='text' open-type='share'>分享</button>
+            </view>
+            <view class='collect' catchtap='collectTap'>
+                <image class='iconImg' src='{{collectFlag ? "/images/collectIcon_h.png" : "/images/collectIcon.png"}}'></image>
+                <button class='text'>{{collectFlag ? "取消收藏" : "收藏"}}</button>
+            </view>
+            <view class='collect' catchtap='commentBtn'>
+                <image class='iconImg' src='/images/comment.png'></image>
+                <button class='text'>评论</button>
+            </view>
+        </view>
+        <i-divider class="divider">视频介绍</i-divider>
+        <text class='courseDes'>{{describe}}</text>
+        <i-divider class="divider">评论</i-divider>
+        <view class='commentView'>
+            <block wx:for="{{commentData}}">
+                <view class='commentHeader'>
+                    <i-avatar src="{{item.user.avatarUrl}}" size="small"></i-avatar>
+                    <text style='margin-left:30rpx;'>{{item.user.nickName}}</text>
+                </view>
+                <text class='commentContent'>{{item.content}}</text>
+                <i-divider height="2" class="divider"></i-divider>
+            </block>
+        </view>
+        <i-load-more  tip="暂无数据" loading="{{ loadMore }}" />
+        <i-modal title="评论" visible="{{ commentModal }}" ok-text="发表" bind:ok="tapOk" bind:cancel="tapCancel">
+            <view>
+                <wxc-input adjust-position value="{{ commentValue }}" bind:input="bindInput" placeholder="请输入评论内容"></wxc-input>
+            </view>
+        </i-modal>
+    </view>
 </view>

@@ -8,18 +8,29 @@
 		<Button icon="md-add" type="primary" @click="newVideo">新建</Button><br /><br />
 		<Form :model="formItem" label-position="right" :label-width="80" inline style="width:100%;">
 			<FormItem label="类别">
-				<Select v-model="formItem.courseType" @on-change="courseTypeChange" label-in-value>
+				<Select v-model="formItem.courseType" @on-change="courseTypeChange" label-in-value style="width:200px">
 					<Option v-for="item in courseTypeData" :value="item.Id">{{item.name}}</Option>
 				</Select>
 			</FormItem>
 			<FormItem label="专栏">
-	            <Select v-model="formItem.specialColumn" @on-change="specialColumnChange" label-in-value>
+	            <Select v-model="formItem.specialColumn" @on-change="specialColumnChange" label-in-value style="width:200px">
 					<Option v-for="item in specialColumnData" :value="item.Id">{{item.name}}</Option>
 	            </Select>
 	        </FormItem>
 	    </Form>
 		<Table :columns="columns" :data="dataList"></Table><br />
 		<Page :total="total" show-total @on-change="pageChange"/>
+        <Modal v-model="previewModal" width="60%" footer-hide @on-visible-change="visibleChange">
+			<p slot="header" style="color:#19be6b;text-align:center;font-size:18px;">
+	            <Icon type="md-eye" />
+	            <span>{{videoTitle}}</span>
+	        </p>
+			<div style="text-align:center">
+                <video id="media" :src="videoUrl" controls style="width:100%;height:auto;" autoplay>
+                    <!-- <source :src="videoUrl" type="video/mp4"> -->
+                </video>
+			</div>
+	    </Modal>
 		<Modal v-model="codeModal"  @on-ok="downloadCode" ok-text="下载图片至本地">
 			<p slot="header" style="color:#19be6b;text-align:center;font-size:18px;">
 	            <Icon type="ios-brush-outline" />
@@ -44,6 +55,7 @@
 <script>
 import globel_ from './../config/global.vue'
 import Qrcode from '@xkeshi/vue-qrcode'
+import $ from 'jquery'
 export default {
 	name:"course",
 	data(){
@@ -57,6 +69,8 @@ export default {
 			codeTitle:"",		//弹出层标题(视频名称)
 			codeModal:false,
 			total:0,
+            previewModal:false,
+            videoUrl:"",
 
 			specialColumnData:[{Id:0,name:"全部"}],courseTypeData:[{Id:0,name:"全部"}],
 			specialColumnId:0,courseTypeId:0,
@@ -67,12 +81,13 @@ export default {
 				courseType:0			//类型
 			},
             columns:[
-                { title: 'id', key: 'Id', align: 'center' },
+                { title: 'id', key: 'Id', align: 'center' ,width:90},
                 { title: '名称', key: 'name', align: 'center' },
                 {
                 	title: '类别',
                 	key: 'course_type',
                 	align: 'center',
+                    width: 120,
                 	render:(h, params) =>{
                 		return h('div',[
                             // params.row.course_type.name
@@ -84,9 +99,35 @@ export default {
                 	title: '专栏',
                 	key: 'special_column',
                 	align: 'center',
+                    width: 120,
                 	render:(h, params) =>{
                 		return h('div',[
                             h('p', params.row.special_column ? params.row.special_column.name : this.specialColumnLabel)
+                		])
+                	}
+                },
+                { title: '时长', key: 'duration', align: 'center',width:90 },
+                {
+                	title: '视频预览',
+                	key: 'opt',
+                	align: 'center',
+                    width: 100,
+                	render:(h, params) =>{
+                		return h('div',[
+                            h('Button', {
+        						props: {
+        							type: 'primary',
+        							size: 'small'
+        						},
+        						style: {
+        							marginRight: '5px'
+        						},
+        						on: {
+        							click: () => {
+        								this.previewVideo(params.index)
+        							}
+        						}
+        					}, '查看')
                 		])
                 	}
                 },
@@ -134,12 +175,11 @@ export default {
         								this.generateCode(params.index)
         							}
         						}
-        					},'生成二维码')
+        					},'二维码')
         				])
         			}
         		}
             ],
-			// columns:[],
 			dataList: []
 		}
 	},
@@ -164,6 +204,18 @@ export default {
 		newVideo(){
 			this.$router.push({name:"addCourse",query:{id:0}});
 		},
+        previewVideo(index){
+            this.previewModal = true;
+			this.videoTitle = this.dataList[index].name;
+            this.videoUrl = this.dataList[index].videoAddress;
+
+        },
+        visibleChange(boolean){
+            var Media = document.getElementById("media");
+            if(!boolean){
+                Media.pause();
+            }
+        },
 		//修改
 		changeTap(index){
 			let videoId = this.dataList[index].Id;
@@ -278,8 +330,5 @@ export default {
 <style lang="css" scoped>
 .course{
 	padding: 20px;
-}
-.ivu-select-selection{
-	width: 200px;
 }
 </style>
