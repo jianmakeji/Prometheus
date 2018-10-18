@@ -7,7 +7,7 @@ class Comment extends Service {
     return this.ctx.model.Comment.findAndCountAll({
       offset,
       limit,
-      order: [[ 'id', 'asc' ]],
+      order: [[ 'id', 'desc' ]],
       include:[{
         model:this.ctx.model.User
       }]

@@ -54,6 +54,14 @@ class Course extends Service {
     if (!course) {
       this.ctx.throw(404, 'course not found');
     }
+    let deleteArray = new Array();
+    if (updates.videoAddress != course.videoAddress){
+      deleteArray.push(app.courseVideoPath + course.videoAddress);
+    }
+    if (updates.thumb != course.thumb){
+      deleteArray.push(app.courseImagePath + course.thumb);
+    }
+    await app.deleteOssMultiObject(deleteArray);
     return course.update(updates);
   }
 
