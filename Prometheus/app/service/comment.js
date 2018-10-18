@@ -9,21 +9,23 @@ class Comment extends Service {
       limit,
       order: [[ 'id', 'desc' ]],
       include:[{
-        model:this.ctx.model.User
+        model:this.ctx.model.User,
+        attributes: ['username','nickName','avatarUrl'],
       }]
     });
   }
 
   async find(id) {
-    const courseType = await this.ctx.model.Comment.findById(id,{
+    const comment = await this.ctx.model.Comment.findById(id,{
       include:[{
-        model:this.ctx.model.User
+        model:this.ctx.model.User,
+        attributes: ['username','nickName','avatarUrl'],
       }]
     });
     if (!courseType) {
-      this.ctx.throw(404, 'courseType not found');
+      this.ctx.throw(404, 'comment not found');
     }
-    return courseType;
+    return comment;
   }
 
   async create(comment) {
@@ -37,7 +39,8 @@ class Comment extends Service {
       order: [[ 'id', 'asc' ]],
       where: { courseId: courseId },
       include:[{
-        model:this.ctx.model.User
+        model:this.ctx.model.User,
+        attributes: ['username','nickName','avatarUrl'],
       }]
     });
   }
@@ -45,7 +48,7 @@ class Comment extends Service {
   async del(id) {
     const comment = await this.ctx.model.Comment.findById(id);
     if (!comment) {
-      this.ctx.throw(404, 'courseType not found');
+      this.ctx.throw(404, 'comment not found');
     }
     return comment.destroy();
   }

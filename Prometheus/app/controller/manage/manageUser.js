@@ -27,7 +27,7 @@ class ManageUserController extends Controller {
           expiresIn: '10 days'
         });
 
-        ctx.body = ctx.app.loginSuccess('登录成功!',token);
+        ctx.body = ctx.app.loginSuccess('登录成功!',token, manageUser.username, manageUser.Id);
 
       } else {
         //密码错误

@@ -71,11 +71,13 @@ module.exports = {
     return result;
   },
 
-  loginSuccess: (message,token)=>{
+  loginSuccess: (message,token,username,userId)=>{
     const result = {
       'status':200,
       'message':message,
-      'token':token
+      'token':token,
+      'username':username,
+      'userId':userId,
     };
     return result;
   },
