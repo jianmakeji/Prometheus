@@ -48,6 +48,15 @@ class CourseController extends Controller {
     ctx.body = await ctx.service.course.getCourseByCondition(query);
   }
 
+  async searchByKeywords() {
+    const ctx = this.ctx;
+    const query = {
+      limit: ctx.helper.parseInt(ctx.query.limit),
+      offset: ctx.helper.parseInt(ctx.query.offset),
+      keyword:ctx.query.keyword,
+    };
+    ctx.body = await ctx.service.course.searchByKeywords(query);
+  }
 }
 
 module.exports = CourseController;

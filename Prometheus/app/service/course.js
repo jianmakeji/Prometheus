@@ -177,6 +177,34 @@ class Course extends Service {
 
     return resultObj;
   }
+
+  async searchByKeywords({ offset = 0, limit = 10, keyword='' }){
+    let resultObj = await this.ctx.model.Course.findAndCountAll({
+      offset,
+      limit,
+      order: [[ 'created_at', 'desc' ], [ 'id', 'desc' ]],
+      where: {
+          name:{
+            [Op.like]: '%'+keyword+'%',
+          },
+      },
+      include: [{
+          model: this.ctx.model.SpecialColumn,
+          attributes: ['name','Id'],
+      },{
+        model: this.ctx.model.CourseType,
+        attributes: ['name','Id'],
+      }],
+    });
+
+    const app = this.ctx.app;
+    resultObj.rows.forEach((element, index)=>{
+      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb);
+      element.videoAddress = app.signatureUrl(app.courseVideoPath + element.videoAddress);
+    });
+
+    return resultObj;
+  }
 }
 
 module.exports = Course;

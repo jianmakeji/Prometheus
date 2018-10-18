@@ -33,12 +33,13 @@ module.exports = app => {
   router.resources('manage.comment', '/api/manage/comment', managerChecktoken, controller.manage.comment);
 
   //微信小程序数据接口
-  router.get('/api/wx/specialColumn/getSpecialColumnsByTeacherId/:id', controller.wx.specialColumn.getSpecialColumnsByTeacherId);
-  router.get('/api/wx/course/getCourseBySpecialColumnId/:id', controller.wx.course.getCourseBySpecialColumnId);
-  router.get('/api/wx/course/getCourseByCourseTypeId/:id', controller.wx.course.getCourseByCourseTypeId);
-  router.get('/api/wx/course/getCourseByCondition', controller.wx.course.getCourseByCondition);
-  router.get('/api/wx/specialColumn/getSpecialColumnsByCourseType', controller.wx.specialColumn.getSpecialColumnsByCourseType);
-  router.get('/api/wx/comment/getCommentByCourseId', controller.wx.comment.getCommentByCourseId);
+  router.get('/api/wx/specialColumn/getSpecialColumnsByTeacherId/:id', wxChecktoken, controller.wx.specialColumn.getSpecialColumnsByTeacherId);
+  router.get('/api/wx/course/getCourseBySpecialColumnId/:id', wxChecktoken, controller.wx.course.getCourseBySpecialColumnId);
+  router.get('/api/wx/course/getCourseByCourseTypeId/:id', wxChecktoken, controller.wx.course.getCourseByCourseTypeId);
+  router.get('/api/wx/course/getCourseByCondition', wxChecktoken, controller.wx.course.getCourseByCondition);
+  router.get('/api/wx/specialColumn/getSpecialColumnsByCourseType', wxChecktoken, controller.wx.specialColumn.getSpecialColumnsByCourseType);
+  router.get('/api/wx/comment/getCommentByCourseId', wxChecktoken, controller.wx.comment.getCommentByCourseId);
+  router.get('/api/wx/course/searchByKeywords', wxChecktoken, controller.wx.course.searchByKeywords);
 
   router.resources('wx.users', '/api/wx/users', controller.wx.user);
   router.resources('wx.article', '/api/wx/article', controller.wx.article);
@@ -47,7 +48,8 @@ module.exports = app => {
   router.resources('wx.exchange', '/api/wx/exchange', wxChecktoken, controller.wx.exchange);
   router.resources('wx.specialColumn', '/api/wx/specialColumn', wxChecktoken, controller.wx.specialColumn);
   router.resources('wx.comment', '/api/wx/comment', wxChecktoken, controller.wx.comment);
-
+  router.resources('wx.favorite', '/api/wx/favorite', wxChecktoken, controller.wx.favorite);
+  
   //网站接口
   router.get('/api/website/specialColumn/getSpecialColumnsByTeacherId/:id', controller.website.specialColumn.getSpecialColumnsByTeacherId);
   router.get('/api/website/course/getCourseBySpecialColumnId/:id', controller.website.course.getCourseBySpecialColumnId);
