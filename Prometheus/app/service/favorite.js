@@ -74,7 +74,7 @@ class Favorite extends Service {
       else if (favorite.category == 2){
         condition.articleId = favorite.articleId;
       }
-      return favorite.destroy({
+      return this.ctx.model.Favorite.destroy({
         where:condition,
       });
     }

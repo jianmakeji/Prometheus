@@ -41,6 +41,7 @@ module.exports = app => {
   router.get('/api/wx/comment/getCommentByCourseId', wxChecktoken, controller.wx.comment.getCommentByCourseId);
   router.get('/api/wx/course/searchByKeywords', wxChecktoken, controller.wx.course.searchByKeywords);
   router.get('/api/wx/favorite/checkIsFavite', wxChecktoken, controller.wx.favorite.checkIsFavite);
+  router.get('/api/wx/favorite/deleteFavorite', wxChecktoken, controller.wx.favorite.deleteFavorite);
 
   router.resources('wx.users', '/api/wx/users', controller.wx.user);
   router.resources('wx.article', '/api/wx/article', controller.wx.article);

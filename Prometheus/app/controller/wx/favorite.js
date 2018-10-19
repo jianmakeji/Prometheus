@@ -27,15 +27,15 @@ class FavoriteController extends Controller {
     ctx.body = ctx.app.success('收藏成功!');
   }
 
-  async destroy() {
+  async deleteFavorite() {
     const ctx = this.ctx;
-    console.log("============================@############");
     const favorite = {
-      userId: ctx.request.body.userId,
-      category: ctx.request.body.category,
-      courseId: ctx.request.body.courseId,
-      articleId: ctx.request.body.articleId,
+      userId: ctx.query.userId,
+      category: ctx.query.category,
+      courseId: ctx.query.courseId,
+      articleId: ctx.query.articleId,
     };
+    
     await ctx.service.favorite.del(favorite);
     ctx.body = ctx.app.success('取消成功!');
   }
