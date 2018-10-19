@@ -40,6 +40,7 @@ module.exports = app => {
   router.get('/api/wx/specialColumn/getSpecialColumnsByCourseType', wxChecktoken, controller.wx.specialColumn.getSpecialColumnsByCourseType);
   router.get('/api/wx/comment/getCommentByCourseId', wxChecktoken, controller.wx.comment.getCommentByCourseId);
   router.get('/api/wx/course/searchByKeywords', wxChecktoken, controller.wx.course.searchByKeywords);
+  router.get('/api/wx/favorite/checkIsFavite', wxChecktoken, controller.wx.favorite.checkIsFavite);
 
   router.resources('wx.users', '/api/wx/users', controller.wx.user);
   router.resources('wx.article', '/api/wx/article', controller.wx.article);
@@ -49,7 +50,7 @@ module.exports = app => {
   router.resources('wx.specialColumn', '/api/wx/specialColumn', wxChecktoken, controller.wx.specialColumn);
   router.resources('wx.comment', '/api/wx/comment', wxChecktoken, controller.wx.comment);
   router.resources('wx.favorite', '/api/wx/favorite', wxChecktoken, controller.wx.favorite);
-  
+
   //网站接口
   router.get('/api/website/specialColumn/getSpecialColumnsByTeacherId/:id', controller.website.specialColumn.getSpecialColumnsByTeacherId);
   router.get('/api/website/course/getCourseBySpecialColumnId/:id', controller.website.course.getCourseBySpecialColumnId);

@@ -9,18 +9,18 @@ class Favorite extends Service {
       limit,
       order: [[ 'created_at', 'desc' ]],
       where:{
-        userId:favorite.userId,
-        category:favorite.category,
+        userId:userId,
+        category:category,
       }
     };
 
-    if (favorite.category == 1){
+    if (category == 1){
       condition.where.courseId = favorite.courseId;
       condition.include = [{
         model: this.ctx.model.Course
       }];
     }
-    else if (favorite.category == 2){
+    else if (category == 2){
       condition.where.articleId = favorite.articleId;
       condition.include = [{
         model: this.ctx.model.Article
@@ -50,8 +50,9 @@ class Favorite extends Service {
 
   async create(favorite) {
     const favObj = await this.findFavByCategory(favorite);
-    if (favorite) {
-      this.ctx.throw(404, 'favorite is found');
+
+    if (Object.keys(favObj).length > 0) {
+      this.ctx.throw(404, '已经关注');
     }
     else{
       return this.ctx.model.Favorite.create(favorite);
@@ -59,12 +60,25 @@ class Favorite extends Service {
 
   }
 
-  async del(id) {
-    const teacher = await this.ctx.model.Favorite.findById(id);
-    if (!teacher) {
-      this.ctx.throw(404, 'teacher not found');
+  async del(favorite) {
+    const favObj = await this.findFavByCategory(favorite);
+
+    if (Object.keys(favObj).length > 0) {
+      let condition = {
+        userId:favorite.userId,
+        category:favorite.category,
+      };
+      if (favorite.category == 1){
+        condition.courseId = favorite.courseId;
+      }
+      else if (favorite.category == 2){
+        condition.articleId = favorite.articleId;
+      }
+      return favorite.destroy({
+        where:condition,
+      });
     }
-    return teacher.destroy();
+
   }
 }
 

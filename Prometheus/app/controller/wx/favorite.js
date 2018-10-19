@@ -29,10 +29,34 @@ class FavoriteController extends Controller {
 
   async destroy() {
     const ctx = this.ctx;
-    const id = ctx.helper.parseInt(ctx.params.id);
-    await ctx.service.favorite.del(id);
-    ctx.body = ctx.app.success('删除成功!');
+    const favorite = {
+      userId: ctx.request.body.userId,
+      category: ctx.request.body.category,
+      courseId: ctx.request.body.courseId,
+      articleId: ctx.request.body.articleId,
+    };
+    await ctx.service.favorite.del(favorite);
+    ctx.body = ctx.app.success('取消成功!');
   }
+
+  async checkIsFavite(){
+    const ctx = this.ctx;
+
+    const favorite = {
+      userId: ctx.request.body.userId,
+      category: ctx.request.body.category,
+      courseId: ctx.request.body.courseId,
+      articleId: ctx.request.body.articleId,
+    };
+    await ctx.service.favorite.findFavByCategory(favorite);
+    if (Object.keys(favObj).length > 0) {
+      ctx.body = ctx.app.success('已经关注');
+    }
+    else{
+      ctx.body = ctx.app.success('未关注');
+    }
+  }
+
 }
 
 module.exports = FavoriteController;
