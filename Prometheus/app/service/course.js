@@ -63,7 +63,10 @@ class Course extends Service {
       deleteArray.push(app.courseImagePath + course.thumb);
     }
 
-    await app.deleteOssMultiObject(deleteArray);
+    if (deleteArray.length > 0){
+      await app.deleteOssMultiObject(deleteArray);
+    }
+
     return course.update(updates);
   }
 
@@ -185,7 +188,7 @@ class Course extends Service {
       order: [[ 'created_at', 'desc' ], [ 'id', 'desc' ]],
       where: {
           name:{
-            [Op.like]: '%'+keyword+'%',
+            [this.app.Sequelize.Op.like]: '%'+keyword+'%',
           },
       },
       include: [{

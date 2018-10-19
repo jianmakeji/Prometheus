@@ -18,8 +18,8 @@ module.exports = app => {
   });
 
   Favorite.associate = function(){
-    app.model.Comment.belongsTo(app.model.Article, {targetKey: 'Id', foreignKey: 'articleId'});
-    app.model.Comment.belongsTo(app.model.Course, {targetKey: 'Id', foreignKey: 'courseId'});
+    app.model.Favorite.belongsTo(app.model.Article, {targetKey: 'Id', foreignKey: 'articleId'});
+    app.model.Favorite.belongsTo(app.model.Course, {targetKey: 'Id', foreignKey: 'courseId'});
   };
 
   return Favorite;

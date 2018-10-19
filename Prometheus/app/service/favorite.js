@@ -14,14 +14,14 @@ class Favorite extends Service {
       }
     };
 
-    if (favorite.category = 1){
-      condition.where.courseId = favorite.courseId,
+    if (favorite.category == 1){
+      condition.where.courseId = favorite.courseId;
       condition.include = [{
         model: this.ctx.model.Course
       }];
     }
-    else if (favorite.category = 2){
-      condition.where.articleId = favorite.articleId,
+    else if (favorite.category == 2){
+      condition.where.articleId = favorite.articleId;
       condition.include = [{
         model: this.ctx.model.Article
       }];
@@ -35,17 +35,17 @@ class Favorite extends Service {
       userId:favorite.userId,
       category:favorite.category,
     };
-    if (favorite.category = 1){
-      condition.courseId = favorite.courseId,
+    if (favorite.category == 1){
+      condition.courseId = favorite.courseId;
     }
-    else if (favorite.category = 2){
-      condition.articleId = favorite.articleId,
+    else if (favorite.category == 2){
+      condition.articleId = favorite.articleId;
     }
-    const favorite = await this.ctx.model.Favorite.findAll({
+    const favoriteObj = await this.ctx.model.Favorite.findAll({
       where:condition,
     });
 
-    return favorite;
+    return favoriteObj;
   }
 
   async create(favorite) {
