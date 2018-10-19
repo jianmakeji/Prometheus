@@ -23,7 +23,7 @@
                         </view>
                     </block>
                 </view>
-                <i-divider wx:if="{{!JPgrade7_data.length}}" line-color="#ed3f14" color="#ed3f14" height="20" content="暂无数据"></i-divider>
+                <i-divider wx:if="{{!JPgrade7_data.length}}" height="20" content="暂无数据"></i-divider>
             </view>
             <view>
                 <view class='item_header'>
@@ -38,7 +38,7 @@
                         </view>
                     </block>
                 </view>
-                <i-divider wx:if="{{!JPgrade8_data.length}}" line-color="#ed3f14" color="#ed3f14" height="20" content="暂无数据"></i-divider>
+                <i-divider wx:if="{{!JPgrade8_data.length}}" height="20" content="暂无数据"></i-divider>
             </view>
             <view>
                 <view class='item_header'>
@@ -53,7 +53,7 @@
                         </view>
                     </block>
                 </view>                
-                <i-divider wx:if="{{!JPgrade9_data.length}}" line-color="#ed3f14" color="#ed3f14" height="20" content="暂无数据"></i-divider>
+                <i-divider wx:if="{{!JPgrade9_data.length}}" height="20" content="暂无数据"></i-divider>
             </view>
 
         </swiper-item>

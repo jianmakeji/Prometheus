@@ -1,97 +1,103 @@
 // pages/search/search.js
+var app = getApp();
 Page({
-   // 页面的初始数据
-   data: {
-      searchCursor: "",
-      dataList: [],
-      storageData: "",
-      searchValue:""
-   },
-   // 点击搜索按钮
-   bindConfirmr: function(event) {
-      if (event.detail.value) {
-         this.setData({
-            searchCursor: 1,
-            dataList: [
-               { id: 1, title: "好文分享1", classType:"七年级·领先课堂", image: "/images/eg2.jpg" },
-               { id: 2, title: "好文分享2", classType:"八年级·汇智课堂", image: "/images/eg2.jpg" }
-            ]
-         })
-         let storageArr = wx.getStorageSync("search") || [];
-         if (storageArr.indexOf(event.detail.value) == -1) {
-            storageArr.unshift(event.detail.value);
-         }
-         wx.setStorageSync("search", storageArr);
-      }
-   },
-   clickClass:function(event){
-      console.log(event);
-      wx.navigateTo({
-         url: '/pages/curriculum/curriculumDetail/curriculumDetail?id=' + event.currentTarget.dataset.id + "&classType=" + event.currentTarget.dataset.classType + "&classTitle=" + event.currentTarget.dataset.title
-      })
-   },
-   // input内容变化监听
-   bindInput: function(event) {
-      this.setData({
-         searchValue: event.detail.value,
-         storageData: wx.getStorageSync('search')
-      })
-      if (event.detail.cursor == 0) {
-         this.setData({
+    // 页面的初始数据
+    data: {
+        searchCursor: "",
+        dataList: [],
+        storageData: "",
+        searchValue: "",
+        userId: ""
+    },
+    // 搜索结果点击跳转到详情
+    clickClass: function(event) {
+        wx.navigateTo({
+            url: '/pages/curriculum/curriculumDetail/curriculumDetail?id=' + event.currentTarget.dataset.id + "&courseType=" + event.currentTarget.dataset.courseType + "&courseName=" + event.currentTarget.dataset.courseName
+        })
+    },
+    // input内容变化监听
+    bindInput: function(event) {
+        this.setData({
+            searchValue: event.detail.value,
+            storageData: wx.getStorageSync('search')
+        })
+        if (event.detail.cursor == 0) {
+            this.setData({
+                searchCursor: 0,
+                storageData: wx.getStorageSync('search')
+            })
+        }
+    },
+    // 点击搜索历史数据
+    handleClick: function(event) {
+        var searchValue = event.currentTarget.dataset.storageValue;
+        this.setData({
+            searchValue: searchValue
+        })
+    },
+    // 点击清除按钮
+    clearTap: function(event) {
+        this.setData({
+            searchValue: "",
             searchCursor: 0,
             storageData: wx.getStorageSync('search')
-         })
-      }
-   },
-   // 点击缓存按钮
-   handleClick: function(event) {
-      var searchValue = event.currentTarget.dataset.storageValue;
-      this.setData({
-         searchValue: searchValue
-      })
-   },
-   // 点击清除按钮
-   clearTap:function(event){
-      this.setData({
-         searchValue : "",
-         searchCursor:0,
-         storageData: wx.getStorageSync('search')
-      })
-   },
-   // 点击input旁边搜索按钮
-   searchTap:function(event){
-      if (this.data.searchValue) {
-         this.setData({
-            searchCursor: 1,
-            dataList: [{
-               id: 1,
-               title: "好文分享1",
-               image: "/images/eg2.jpg"
-            },
-            {
-               id: 2,
-               title: "好文分享2",
-               image: "/images/eg2.jpg"
-            }
-            ]
-         })
-         let storageArr = wx.getStorageSync("search") || [];
-         if (storageArr.indexOf(this.data.searchValue) == -1) {
-            storageArr.unshift(this.data.searchValue);
-         }
-         wx.setStorageSync("search", storageArr);
-      }
-   },
-   clearStorage:function(event){
-      wx.removeStorageSync("search");
-      this.setData({
-         storageData: wx.getStorageSync('search')
-      })
-   },
-   // 生命周期函数--监听页面加载
-   onLoad: function(options) {
-      this.setData({
-         storageData: wx.getStorageSync('search')
-      })
-   }
+        })
+    },
+    // 点击input旁边搜索按钮
+    searchTap: function(event) {
+        let that = this;
+        if (this.data.searchValue) {
+            wx.request({
+                url: app.globalData.serverHost + app.globalData.globalAPI.searchByKeywords + this.data.searchValue,
+                header: {
+                    "Authorization": this.data.authorization
+                },
+                success(res) {
+                    if (res.statusCode == 200) {
+                        that.setData({
+                            searchCursor: 1,
+                            dataList: res.data.rows
+                        });
+                        if (res.data.count > 0) {
+                            let storageArr = wx.getStorageSync("search") || [];
+                            if (storageArr.indexOf(that.data.searchValue) == -1) {
+                                storageArr.unshift(that.data.searchValue);
+                            }
+                            wx.setStorageSync("search", storageArr);
+                        }
+                    } else if (res.statusCode == 409){
+                        wx.setStorageSync("token", res.data.token);
+                        wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
+                    }
+                }
+            })
+
+
+        }
+    },
+    // 清缓存
+    clearStorage: function(event) {
+        wx.removeStorageSync("search");
+        this.setData({
+            storageData: wx.getStorageSync('search')
+        })
+    },
+    getphonenumber:function(event){
+        console.log(event)
+    },
+    // 生命周期函数--监听页面加载
+    onLoad: function(options) {
+        console.log("onLoad")
+        this.setData({
+            authorization: wx.getStorageSync("Authorization"),
+            userId: wx.getStorageSync('userId'),
+            storageData: wx.getStorageSync('search')
+        })
+    },
+    onReady:function(){
+        console.log("onReady")
+    },
+    onShow:function(){
+        console.log("onShow")
+    }
 })

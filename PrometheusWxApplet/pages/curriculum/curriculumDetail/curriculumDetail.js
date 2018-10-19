@@ -6,82 +6,141 @@ Page({
      * 页面的初始数据
      */
     data: {
-        authorization:"",                   //token
-        id: "", 
-        offset:0,
-        courseTypeAndSpecial:"",          //课程所属
-        videoAddress: "",               //课程视频链接
-        describe:"",                    //课程介绍
-        collectFlag: 0 ,                //0:未收藏，1:已收藏
-        commentValue:"",
-        commentModal:false,
-        commentData:[],
-        commentLenght:0,
-        loadMore:false
+        authorization: "", //token
+        id: "",
+        userId: "",
+        offset: 0,
+        courseTypeAndSpecial: "", //课程所属
+        videoAddress: "", //课程视频链接
+        describe: "", //课程介绍
+        collectFlag: 0, //0:未收藏，1:已收藏
+        commentValue: "",
+        commentModal: false,
+        commentData: [],
+        commentLenght: 0,
+        loadMore: false
     },
     // 添加至收藏
     collectTap: function(event) {
-        if (this.data.collectFlag) {
-            this.setData({
-                collectFlag: 0
+        let that = this;
+        if (this.data.collectFlag) { //取消收藏
+            wx.request({
+                url: app.globalData.serverHost + app.globalData.globalAPI.deleteFavorite,
+                data: {
+                    userId: this.data.userId,
+                    category: 1,
+                    courseId: this.data.id,
+                    articleId: 0
+                },
+                method: "GET",
+                header: {
+                    "Authorization": this.data.authorization
+                },
+                success(res) {
+                    if (res.statusCode == 200) {
+                        if (res.data.status == 200) {
+                            wx.showToast({
+                                title: res.data.message
+                            })
+                            that.setData({
+                                collectFlag: 0
+                            })
+                        }
+                    } else if (res.statusCode == 409) {
+                        wx.setStorageSync("token", res.data.token);
+                        wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
+                    }
+                }
             })
-        } else {
-            this.setData({
-                collectFlag: 1
+        } else { //收藏
+            wx.request({
+                url: app.globalData.serverHost + app.globalData.globalAPI.createFavorite,
+                data: {
+                    userId: this.data.userId,
+                    category: 1,
+                    courseId: this.data.id,
+                    articleId: 0
+                },
+                method: "POST",
+                header: {
+                    "Authorization": this.data.authorization
+                },
+                success(res) {
+                    if (res.statusCode == 200) {
+                        if (res.data.status == 200) {
+                            wx.showToast({
+                                title: res.data.message
+                            })
+                            that.setData({
+                                collectFlag: 1
+                            })
+                        }
+                    } else if (res.statusCode == 409) {
+                        wx.setStorageSync("token", res.data.token);
+                        wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
+                    }
+                }
             })
         }
     },
     //点击评论
-    commentBtn:function(event){
+    commentBtn: function(event) {
         this.setData({
-            commentModal:true
+            commentModal: true
         })
     },
     // input内容变化监听
-    bindInput:function(event){
+    bindInput: function(event) {
         this.setData({
             commentValue: event.detail.value
         })
     },
     // 发表评论
-    tapOk:function(event){
+    tapOk: function(event) {
         let that = this;
-        if (this.data.commentValue != ""){
+        if (this.data.commentValue != "") {
             wx.request({
-                url: app.globalData.serverHost + app.globalData.globalAPI.createComment, 
+                url: app.globalData.serverHost + app.globalData.globalAPI.createComment,
                 method: "POST",
-                data:{
-                    userId:this.data.userId,
-                    courseId:this.data.id,
+                data: {
+                    userId: this.data.userId,
+                    courseId: this.data.id,
                     content: this.data.commentValue
                 },
                 header: {
                     "Authorization": this.data.authorization
                 },
-                success(res){
-                    if(res.data.status == 200){
-                        wx.showToast({
-                            title: '发表评论成功！',
-                        });
-                        that.setData({
-                            commentModal: false,
-                            commentValue:""
-                        });
-                        wx.request({
-                            url: app.globalData.serverHost + app.globalData.globalAPI.getCommentByCourseId + that.data.offset + "&courseId=" + that.data.id,
-                            header: {
-                                "Authorization": that.data.authorization
-                            },
-                            success(res) {
-                                that.setData({
-                                    commentData: res.data.rows
-                                })
-                            }
-                        })
+                success(res) {
+                    if (res.statusCode == 200) {
+                        if (res.data.status == 200) {
+                            wx.showToast({
+                                title: '发表评论成功！',
+                            });
+                            that.setData({
+                                commentModal: false,
+                                commentValue: "",
+                                offset:0
+                            });
+                            wx.request({
+                                url: app.globalData.serverHost + app.globalData.globalAPI.getCommentByCourseId + that.data.offset + "&courseId=" + that.data.id,
+                                header: {
+                                    "Authorization": that.data.authorization
+                                },
+                                success(res) {
+                                    that.setData({
+                                        commentData: res.data.rows
+                                    })
+                                }
+                            })
+                        }
+                    } else if (res.statusCode == 409) {
+                        wx.setStorageSync("token", res.data.token);
+                        wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
                     }
+
                 }
             })
-        }else{
+        } else {
             wx.showToast({
                 title: '您输入的内容为空！',
                 icon: "none"
@@ -89,50 +148,82 @@ Page({
         }
     },
     // 取消评论
-    tapCancel:function(event){
+    tapCancel: function(event) {
         this.setData({
             commentModal: false
         })
     },
     /**
      * 生命周期函数--监听页面加载
-     */ 
+     */
     onLoad: function(options) {
-        let that = this;
-        this.setData({
-            authorization: wx.getStorageSync("Authorization"),
-            userId: wx.getStorageSync("userId")
-        })
         this.setData({
             id: options.id
         })
         wx.setNavigationBarTitle({
             title: options.courseName,
         })
+    },
+    onShow:function(){
+        let that = this;
+        this.setData({
+            authorization: wx.getStorageSync("Authorization"),
+            userId: wx.getStorageSync("userId"),
+        })
         wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.getCommentByCourseId + this.data.offset + "&courseId=" + this.data.id,
-            header:{
+            header: {
                 "Authorization": this.data.authorization
             },
             success(res) {
-                that.setData({
-                    commentData:res.data.rows,
-                    commentLenght: res.data.count
-                })
+                if (res.statusCode == 200) {
+                    that.setData({
+                        commentData: res.data.rows,
+                        commentLenght: res.data.count
+                    })
+                } else if (res.statusCode == 409) {
+                    wx.setStorageSync("token", res.data.token);
+                    wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
+                }
             }
         })
         wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.getCourseData + "/" + this.data.id,
-            header:{
+            header: {
                 "Authorization": this.data.authorization
             },
-            success(res){
+            success(res) {
                 if (res.statusCode == 200) {
                     that.setData({
                         videoAddress: res.data.videoAddress,
                         describe: res.data.describe,
                         courseTypeAndSpecial: res.data.course_type.name + "·" + res.data.special_column.name
                     })
+                } else if (res.statusCode == 409) {
+                    wx.setStorageSync("token", res.data.token);
+                    wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
+                }
+            }
+        })
+        wx.request({
+            url: app.globalData.serverHost + app.globalData.globalAPI.checkIsFavite + "userId=" + this.data.userId +
+                "&category=1&courseId=" + this.data.id + "&articleId=0",
+            header: {
+                "Authorization": this.data.authorization
+            },
+            success(res) {
+                if (res.statusCode == 200) {
+                    if (res.data.status == 200) {
+                        if (res.data.message == "未收藏") {
+                            that.setData({
+                                collectFlag: 0
+                            })
+                        } else if (res.data.message == "已收藏") {
+                            that.setData({
+                                collectFlag: 1
+                            })
+                        }
+                    }
                 } else if (res.statusCode == 409) {
                     wx.setStorageSync("token", res.data.token);
                     wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
@@ -146,7 +237,7 @@ Page({
     onPullDownRefresh: function() {
         let that = this;
         this.setData({
-            offset:0
+            offset: 0
         })
         wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.getCommentByCourseId + this.data.offset + "&courseId=" + that.data.id,
@@ -154,11 +245,16 @@ Page({
                 "Authorization": this.data.authorization
             },
             success(res) {
-                that.setData({
-                    commentData: res.data.rows,
-                    commentLenght: res.data.count
-                });
-                wx.stopPullDownRefresh();
+                if (res.statusCode == 200) {
+                    that.setData({
+                        commentData: res.data.rows,
+                        commentLenght: res.data.count
+                    });
+                    wx.stopPullDownRefresh();
+                } else if (res.statusCode == 409) {
+                    wx.setStorageSync("token", res.data.token);
+                    wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
+                }
             }
         })
     },
@@ -166,12 +262,12 @@ Page({
     /**
      * 页面上拉触底事件的处理函数
      */
-    onReachBottom: function () {
+    onReachBottom: function() {
         let that = this;
-        if(this.data.commentLenght > this.data.offset){
+        if (this.data.commentLenght > this.data.offset) {
             this.setData({
-                offset:this.data.offset + 10,
-                loadMore:true
+                offset: this.data.offset + 10,
+                loadMore: true
             });
             wx.request({
                 url: app.globalData.serverHost + app.globalData.globalAPI.getCommentByCourseId + this.data.offset + "&courseId=" + this.data.id,
@@ -179,10 +275,15 @@ Page({
                     "Authorization": this.data.authorization
                 },
                 success(res) {
-                    that.setData({
-                        commentData: that.data.commentData.concat(res.data.rows),
-                        loadMore:false
-                    });
+                    if (res.statusCode == 200) {
+                        that.setData({
+                            commentData: that.data.commentData.concat(res.data.rows),
+                            loadMore: false
+                        });
+                    } else if (res.statusCode == 409) {
+                        wx.setStorageSync("token", res.data.token);
+                        wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
+                    }
                 }
             })
         }
@@ -191,7 +292,21 @@ Page({
     /**
      * 用户点击右上角分享
      */
-    onShareAppMessage: function() {
-
+    onShareAppMessage: function(res) {
+        return {
+            title: 'Prometheus',
+            path: '/pages/curriculum/curriculumDetail/curriculumDetail',
+            success: function (res) {
+                wx.showToast({
+                    title: '转发成功！',
+                })
+            },
+            fail: function (res) {
+                wx.showToast({
+                    title: '转发失败!',
+                    icon: 'none'
+                })
+            }
+        }
     }
 })

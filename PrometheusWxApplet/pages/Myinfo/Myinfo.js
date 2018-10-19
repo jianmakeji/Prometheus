@@ -18,12 +18,6 @@ Page({
             }
         })
     },
-    // clearStorageClick: function(event) {
-    //     wx.clearStorageSync();
-    //     wx.showToast({
-    //         title: '清除缓存成功',
-    //     })
-    // },
     myCollect: function(event) {
         wx.navigateTo({
             url: '/pages/Myinfo/myCollect/myCollect',

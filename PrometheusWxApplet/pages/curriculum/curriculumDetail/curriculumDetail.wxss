@@ -70,7 +70,7 @@
 }
 
 .commentContent {
-    color: #1c2438;
+    color: #808695;
     font-size: 30rpx;
     margin-left: 40rpx;
     word-break: break-all;

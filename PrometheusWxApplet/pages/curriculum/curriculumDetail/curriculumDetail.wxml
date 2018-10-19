@@ -31,7 +31,7 @@
                 <i-divider height="2" class="divider"></i-divider>
             </block>
         </view>
-        <i-load-more  tip="暂无数据" loading="{{ loadMore }}" />
+        <i-load-more  tip="没有更多了" loading="{{ loadMore }}" />
         <i-modal title="评论" visible="{{ commentModal }}" ok-text="发表" bind:ok="tapOk" bind:cancel="tapCancel">
             <view>
                 <wxc-input adjust-position value="{{ commentValue }}" bind:input="bindInput" placeholder="请输入评论内容"></wxc-input>

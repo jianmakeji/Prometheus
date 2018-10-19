@@ -10,6 +10,7 @@ Page({
         authorization: "",
         courseType: "",
         classTitle: "",
+        specialColumnId: "",
         specialColumnName: "", //标题
         dataList: []
     },
@@ -22,20 +23,40 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        let that = this;
+        console.log(options)
         this.setData({
-            authorization: wx.getStorageSync("Authorization")
+            specialColumnId: options.specialColumnId
         })
         wx.setNavigationBarTitle({
             title: options.specialColumnName,
         })
+
+    },
+
+    /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+    onReady: function() {
+
+    },
+
+    /**
+     * 生命周期函数--监听页面显示
+     */
+    onShow: function() {
+        let that = this;
+        wx.showNavigationBarLoading();
+        this.setData({
+            authorization: wx.getStorageSync("Authorization")
+        })
         wx.request({
-            url: app.globalData.serverHost + app.globalData.globalAPI.getCourseBySpecialColumnId.replace(":id", options.specialColumnId),
+            url: app.globalData.serverHost + app.globalData.globalAPI.getCourseBySpecialColumnId.replace(":id", this.data.specialColumnId),
             header: {
                 "Authorization": that.data.authorization
             },
             success(res) {
                 if (res.statusCode == 200) {
+                    wx.hideNavigationBarLoading();
                     let dataListArr = res.data.rows;
                     for (let i = 0; i < res.data.rows.length; i++) {
                         dataListArr[i].duration = parseInt(res.data.rows[i].duration / 60) + ":" + (parseInt(res.data.rows[i].duration % 60 / 10) ? res.data.rows[i].duration % 60 : "0" + res.data.rows[i].duration % 60);
@@ -49,20 +70,6 @@ Page({
                 }
             }
         })
-    },
-
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady: function() {
-        
-    },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function() {
-
     },
 
     /**
@@ -97,6 +104,20 @@ Page({
      * 用户点击右上角分享
      */
     onShareAppMessage: function() {
-
+        return {
+            title: 'Prometheus',
+            path: '/pages/curriculum/curriculumList/curriculumList',
+            success: function (res) {
+                wx.showToast({
+                    title: '转发成功！',
+                })
+            },
+            fail: function (res) {
+                wx.showToast({
+                    title: '转发失败!',
+                    icon: 'none'
+                })
+            }
+        }
     }
 })
