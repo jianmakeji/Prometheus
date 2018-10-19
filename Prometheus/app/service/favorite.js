@@ -52,7 +52,7 @@ class Favorite extends Service {
     const favObj = await this.findFavByCategory(favorite);
 
     if (Object.keys(favObj).length > 0) {
-      this.ctx.throw(404, '已经关注');
+      this.ctx.throw(404, '已经收藏');
     }
     else{
       return this.ctx.model.Favorite.create(favorite);

@@ -29,6 +29,7 @@ class FavoriteController extends Controller {
 
   async destroy() {
     const ctx = this.ctx;
+    console.log("============================@############");
     const favorite = {
       userId: ctx.request.body.userId,
       category: ctx.request.body.category,
@@ -43,17 +44,18 @@ class FavoriteController extends Controller {
     const ctx = this.ctx;
 
     const favorite = {
-      userId: ctx.request.body.userId,
-      category: ctx.request.body.category,
-      courseId: ctx.request.body.courseId,
-      articleId: ctx.request.body.articleId,
+      userId: ctx.query.userId,
+      category: ctx.query.category,
+      courseId: ctx.query.courseId,
+      articleId: ctx.query.articleId,
     };
-    await ctx.service.favorite.findFavByCategory(favorite);
+    const favObj = await ctx.service.favorite.findFavByCategory(favorite);
+
     if (Object.keys(favObj).length > 0) {
-      ctx.body = ctx.app.success('已经关注');
+      ctx.body = ctx.app.success('已收藏');
     }
     else{
-      ctx.body = ctx.app.success('未关注');
+      ctx.body = ctx.app.success('未收藏');
     }
   }
 
