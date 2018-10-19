@@ -15,19 +15,22 @@ class Favorite extends Service {
     };
 
     if (category == 1){
-      condition.where.courseId = favorite.courseId;
       condition.include = [{
         model: this.ctx.model.Course
       }];
     }
     else if (category == 2){
-      condition.where.articleId = favorite.articleId;
       condition.include = [{
         model: this.ctx.model.Article
       }];
     }
-
-    return this.ctx.model.Favorite.findAndCountAll(condition);
+    const favData = await this.ctx.model.Favorite.findAndCountAll(condition);
+    const app = this.ctx.app;
+    favData.rows.forEach((element, index)=>{
+      element.course.thumb = app.signatureUrl(app.courseImagePath + element.course.thumb);
+      element.course.videoAddress = app.signatureUrl(app.courseVideoPath + element.course.videoAddress);
+    });
+    return favData;
   }
 
   async findFavByCategory(favorite) {
