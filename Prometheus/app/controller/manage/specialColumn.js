@@ -33,6 +33,7 @@ class SpecialColumnController extends Controller {
       thumb: ctx.request.body.thumb,
       describe: ctx.request.body.describe,
       price: ctx.request.body.price,
+      grade:ctx.request.body.grade,
     };
     await ctx.service.specialColumn.update({ id, updates });
     ctx.body = ctx.app.success('更新成功!');
