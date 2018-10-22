@@ -70,6 +70,7 @@ Page({
                 wx.setStorageSync("city", res.userInfo.city);
                 wx.setStorageSync("country", res.userInfo.country);
 
+                // wx.setStorageSync("userInfo", res.userInfo);
                 wx.login({
                     withCredentials: true,
                     success: function(res) {
@@ -122,8 +123,11 @@ Page({
                 })
             },
             fail: function() {
+                // fail
+                console.log("获取失败！")
             },
             complete: function() {
+                console.log("获取用户信息完成！")
             }
         });
 
@@ -170,8 +174,7 @@ Page({
                         wx.request({
                             url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnsByCourseType,
                             data: {
-                                courseType: res.data.rows[0].Id,
-                                thumbName: "thumb_300_300"
+                                courseType: res.data.rows[0].Id
                             },
                             header: {
                                 "Authorization": that.data.authorization
@@ -182,11 +185,17 @@ Page({
                                     grade9arr = [];
                                 for (let i = 0; i < res.data.length; i++) {
                                     if (res.data[i].grade == 7) {
-                                        grade7arr.push(res.data[i]); 
+                                        grade7arr.push(res.data[i]);
                                     } else if (res.data[i].grade == 8) {
                                         grade8arr.push(res.data[i]);
+                                        that.setData({
+                                            JPgrade8_data: that.data.JPgrade8_data.push(res.data[i])
+                                        })
                                     } else if (res.data[i].grade == 9) {
                                         grade9arr.push(res.data[i]);
+                                        that.setData({
+                                            JPgrade9_data: that.data.JPgrade9_data.push(res.data[i])
+                                        })
                                     }
                                 };
                                 that.setData({
@@ -200,8 +209,7 @@ Page({
                         wx.request({
                             url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnsByCourseType,
                             data: {
-                                courseType: res.data.rows[1].Id,
-                                thumbName: "thumb_300_300"
+                                courseType: res.data.rows[1].Id
                             },
                             header: {
                                 "Authorization": that.data.authorization

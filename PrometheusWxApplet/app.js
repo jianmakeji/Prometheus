@@ -15,8 +15,8 @@ App({
     },
     globalData: {
 
-        serverHost: "http://192.168.3.163:7001",
-        // serverHost: "https://prometheus.design-engine.org",
+        // serverHost: "http://192.168.3.163:7001",
+        serverHost: "https://prometheus.design-engine.org",
 
         globalAPI: {
             createUser: "/api/wx/users", //授权并创建用户
