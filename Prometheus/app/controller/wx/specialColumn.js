@@ -8,13 +8,14 @@ class SpecialColumnController extends Controller {
     const query = {
       limit: ctx.helper.parseInt(ctx.query.limit),
       offset: ctx.helper.parseInt(ctx.query.offset),
+      thumbName:ctx.query.thumbName,
     };
     ctx.body = await ctx.service.specialColumn.list(query);
   }
 
   async show() {
     const ctx = this.ctx;
-    ctx.body = await ctx.service.specialColumn.find(ctx.helper.parseInt(ctx.params.id));
+    ctx.body = await ctx.service.specialColumn.find({id:ctx.helper.parseInt(ctx.params.id),thumbName:ctx.query.thumbName});
   }
 
   async getSpecialColumnsByTeacherId(){
@@ -23,6 +24,7 @@ class SpecialColumnController extends Controller {
       limit: ctx.helper.parseInt(ctx.query.limit),
       offset: ctx.helper.parseInt(ctx.query.offset),
       id: ctx.params.id,
+      thumbName:ctx.query.thumbName,
     };
     ctx.body = await ctx.service.specialColumn.getSpecialColumnsByTeacherId(query);
   }
@@ -31,6 +33,7 @@ class SpecialColumnController extends Controller {
     const ctx = this.ctx;
     const query = {
       courseType: ctx.query.courseType,
+      thumbName:ctx.query.thumbName,
     };
     ctx.body = await ctx.service.specialColumn.getSpecialColumnsByCourseType(query);
   }

@@ -19,7 +19,7 @@ module.exports = {
     return alioss;
   },
 
-  signatureUrl(objectPath){
+  signatureUrl(objectPath,thumbName){
     const config = this.aliConfig();
     let client = new OSS({
       region: config.region,
@@ -27,7 +27,7 @@ module.exports = {
       accessKeySecret: config.AccessKeySecret,
       bucket: config.bucket,
     });
-    return client.signatureUrl(objectPath, {expires: 3600});
+    return client.signatureUrl(objectPath, {expires: 3600,process : 'style/'+thumbName});
   },
 
   async deleteOssObject(objectPath){

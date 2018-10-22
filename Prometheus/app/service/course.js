@@ -3,7 +3,7 @@
 const Service = require('egg').Service;
 
 class Course extends Service {
-  async list({ offset = 0, limit = 10 }) {
+  async list({ offset = 0, limit = 10, thumbName = 'thumb_600_600' }) {
     let resultObj = await this.ctx.model.Course.findAndCountAll({
       offset,
       limit,
@@ -19,14 +19,16 @@ class Course extends Service {
 
     const app = this.ctx.app;
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb);
+      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb, thumbName);
+      console.log(element.thumb);
+
       element.videoAddress = app.signatureUrl(app.courseVideoPath + element.videoAddress);
     });
 
     return resultObj;
   }
 
-  async find(id) {
+  async find({id = 0,thumbName= 'thumb_600_600'}) {
     const course = await this.ctx.model.Course.findById(id,{
       include: [{
           model: this.ctx.model.SpecialColumn,
@@ -40,7 +42,7 @@ class Course extends Service {
       this.ctx.throw(404, 'course not found');
     }
     const app = this.ctx.app;
-    course.thumb = app.signatureUrl(app.courseImagePath + course.thumb);
+    course.thumb = app.signatureUrl(app.courseImagePath + course.thumb, thumbName);
     course.videoAddress = app.signatureUrl(app.courseVideoPath + course.videoAddress);
     return course;
   }
@@ -81,7 +83,7 @@ class Course extends Service {
     return course.destroy();
   }
 
-  async getCourseBySpecialColumnId({id = 0, limit = 10, offset =0}){
+  async getCourseBySpecialColumnId({id = 0, limit = 10, offset =0, thumbName = 'thumb_600_600'}){
     let resultObj = await this.ctx.model.Course.findAndCountAll({
       offset,
       limit,
@@ -98,14 +100,14 @@ class Course extends Service {
     const app = this.ctx.app;
 
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb);
+      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb , thumbName);
       element.videoAddress = app.signatureUrl(app.courseVideoPath + element.videoAddress);
     });
 
     return resultObj;
   }
 
-  async getCourseByCourseTypeId({id = 0, limit = 10, offset =0}){
+  async getCourseByCourseTypeId({id = 0, limit = 10, offset =0, thumbName = 'thumb_600_600'}){
     let resultObj = await this.ctx.model.Course.findAndCountAll({
       offset,
       limit,
@@ -121,14 +123,14 @@ class Course extends Service {
 
     const app = this.ctx.app;
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb);
+      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb, thumbName);
       element.videoAddress = app.signatureUrl(app.courseVideoPath + element.videoAddress);
     });
 
     return resultObj;
   }
 
-  async getCourseByCondition({courseType = 0,specialColumn = 0,limit = 10, offset =0}){
+  async getCourseByCondition({courseType = 0,specialColumn = 0,limit = 10, offset =0, thumbName = 'thumb_600_600'}){
     let condition = {
       offset,
       limit,
@@ -174,14 +176,14 @@ class Course extends Service {
     const app = this.ctx.app;
 
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb);
+      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb, thumbName);
       element.videoAddress = app.signatureUrl(app.courseVideoPath + element.videoAddress);
     });
 
     return resultObj;
   }
 
-  async searchByKeywords({ offset = 0, limit = 10, keyword='' }){
+  async searchByKeywords({ offset = 0, limit = 10, keyword='', thumbName = 'thumb_600_600' }){
     let resultObj = await this.ctx.model.Course.findAndCountAll({
       offset,
       limit,
@@ -202,7 +204,7 @@ class Course extends Service {
 
     const app = this.ctx.app;
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb);
+      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb, thumbName);
       element.videoAddress = app.signatureUrl(app.courseVideoPath + element.videoAddress);
     });
 

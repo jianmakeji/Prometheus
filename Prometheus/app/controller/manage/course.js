@@ -14,7 +14,8 @@ class CourseController extends Controller {
 
   async show() {
     const ctx = this.ctx;
-    ctx.body = await ctx.service.course.find(ctx.helper.parseInt(ctx.params.id));
+    const thumnName = ctx.query.thumnName;
+    ctx.body = await ctx.service.course.find(ctx.helper.parseInt(ctx.params.id),thumbName);
   }
 
   async create() {
