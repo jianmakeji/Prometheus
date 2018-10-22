@@ -1,7 +1,6 @@
 <!--pages/curriculum/curriculumDetail/curriculumDetail.wxml-->
 <view>
-    <video class='video' src="{{videoAddress}}" page-gesture="true">
-    </video>
+    <video class='video' src="{{videoAddress}}" autoplay custom-cache="{{false}}" page-gesture="true"></video>
     <view class='content_view'>
         <text class='classType'>{{courseTypeAndSpecial}}</text>
         <view class='share_collect'>

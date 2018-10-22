@@ -19,6 +19,7 @@ App({
         serverHost: "https://prometheus.design-engine.org",
 
         globalAPI: {
+            getWxCode: "/api/wx/user/getWxCode",
             createUser: "/api/wx/users", //授权并创建用户
 
             getCourseData: "/api/wx/course",

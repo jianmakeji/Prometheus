@@ -29,20 +29,6 @@ Page({
         wx.setNavigationBarTitle({
             title: options.specialColumnName,
         })
-
-    },
-
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady: function() {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function() {
         let that = this;
         wx.showNavigationBarLoading();
         this.setData({
@@ -50,7 +36,7 @@ Page({
         })
         wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.getCourseBySpecialColumnId.replace(":id", this.data.specialColumnId),
-            data:{
+            data: {
                 thumbName: "thumb_300_300"
             },
             header: {
@@ -72,6 +58,21 @@ Page({
                 }
             }
         })
+
+    },
+
+    /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+    onReady: function() {
+
+    },
+
+    /**
+     * 生命周期函数--监听页面显示
+     */
+    onShow: function() {
+        
     },
 
     /**

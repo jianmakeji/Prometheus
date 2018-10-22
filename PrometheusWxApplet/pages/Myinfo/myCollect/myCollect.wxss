@@ -5,6 +5,6 @@
 }
 
 .icon_image {
-    width: 120rpx;
+    width: 70rpx;
     height: 70rpx;
 }

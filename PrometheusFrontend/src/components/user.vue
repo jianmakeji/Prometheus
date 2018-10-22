@@ -11,28 +11,39 @@
 </template>
 
 <script>
+import globel_ from './../config/global.vue'
 export default {
 	name:"user",
 	data(){
 		return{
 			total:100,
+            offset:0,
 			columns:[
 				{ 	title: 'id',	key: 'id',	align: 'center'	},
 				{	title: '用户名',	key: 'name',	align: 'center'}
 			],
-			dataList:[
-				{id:1,name:"张三"},
-				{id:2,name:"李四"},
-				{id:3,name:"王五"},
-				{id:4,name:"赵六"},
-			]
+			dataList:[]
 		}
 	},
 	methods:{
 		pageChange(index){
 			console.log(index);
 		},
-	}
+	},
+    created(){
+        let that = this;
+        let getDataUrl = globel_.serverHost+ globel_.configAPI.getUser + this.offset;
+		this.$http.get( getDataUrl ).then(function(result){
+            console.log(result);
+			that.$Loading.finish();
+			that.dataList = result.data.rows;
+			that.total = result.data.count;
+		}).catch(function(err){
+            console.log(err)
+			that.$Loading.error();
+			that.$Message.error({duration:3,content:err});
+		})
+    }
 }
 </script>
 

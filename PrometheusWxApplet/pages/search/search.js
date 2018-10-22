@@ -93,11 +93,5 @@ Page({
             userId: wx.getStorageSync('userId'),
             storageData: wx.getStorageSync('search')
         })
-    },
-    onReady:function(){
-        console.log("onReady")
-    },
-    onShow:function(){
-        console.log("onShow")
     }
 })

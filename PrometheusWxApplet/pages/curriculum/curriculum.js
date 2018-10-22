@@ -70,14 +70,17 @@ Page({
                 wx.setStorageSync("city", res.userInfo.city);
                 wx.setStorageSync("country", res.userInfo.country);
 
-                // wx.setStorageSync("userInfo", res.userInfo);
                 wx.login({
                     withCredentials: true,
                     success: function(res) {
+                        console.log("code",res);
                         if (res.code) {
                             wx.request({
-                                url: 'https://api.weixin.qq.com/sns/jscode2session?appid=wx781d229c4c3bd932&secret=5ede9e8e53b095852751ff9b7a0a0e2a&js_code=' + res.code + '&grant_type=authorization_code',
-                                data: {},
+                                // url: 'https://api.weixin.qq.com/sns/jscode2session?appid=wx781d229c4c3bd932&secret=8c05c4d7e9970ca9cd1520fd8b857572&js_code=' + res.code + '&grant_type=authorization_code',
+                                url: app.globalData.serverHost + app.globalData.globalAPI.getWxCode,
+                                data: {
+                                    jscode: res.code
+                                },
                                 header: {
                                     'content-type': 'application/json'
                                 },
@@ -100,6 +103,7 @@ Page({
                                             openId: wx.getStorageSync("openid"),
                                         },
                                         success(res) {
+                                            console.log("token", res);
                                             wx.hideNavigationBarLoading();
                                             wx.showTabBar();
                                             wx.setStorageSync("token", res.data.token);
@@ -109,8 +113,12 @@ Page({
                                             that.setData({
                                                 loginModal: false
                                             })
+                                        },
+                                        fail(err) {
                                         }
                                     })
+                                },
+                                fail(err){
                                 }
                             })
                         } else {
@@ -134,20 +142,6 @@ Page({
 
     },
     onLoad: function(options) {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady: function() {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function() {
         wx.showNavigationBarLoading();
         let that = this;
         this.setData({
@@ -174,7 +168,8 @@ Page({
                         wx.request({
                             url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnsByCourseType,
                             data: {
-                                courseType: res.data.rows[0].Id
+                                courseType: res.data.rows[0].Id,
+                                thumbName: "thumb_300_300"
                             },
                             header: {
                                 "Authorization": that.data.authorization
@@ -188,14 +183,8 @@ Page({
                                         grade7arr.push(res.data[i]);
                                     } else if (res.data[i].grade == 8) {
                                         grade8arr.push(res.data[i]);
-                                        that.setData({
-                                            JPgrade8_data: that.data.JPgrade8_data.push(res.data[i])
-                                        })
                                     } else if (res.data[i].grade == 9) {
                                         grade9arr.push(res.data[i]);
-                                        that.setData({
-                                            JPgrade9_data: that.data.JPgrade9_data.push(res.data[i])
-                                        })
                                     }
                                 };
                                 that.setData({
@@ -209,7 +198,8 @@ Page({
                         wx.request({
                             url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnsByCourseType,
                             data: {
-                                courseType: res.data.rows[1].Id
+                                courseType: res.data.rows[1].Id,
+                                thumbName: "thumb_300_300"
                             },
                             header: {
                                 "Authorization": that.data.authorization
@@ -227,6 +217,8 @@ Page({
                 }
             })
         } else {
+
+            wx.hideTabBar();
             this.setData({
                 loginModal: true
             })

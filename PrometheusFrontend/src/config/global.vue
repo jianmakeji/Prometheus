@@ -1,6 +1,8 @@
 <script type="text/javascript">
 
+	// const serverHost = "http://prometheus.design-engine.org";
 	const serverHost = "http://192.168.3.163:7001";
+
 	const aliHttp = "http://jm-prometheus.oss-cn-hangzhou.aliyuncs.com/";
 	// const aliHttp = "https://jm-prometheus.oss-cn-hangzhou.aliyuncs.com/";
 
@@ -68,6 +70,7 @@
 		getTeacherData:"/api/manage/teacher?limit=10&offset=",
 		getTeacherDataById:"/api/manage/teacher/:id",
 
+		getUser:"/api/manage/users?limit=10&offset=",
 		//评论
 		deleteCommentById:"/api/manage/comment/:id",
 		getCommentData:"/api/manage/comment?limit=10&offset="

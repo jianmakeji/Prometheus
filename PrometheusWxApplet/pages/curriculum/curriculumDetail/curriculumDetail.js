@@ -153,6 +153,9 @@ Page({
             commentModal: false
         })
     },
+    bindWaiting:function(event){
+        console.log("缓存中")
+    },
     /**
      * 生命周期函数--监听页面加载
      */
@@ -193,6 +196,7 @@ Page({
                 "Authorization": this.data.authorization
             },
             success(res) {
+                console.log('详情界面', res);
                 if (res.statusCode == 200) {
                     that.setData({
                         videoAddress: res.data.videoAddress,
