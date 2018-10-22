@@ -102,7 +102,7 @@ class SpecialColumn extends Service {
     const app = this.ctx.app;
 
     resultObj.forEach((element, index)=>{
-      element.thumb = app.signatureUrl2(app.courseImagePath + element.thumb, thumbName);
+      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb, thumbName);
     });
 
     return resultObj;

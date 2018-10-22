@@ -8,7 +8,7 @@ class CourseController extends Controller {
     const query = {
       limit: ctx.helper.parseInt(ctx.query.limit),
       offset: ctx.helper.parseInt(ctx.query.offset),
-      thumnName:ctx.query.thumnName,
+      thumbName:ctx.query.thumbName,
     };
     ctx.body = await ctx.service.course.list(query);
   }
@@ -24,7 +24,7 @@ class CourseController extends Controller {
       limit: ctx.helper.parseInt(ctx.query.limit),
       offset: ctx.helper.parseInt(ctx.query.offset),
       id: ctx.params.id,
-      thumnName:ctx.query.thumnName,
+      thumbName:ctx.query.thumbName,
     };
     ctx.body = await ctx.service.course.getCourseBySpecialColumnId(query);
   }
@@ -35,7 +35,7 @@ class CourseController extends Controller {
       limit: ctx.helper.parseInt(ctx.query.limit),
       offset: ctx.helper.parseInt(ctx.query.offset),
       id: ctx.params.id,
-      thumnName:ctx.query.thumnName,
+      thumbName:ctx.query.thumbName,
     };
     ctx.body = await ctx.service.course.getCourseByCourseTypeId(query);
   }
@@ -47,7 +47,7 @@ class CourseController extends Controller {
       offset: ctx.helper.parseInt(ctx.query.offset),
       courseType: ctx.helper.parseInt(ctx.query.courseType),
       specialColumn: ctx.helper.parseInt(ctx.query.specialColumn),
-      thumnName:ctx.query.thumnName,
+      thumbName:ctx.query.thumbName,
     };
     ctx.body = await ctx.service.course.getCourseByCondition(query);
   }
@@ -58,7 +58,7 @@ class CourseController extends Controller {
       limit: ctx.helper.parseInt(ctx.query.limit),
       offset: ctx.helper.parseInt(ctx.query.offset),
       keyword:ctx.query.keyword,
-      thumnName:ctx.query.thumnName,
+      thumbName:ctx.query.thumbName,
     };
     ctx.body = await ctx.service.course.searchByKeywords(query);
   }
