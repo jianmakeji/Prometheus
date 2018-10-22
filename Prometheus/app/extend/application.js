@@ -27,7 +27,14 @@ module.exports = {
       accessKeySecret: config.AccessKeySecret,
       bucket: config.bucket,
     });
-    return client.signatureUrl(objectPath, {expires: 3600,process : 'style/'+thumbName});
+    
+    if (typeof(thumbName) == "undefined"){
+      return client.signatureUrl(objectPath, {expires: 3600});
+    }
+    else{
+      return client.signatureUrl(objectPath, {expires: 3600,process : 'style/'+thumbName});
+    }
+
   },
 
   async deleteOssObject(objectPath){

@@ -6,6 +6,7 @@
   "dependencies": {
     "ali-oss": "^6.0.1",
     "egg": "^2.2.1",
+    "egg-alinode": "^2.0.1",
     "egg-cors": "^2.1.0",
     "egg-mysql": "^3.0.0",
     "egg-scripts": "^2.5.0",

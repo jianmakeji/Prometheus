@@ -48,7 +48,12 @@ module.exports = appInfo => {
       origin:'*',
       allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH'
   };
-
-
+/*
+  config.alinode = {
+      server: 'wss://agentserver.node.aliyun.com:8080',
+      appid: '76360',
+      secret: 'f397191612454ecc74cbc4ac26ddf34478d2bcc6'
+  }
+*/
   return config;
 };
