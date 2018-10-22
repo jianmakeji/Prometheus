@@ -14,8 +14,8 @@ class CourseController extends Controller {
 
   async show() {
     const ctx = this.ctx;
-    const thumnName = ctx.query.thumnName;
-    ctx.body = await ctx.service.course.find(ctx.helper.parseInt(ctx.params.id),thumbName);
+
+    ctx.body = await ctx.service.course.find({id:ctx.helper.parseInt(ctx.params.id)});
   }
 
   async create() {
@@ -34,6 +34,7 @@ class CourseController extends Controller {
       specialColumn: ctx.request.body.specialColumn,
       thumb: ctx.request.body.thumb,
       videoAddress: ctx.request.body.videoAddress,
+      duration:ctx.request.body.duration,
     };
     await ctx.service.course.update({ id, updates });
     ctx.body = ctx.app.success('更新成功!');

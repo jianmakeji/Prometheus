@@ -14,7 +14,7 @@ class SpecialColumnController extends Controller {
 
   async show() {
     const ctx = this.ctx;
-    ctx.body = await ctx.service.specialColumn.find(ctx.helper.parseInt(ctx.params.id));
+    ctx.body = await ctx.service.specialColumn.find({id:ctx.helper.parseInt(ctx.params.id)});
   }
 
   async create() {

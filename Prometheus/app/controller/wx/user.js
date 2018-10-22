@@ -3,6 +3,7 @@
 const Controller = require('egg').Controller;
 const crypto = require("crypto");
 const jwt = require('jsonwebtoken');
+const request = require('request');
 
 class UserController extends Controller {
   async index() {
@@ -55,6 +56,23 @@ class UserController extends Controller {
     ctx.body = ctx.app.success('删除成功!');
   }
 
+  async getWxCode(){
+    const ctx = this.ctx;
+    const jscode = ctx.query.jscode;
+
+    const requestUrl = 'https://api.weixin.qq.com/sns/jscode2session?appid=wx781d229c4c3bd932&secret=8c05c4d7e9970ca9cd1520fd8b857572&js_code='+ jscode + '&grant_type=authorization_code';
+
+    const resultObj = await request(requestUrl, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        return body;
+      }
+      else{
+        return error;
+      }
+    });
+    ctx.body = resultObj;
+
+  }
 }
 
 module.exports = UserController;

@@ -14,7 +14,7 @@ class ArticleController extends Controller {
 
   async show() {
     const ctx = this.ctx;
-    ctx.body = await ctx.service.article.find(ctx.helper.parseInt(ctx.params.id));
+    ctx.body = await ctx.service.article.find({id:ctx.helper.parseInt(ctx.params.id)});
   }
 
   async create() {
