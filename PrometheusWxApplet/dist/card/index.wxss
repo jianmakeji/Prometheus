@@ -33,7 +33,7 @@
    height: 70px;
    position: relative;
    margin-left: auto;
-   margin-right: auto;
+   margin-right: 60rpx;     /*auto */
    overflow: hidden;
    background-size: cover;
    vertical-align: middle;
@@ -55,7 +55,7 @@
 
 .i-card-body {
    position: relative;
-   padding: 6px 16px;
+   padding: 0 16px;
    color: #495060;
    font-size: 14px;
 }
@@ -75,9 +75,9 @@
    border-top-width: 1px;
 }
 
-.i-card-footer {
+/* .i-card-footer {
    position: relative;
    padding: 6px 16px;
    color: #80848f;
    font-size: 12px;
-}
+} */

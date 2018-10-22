@@ -23,7 +23,6 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        console.log(options)
         this.setData({
             specialColumnId: options.specialColumnId
         })
@@ -51,6 +50,9 @@ Page({
         })
         wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.getCourseBySpecialColumnId.replace(":id", this.data.specialColumnId),
+            data:{
+                thumbName: "thumb_300_300"
+            },
             header: {
                 "Authorization": that.data.authorization
             },

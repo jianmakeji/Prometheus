@@ -18,7 +18,7 @@
                 <view>
                     <block wx:for="{{JPgrade7_data}}" wx:for-item="item">
                         <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}' data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
-                            <i-card title="{{item.name}}" extra="{{item.describe}}" thumb="{{item.thumb}}">
+                            <i-card title="{{item.name}}" thumb="{{item.thumb}}">
                             </i-card>
                         </view>
                     </block>
@@ -33,7 +33,7 @@
                 <view>
                     <block wx:for="{{JPgrade8_data}}" wx:for-item="item">
                         <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}' data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
-                            <i-card title="{{item.name}}" extra="{{item.describe}}" thumb="{{item.thumb}}">
+                            <i-card title="{{item.name}}" thumb="{{item.thumb}}">
                             </i-card>
                         </view>
                     </block>
@@ -48,7 +48,7 @@
                 <view>
                     <block wx:for="{{JPgrade9_data}}" wx:for-item="item">
                         <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}' data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
-                            <i-card title="{{item.name}}" extra="{{item.describe}}" thumb="{{item.thumb}}">
+                            <i-card title="{{item.name}}" thumb="{{item.thumb}}">
                             </i-card>
                         </view>
                     </block>
@@ -61,7 +61,7 @@
             <view>
                 <block wx:for="{{ZT_data}}" wx:for-item="item">
                     <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}' data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
-                        <i-card title="{{item.name}}" extra="{{item.describe}}" thumb="{{item.thumb}}">
+                        <i-card title="{{item.name}}" thumb="{{item.thumb}}">
                         </i-card>
                     </view>
                 </block>

@@ -25,12 +25,6 @@
                 "selectedIconPath": "images/curriculum_h.png"
             },
             {
-                "pagePath": "pages/pieceShare/pieceShare",
-                "text": "好文分享",
-                "iconPath": "images/share.png",
-                "selectedIconPath": "images/share_h.png"
-            },
-            {
                 "pagePath": "pages/search/search",
                 "text": "搜索",
                 "iconPath": "images/search.png",

@@ -1,4 +1,5 @@
 //app.js
+const mtjwxsdk = require("./utils/mtj-wx-sdk.js");
 App({
     data: {
         openid: "",
@@ -32,11 +33,11 @@ App({
             getSpecialColumnsByCourseType: "/api/wx/specialColumn/getSpecialColumnsByCourseType",
             getCommentByCourseId: "/api/wx/comment/getCommentByCourseId?limit=10&offset=",
 
-            createComment: "/api/wx/comment",               //添加评论
+            createComment: "/api/wx/comment",                       //添加评论
 
             checkIsFavite:"/api/wx/favorite/checkIsFavite?",
-            getFavoriteByCategoryAndUserid:"/api/wx/favorite?limit=10&offset=",
-            createFavorite: "/api/wx/favorite",      //添加收藏
+            getFavoriteByCategoryAndUserid:"/api/wx/favorite?limit=1000&offset=",
+            createFavorite: "/api/wx/favorite",                     //添加收藏
             deleteFavorite: "/api/wx/favorite/deleteFavorite",      //删除收藏
 
 

@@ -16,3 +16,17 @@
 .LX_class, .PY_class, .HZ_class{
    margin: 10rpx auto;
 }
+
+
+
+
+
+.curriculum_list {
+    margin: 10rpx 20rpx;
+    border-radius: 10px;
+}
+
+.icon_image {
+    width: 120rpx;
+    height: 70rpx;
+}

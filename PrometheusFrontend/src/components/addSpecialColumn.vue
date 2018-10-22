@@ -25,6 +25,11 @@
 	                <Option v-for="item in courseTypeData" :value="item.Id">{{item.name}}</Option>
 	            </Select>
 		   	</FormItem>
+			<FormItem label="所属年级:">
+				<Select v-model="formItem.grade" placeholder="选择年级...">
+	                <Option v-for="item in gradeData" :value="item.id">{{item.title}}</Option>
+	            </Select>
+		   	</FormItem>
 			<FormItem label="对应老师:">
 				<Select v-model="formItem.teacherId" placeholder="选择老师...">
 					<Option v-for="item in teacherData" :value="item.Id">{{item.name}}</Option>
@@ -91,6 +96,7 @@ export default {
 		  	fileImage:"",
 
 	      	courseTypeData: "", //所属类别的数据
+			gradeData: globel_.gradeData, //所属类别的数据
 	      	teacherData: "",
 	      	formItem: {
 		        // thumb:globel_.defaultImage,
@@ -99,6 +105,7 @@ export default {
 		        name: "",
 		        describe: "",
 		        courseType: "",
+				grade:0,
 		        price: 0
 		    }
     	}
@@ -107,6 +114,7 @@ export default {
 	    submitClick() {
 			this.formItem.thumb = this.fileImage;
 	      	let that = this;
+			console.log("----",this.formItem);
 	      	this.$Loading.start();
 	      	if (this.id == 0) { //新建	post
 	        	this.$http.post(this.submitUrl, {
@@ -115,7 +123,8 @@ export default {
 		          	name: this.formItem.name,
 		          	describe: this.formItem.describe,
 		          	courseType: this.formItem.courseType,
-		          	price: this.formItem.price
+		          	price: this.formItem.price,
+		          	grade: this.formItem.grade
 	        	}).then(function(result) {
 		          	if (result.status == 200) {
 		            	that.$Loading.finish();
@@ -143,7 +152,8 @@ export default {
 	          		name: this.formItem.name,
 	          		describe: this.formItem.describe,
 	          		courseType: this.formItem.courseType,
-	          		price: this.formItem.price
+	          		price: this.formItem.price,
+		          	grade: this.formItem.grade
 	        	}).then(function(result) {
 	          		if (result.status == 200) {
 	            		that.$Loading.finish();

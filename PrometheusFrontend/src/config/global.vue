@@ -11,7 +11,6 @@
 		{id:4,title:"化学"}
 	];
 	const gradeData=[
-		{id:6,title:"六年级"},
 		{id:7,title:"七年级"},
 		{id:8,title:"八年级"},
 		{id:9,title:"九年级"}
