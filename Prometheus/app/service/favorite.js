@@ -3,7 +3,7 @@
 const Service = require('egg').Service;
 
 class Favorite extends Service {
-  async list({ offset = 0, limit = 10, category = 1, userId = 0 }) {
+  async list({ offset = 0, limit = 10, category = 1, userId = 0, thumbName = 'thumb_600_600' }) {
     let condition = {
       offset,
       limit,
@@ -27,7 +27,7 @@ class Favorite extends Service {
     const favData = await this.ctx.model.Favorite.findAndCountAll(condition);
     const app = this.ctx.app;
     favData.rows.forEach((element, index)=>{
-      element.course.thumb = app.signatureUrl(app.courseImagePath + element.course.thumb);
+      element.course.thumb = app.signatureUrl(app.courseImagePath + element.course.thumb, thumbName);
       element.course.videoAddress = app.signatureUrl(app.courseVideoPath + element.course.videoAddress);
     });
     return favData;

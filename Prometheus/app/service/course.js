@@ -20,8 +20,6 @@ class Course extends Service {
     const app = this.ctx.app;
     resultObj.rows.forEach((element, index)=>{
       element.thumb = app.signatureUrl(app.courseImagePath + element.thumb, thumbName);
-      console.log(element.thumb);
-
       element.videoAddress = app.signatureUrl(app.courseVideoPath + element.videoAddress);
     });
 

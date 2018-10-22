@@ -8,13 +8,14 @@ class ArticleController extends Controller {
     const query = {
       limit: ctx.helper.parseInt(ctx.query.limit),
       offset: ctx.helper.parseInt(ctx.query.offset),
+      thumbName:ctx.query.thumbName,
     };
     ctx.body = await ctx.service.article.list(query);
   }
 
   async show() {
     const ctx = this.ctx;
-    ctx.body = await ctx.service.article.find(ctx.helper.parseInt(ctx.params.id));
+    ctx.body = await ctx.service.article.find({id:ctx.helper.parseInt(ctx.params.id)});
   }
 
 }

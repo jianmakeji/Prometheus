@@ -10,6 +10,7 @@ class FavoriteController extends Controller {
       offset: ctx.helper.parseInt(ctx.query.offset),
       category: ctx.helper.parseInt(ctx.query.category),
       userId: ctx.helper.parseInt(ctx.query.userId),
+      thumbName:ctx.query.thumbName,
     };
     ctx.body = await ctx.service.favorite.list(query);
   }
@@ -35,7 +36,7 @@ class FavoriteController extends Controller {
       courseId: ctx.query.courseId,
       articleId: ctx.query.articleId,
     };
-    
+
     await ctx.service.favorite.del(favorite);
     ctx.body = ctx.app.success('取消成功!');
   }
