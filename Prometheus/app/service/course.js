@@ -49,7 +49,7 @@ class Course extends Service {
         where: {
           Id: id
         }
-    })
+    });
 
     return course;
 
