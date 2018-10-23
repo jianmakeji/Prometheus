@@ -29,11 +29,11 @@ class User extends Service {
           openId:user.openId
         }
       });
-      if (userObj){
+      if (userObj.length == 0){
         return this.ctx.model.User.create(user);
       }
       else{
-        throw new Error('用户已存在');
+        return userObj[0];
       }
     }
 
@@ -56,7 +56,7 @@ class User extends Service {
   }
 
   async findByOpenId(openId){
-    
+
     return await this.ctx.model.User.findAll({
       where:{
         openId:{[this.app.Sequelize.Op.eq]:openId}
