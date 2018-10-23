@@ -42,7 +42,17 @@ class Course extends Service {
     const app = this.ctx.app;
     course.thumb = app.signatureUrl(app.courseImagePath + course.thumb, thumbName);
     course.videoAddress = app.signatureUrl(app.courseVideoPath + course.videoAddress);
+
+    await this.ctx.model.Course.update({
+          lookingNum: this.app.Sequelize.fn('1 + abs', this.app.Sequelize.col('lookingNum'))
+        },{
+        where: {
+          Id: id
+        }
+    })
+
     return course;
+
   }
 
   async create(course) {
@@ -208,6 +218,8 @@ class Course extends Service {
 
     return resultObj;
   }
+
+
 }
 
 module.exports = Course;

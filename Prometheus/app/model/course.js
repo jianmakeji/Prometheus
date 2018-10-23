@@ -15,6 +15,7 @@ module.exports = app => {
     specialColumn: INTEGER,
     thumb: STRING(30),
     duration: INTEGER,
+    lookingNum:INTEGER,
     videoAddress: STRING(30),
     created_at: DATE,
     updated_at: DATE,
