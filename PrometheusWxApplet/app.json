@@ -1,5 +1,6 @@
 {
     "pages": [
+        "pages/welcome/welcome",        
         "pages/curriculum/curriculum",
         "pages/curriculum/curriculumList/curriculumList",
         "pages/curriculum/curriculumDetail/curriculumDetail",
@@ -12,29 +13,30 @@
     "window": {
         "backgroundTextStyle": "black",
         "navigationBarBackgroundColor": "#ffffff",
-        "navigationBarTitleText": "Prometheus",
+        "navigationBarTitleText": "私塾",
         "backgroundColor": "#f8f8f9",
         "navigationBarTextStyle": "black"
     },
     "tabBar": {
+        "selectedColor": "#0D3D85",
         "list": [
             {
                 "pagePath": "pages/curriculum/curriculum",
                 "text": "课程",
                 "iconPath": "images/curriculum.png",
-                "selectedIconPath": "images/curriculum_h.png"
+                "selectedIconPath": "images/curriculum_h_1.png"
             },
             {
                 "pagePath": "pages/search/search",
                 "text": "搜索",
                 "iconPath": "images/search.png",
-                "selectedIconPath": "images/search_h.png"
+                "selectedIconPath": "images/search_h_1.png"
             },
             {
                 "pagePath": "pages/Myinfo/Myinfo",
                 "text": "我的",
                 "iconPath": "images/user.png",
-                "selectedIconPath": "images/user_h.png"
+                "selectedIconPath": "images/user_h_1.png"
             }
         ]
     },

@@ -28,6 +28,41 @@ Page({
             })
         }
     },
+    bindConfirmr:function(event){
+        let that = this;
+        if (this.data.searchValue) {
+            wx.request({
+                url: app.globalData.serverHost + app.globalData.globalAPI.searchByKeywords + this.data.searchValue,
+                header: {
+                    "Authorization": this.data.authorization
+                },
+                success(res) {
+                    if (res.statusCode == 200) {
+                        let dataListArr = res.data.rows;
+                        for (let i = 0; i < res.data.rows.length; i++) {
+                            dataListArr[i].duration = parseInt(res.data.rows[i].duration / 60) + ":" + (parseInt(res.data.rows[i].duration % 60 / 10) ? res.data.rows[i].duration % 60 : "0" + res.data.rows[i].duration % 60);
+                        }
+                        that.setData({
+                            searchCursor: 1,
+                            dataList: dataListArr
+                        })
+                        if (res.data.count > 0) {
+                            let storageArr = wx.getStorageSync("search") || [];
+                            if (storageArr.indexOf(that.data.searchValue) == -1) {
+                                storageArr.unshift(that.data.searchValue);
+                            }
+                            wx.setStorageSync("search", storageArr);
+                        }
+                    } else if (res.statusCode == 409) {
+                        wx.setStorageSync("token", res.data.token);
+                        wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
+                    }
+                }
+            })
+
+
+        }
+    },
     // 点击搜索历史数据
     handleClick: function(event) {
         var searchValue = event.currentTarget.dataset.storageValue;

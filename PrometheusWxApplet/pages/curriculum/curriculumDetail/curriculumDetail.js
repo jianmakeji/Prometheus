@@ -1,4 +1,3 @@
-var fileData = require('../../../utils/xyData.js')
 var app = getApp();
 Page({
 
@@ -19,7 +18,7 @@ Page({
         commentData: [],
         commentLenght: 0,
         loadMore: false,
-        loginModal: false,
+        // loginModal: false,
         tex: ""
     },
     // 添加至收藏
@@ -155,152 +154,12 @@ Page({
             commentModal: false
         })
     },
-    userInfoHandler() {
-        let that = this;
-        that.setData({
-            loginModal: false,
-            // authorization: wx.getStorageSync("Authorization")
-        })
-        wx.showNavigationBarLoading();
-        wx.hideTabBar();
-        wx.getUserInfo({
-            success(res) {
-                wx.setStorageSync("nickName", res.userInfo.nickName);
-                wx.setStorageSync("avatarUrl", res.userInfo.avatarUrl);
-                wx.setStorageSync("gender", res.userInfo.gender);
-                wx.setStorageSync("province", res.userInfo.province);
-                wx.setStorageSync("city", res.userInfo.city);
-                wx.setStorageSync("country", res.userInfo.country);
-                wx.login({
-                    withCredentials: true,
-                    success: function(res) {
-                        if (res.code) {
-                            wx.request({
-                                url: app.globalData.serverHost + app.globalData.globalAPI.getWxCode,
-                                data: {
-                                    jscode: res.code
-                                },
-                                header: {
-                                    'content-type': 'application/json'
-                                },
-                                success: function(res) {
-                                    wx.setStorageSync("openid", res.data.openid);
-                                    that.setData({
-                                        userInfo: wx.getStorageSync("userInfo")
-                                    })
-                                    app.data.openid = res.data.openid;
-
-                                    wx.request({
-                                        url: app.globalData.serverHost + app.globalData.globalAPI.createUser,
-                                        method: "POST",
-                                        data: {
-                                            nickName: wx.getStorageSync("nickName"),
-                                            avatarUrl: wx.getStorageSync("avatarUrl"),
-                                            gender: wx.getStorageSync("gender"),
-                                            province: wx.getStorageSync("province"),
-                                            city: wx.getStorageSync("city"),
-                                            country: wx.getStorageSync("country"),
-                                            openId: wx.getStorageSync("openid"),
-                                        },
-                                        success(res) {
-                                            wx.hideNavigationBarLoading();
-                                            wx.showTabBar();
-                                            wx.setStorageSync("token", res.data.token);
-                                            wx.setStorageSync("userId", res.data.userId);
-                                            wx.setStorageSync("userName", res.data.userId);
-                                            wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
-                                            that.setData({
-                                                // loginModal: false,
-                                                authorization: wx.getStorageSync("Authorization")
-                                            })
-                                            // ==================================================
-                                            that.setData({
-                                                authorization: wx.getStorageSync("Authorization"),
-                                                userId: wx.getStorageSync("userId"),
-                                            })
-                                            wx.request({
-                                                url: app.globalData.serverHost + app.globalData.globalAPI.getCommentByCourseId + that.data.offset + "&courseId=" + that.data.id,
-                                                header: {
-                                                    "Authorization": that.data.authorization
-                                                },
-                                                success(res) {
-                                                    that.setData({
-                                                        commentData: res.data.rows,
-                                                        commentLenght: res.data.count
-                                                    })
-                                                }
-                                            })
-                                            wx.request({
-                                                url: app.globalData.serverHost + app.globalData.globalAPI.getCourseData + "/" + that.data.id,
-                                                header: {
-                                                    "Authorization": that.data.authorization
-                                                },
-                                                success(res) {
-                                                    that.setData({
-                                                        videoAddress: res.data.videoAddress,
-                                                        describe: res.data.describe,
-                                                        courseTypeAndSpecial: res.data.course_type.name + "·" + res.data.special_column.name
-                                                    })
-                                                }
-                                            })
-                                            wx.request({
-                                                url: app.globalData.serverHost + app.globalData.globalAPI.checkIsFavite + "userId=" + that.data.userId +
-                                                    "&category=1&courseId=" + that.data.id + "&articleId=0",
-                                                header: {
-                                                    "Authorization": that.data.authorization
-                                                },
-                                                success(res) {
-                                                    if (res.data.status == 200) {
-                                                        if (res.data.message == "未收藏") {
-                                                            that.setData({
-                                                                collectFlag: 0
-                                                            })
-                                                        } else if (res.data.message == "已收藏") {
-                                                            that.setData({
-                                                                collectFlag: 1
-                                                            })
-                                                        }
-                                                    }
-                                                }
-                                            })
-
-
-                                            // ===================================================
-
-                                        },
-                                        fail(err) {
-                                            that.setData({
-                                                tex: "err"
-                                            })
-                                        }
-                                    })
-                                },
-                                fail(err) {}
-                            })
-                        } else {
-                            // 否则弹窗显示，showToast需要封装
-                            wx.showToast({
-                                title: '登陆失败',
-                            })
-                        }
-                    }
-                })
-            },
-            fail: function() {
-                // fail
-                console.log("获取失败！")
-            },
-            complete: function() {
-                console.log("获取用户信息完成！")
-            }
-        });
-
-
-    },
+    
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
+        console.log("课程详情界面onload参数：", options);
         let that = this;
         this.setData({
             id: options.id,
@@ -375,8 +234,11 @@ Page({
                 }
             })
         } else {
-            this.setData({
-                loginModal: true
+            // this.setData({
+            //     loginModal: true
+            // })
+            wx.redirectTo({
+                url: '/pages/welcome/welcome?id=' + this.data.id + "&courseName=" + this.data.courseName,
             })
         }
     },
