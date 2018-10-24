@@ -54,10 +54,14 @@ Page({
                 },
                 success(res) {
                     if (res.statusCode == 200) {
+                        let dataListArr = res.data.rows;
+                        for (let i = 0; i < res.data.rows.length; i++) {
+                            dataListArr[i].duration = parseInt(res.data.rows[i].duration / 60) + ":" + (parseInt(res.data.rows[i].duration % 60 / 10) ? res.data.rows[i].duration % 60 : "0" + res.data.rows[i].duration % 60);
+                        }
                         that.setData({
                             searchCursor: 1,
-                            dataList: res.data.rows
-                        });
+                            dataList: dataListArr
+                        })
                         if (res.data.count > 0) {
                             let storageArr = wx.getStorageSync("search") || [];
                             if (storageArr.indexOf(that.data.searchValue) == -1) {
@@ -87,11 +91,16 @@ Page({
     },
     // 生命周期函数--监听页面加载
     onLoad: function(options) {
-        console.log("onLoad")
         this.setData({
             authorization: wx.getStorageSync("Authorization"),
             userId: wx.getStorageSync('userId'),
             storageData: wx.getStorageSync('search')
+        })
+    },
+    onHide:function(){
+        this.setData({
+            searchValue: "",
+            searchCursor: 0
         })
     }
 })

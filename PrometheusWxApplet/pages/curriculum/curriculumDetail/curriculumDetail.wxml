@@ -1,5 +1,8 @@
 <!--pages/curriculum/curriculumDetail/curriculumDetail.wxml-->
 <view>
+    <i-modal title="需要获取您的信息哦！" visible="{{ loginModal }}" bind:ok="handleClose1" bind:cancel="handleClose1" show-cancel="{{false}}" show-ok="{{false}}">
+        <i-button type="info" size="small" open-type='getUserInfo' bindgetuserinfo='userInfoHandler'>确定</i-button>
+    </i-modal>
     <video class='video' src="{{videoAddress}}" autoplay custom-cache="{{false}}" page-gesture="true"></video>
     <view class='content_view'>
         <text class='classType'>{{courseTypeAndSpecial}}</text>
@@ -30,7 +33,8 @@
                 <i-divider height="2" class="divider"></i-divider>
             </block>
         </view>
-        <i-load-more  tip="没有更多了" loading="{{ loadMore }}" />
+        <text>{{tex}}</text>
+        <i-load-more tip="没有更多了" loading="{{ loadMore }}" />
         <i-modal title="评论" visible="{{ commentModal }}" ok-text="发表" bind:ok="tapOk" bind:cancel="tapCancel">
             <view>
                 <wxc-input adjust-position value="{{ commentValue }}" bind:input="bindInput" placeholder="请输入评论内容"></wxc-input>

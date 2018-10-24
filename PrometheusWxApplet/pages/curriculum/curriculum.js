@@ -43,7 +43,7 @@ Page({
             });
         } else {
             this.setData({
-                autoHeight: this.data.ZT_data.length *( 216 + 10 )
+                autoHeight: this.data.ZT_data.length * (216 + 10)
             });
         }
     },
@@ -69,14 +69,11 @@ Page({
                 wx.setStorageSync("province", res.userInfo.province);
                 wx.setStorageSync("city", res.userInfo.city);
                 wx.setStorageSync("country", res.userInfo.country);
-
                 wx.login({
                     withCredentials: true,
                     success: function(res) {
-                        console.log("code",res);
                         if (res.code) {
                             wx.request({
-                                // url: 'https://api.weixin.qq.com/sns/jscode2session?appid=wx781d229c4c3bd932&secret=8c05c4d7e9970ca9cd1520fd8b857572&js_code=' + res.code + '&grant_type=authorization_code',
                                 url: app.globalData.serverHost + app.globalData.globalAPI.getWxCode,
                                 data: {
                                     jscode: res.code
@@ -84,8 +81,9 @@ Page({
                                 header: {
                                     'content-type': 'application/json'
                                 },
-                                success: function (res) {
+                                success: function(res) {
                                     wx.setStorageSync("openid", res.data.openid);
+                                    app.data.openId = res.data.openid;
                                     that.setData({
                                         userInfo: wx.getStorageSync("userInfo")
                                     })
@@ -94,12 +92,12 @@ Page({
                                         url: app.globalData.serverHost + app.globalData.globalAPI.createUser,
                                         method: "POST",
                                         data: {
-                                            nickName:wx.getStorageSync("nickName"),
-                                            avatarUrl:wx.getStorageSync("avatarUrl"),
-                                            gender:wx.getStorageSync("gender"),
-                                            province:wx.getStorageSync("province"),
+                                            nickName: wx.getStorageSync("nickName"),
+                                            avatarUrl: wx.getStorageSync("avatarUrl"),
+                                            gender: wx.getStorageSync("gender"),
+                                            province: wx.getStorageSync("province"),
                                             city: wx.getStorageSync("city"),
-                                            country:wx.getStorageSync("country"),
+                                            country: wx.getStorageSync("country"),
                                             openId: wx.getStorageSync("openid"),
                                         },
                                         success(res) {
@@ -108,18 +106,85 @@ Page({
                                             wx.showTabBar();
                                             wx.setStorageSync("token", res.data.token);
                                             wx.setStorageSync("userId", res.data.userId);
-                                            wx.setStorageSync("userName", res.data.userId);
                                             wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
                                             that.setData({
-                                                loginModal: false
+                                                loginModal: false,
+                                                authorization: wx.getStorageSync("Authorization")
                                             })
+
+                                            //  =======================================================
+                                            wx.request({
+                                                url: app.globalData.serverHost + app.globalData.globalAPI.getCourseTypeData,
+                                                data: {
+                                                    limit: 10,
+                                                    offset: 0
+                                                },
+                                                method: "GET",
+                                                header: {
+                                                    "Authorization": that.data.authorization
+                                                },
+                                                success(res) {
+                                                    if (res.statusCode == 200) {
+                                                        that.setData({
+                                                            courseType: res.data.rows
+                                                        });
+                                                        wx.request({
+                                                            url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnsByCourseType,
+                                                            data: {
+                                                                courseType: res.data.rows[0].Id,
+                                                                thumbName: "thumb_300_300"
+                                                            },
+                                                            header: {
+                                                                "Authorization": that.data.authorization
+                                                            },
+                                                            success(res) {
+                                                                let grade7arr = [],
+                                                                    grade8arr = [],
+                                                                    grade9arr = [];
+                                                                for (let i = 0; i < res.data.length; i++) {
+                                                                    if (res.data[i].grade == 7) {
+                                                                        grade7arr.push(res.data[i]);
+                                                                    } else if (res.data[i].grade == 8) {
+                                                                        grade8arr.push(res.data[i]);
+                                                                    } else if (res.data[i].grade == 9) {
+                                                                        grade9arr.push(res.data[i]);
+                                                                    }
+                                                                };
+                                                                that.setData({
+                                                                    JPgrade7_data: grade7arr,
+                                                                    JPgrade8_data: grade8arr,
+                                                                    JPgrade9_data: grade9arr
+                                                                })
+                                                                wx.hideNavigationBarLoading();
+                                                            }
+                                                        });
+                                                        wx.request({
+                                                            url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnsByCourseType,
+                                                            data: {
+                                                                courseType: res.data.rows[1].Id,
+                                                                thumbName: "thumb_300_300"
+                                                            },
+                                                            header: {
+                                                                "Authorization": that.data.authorization
+                                                            },
+                                                            success(res) {
+                                                                that.setData({
+                                                                    ZT_data: res.data
+                                                                })
+                                                            }
+                                                        })
+                                                    } else if (res.statusCode == 409) {
+                                                        wx.setStorageSync("token", res.data.token);
+                                                        wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
+                                                    }
+                                                }
+                                            })
+                                            // ===================================================
                                         },
-                                        fail(err) {
-                                        }
+                                        fail(err) {}
                                     })
                                 },
-                                fail(err){
-                                }
+                                fail(err) {}
                             })
                         } else {
                             // 否则弹窗显示，showToast需要封装
@@ -147,7 +212,7 @@ Page({
         this.setData({
             authorization: wx.getStorageSync("Authorization")
         })
-        if (wx.getStorageSync("openid")) {
+        if (wx.getStorageSync("token")) {
             this.setData({
                 loginModal: false
             })
@@ -157,6 +222,7 @@ Page({
                     limit: 10,
                     offset: 0
                 },
+                method: "GET",
                 header: {
                     "Authorization": this.data.authorization
                 },
@@ -217,14 +283,20 @@ Page({
                 }
             })
         } else {
-
             wx.hideTabBar();
             this.setData({
                 loginModal: true
             })
         }
     },
-
+    onShow: function() {
+        if (wx.getStorageSync("token") == "") {
+            wx.hideTabBar();
+            this.setData({
+                loginModal: true
+            })
+        }
+    },
     /**
      * 用户点击右上角分享
      */
@@ -240,7 +312,7 @@ Page({
             fail: function(res) {
                 wx.showToast({
                     title: '转发失败!',
-                    icon:'none'
+                    icon: 'none'
                 })
             }
         }
