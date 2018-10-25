@@ -14,8 +14,8 @@
                         </view>
                     </i-cell>
                 </i-cell-group>
-                <i-divider wx:if="{{!courseDataList.length}}" height="40" content="暂无数据"></i-divider>
             </view>
+            <i-divider wx:if="{{!courseDataList.length}}" height="40" content="暂无数据"></i-divider>
         </swiper-item>
         <swiper-item class="swiperItem">
             <view class='curriculum_list' wx:for="{{articleDataList}}" wx:for-item="item">

@@ -1,5 +1,4 @@
 // pages/curriculum/curriculum.js
-var fileData = require('../../utils/xyData.js');
 var app = getApp();
 Page({
     data: {
@@ -48,17 +47,17 @@ Page({
             specialColumnGrade = event.currentTarget.dataset.specialColumnGrade,
             specialColumnName = event.currentTarget.dataset.specialColumnName;
         wx.navigateTo({
-            url: '/pages/curriculum/curriculumList/curriculumList?specialColumnId=' + specialColumnId +
+            url: app.globalData.pageUrl.curriculumList + "?specialColumnId=" + specialColumnId +
                 "&specialColumnName=" + specialColumnGrade + "年级·" + specialColumnName
         })
     },
     onLoad: function(options) {
-        wx.showNavigationBarLoading();
         let that = this;
         this.setData({
             authorization: wx.getStorageSync("Authorization")
         })
         if (wx.getStorageSync("token")) {
+            wx.showNavigationBarLoading();
             wx.request({
                 url: app.globalData.serverHost + app.globalData.globalAPI.getCourseTypeData,
                 data: {
@@ -127,14 +126,14 @@ Page({
             })
         } else {
             wx.redirectTo({
-                url: '/pages/welcome/welcome',
+                url: app.globalData.pageUrl.welcome,
             })
         }
     },
     onShow: function() {
         if (wx.getStorageSync("token") == "") {
             wx.redirectTo({
-                url: '/pages/welcome/welcome',
+                url: app.globalData.pageUrl.welcome,
             })
         }
     },
@@ -143,8 +142,8 @@ Page({
      */
     onShareAppMessage: function(res) {
         return {
-            title: 'Prometheus',
-            path: '/pages/curriculum/curriculum',
+            title: '私塾',
+            path: app.globalData.pageUrl.curriculum,
             success: function(res) {
                 wx.showToast({
                     title: '转发成功！',

@@ -14,16 +14,16 @@
             </i-cell>
         </i-cell-group>
     </view>
+    <i-divider wx:if="{{!dataList.length}}">无搜索结果</i-divider>
     <view wx:if="{{!searchCursor}}">
-        <i-divider class="divider">搜索历史</i-divider>
+        <view class='historyView'>
+            <i-divider class="divider">搜索历史</i-divider>
+            <wxc-button type="danger" size='small' btnStyle="min-width: 60rpx;padding: 0;border-radius: 60rpx;height:60rpx;line-height:60rpx;margin-left: 20rpx;" bind:click="clearStorage"><wxc-icon color="#fff" size="60" type="no"></wxc-icon></wxc-button>
+        </view>
         <view>
             <block wx:for="{{storageData}}" wx:for-item="item">
-                <i-button class='storageBtn' data-storage-value='{{item}}' bind:click="handleClick" type="ghost" shape="circle" size="small">{{item}}</i-button>
+                <i-button class='storageBtn' data-storage-value='{{item}}' bind:click="handleClick" type="historyBtn"  size="small">{{item}}</i-button>
             </block>
-        </view>
-        <i-divider wx:if="{{storageData.length}}" class="divider">清除历史记录</i-divider>
-        <view wx:if="{{storageData.length}}">
-            <i-button class='storageBtn' bind:click="clearStorage" type="ghost" size="small">清除</i-button>
         </view>
     </view>
 </view>

@@ -1,9 +1,7 @@
 // pages/Myinfo/Myinfo.js
+let app = getApp();
 Page({
-
-    /**
-     * 页面的初始数据
-     */
+    
     data: {
         shouquan: 0,
         nickname: "",
@@ -20,15 +18,15 @@ Page({
     },
     myCollect: function(event) {
         wx.navigateTo({
-            url: '/pages/Myinfo/myCollect/myCollect',
+            url: app.globalData.pageUrl.myCollect,
         })
     },
-    // clearStorageClick: function(event) {
-    //     wx.clearStorageSync();
-    //     wx.showToast({
-    //         title: '清除缓存成功',
-    //     })
-    // },
+    clearStorageClick: function(event) {
+        wx.clearStorageSync();
+        wx.showToast({
+            title: '清除缓存成功',
+        })
+    },
     /**
      * 生命周期函数--监听页面加载
      */

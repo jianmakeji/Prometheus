@@ -1,10 +1,12 @@
 {
-   "usingComponents": {
-      "wxc-input": "/@minui/wxc-input/dist/index",
-      "i-cell-group": "/dist/cell-group/index",
-      "i-cell": "/dist/cell/index",
-      "i-icon": "/dist/icon/index",
-      "i-button": "/dist/button/index",
-      "i-divider": "/dist/divider/index"
-   }
+    "usingComponents": {
+        "wxc-input": "/@minui/wxc-input/dist/index",
+        "wxc-button": "/@minui/wxc-button/dist/index",
+        "wxc-icon": "/@minui/wxc-icon/dist/index",
+        "i-cell-group": "/dist/cell-group/index",
+        "i-cell": "/dist/cell/index",
+        "i-icon": "/dist/icon/index",
+        "i-button": "/dist/button/index",
+        "i-divider": "/dist/divider/index"
+    }
 }

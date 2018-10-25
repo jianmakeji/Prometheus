@@ -40,3 +40,14 @@
    right: 40rpx;
    z-index: 999;
 }
+
+.historyView{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.divider{
+    width: 80%;
+}
+

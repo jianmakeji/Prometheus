@@ -5,26 +5,24 @@ Page({
      * 页面的初始数据
      */
     data: {
-        authorization: "", //token
+        authorization: "",          //token # openid
         id: "",
         userId: "",
         offset: 0,
-        courseTypeAndSpecial: "", //课程所属
-        videoAddress: "", //课程视频链接
-        describe: "", //课程介绍
-        collectFlag: 0, //0:未收藏，1:已收藏
-        commentValue: "",
-        commentModal: false,
-        commentData: [],
+        courseTypeAndSpecial: "",   //课程所属
+        videoAddress: "",           //课程视频链接
+        describe: "",               //课程介绍
+        collectFlag: 0,             //0:未收藏，1:已收藏
+        commentValue: "",           //评论内容
+        commentModal: false,        //评论弹出层
+        commentData: [],            //评论数据
         commentLenght: 0,
-        loadMore: false,
-        // loginModal: false,
-        tex: ""
+        loadMore: false
     },
     // 添加至收藏
     collectTap: function(event) {
         let that = this;
-        if (this.data.collectFlag) { //取消收藏
+        if (this.data.collectFlag) {    //取消收藏
             wx.request({
                 url: app.globalData.serverHost + app.globalData.globalAPI.deleteFavorite,
                 data: {
@@ -159,7 +157,6 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        console.log("课程详情界面onload参数：", options);
         let that = this;
         this.setData({
             id: options.id,
@@ -234,11 +231,8 @@ Page({
                 }
             })
         } else {
-            // this.setData({
-            //     loginModal: true
-            // })
             wx.redirectTo({
-                url: '/pages/welcome/welcome?id=' + this.data.id + "&courseName=" + this.data.courseName,
+                url: app.globalData.pageUrl.welcome + '?id=' + this.data.id + "&courseName=" + this.data.courseName,
             })
         }
     },
@@ -320,5 +314,10 @@ Page({
                 })
             }
         }
-    }
+    },
+    // onPageScroll:function(res){
+    //     this.setData({
+    //         marginTop: res.scrollTop
+    //     })
+    // }
 })

@@ -10,9 +10,9 @@ Page({
         userId: ""
     },
     // 搜索结果点击跳转到详情
-    clickClass: function(event) {
+    clickClass: function (event) {
         wx.navigateTo({
-            url: '/pages/curriculum/curriculumDetail/curriculumDetail?id=' + event.currentTarget.dataset.id + "&courseType=" + event.currentTarget.dataset.courseType + "&courseName=" + event.currentTarget.dataset.courseName
+            url: app.globalData.pageUrl.curriculumDetail + "?id=" + event.currentTarget.dataset.id + "&courseType=" + event.currentTarget.dataset.courseType + "&courseName=" + event.currentTarget.dataset.courseName
         })
     },
     // input内容变化监听
@@ -29,10 +29,11 @@ Page({
         }
     },
     bindConfirmr:function(event){
-        let that = this;
+        let that = this,
+            urlData = app.globalData.serverHost + app.globalData.globalAPI.searchByKeywords + this.data.searchValue;
         if (this.data.searchValue) {
             wx.request({
-                url: app.globalData.serverHost + app.globalData.globalAPI.searchByKeywords + this.data.searchValue,
+                url: urlData,
                 header: {
                     "Authorization": this.data.authorization
                 },
@@ -57,13 +58,14 @@ Page({
                         wx.setStorageSync("token", res.data.token);
                         wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
                     }
+                },
+                fail(err){
+                    console.log(err);
                 }
             })
-
-
         }
     },
-    // 点击搜索历史数据
+    // 点击历史数据
     handleClick: function(event) {
         var searchValue = event.currentTarget.dataset.storageValue;
         this.setData({
@@ -78,7 +80,7 @@ Page({
             storageData: wx.getStorageSync('search')
         })
     },
-    // 点击input旁边搜索按钮
+    // 点击搜索按钮
     searchTap: function(event) {
         let that = this;
         if (this.data.searchValue) {
@@ -110,8 +112,6 @@ Page({
                     }
                 }
             })
-
-
         }
     },
     // 清缓存
@@ -120,9 +120,6 @@ Page({
         this.setData({
             storageData: wx.getStorageSync('search')
         })
-    },
-    getphonenumber:function(event){
-        console.log(event)
     },
     // 生命周期函数--监听页面加载
     onLoad: function(options) {
@@ -135,7 +132,8 @@ Page({
     onHide:function(){
         this.setData({
             searchValue: "",
-            searchCursor: 0
+            searchCursor: 0,
+            storageData: wx.getStorageSync('search')
         })
     }
 })

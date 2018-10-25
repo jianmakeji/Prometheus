@@ -1,6 +1,5 @@
 {
-    "pages": [
-        "pages/welcome/welcome",        
+    "pages": [      
         "pages/curriculum/curriculum",
         "pages/curriculum/curriculumList/curriculumList",
         "pages/curriculum/curriculumDetail/curriculumDetail",
@@ -8,7 +7,8 @@
         "pages/pieceShare/pieceShareDetail/pieceShareDetail",
         "pages/search/search",
         "pages/Myinfo/Myinfo",
-        "pages/Myinfo/myCollect/myCollect"
+        "pages/Myinfo/myCollect/myCollect",
+        "pages/welcome/welcome"
     ],
     "window": {
         "backgroundTextStyle": "black",

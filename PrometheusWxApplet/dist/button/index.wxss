@@ -75,6 +75,14 @@
    color: #fff !important;
    background: #0D3D85 !important;
 }
+.i-btn-historyBtn {
+   color: #fff !important;
+   background: #bbbec4 !important;
+   height: 25px;
+   line-height: 25px;
+   font-size: 12px;
+   border-radius: 10px;
+}
 
 .i-btn-circle {
    border-radius: 44px;

@@ -16,23 +16,21 @@ Page({
     },
     clickClass: function(event) {
         wx.navigateTo({
-            url: '/pages/curriculum/curriculumDetail/curriculumDetail?id=' + event.currentTarget.dataset.courseId + "&courseName=" + event.currentTarget.dataset.courseName
+            url: app.globalData.pageUrl.curriculumDetail + "?id=" + event.currentTarget.dataset.courseId + "&courseName=" + event.currentTarget.dataset.courseName
         })
     },
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        this.setData({
-            specialColumnId: options.specialColumnId
-        })
         wx.setNavigationBarTitle({
             title: options.specialColumnName,
         })
         let that = this;
         wx.showNavigationBarLoading();
         this.setData({
-            authorization: wx.getStorageSync("Authorization")
+            authorization: wx.getStorageSync("Authorization"),
+            specialColumnId: options.specialColumnId
         })
         wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.getCourseBySpecialColumnId.replace(":id", this.data.specialColumnId),
