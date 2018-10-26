@@ -4,6 +4,7 @@ const Controller = require('egg').Controller;
 const crypto = require("crypto");
 const jwt = require('jsonwebtoken');
 const request = require('request');
+const fs = require('fs');
 
 class UserController extends Controller {
   async index() {
@@ -71,6 +72,16 @@ class UserController extends Controller {
       }
     });
     ctx.body = resultObj;
+  }
+
+  async getQRCode(){
+      const ctx = this.ctx;
+      const qrFileName = 'qrCode/' + ctx.app.randomString(10) + '.jpg';
+      request('https://www.google.com.hk/images/srpr/logo3w.png').pipe((stream)=>{
+        ctx.app.putOssObject(qrFileName,stream);
+      }));
+
+      //更新数据库
 
   }
 }

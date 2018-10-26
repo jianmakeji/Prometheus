@@ -27,7 +27,7 @@ module.exports = {
       accessKeySecret: config.AccessKeySecret,
       bucket: config.bucket,
     });
-    
+
     if (typeof(thumbName) == "undefined"){
       return client.signatureUrl(objectPath, {expires: 3600});
     }
@@ -59,6 +59,34 @@ module.exports = {
     });
 
     return client.deleteMulti(objectArrayPath);
+  },
+
+  async putOssObject(objectName,stream){
+    const config = this.aliConfig();
+    let client = new OSS({
+      region: config.region,
+      accessKeyId: config.AccessKeyId,
+      accessKeySecret: config.AccessKeySecret,
+      bucket: config.bucket,
+    });
+
+    try {
+      let result = await client.putStream(objectName, stream);
+      console.log(result);
+    } catch (e) {
+      console.log(e)
+    }
+  },
+
+  randomString: (len)=> {
+  　　len = len || 32;
+  　　var $chars = 'ABCDEFGHJKMNPQRSTVUWXYZLIabcdefhijkmnpgqvurstwxyz123456789';
+  　　var maxPos = $chars.length;
+  　　var pwd = '';
+  　　for (i = 0; i < len; i++) {
+  　　　　pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+  　　}
+  　　return pwd;
   },
 
   jwtSlot: 'LTAIkUgFNkgDjcr8zklMJfJUoAgdcT',
