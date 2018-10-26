@@ -57,6 +57,10 @@ class UserController extends Controller {
     ctx.body = ctx.app.success('删除成功!');
   }
 
+  async getJSCode(){
+
+  }
+
   async getWxCode(){
     const ctx = this.ctx;
     const jscode = ctx.query.jscode;
@@ -75,6 +79,9 @@ class UserController extends Controller {
   }
 
   async getQRCode(){
+
+      const jsCode = await getJSCode();
+
       const ctx = this.ctx;
       const qrFileName = 'qrCode/' + ctx.app.randomString(10) + '.jpg';
       request('https://www.google.com.hk/images/srpr/logo3w.png').pipe((stream)=>{
