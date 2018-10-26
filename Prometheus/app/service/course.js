@@ -219,6 +219,20 @@ class Course extends Service {
     return resultObj;
   }
 
+  async updateQRCodeByCourseId(id,qrCode){
+    return await this.ctx.model.Course.update({
+          qrCode: qrCode
+        },{
+        where: {
+          Id: id
+        }
+    });
+  }
+
+  async findCourseObjById(id){
+    const course = await this.ctx.model.Course.findById(id);
+    return course;
+  }
 
 }
 

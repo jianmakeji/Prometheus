@@ -97,6 +97,8 @@ module.exports = {
 
   articleImagePath: 'articleImages/',
 
+  qrCodePath: 'qrCode/',
+  
   //接口统一返回数据操作
   success: (message)=>{
     const result = {

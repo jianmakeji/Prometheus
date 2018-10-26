@@ -14,6 +14,7 @@ module.exports = app => {
     courseType: INTEGER,
     specialColumn: INTEGER,
     thumb: STRING(30),
+    qrCode: STRING(30),
     duration: INTEGER,
     lookingNum:INTEGER,
     videoAddress: STRING(30),

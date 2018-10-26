@@ -57,10 +57,6 @@ class UserController extends Controller {
     ctx.body = ctx.app.success('删除成功!');
   }
 
-  async getJSCode(){
-
-  }
-
   async getWxCode(){
     const ctx = this.ctx;
     const jscode = ctx.query.jscode;
@@ -78,18 +74,56 @@ class UserController extends Controller {
     ctx.body = resultObj;
   }
 
+  async getAccessToken(){
+    const requestUrl = `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx781d229c4c3bd932&secret=APPSECRET`;
+    const resultObj = await request(requestUrl, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        return body.access_token;
+      }
+      else{
+        return error;
+      }
+    });
+  }
+
   async getQRCode(){
+      const id = ctx.query.id;
+      const course = ctx.service.course.findCourseObjById(id);
+      if (!course){
+        const token = await this.getAccessToken();
+        const ctx = this.ctx;
+        const qrFileName = ctx.app.randomString(10) + '.jpg'
+        const qrFilePath = ctx.app.qrCode + qrFileName;
+        const requestQRCodeUrl = `https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${token}`;
+        let requestData = {
+            'scene': '',
+            'page': '',
+            'width': '',
+        };
 
-      const jsCode = await getJSCode();
+        const resultObj = await request({
+                url: requestQRCodeUrl,
+                method: "POST",
+                body: requestData
+              }, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+              return body;
+            }
+            else{
+              return error;
+            }
+        });
 
-      const ctx = this.ctx;
-      const qrFileName = 'qrCode/' + ctx.app.randomString(10) + '.jpg';
-      request('https://www.google.com.hk/images/srpr/logo3w.png').pipe((stream)=>{
-        ctx.app.putOssObject(qrFileName,stream);
-      }));
+        ctx.app.putOssObject(qrFileName,resultObj);
 
-      //更新数据库
+        //更新数据库
+        await ctx.service.course.updateQRCodeByCourseId(id,qrFileName);
 
+        return ctx.app.signatureUrl(qrFilePath, undefined);
+      }
+      else{
+        return ctx.app.signatureUrl(ctx.app.qrCode + course.qrCode , undefined);
+      }
   }
 }
 
