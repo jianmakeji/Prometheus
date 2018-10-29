@@ -90,11 +90,11 @@ class CourseController extends Controller {
         const qrFilePath = ctx.app.qrCodePath + qrFileName;
 
         const tokenBody = await wxUtil.getAccessToken(ctx.app.wx_appid,ctx.app.wx_secret);
-        const imageRequest = wxUtil.getQRCodeImage(tokenBody,qrFileName,id);
+        const imageRequest = wxUtil.getQRCodeImage(tokenBody, id);
         if (imageRequest != null){
           await imageRequest.then((data)=>{
             ctx.app.putOssObject(qrFilePath,data);
-            ctx.service.course.updateQRCodeByCourseId(id,qrFileName);
+            ctx.service.course.updateQRCodeByCourseId(id, qrFileName);
           });
           ctx.body = ctx.app.success(ctx.app.signatureUrl(qrFilePath, undefined));
         }
