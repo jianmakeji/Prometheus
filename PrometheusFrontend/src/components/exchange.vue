@@ -15,37 +15,15 @@ export default {
 	name:"exchange",
 	data(){
 		return{
-			total:100,
+			total:0,
 			columns:[
-				{
-					title: 'id',
-					key: 'Id',
-					align: 'center'
-				},
-				{
-					title: '名称',
-					key: 'title',
-					align: 'center'
-				},
-				{
-					title: '类型',
-					key: 'type',
-					align: 'center'
-				},
-				{
-					title: '专题',
-					key: 'specialColumn',
-					align: 'center'
-				},
-				{
-					title: '年级',
-					key: 'grade',
-					align: 'center'
-				}
+				{ title: 'id', key: 'Id', align: 'center' },
+				{ title: '名称', key: 'title', align: 'center' },
+				{ title: '类型', key: 'type', align: 'center' },
+				{ title: '专题', key: 'specialColumn', align: 'center' },
+				{ title: '年级', key: 'grade', align: 'center' }
 			],
-			dataList: [
-				{Id:1,title:"111111",type:"111",specialColumn:"1111",grade:"1"}
-			]
+			dataList: []
 		}
 	},
 	methods:{

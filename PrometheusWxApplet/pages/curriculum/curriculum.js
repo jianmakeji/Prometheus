@@ -22,7 +22,7 @@ Page({
             });
         } else {
             this.setData({
-                autoHeight: this.data.ZT_data.length * (216 + 10)
+                autoHeight: 100 + this.data.ZT_data.length * (216 + 10)
             });
         }
     },
@@ -37,7 +37,7 @@ Page({
             });
         } else {
             this.setData({
-                autoHeight: this.data.ZT_data.length * (216 + 10)
+                autoHeight: 100 + this.data.ZT_data.length * (216 + 10)
             });
         }
     },
@@ -116,6 +116,7 @@ Page({
                                 that.setData({
                                     ZT_data: res.data
                                 })
+                                wx.hideNavigationBarLoading();
                             }
                         })
                     } else if (res.statusCode == 409) {

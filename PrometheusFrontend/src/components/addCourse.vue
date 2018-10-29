@@ -11,7 +11,7 @@
 		<Form :model="formItem" :label-width="80">
 			<!-- 图片上传 -->
             <FormItem label="封面图:">
-				<img v-if="imgUrl.length" :src="imgUrl" class="specialColumnImg"><br>
+				<img v-if="imgUrl.length" :src="imgUrl" style="width:80px;height:80px;" class="specialColumnImg"><br>
                 <input type="file" @change="doUpload" ref="inputFile" accept="image/*"/>
 				<Progress :percent="progressPercent" />
 	        </FormItem>

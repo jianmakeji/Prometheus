@@ -31,7 +31,7 @@
                 </video>
 			</div>
 	    </Modal>
-		<Modal v-model="codeModal"  @on-ok="downloadCode" ok-text="下载图片至本地">
+		<!-- <Modal v-model="codeModal"  @on-ok="downloadCode" ok-text="下载图片至本地">
 			<p slot="header" style="color:#19be6b;text-align:center;font-size:18px;">
 	            <Icon type="ios-brush-outline" />
 	            <span>{{codeTitle}}</span>
@@ -39,7 +39,7 @@
 			<div style="text-align:center" v-show="qrcodeUrl" class="response">
 				<qrcode id="codeImage" :value="qrcodeUrl" v-if="qrcodeUrl"	:options="{ size: 120 }"></qrcode>
 			</div>
-	    </Modal>
+	    </Modal> -->
 		<Modal v-model="deleteModel" width="360" @on-ok="okTap">
 	        <p slot="header" style="color:#ed4014;text-align:center;font-size:18px;">
 	            <Icon type="ios-information-circle" size="20"></Icon>
@@ -83,11 +83,7 @@ export default {
             columns:[
                 { title: 'id', key: 'Id', align: 'center' ,width:90},
                 { title: '名称', key: 'name', align: 'center' },
-                {
-                	title: '类别',
-                	key: 'course_type',
-                	align: 'center',
-                    width: 120,
+                { title: '类别', key: 'course_type', align: 'center', width: 120,
                 	render:(h, params) =>{
                 		return h('div',[
                             // params.row.course_type.name
@@ -95,24 +91,22 @@ export default {
                 		])
                 	}
                 },
-                {
-                	title: '专栏',
-                	key: 'special_column',
-                	align: 'center',
-                    width: 120,
+                { title: '专栏', key: 'special_column', align: 'center', width: 120,
                 	render:(h, params) =>{
                 		return h('div',[
                             h('p', params.row.special_column ? params.row.special_column.name : this.specialColumnLabel)
                 		])
                 	}
                 },
-                { title: '时长', key: 'duration', align: 'center',width:90 },
-                {
-                	title: '视频预览',
-                	key: 'opt',
-                	align: 'center',
-                    width: 100,
-                	render:(h, params) =>{
+                { title: '时长', key: 'duration', align: 'center',width:90,
+                    render:(h, params) =>{
+                        return h('div',[
+                            h('p', parseInt(params.row.duration / 60) + ":" + (parseInt(params.row.duration % 60 / 10) ? params.row.duration % 60 : "0" + params.row.duration % 60))
+                        ])
+                    }
+                },
+                { title: '视频预览',key: 'opt', align: 'center', width: 100,
+                    render:(h, params) =>{
                 		return h('div',[
                             h('Button', {
         						props: {
@@ -129,6 +123,31 @@ export default {
         						}
         					}, '查看')
                 		])
+                	}
+                },
+                { title: '二维码预览',key: 'opt', align: 'center', width: 150,
+                    render:(h, params) =>{
+                        if (params.row.qrCode == null) {
+                            return h('p', {
+                                style:{
+                                    color:"#ed3f14"
+                                }
+                            },"该课程暂无二维码")
+                        }else{
+                            return h('div', [
+                                h('img', {
+            						domProps: {
+            							src: params.row.qrCode,
+            						},
+            						style: {
+                                        width:"60px",
+            							width:"60px",
+                                        margin:"10px auto"
+            						}
+            					})
+                            ])
+                        }
+
                 	}
                 },
                 { title: '操作', key: 'opt', align: 'center',
@@ -161,8 +180,30 @@ export default {
         								this.removeTap(params.index)
         							}
         						}
-        					},'删除'),
-        					h('Button', {
+        					},'删除')
+        				])
+        			}
+        		},
+                { title: '二维码操作', key: 'opt', align: 'center',
+        			render: (h, params) => {
+                        if(params.row.qrCode){
+                            return h('Button', {
+        						props: {
+        							type: 'info',
+        							size: 'small',
+                                    disabled:true
+        						},
+        						style: {
+        							marginRight: '5px'
+        						},
+        						on: {
+        							click: () => {
+        								this.generateCode(params.index)
+        							}
+        						}
+        					},'已生成二维码')
+                        }else{
+                            return h('Button', {
         						props: {
         							type: 'info',
         							size: 'small'
@@ -175,8 +216,9 @@ export default {
         								this.generateCode(params.index)
         							}
         						}
-        					},'二维码')
-        				])
+        					},'生成二维码')
+                        }
+
         			}
         		}
             ],
@@ -227,20 +269,33 @@ export default {
 			this.deleteModel = true;
 			this.videoTitle = this.dataList[index].name;
 		},
-		//生成二维码
-		generateCode(index){
-			this.index = index;
-			this.codeModal = true;
-			this.codeTitle = this.dataList[this.index].name;
-			this.qrcodeUrl = this.dataList[this.index].videoAddress;
-		},
-		//下载二维码
-		downloadCode(){
-			let myCanvas = document.getElementById('codeImage');
-			let a = document.createElement("a");
-			a.href = myCanvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
-			a.download = this.dataList[this.index].title +".png";
-			a.click();
+        // 生成二维码
+        generateCode(index){
+            let that = this,
+				getDataUrl = globel_.serverHost + globel_.configAPI.getQRCode.replace(":id",this.dataList[index].Id);
+			this.$Loading.start();
+			this.$http.get(getDataUrl).then(function(result){
+				if(result.data.status == 200){
+					that.$Message.success({
+                        duration:2,content:globel_.configMessage.createCodeSuccess,
+                        onClose(){
+                            let getNexDataUrl = globel_.serverHost+ globel_.configAPI.getCourseByCondition + that.offset +'&courseType='+ that.courseTypeId + '&specialColumn=' + that.specialColumnId;
+                    		that.$http.get( getNexDataUrl ).then(function(result){
+                    			that.$Loading.finish();
+                                that.dataList = [];
+                    			that.dataList = result.data.rows;
+                    		}).catch(function(err){
+                    			that.$Loading.error();
+                    			that.$Message.error({duration:2,content:err});
+                    		})
+                        }
+                    });
+
+				}
+			}).catch(function(err){
+					that.$Loading.error();
+					that.$Message.error({duration:3,content:err});
+			})
 		},
 		okTap(){
 			let that = this,

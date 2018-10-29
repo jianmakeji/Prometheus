@@ -32,9 +32,9 @@ export default {
             commentTitle:"",
             deleteModel:false,
             columns:[
-                { title: 'id', key: 'Id', align: 'center', width:150},
-                { title: '用户ID', key: 'userId', align: 'center', width:200 },
-                { title: '用户名称', key: 'nickName', align: 'center', width:200,
+                { title: 'id', key: 'Id', align: 'center', width:100},
+                { title: '用户ID', key: 'userId', align: 'center', width:100 },
+                { title: '用户名称', key: 'nickName', align: 'center', width:100,
                     render:(h, params) =>{
                         return h('div',[
                             h('p', params.row.user.nickName)

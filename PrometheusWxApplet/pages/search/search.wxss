@@ -36,7 +36,7 @@
 
 .clear {
    position: absolute;
-   top: 36rpx;
+   top: 26rpx;
    right: 40rpx;
    z-index: 999;
 }

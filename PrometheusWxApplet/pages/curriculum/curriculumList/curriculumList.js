@@ -1,5 +1,4 @@
 // pages/curriculum/curriculumList/curriculumList.js
-var fileData = require('../../../utils/xyData.js');
 var app = getApp();
 Page({
 

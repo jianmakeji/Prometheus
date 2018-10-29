@@ -26,7 +26,8 @@
 		uploadImgSuccess:"图片上传成功！",
 		uploadVideoSuccess:"视频上传成功！",
 		operateSuccess:"操作成功，等待2秒后返回！",
-		deleteSuccess:"删除成功！"
+		deleteSuccess:"删除成功！",
+		createCodeSuccess:"二维码生成成功"
 	};
 	const configAPI = {
 		login:"/api/manage/login",
@@ -55,6 +56,7 @@
 		getCourseDataById:"/api/manage/course/:id",
 		getCourseDataBySpecialColumn:"/api/manage/course/getCourseBySpecialColumnId/:id?limit=10000&offset=0",
 		getCourseByCondition:"/api/manage/course/getCourseByCondition?limit=10&offset=",
+		getQRCode:"/api/manage/course/getQRCode/:id",
 
 		//好文增删改查
 		createArticle:"/api/manage/article",

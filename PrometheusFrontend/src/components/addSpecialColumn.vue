@@ -10,9 +10,9 @@
 	    </Breadcrumb><br>
 		<Form :model="formItem" :label-width="80">
 			<FormItem label="封面图:">
-				<img v-if="imgUrl.length" :src="imgUrl" class="specialColumnImg"><br>
+				<img v-if="imgUrl.length" :src="imgUrl" style="width:80px;height:80px;" class="specialColumnImg"><br>
                 <input type="file" @change="doUpload" ref="inputFile" class="fileInput" accept="image/*"/>
-				 <Progress :percent="progressPercent" />
+				<Progress :percent="progressPercent" />
 	        </FormItem>
 		   	<FormItem label="专栏名称:">
 			   	<Input v-model="formItem.name" placeholder="请输入专栏名称..." clearable></Input>

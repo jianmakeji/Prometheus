@@ -4,6 +4,7 @@ Page({
     // 页面的初始数据
     data: {
         searchCursor: "",
+        searchDivider:false,
         dataList: [],
         storageData: "",
         searchValue: "",
@@ -24,7 +25,8 @@ Page({
         if (event.detail.cursor == 0) {
             this.setData({
                 searchCursor: 0,
-                storageData: wx.getStorageSync('search')
+                storageData: wx.getStorageSync('search'),
+                searchDivider: false
             })
         }
     },
@@ -53,6 +55,10 @@ Page({
                                 storageArr.unshift(that.data.searchValue);
                             }
                             wx.setStorageSync("search", storageArr);
+                        } else if (res.data.count == 0){
+                            that.setData({
+                                searchDivider:true
+                            })
                         }
                     } else if (res.statusCode == 409) {
                         wx.setStorageSync("token", res.data.token);

@@ -12,7 +12,9 @@ Page({
         wx.scanCode({
             onlyFromCamera: false,
             success: function(res) {
-                console.log(res);
+                console.log('相机扫码结果：', res);
+                console.log('result', res.result);
+                console.log('path', res.path);
             }
         })
     },

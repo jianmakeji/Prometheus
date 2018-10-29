@@ -1,8 +1,5 @@
 <!--pages/curriculum/curriculum.wxml-->
 <view>
-    <!-- <i-modal title="需要获取您的信息哦！" visible="{{ loginModal }}" bind:ok="handleClose1" bind:cancel="handleClose1" show-cancel="{{false}}" show-ok="{{false}}">
-        <i-button type="info" size="small" open-type='getUserInfo' bindgetuserinfo='userInfoHandler'>确定</i-button>
-    </i-modal> -->
     <i-tabs current="{{currentTab}}" bindchange="handleChange">
         <block wx:for="{{courseType}}" wx:for-item="item" wx:for-index="index">
             <i-tab key="{{index}}" title="{{item.name}}"></i-tab>
@@ -52,19 +49,22 @@
                             </i-card>
                         </view>
                     </block>
-                </view>                
+                </view>
                 <i-divider wx:if="{{!JPgrade9_data.length}}" height="20" content="暂无数据"></i-divider>
             </view>
 
         </swiper-item>
         <swiper-item class="swiperItem">
             <view>
-                <block wx:for="{{ZT_data}}" wx:for-item="item">
-                    <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}' data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
-                        <i-card title="{{item.name}}" thumb="{{item.thumb}}">
-                        </i-card>
-                    </view>
-                </block>
+                <view>
+                    <block wx:for="{{ZT_data}}" wx:for-item="item">
+                        <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}' data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
+                            <i-card title="{{item.name}}" thumb="{{item.thumb}}">
+                            </i-card>
+                        </view>
+                    </block>
+                </view>
+                <i-divider wx:if="{{!ZT_data.length}}" height="40" content="暂无数据"></i-divider>
             </view>
         </swiper-item>
     </swiper>

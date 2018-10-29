@@ -157,6 +157,9 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
+        console.log("onload获取scene值：", options);        
+        console.log("onload获取scene值：", decodeURIComponent(options.scene));
+
         let that = this;
         this.setData({
             id: options.id,

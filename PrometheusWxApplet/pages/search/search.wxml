@@ -2,7 +2,7 @@
 <view>
     <view class="input-wrap">
         <wxc-input type="text" icon="search" mode="wrapped" value='{{searchValue}}' confirm-type="search" placeholder="搜索课程" bind:confirm="bindConfirmr" bind:input="bindInput"></wxc-input>
-        <icon class='clear' wx:if="{{searchValue.length}}" type="clear" size="14" color="#ccc" catchtap='clearTap' />
+        <icon class='clear' wx:if="{{searchValue.length}}" type="clear" size="20" color="#ccc" catchtap='clearTap' />
         <button class='searchBtn' catchtap='searchTap'>搜索</button>
     </view>
     <view class='search_list' wx:if="{{searchCursor}}" wx:for="{{dataList}}" wx:for-item="item">
@@ -14,11 +14,11 @@
             </i-cell>
         </i-cell-group>
     </view>
-    <i-divider wx:if="{{!dataList.length}}">无搜索结果</i-divider>
+    <i-divider wx:if="{{searchDivider}}" color="#ed3f14">无搜索结果</i-divider>
     <view wx:if="{{!searchCursor}}">
         <view class='historyView'>
             <i-divider class="divider">搜索历史</i-divider>
-            <wxc-button type="danger" size='small' btnStyle="min-width: 60rpx;padding: 0;border-radius: 60rpx;height:60rpx;line-height:60rpx;margin-left: 20rpx;" bind:click="clearStorage"><wxc-icon color="#fff" size="60" type="no"></wxc-icon></wxc-button>
+            <wxc-button size='small' btnStyle="min-width: 60rpx;padding: 0;border-radius: 60rpx;height:60rpx;line-height:60rpx;margin-left: 20rpx;" bind:click="clearStorage"><wxc-icon color="#555555" size="40" type="no"></wxc-icon></wxc-button>
         </view>
         <view>
             <block wx:for="{{storageData}}" wx:for-item="item">
