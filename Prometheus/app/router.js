@@ -21,7 +21,8 @@ module.exports = app => {
   router.get('/api/manage/course/getCourseBySpecialColumnId/:id', managerChecktoken, controller.manage.course.getCourseBySpecialColumnId);
   router.get('/api/manage/course/getCourseByCourseTypeId/:id', managerChecktoken, controller.manage.course.getCourseByCourseTypeId);
   router.get('/api/manage/course/getCourseByCondition', managerChecktoken, controller.manage.course.getCourseByCondition);
-
+  router.get('/api/manage/course/getQRCode/:id', controller.manage.course.getQRCode);
+  
   //管理后台API接口
   router.resources('manage.users', '/api/manage/users', managerChecktoken, controller.manage.user);
   router.resources('manage.article', '/api/manage/article', managerChecktoken, controller.manage.article);
@@ -43,7 +44,7 @@ module.exports = app => {
   router.get('/api/wx/favorite/checkIsFavite', wxChecktoken, controller.wx.favorite.checkIsFavite);
   router.get('/api/wx/favorite/deleteFavorite', wxChecktoken, controller.wx.favorite.deleteFavorite);
   router.get('/api/wx/user/getWxCode', controller.wx.user.getWxCode);
-  router.get('/api/wx/user/getQRCode/:id', controller.wx.user.getQRCode);
+
 
   router.resources('wx.users', '/api/wx/users', controller.wx.user);
   router.resources('wx.article', '/api/wx/article', controller.wx.article);

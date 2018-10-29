@@ -1,6 +1,8 @@
 'use strict';
 
 const Controller = require('egg').Controller;
+const request = require('request');
+const wxUtil = require('../../util/wxUtils');
 
 class CourseController extends Controller {
   async index() {
@@ -78,6 +80,32 @@ class CourseController extends Controller {
     ctx.body = await ctx.service.course.getCourseByCondition(query);
   }
 
+  async getQRCode() {
+    const ctx = this.ctx;
+    const id = ctx.params.id;
+    const course = ctx.service.course.findCourseObjById(id);
+    if (!course.qrCode) {
+
+        const qrFileName = ctx.app.randomString(10) + '.jpg';
+        const qrFilePath = ctx.app.qrCodePath + qrFileName;
+
+        const tokenBody = await wxUtil.getAccessToken(ctx.app.wx_appid,ctx.app.wx_secret);
+        const imageRequest = wxUtil.getQRCodeImage(tokenBody,qrFileName,id);
+        if (imageRequest != null){
+          await imageRequest.then((data)=>{
+            ctx.app.putOssObject(qrFilePath,data);
+            ctx.service.course.updateQRCodeByCourseId(id,qrFileName);
+          });
+          ctx.body = ctx.app.success(ctx.app.signatureUrl(qrFilePath, undefined));
+        }
+        else{
+          ctx.body = ctx.app.failure('微信获取二维码失败!');
+        }
+
+    } else {
+      ctx.body = this.ctx.app.success(ctx.app.signatureUrl(ctx.app.qrCodePath + course.qrCode, undefined));
+    }
+  }
 }
 
 module.exports = CourseController;

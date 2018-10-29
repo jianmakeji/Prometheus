@@ -21,6 +21,9 @@ class Course extends Service {
     resultObj.rows.forEach((element, index)=>{
       element.thumb = app.signatureUrl(app.courseImagePath + element.thumb, thumbName);
       element.videoAddress = app.signatureUrl(app.courseVideoPath + element.videoAddress);
+      if(element.qrCode){
+        element.qrCode = app.signatureUrl(app.qrCodePath + element.qrCode);
+      }
     });
 
     return resultObj;
@@ -42,7 +45,9 @@ class Course extends Service {
     const app = this.ctx.app;
     course.thumb = app.signatureUrl(app.courseImagePath + course.thumb, thumbName);
     course.videoAddress = app.signatureUrl(app.courseVideoPath + course.videoAddress);
-
+    if(course.qrCode){
+      course.qrCode = app.signatureUrl(app.qrCodePath + course.qrCode);
+    }
     await this.ctx.model.Course.update({
           lookingNum: this.app.Sequelize.fn('1 + abs', this.app.Sequelize.col('lookingNum'))
         },{
@@ -110,6 +115,9 @@ class Course extends Service {
     resultObj.rows.forEach((element, index)=>{
       element.thumb = app.signatureUrl(app.courseImagePath + element.thumb , thumbName);
       element.videoAddress = app.signatureUrl(app.courseVideoPath + element.videoAddress);
+      if(element.qrCode){
+        element.qrCode = app.signatureUrl(app.qrCodePath + element.qrCode);
+      }
     });
 
     return resultObj;
@@ -133,6 +141,9 @@ class Course extends Service {
     resultObj.rows.forEach((element, index)=>{
       element.thumb = app.signatureUrl(app.courseImagePath + element.thumb, thumbName);
       element.videoAddress = app.signatureUrl(app.courseVideoPath + element.videoAddress);
+      if(element.qrCode){
+        element.qrCode = app.signatureUrl(app.qrCodePath + element.qrCode);
+      }
     });
 
     return resultObj;
@@ -186,6 +197,9 @@ class Course extends Service {
     resultObj.rows.forEach((element, index)=>{
       element.thumb = app.signatureUrl(app.courseImagePath + element.thumb, thumbName);
       element.videoAddress = app.signatureUrl(app.courseVideoPath + element.videoAddress);
+      if(element.qrCode){
+        element.qrCode = app.signatureUrl(app.qrCodePath + element.qrCode);
+      }
     });
 
     return resultObj;
@@ -214,6 +228,9 @@ class Course extends Service {
     resultObj.rows.forEach((element, index)=>{
       element.thumb = app.signatureUrl(app.courseImagePath + element.thumb, thumbName);
       element.videoAddress = app.signatureUrl(app.courseVideoPath + element.videoAddress);
+      if(element.qrCode){
+        element.qrCode = app.signatureUrl(app.qrCodePath + element.qrCode);
+      }
     });
 
     return resultObj;

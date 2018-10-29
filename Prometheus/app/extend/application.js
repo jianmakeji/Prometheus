@@ -99,6 +99,11 @@ module.exports = {
 
   qrCodePath: 'qrCode/',
 
+  wx_secret: '8c05c4d7e9970ca9cd1520fd8b857572',
+
+  wx_appid: 'wx781d229c4c3bd932',
+
+  
   //接口统一返回数据操作
   success: (message)=>{
     const result = {
