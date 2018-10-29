@@ -91,7 +91,13 @@ class Course extends Service {
       this.ctx.throw(404, 'course not found');
     }
     const app =this.ctx.app;
-    await app.deleteOssMultiObject([app.courseImagePath + course.thumb, app.courseVideoPath + course.videoAddress]);
+    let delArray = new Array();
+    delArray.push(app.courseImagePath + course.thumb);
+    delArray.push(app.courseVideoPath + course.videoAddress);
+    if (course.qrCode){
+        delArray.push(app.qrCodePath + course.qrCode);
+    }
+    await app.deleteOssMultiObject(delArray);
 
     return course.destroy();
   }
