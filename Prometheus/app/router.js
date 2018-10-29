@@ -43,6 +43,7 @@ module.exports = app => {
   router.get('/api/wx/favorite/checkIsFavite', wxChecktoken, controller.wx.favorite.checkIsFavite);
   router.get('/api/wx/favorite/deleteFavorite', wxChecktoken, controller.wx.favorite.deleteFavorite);
   router.get('/api/wx/user/getWxCode', controller.wx.user.getWxCode);
+  router.get('/api/wx/user/getQRCode/:id', controller.wx.user.getQRCode);
 
   router.resources('wx.users', '/api/wx/users', controller.wx.user);
   router.resources('wx.article', '/api/wx/article', controller.wx.article);

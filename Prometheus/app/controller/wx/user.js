@@ -23,7 +23,7 @@ class UserController extends Controller {
 
   async create() {
     const ctx = this.ctx;
-    try{
+    try {
       const user = await ctx.service.user.create(ctx.request.body);
       let jwt = require('jsonwebtoken');
       let token = jwt.sign({
@@ -32,9 +32,8 @@ class UserController extends Controller {
       }, ctx.app.jwtSlot, {
         expiresIn: '10 days'
       });
-      ctx.body = ctx.app.loginSuccess('登录成功!',token,user.username,user.Id);
-    }
-    catch(error){
+      ctx.body = ctx.app.loginSuccess('登录成功!', token, user.username, user.Id);
+    } catch (error) {
       ctx.body = ctx.app.failure(error);
     }
   }
@@ -46,7 +45,10 @@ class UserController extends Controller {
       headicon: ctx.request.body.headicon,
       password: ctx.request.body.password,
     };
-    await ctx.service.user.update({ id, updates });
+    await ctx.service.user.update({
+      id,
+      updates
+    });
     ctx.body = ctx.app.success('更新成功!');
   }
 
@@ -57,73 +59,87 @@ class UserController extends Controller {
     ctx.body = ctx.app.success('删除成功!');
   }
 
-  async getWxCode(){
+  async getWxCode() {
     const ctx = this.ctx;
     const jscode = ctx.query.jscode;
 
     const requestUrl = `https://api.weixin.qq.com/sns/jscode2session?appid=wx781d229c4c3bd932&secret=8c05c4d7e9970ca9cd1520fd8b857572&js_code=${jscode}&grant_type=authorization_code`;
 
-    const resultObj = await request(requestUrl, function (error, response, body) {
+    const resultObj = await request(requestUrl, function(error, response, body) {
       if (!error && response.statusCode == 200) {
         return body;
-      }
-      else{
+      } else {
         return error;
       }
     });
     ctx.body = resultObj;
   }
 
-  async getAccessToken(){
-    const requestUrl = `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx781d229c4c3bd932&secret=APPSECRET`;
-    const resultObj = await request(requestUrl, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        return body.access_token;
-      }
-      else{
-        return error;
-      }
+  getAccessToken() {
+    return new Promise((resolve, reject) => {
+      const requestUrl = `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx781d229c4c3bd932&secret=8c05c4d7e9970ca9cd1520fd8b857572`;
+      request(requestUrl, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+          resolve(body);
+        } else {
+          reject(error);
+        }
+      });
     });
   }
 
-  async getQRCode(){
-      const id = ctx.query.id;
-      const course = ctx.service.course.findCourseObjById(id);
-      if (!course){
-        const token = await this.getAccessToken();
-        const ctx = this.ctx;
-        const qrFileName = ctx.app.randomString(10) + '.jpg'
-        const qrFilePath = ctx.app.qrCode + qrFileName;
-        const requestQRCodeUrl = `https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${token}`;
-        let requestData = {
-            'scene': '',
-            'page': '',
-            'width': '',
-        };
+  getQRCodeImage(bodyResult,qrFileName,id) {
+    const requestResult = JSON.parse(bodyResult);
+    if (requestResult.access_token) {
+      const token = requestResult.access_token;
+      const ctx = this.ctx;
 
-        const resultObj = await request({
-                url: requestQRCodeUrl,
-                method: "POST",
-                body: requestData
-              }, function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-              return body;
-            }
-            else{
-              return error;
-            }
-        });
+      const requestQRCodeUrl = `https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=${token}`;
+      //const requestQRCodeUrl = `https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${token}`;
+      let requestData = {
+        //'scene': 'xxx',
+        'path': `pages/curriculum/curriculumDetail/curriculumDetail?id=${id}`,
+        'width': '430',
+      };
 
-        ctx.app.putOssObject(qrFileName,resultObj);
+      return new Promise((resolve, reject) => {
+        resolve(
+          request({
+            url: requestQRCodeUrl,
+            method: "POST",
+            body: JSON.stringify(requestData),
+          }));
+      });
+    }
+    else{
+      return null;
+    }
+  }
 
-        //更新数据库
-        await ctx.service.course.updateQRCodeByCourseId(id,qrFileName);
+  async getQRCode() {
+    const ctx = this.ctx;
+    const id = ctx.params.id;
+    const course = ctx.service.course.findCourseObjById(id);
+    if (!course.qrCode) {
 
-        return ctx.app.signatureUrl(qrFilePath, undefined);
-      }
-      else{
-        return ctx.app.signatureUrl(ctx.app.qrCode + course.qrCode , undefined);
-      }
+        const qrFileName = ctx.app.randomString(10) + '.jpg';
+        const qrFilePath = ctx.app.qrCodePath + qrFileName;
+        const tokenBody = await this.getAccessToken();
+        const imageRequest = this.getQRCodeImage(tokenBody,qrFileName,id);
+        if (imageRequest != null){
+          await imageRequest.then((data)=>{
+            ctx.app.putOssObject(qrFilePath,data);
+            ctx.service.course.updateQRCodeByCourseId(id,qrFileName);
+          });
+          ctx.body = ctx.app.success(ctx.app.signatureUrl(qrFilePath, undefined));
+        }
+        else{
+          ctx.body = ctx.app.failure('微信获取二维码失败!');
+        }
+
+    } else {
+      ctx.body = this.ctx.app.success(ctx.app.signatureUrl(ctx.app.qrCodePath + course.qrCode, undefined));
+    }
   }
 }
 
