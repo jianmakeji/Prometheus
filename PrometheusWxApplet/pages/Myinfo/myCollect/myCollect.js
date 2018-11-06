@@ -64,8 +64,12 @@ Page({
                 "Authorization": this.data.authorization
             },
             success(res) {
+                let dataListArr = res.data.rows;
+                for (let i = 0; i < res.data.rows.length; i++) {
+                    dataListArr[i].course.duration = parseInt(res.data.rows[i].course.duration / 60) + ":" + (parseInt(res.data.rows[i].course.duration % 60 / 10) ? res.data.rows[i].course.duration % 60 : "0" + res.data.rows[i].course.duration % 60);
+                }
                 that.setData({
-                    courseDataList: res.data.rows
+                    courseDataList: dataListArr
                 })
             }
         })

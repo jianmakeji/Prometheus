@@ -143,7 +143,7 @@ Page({
      */
     onShareAppMessage: function(res) {
         return {
-            title: '私塾',
+            title: '师道慧享',
             path: app.globalData.pageUrl.curriculum,
             success: function(res) {
                 wx.showToast({

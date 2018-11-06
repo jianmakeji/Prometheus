@@ -44,7 +44,6 @@ export default {
 	},
 	methods:{
 		pageChange(index){
-			console.log(index);
             this.offset  = (index-1)*10;
             let that = this,
 				getDataUrl = globel_.serverHost+ globel_.configAPI.getUser + this.offset;
@@ -63,12 +62,10 @@ export default {
         let that = this;
         let getDataUrl = globel_.serverHost+ globel_.configAPI.getUser + this.offset;
 		this.$http.get( getDataUrl ).then(function(result){
-            console.log(result);
 			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;
 		}).catch(function(err){
-            console.log(err)
 			that.$Loading.error();
 			that.$Message.error({duration:3,content:err});
 		})

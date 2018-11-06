@@ -94,7 +94,6 @@ export default {
 		},
 		changeTap(index){
 			let articleId = this.dataList[index].id;
-			console.log(articleId);
 			this.$router.push({name:"addArticle",query:{id:articleId}});
 		},
 		removeTap(index){

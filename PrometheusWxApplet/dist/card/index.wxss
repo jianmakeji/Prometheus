@@ -29,11 +29,11 @@
 
 .i-card-header-thumb {
    display: inline-block;
-   width: 100px;
+   width: 70px;
    height: 70px;
    position: relative;
    margin-left: auto;
-   margin-right: 60rpx;     /*auto */
+   margin-right: 10rpx;     /*60rpx */
    overflow: hidden;
    background-size: cover;
    vertical-align: middle;

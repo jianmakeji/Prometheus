@@ -114,7 +114,6 @@ export default {
 	    submitClick() {
 			this.formItem.thumb = this.fileImage;
 	      	let that = this;
-			console.log("----",this.formItem);
 	      	this.$Loading.start();
 	      	if (this.id == 0) { //新建	post
 	        	this.$http.post(this.submitUrl, {

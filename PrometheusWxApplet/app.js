@@ -15,7 +15,7 @@ App({
     },
     // 全局数据
     globalData: {
-        serverHost: "https://prometheus.design-engine.org",
+        serverHost: "https://bestpro.vip",
         
         // request数据请求路径
         globalAPI: {

@@ -157,17 +157,17 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        console.log("onload获取scene值：", options);        
-        console.log("onload获取scene值：", decodeURIComponent(options.scene));
-
         let that = this;
-        this.setData({
-            id: options.id,
-            courseName: options.courseName
-        })
-        wx.setNavigationBarTitle({
-            title: options.courseName,
-        })
+        if (options.scene){     //扫二维码进入
+            this.setData({
+                id: options.scene
+            })
+        } else {                                    //列表点击进入
+            this.setData({
+                id: options.id
+            })
+        }
+        
         if (wx.getStorageSync("token")) {
             this.setData({
                 authorization: wx.getStorageSync("Authorization"),
@@ -198,9 +198,14 @@ Page({
                 success(res) {
                     if (res.statusCode == 200) {
                         that.setData({
+                        
+                            courseName:res.data.name,
                             videoAddress: res.data.videoAddress,
                             describe: res.data.describe,
                             courseTypeAndSpecial: res.data.course_type.name + "·" + res.data.special_column.name
+                        })
+                        wx.setNavigationBarTitle({
+                            title: res.data.name
                         })
                     } else if (res.statusCode == 409) {
                         wx.setStorageSync("token", res.data.token);
@@ -302,7 +307,7 @@ Page({
      */
     onShareAppMessage: function(res) {
         return {
-            title: 'Prometheus',
+            title: '师道慧享',
             path: '/pages/curriculum/curriculumDetail/curriculumDetail?id=' + this.data.id + "&courseName=" + this.data.courseName,
             success: function(res) {
                 wx.showToast({
@@ -317,10 +322,5 @@ Page({
                 })
             }
         }
-    },
-    // onPageScroll:function(res){
-    //     this.setData({
-    //         marginTop: res.scrollTop
-    //     })
-    // }
+    }
 })

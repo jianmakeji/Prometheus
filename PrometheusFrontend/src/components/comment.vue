@@ -114,7 +114,6 @@ export default {
         let that = this;
 		this.$Loading.start();
 		let getDataUrl = globel_.serverHost+ globel_.configAPI.getCommentData + this.offset;
-        console.log(getDataUrl);
 		this.$http.get( getDataUrl ).then(function(result){
 			that.$Loading.finish();
 			that.dataList = result.data.rows;

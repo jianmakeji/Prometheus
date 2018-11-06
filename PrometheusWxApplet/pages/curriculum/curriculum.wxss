@@ -1,25 +1,25 @@
 /* pages/curriculum/curriculum.wxss */
-.swiperItem{
-   width: 750rpx;
-   display: flex;
-   flex-direction: column;
-   text-align: left;
-}
-.item_header{
-   margin: 30rpx;
-}
-.class_name{
-   margin-left: 10rpx;
-   font-size: 16px;
-   color: #1c2438;
-}
-.LX_class, .PY_class, .HZ_class{
-   margin: 10rpx auto;
+
+.swiperItem {
+    width: 750rpx;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
 }
 
+.item_header {
+    margin: 30rpx;
+}
 
+.class_name {
+    margin-left: 10rpx;
+    font-size: 16px;
+    color: #1c2438;
+}
 
-
+.LX_class, .PY_class, .HZ_class {
+    margin: 10rpx auto;
+}
 
 .curriculum_list {
     margin: 10rpx 20rpx;
@@ -27,6 +27,6 @@
 }
 
 .icon_image {
-    width: 120rpx;
+    width: 70rpx;
     height: 70rpx;
 }
