@@ -21,7 +21,7 @@ module.exports = app => {
   router.get('/api/manage/course/getCourseBySpecialColumnId/:id', managerChecktoken, controller.manage.course.getCourseBySpecialColumnId);
   router.get('/api/manage/course/getCourseByCourseTypeId/:id', managerChecktoken, controller.manage.course.getCourseByCourseTypeId);
   router.get('/api/manage/course/getCourseByCondition', managerChecktoken, controller.manage.course.getCourseByCondition);
-  router.get('/api/manage/course/getQRCode/:id', managerChecktoken, controller.manage.course.getQRCode);
+  router.get('/api/manage/course/getQRCode', managerChecktoken, controller.manage.course.getQRCode);
 
   //管理后台API接口
   router.resources('manage.users', '/api/manage/users', managerChecktoken, controller.manage.user);

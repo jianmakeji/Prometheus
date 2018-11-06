@@ -14,18 +14,18 @@ module.exports.getAccessToken = (wx_appid, wx_secret) => {
   });
 }
 
-module.exports.getQRCodeImage = (tokenBody, id) => {
+module.exports.getQRCodeImage = (tokenBody, id, courseName) => {
   const tokenResult = JSON.parse(tokenBody);
   if (tokenResult.access_token) {
     const access_token = tokenResult.access_token;
     const ctx = this.ctx;
-
-    const requestQRCodeUrl = `https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=${access_token}`;
-    //const requestQRCodeUrl = `https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${access_token}`;
+    
+    //const requestQRCodeUrl = `https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=${access_token}`;
+    const requestQRCodeUrl = `https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${access_token}`;
     let requestData = {
-      //'scene': 'xxx',
-      'path': `pages/curriculum/curriculumDetail/curriculumDetail?id=${id}`,
-      'width': '430',
+      'scene': `${id}#${courseName}`,
+      'page': `pages/curriculum/curriculumDetail/curriculumDetail`,
+      'width': '400',
     };
 
     return new Promise((resolve, reject) => {
