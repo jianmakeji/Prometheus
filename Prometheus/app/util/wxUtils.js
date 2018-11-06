@@ -14,16 +14,16 @@ module.exports.getAccessToken = (wx_appid, wx_secret) => {
   });
 }
 
-module.exports.getQRCodeImage = (tokenBody, id, courseName) => {
+module.exports.getQRCodeImage = (tokenBody, id) => {
   const tokenResult = JSON.parse(tokenBody);
   if (tokenResult.access_token) {
     const access_token = tokenResult.access_token;
     const ctx = this.ctx;
-    
+
     //const requestQRCodeUrl = `https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=${access_token}`;
     const requestQRCodeUrl = `https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${access_token}`;
     let requestData = {
-      'scene': `${id}#${courseName}`,
+      'scene': `${id}`,
       'page': `pages/curriculum/curriculumDetail/curriculumDetail`,
       'width': '400',
     };
