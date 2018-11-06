@@ -82,7 +82,9 @@ class CourseController extends Controller {
 
   async getQRCode() {
     const ctx = this.ctx;
-    const id = ctx.params.id;
+    const id = ctx.query.id;
+    const courseName = ctx.query.courseName;
+    console.log('*************************'+ctx.query.courseName);
     const course = ctx.service.course.findCourseObjById(id);
     if (!course.qrCode) {
 
@@ -90,7 +92,7 @@ class CourseController extends Controller {
         const qrFilePath = ctx.app.qrCodePath + qrFileName;
 
         const tokenBody = await wxUtil.getAccessToken(ctx.app.wx_appid,ctx.app.wx_secret);
-        const imageRequest = wxUtil.getQRCodeImage(tokenBody, id);
+        const imageRequest = wxUtil.getQRCodeImage(tokenBody, id, courseName);
         if (imageRequest != null){
           await imageRequest.then((data)=>{
             ctx.app.putOssObject(qrFilePath,data);
