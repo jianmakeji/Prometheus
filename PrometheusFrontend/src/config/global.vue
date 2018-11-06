@@ -57,7 +57,7 @@
 		getCourseDataById:"/api/manage/course/:id",
 		getCourseDataBySpecialColumn:"/api/manage/course/getCourseBySpecialColumnId/:id?limit=10000&offset=0",
 		getCourseByCondition:"/api/manage/course/getCourseByCondition?limit=10&offset=",
-		getQRCode:"/api/manage/course/getQRCode",
+		getQRCode:"/api/manage/course/getQRCode/:id",
 
 		//好文增删改查
 		createArticle:"/api/manage/article",

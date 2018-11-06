@@ -272,7 +272,7 @@ export default {
         // 生成二维码
         generateCode(index){
             let that = this,
-				getDataUrl = globel_.serverHost + globel_.configAPI.getQRCode + "?id=" + this.dataList[index].Id + "&courseName=" + this.dataList[index].name;
+				getDataUrl = globel_.serverHost + globel_.configAPI.getQRCode.replace(":id",this.dataList[index].Id);
 			this.$Loading.start();
 			this.$http.get(getDataUrl).then(function(result){
 				if(result.data.status == 200){
