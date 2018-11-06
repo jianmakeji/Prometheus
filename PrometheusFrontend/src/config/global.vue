@@ -1,6 +1,7 @@
 <script type="text/javascript">
 
 	// const serverHost = "http://prometheus.design-engine.org";
+	// const serverHost = "http://bestpro.vip";
 	const serverHost = "http://192.168.3.163:7001";
 
 	const aliHttp = "http://jm-prometheus.oss-cn-hangzhou.aliyuncs.com/";
@@ -56,7 +57,7 @@
 		getCourseDataById:"/api/manage/course/:id",
 		getCourseDataBySpecialColumn:"/api/manage/course/getCourseBySpecialColumnId/:id?limit=10000&offset=0",
 		getCourseByCondition:"/api/manage/course/getCourseByCondition?limit=10&offset=",
-		getQRCode:"/api/manage/course/getQRCode/:id",
+		getQRCode:"/api/manage/course/getQRCode",
 
 		//好文增删改查
 		createArticle:"/api/manage/article",
