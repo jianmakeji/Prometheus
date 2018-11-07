@@ -1,7 +1,7 @@
 <template>
   	<div id="app">
         <Modal class="modalDialog" v-model="loginModal" width="360" :closable="false" :footer-hide="true" :mask-closable="false" :fullscreen="true">
-            <Form class="myForm" style="width:300px;margin:250px auto;">
+            <Form class="myForm" style="width:300px;margin:250px auto 350px;">
                 <h2 style="text-align:center;margin-top:15px;margin-bottom:20px;">登录系统</h2>
                 <FormItem>
                     <Input v-model="formItem.username" placeholder="请输入用户名..." type="email" name="username" clearable >{{formItem.username}}</Input>
@@ -13,6 +13,7 @@
                     <Button type="primary" v-on:click="submit" long>确定</Button>
                 </FormItem>
             </Form>
+            <p style="text-align: center;color:#999;">备案/许可证编号为：湘ICP备18021338号</p>
         </Modal>
 	  	<div class="layout">
           	<Layout >
