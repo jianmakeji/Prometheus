@@ -2,5 +2,5 @@
 <view class='loginView'>
     <image class='loginImg' src='/images/loginImg_c.png'></image>
     <i-button class='loginBtn' open-type='getUserInfo' bindgetuserinfo='userInfoHandler' type='bestPro'>微信登陆</i-button>
-    <text class='version'>v.0.0.1</text>
+    <text class='version'>v.0.0.3</text>
 </view>

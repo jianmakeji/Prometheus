@@ -10,16 +10,16 @@
                     <Input v-model="formItem.password" placeholder="请输入密码..." type="password" name="password" clearable >{{formItem.password}}</Input>
                 </FormItem>
                 <FormItem>
-                    <Button type="primary" v-on:click="submit"  long>确定</Button>
+                    <Button type="primary" v-on:click="submit" long>确定</Button>
                 </FormItem>
             </Form>
         </Modal>
 	  	<div class="layout">
           	<Layout >
-              	<Sider ref="side1" hide-trigger collapsible :collapsed-width="78" width="240" v-model="isCollapsed">
+              	<Sider ref="side1" hide-trigger collapsible :collapsed-width="78" width="240" v-model="isCollapsed" @on-collapse="onCollapse">
                   	<Menu :active-name="activeName" theme="dark" width="auto" :class="menuitemClasses" @on-select="menuTap">
 						<MenuItem name="login" >
-                          	<img  style="width:100%;height:auto;" src= "./assets/logo.jpg"/>
+                          	<img style="width:100%;height:auto;" v-bind:src= "logoSrc"/>
                       	</MenuItem>
                       	<MenuItem name="1">
                           	<Icon type="ios-videocam" />
@@ -87,6 +87,7 @@ export default {
             loginModal:true,
 			activeName:"1",
 		  	isCollapsed: false,
+            logoSrc:'./static/images/logo_horizontal.png',
             formItem:{
                 username:"",
                 password:""
@@ -108,6 +109,13 @@ export default {
 	  	}
   	},
   	methods: {
+        onCollapse(isCollapse){
+            if(isCollapse){
+                this.logoSrc = "./static/images/logo_small.png";
+            }else{
+                this.logoSrc = "./static/images/logo_horizontal.png";
+            }
+        },
 	  	collapsedSider () {
 		  	this.$refs.side1.toggleCollapse();
 	  	},
@@ -151,7 +159,6 @@ export default {
             		that.$router.push({name:"courseType"});
 
                     that.mHeight = document.documentElement.clientHeight - 110 +"px";
-                    console.log(document.documentElement.clientHeight+"px");
                 }else{
                     that.$Loading.finish();
                     that.loginModal = true;
