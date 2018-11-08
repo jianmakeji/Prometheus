@@ -98,7 +98,11 @@ class Course extends Service {
         delArray.push(app.qrCodePath + course.qrCode);
     }
     await app.deleteOssMultiObject(delArray);
-
+    await this.ctx.model.Favorite.destroy({
+      where:{
+        courseId:course.Id,
+      }
+    });
     return course.destroy();
   }
 

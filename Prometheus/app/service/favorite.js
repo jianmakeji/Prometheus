@@ -83,6 +83,7 @@ class Favorite extends Service {
     }
 
   }
+
 }
 
 module.exports = Favorite;
