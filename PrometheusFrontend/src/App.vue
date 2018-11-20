@@ -7,7 +7,7 @@
                     <Input v-model="formItem.username" placeholder="请输入用户名..." type="email" name="username" clearable >{{formItem.username}}</Input>
                 </FormItem>
                 <FormItem>
-                    <Input v-model="formItem.password" placeholder="请输入密码..." type="password" name="password" clearable >{{formItem.password}}</Input>
+                    <Input v-model="formItem.password" placeholder="请输入密码..." type="password" name="password" clearable @on-keyup.enter="submit">{{formItem.password}}</Input>
                 </FormItem>
                 <FormItem>
                     <Button type="primary" v-on:click="submit" long>确定</Button>
@@ -161,7 +161,6 @@ export default {
             		that.$router.push({name:"courseType"});
 
                     that.mHeight = document.documentElement.clientHeight - 110 +"px";
-                    console.log(that.mHeight);
                 }else{
                     that.$Loading.finish();
                     that.loginModal = true;
