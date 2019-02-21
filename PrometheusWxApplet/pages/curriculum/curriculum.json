@@ -1,11 +1,12 @@
 {
-    "usingComponents": {
-        "i-tabs": "/dist/tabs/index",
-        "i-tab": "/dist/tab/index",
-        "i-card": "/dist/card/index",
-        "i-avatar": "/dist/avatar/index",
-        "i-modal": "/dist/modal/index",
-        "i-button": "/dist/button/index",
-        "i-divider": "/dist/divider/index"
-    }
+   "usingComponents": {
+      "i-tabs": "/dist/tabs/index",
+      "i-tab": "/dist/tab/index",
+      "i-card": "/dist/card/index",
+      "i-avatar": "/dist/avatar/index",
+      "i-modal": "/dist/modal/index",
+      "i-button": "/dist/button/index",
+      "i-divider": "/dist/divider/index"
+   },
+   "disableSwipeBack": true
 }

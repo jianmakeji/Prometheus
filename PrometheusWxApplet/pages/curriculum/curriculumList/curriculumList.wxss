@@ -5,7 +5,51 @@
     border-radius: 10px;
 }
 
-.icon_image {
+.curriculum_item{
+    display: flex;
+    flex-direction: row;
+    height:160rpx;
+    border-radius:10rpx;
+    border-bottom:solid 1px #d0d2d6;
+    background: #ffffff;
+}
+
+.curriculum_item image{
+    width: 160rpx;
+    height:160rpx; 
+    margin: 2rpx 0;
+    border-radius:8rpx;
+    margin-right: 30rpx;
+}
+
+.curriculum_item .curriculum_item_name{
+    width: 400rpx;
+    height:160rpx;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color:#80848f;
+    -webkit-line-clamp: 2;
+}
+
+.curriculum_item .curriculum_item_duration{
     width: 100rpx;
-    height: 100rpx;
+    height:160rpx;
+    font-size: 14px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    text-align: center;
+    color:#80848f;
+    -webkit-line-clamp: 2;
+}
+
+.curriculum_item .curriculum_item_link{
+    width: 40rpx;
+    height:160rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

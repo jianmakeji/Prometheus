@@ -38,6 +38,18 @@
 			<FormItem label="价格:">
 				<InputNumber v-model="formItem.price" @on-change="priceChange"></InputNumber>
 		   	</FormItem>
+
+
+			<FormItem>
+				<Button type="primary" @click="addImg">添加图片</Button>
+		   	</FormItem>
+			<FormItem v-for="(imgItem,index) in imgList">
+				<img v-if="refresh" v-show="imgItem.length" :src="imgItem" style="width:80px;height:80px;" class="specialColumnImg"><br>
+                <input type="file" @change="addImgUpload" :imgIndex="index" accept="image/*"/>
+		   	</FormItem>
+
+
+
 		   	<FormItem>
 	            <Button type="primary" long @click="submitClick">提交</Button>
 	        </FormItem>
@@ -107,11 +119,16 @@ export default {
 		        courseType: "",
 				grade:0,
 		        price: 0
-		    }
-    	}
+		    },
+
+			imgList:[],		//点击添加图片，进行数据交互
+			imgBox:[],		//存放图片名称的box
+			refresh:true
+		}
   	},
   	methods: {
 	    submitClick() {
+			console.log(this.imgBox.join(","));
 			this.formItem.thumb = this.fileImage;
 	      	let that = this;
 	      	this.$Loading.start();
@@ -175,6 +192,71 @@ export default {
 	        	})
 	      	}
 	    },
+		addImg(){
+			this.imgList.push("");
+			console.log("addImg",this.imgList);
+		},
+		addImgUpload(files){
+			console.log(files.path[0].attributes.imgindex.value);
+
+			let that = this;
+			var imgIndex = parseInt(files.path[0].attributes.imgindex.value);			//记录是第几个input点击
+	      	var file = files.target.files[0]; //获取要上传的文件对象
+	      	this.$http({
+	        	method: 'get',
+	        	url: globel_.serverHost + '/api/getSTSSignature/1'
+	      	}).then((res) => {
+		        var client = new OSS({
+		          	region: 'oss-cn-hangzhou',
+		          	accessKeyId: res.data.credentials.AccessKeyId,
+		          	accessKeySecret: res.data.credentials.AccessKeySecret,
+		          	stsToken: res.data.credentials.SecurityToken,
+		          	bucket: 'jm-prometheus'
+		        });
+
+				calculate_object_name(file.name);
+		        var newFilename =  g_object_name;
+		        client.multipartUpload('courseImages/' + newFilename, file, {
+			        // progress(p) {
+			        //     that.progressPercent = p * 100;
+			        // }
+		        }).then(function(result) {
+					that.$http.get(globel_.serverHost + globel_.configAPI.getUrlSignature + result.name).then(function(result){
+						that.imgList[imgIndex] = result.data;
+						that.imgBox.push(newFilename);
+						console.log("=======",imgIndex,that.imgList[imgIndex],that.imgBox);
+						that.refresh = false;
+						that.$nextTick(() => {
+							that.refresh = true
+						})
+		              	that.$Loading.finish();
+			            that.$Message.success({
+			              duration: 2,
+			              content: globel_.configMessage.uploadImgSuccess
+			            });
+					}).catch(function(err){
+						that.$Loading.error();
+						that.$Message.error({
+						  duration: 2,
+						  content:err
+						});
+					})
+
+		        }).catch(function(err) {
+					that.$Loading.error();
+					that.$Message.error({
+					  	duration: 2,
+					  	content: err
+					});
+		        });
+		    }).catch((err) => {
+				that.$Loading.error();
+				that.$Message.error({
+					duration: 2,
+					content: err
+				});
+		    });
+		},
 	    priceChange(num) {
 	      this.formItem.price = num;
 	    },

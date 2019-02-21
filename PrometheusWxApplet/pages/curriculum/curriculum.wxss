@@ -19,6 +19,7 @@
 
 .LX_class, .PY_class, .HZ_class {
     margin: 10rpx auto;
+    box-shadow: 4rpx 4rpx 20rpx 4rpx rgba(153, 153, 153, 0.17);
 }
 
 .curriculum_list {
@@ -30,3 +31,42 @@
     width: 70rpx;
     height: 70rpx;
 }
+
+.LX_class {
+    margin: 10rpx 20rpx;
+    display: flex;
+    flex-direction: row;
+    height: 300rpx;
+    border-radius: 10rpx;
+    border-bottom: solid 1px #d0d2d6;
+    background: #fff;
+}
+
+.LX_class image {
+    width: 300rpx;
+    height: 300rpx;
+    border-radius: 10rpx;
+    margin-right: 30rpx;
+}
+
+.LX_class .course_title {
+    width: 300rpx;
+    height: 300rpx;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #80848f;
+    -webkit-line-clamp: 2;
+}
+
+.LX_class .course_grade{
+    width: 300rpx;
+    height: 200rpx;
+    margin-top: 20rpx;
+    margin-left: 20rpx;
+    font-size: 14px;
+    color: #80848f;
+}
+
+

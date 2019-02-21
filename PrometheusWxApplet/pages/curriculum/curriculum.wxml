@@ -15,8 +15,10 @@
                 <view>
                     <block wx:for="{{JPgrade7_data}}" wx:for-item="item">
                         <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}' data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
-                            <i-card title="{{item.name}}" thumb="{{item.thumb}}">
-                            </i-card>
+                            <!-- <i-card title="{{item.name}}" thumb="{{item.thumb}}">
+                            </i-card> -->
+                            <image src='{{item.thumb}}'></image>
+                            <text class='course_title'>{{item.name}}</text>
                         </view>
                     </block>
                 </view>
@@ -30,8 +32,10 @@
                 <view>
                     <block wx:for="{{JPgrade8_data}}" wx:for-item="item">
                         <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}' data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
-                            <i-card title="{{item.name}}" thumb="{{item.thumb}}">
-                            </i-card>
+                            <!-- <i-card title="{{item.name}}" thumb="{{item.thumb}}">
+                            </i-card> -->
+                            <image src='{{item.thumb}}'></image>
+                            <text class='course_title'>{{item.name}}</text>
                         </view>
                     </block>
                 </view>
@@ -45,8 +49,10 @@
                 <view>
                     <block wx:for="{{JPgrade9_data}}" wx:for-item="item">
                         <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}' data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
-                            <i-card title="{{item.name}}" thumb="{{item.thumb}}">
-                            </i-card>
+                            <!-- <i-card title="{{item.name}}" thumb="{{item.thumb}}">
+                            </i-card> -->
+                            <image src='{{item.thumb}}'></image>
+                            <text class='course_title'>{{item.name}}</text>
                         </view>
                     </block>
                 </view>
@@ -59,8 +65,10 @@
                 <view>
                     <block wx:for="{{ZT_data}}" wx:for-item="item">
                         <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}' data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
-                            <i-card title="{{item.name}}" thumb="{{item.thumb}}">
-                            </i-card>
+                            <!-- <i-card title="{{item.name}}" thumb="{{item.thumb}}">
+                            </i-card> -->
+                            <image src='{{item.thumb}}'></image>
+                            <text class='course_title'>{{item.name}}</text>
                         </view>
                     </block>
                 </view>

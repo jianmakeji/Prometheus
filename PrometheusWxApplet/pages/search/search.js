@@ -64,9 +64,6 @@ Page({
                         wx.setStorageSync("token", res.data.token);
                         wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
                     }
-                },
-                fail(err){
-                    console.log(err);
                 }
             })
         }
