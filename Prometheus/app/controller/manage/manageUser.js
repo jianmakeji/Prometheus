@@ -23,19 +23,19 @@ class ManageUserController extends Controller {
         let token = jwt.sign({
           user_id: manageUser[0].Id,
           user_name: manageUser[0].username
-        }, ctx.app.jwtSlot, {
+        }, ctx.helper.jwtSlot, {
           expiresIn: '10 days'
         });
 
-        ctx.body = ctx.app.loginSuccess('登录成功!',token, manageUser.username, manageUser.Id);
+        ctx.body = ctx.helper.loginSuccess('登录成功!',token, manageUser.username, manageUser.Id);
 
       } else {
         //密码错误
-        ctx.body = ctx.app.failure('密码错误!');
+        ctx.body = ctx.helper.failure('密码错误!');
       }
     } else {
       //用户不存在
-      ctx.body = ctx.app.failure('用户不存在!');
+      ctx.body = ctx.helper.failure('用户不存在!');
     }
 
   }
@@ -54,10 +54,10 @@ class ManageUserController extends Controller {
     });
 
     if (manageUser){
-      ctx.body = ctx.app.success('创建成功!');
+      ctx.body = ctx.helper.success('创建成功!');
     }
     else{
-      ctx.body = ctx.app.success('创建失败!');
+      ctx.body = ctx.helper.success('创建失败!');
     }
   }
 
@@ -67,15 +67,15 @@ class ManageUserController extends Controller {
 
     let decoded; //解码token
     try {
-      decoded = jwt.verify(token, ctx.app.jwtSlot);
-      ctx.body = ctx.app.success('成功!');
+      decoded = jwt.verify(token, ctx.helper.jwtSlot);
+      ctx.body = ctx.helper.success('成功!');
     } catch (error) {
       if (error.name == 'TokenExpiredError') {
         ctx.status = 402;
-        ctx.body = ctx.app.failure('token失效!');
+        ctx.body = ctx.helper.failure('token失效!');
       } else {
         ctx.status = 401;
-        ctx.body = ctx.app.failure(error.name);
+        ctx.body = ctx.helper.failure(error.name);
         return;
       }
     }

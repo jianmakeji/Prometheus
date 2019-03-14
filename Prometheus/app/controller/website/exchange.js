@@ -3,7 +3,7 @@
 const Controller = require('egg').Controller;
 
 class ExchangeController extends Controller {
-  
+
   async index() {
     const ctx = this.ctx;
     const query = {
@@ -20,8 +20,14 @@ class ExchangeController extends Controller {
 
   async create() {
     const ctx = this.ctx;
-    const exchange = await ctx.service.exchange.create(ctx.request.body);
-    ctx.body = ctx.app.success('创建成功!');
+    try{
+      const exchange = await ctx.service.exchange.create(ctx.request.body);
+      ctx.body = ctx.helper.success('创建成功!');
+    }
+    catch(e){
+      ctx.body = ctx.helper.failure(e.message);
+    }
+
   }
 
   async update() {
@@ -32,15 +38,27 @@ class ExchangeController extends Controller {
       special_column: ctx.request.body.special_column,
       price: ctx.request.body.price,
     };
-    await ctx.service.exchange.update({ id, updates });
-    ctx.body = ctx.app.success('更新成功!');
+    try{
+      await ctx.service.exchange.update({ id, updates });
+      ctx.body = ctx.helper.success('更新成功!');
+    }
+    catch(e){
+      ctx.body = ctx.helper.failure(e.message);
+    }
+
   }
 
   async destroy() {
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.id);
-    await ctx.service.exchange.del(id);
-    ctx.body = ctx.app.success('删除成功!');
+    try{
+      await ctx.service.exchange.del(id);
+      ctx.body = ctx.helper.success('删除成功!');
+    }
+    catch(e){
+      ctx.body = ctx.helper.failure(e.message);
+    }
+
   }
 }
 

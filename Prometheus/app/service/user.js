@@ -57,12 +57,9 @@ class User extends Service {
 
   async findByOpenId(openId){
 
-    return await this.ctx.model.User.findAll({
-      where:{
-        openId:{[this.app.Sequelize.Op.eq]:openId}
-      }
-    });
+    return await this.ctx.model.User.findByOpenId(openId);
   }
+
 }
 
 module.exports = User;

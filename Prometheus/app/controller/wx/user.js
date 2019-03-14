@@ -29,12 +29,12 @@ class UserController extends Controller {
       let token = jwt.sign({
         username: user.username,
         openId: user.openId
-      }, ctx.app.jwtSlot, {
+      }, ctx.helper.jwtSlot, {
         expiresIn: '10 days'
       });
-      ctx.body = ctx.app.loginSuccess('登录成功!', token, user.username, user.Id);
+      ctx.body = ctx.helper.loginSuccess('登录成功!', token, user.username, user.Id);
     } catch (error) {
-      ctx.body = ctx.app.failure(error);
+      ctx.body = ctx.helper.failure(error);
     }
   }
 
@@ -45,18 +45,30 @@ class UserController extends Controller {
       headicon: ctx.request.body.headicon,
       password: ctx.request.body.password,
     };
-    await ctx.service.user.update({
-      id,
-      updates
-    });
-    ctx.body = ctx.app.success('更新成功!');
+    try{
+      await ctx.service.user.update({
+        id,
+        updates
+      });
+      ctx.body = ctx.helper.success('更新成功!');
+    }
+    catch(e){
+      ctx.body = ctx.helper.failure(e.message);
+    }
+
   }
 
   async destroy() {
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.id);
-    await ctx.service.user.del(id);
-    ctx.body = ctx.app.success('删除成功!');
+    try{
+      await ctx.service.user.del(id);
+      ctx.body = ctx.helper.success('删除成功!');
+    }
+    catch(e){
+      ctx.body = ctx.helper.failure(e.message);
+    }
+
   }
 
   async getWxCode() {

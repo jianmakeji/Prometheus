@@ -4,24 +4,15 @@ const Service = require('egg').Service;
 
 class SpecialColumn extends Service {
   async list({ offset = 0, limit = 10, thumbName = 'thumb_600_600' }) {
-      let resultObj = await this.ctx.model.SpecialColumn.findAndCountAll({
+    let resultObj = await this.ctx.model.SpecialColumn.getSpecialColumnByPage({
       offset,
-      limit,
-      order: [[ 'id', 'asc' ]],
-      include: [{
-          model: this.ctx.model.Teacher,
-          attributes: ['name','Id'],
-          as: 'teacher',
-      },{
-        model: this.ctx.model.CourseType,
-        attributes: ['name','Id'],
-      }],
+      limit
     });
 
-    const app = this.ctx.app;
+    const helper = this.ctx.helper;
 
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb, thumbName);
+      element.thumb = helper.signatureUrl(helper.courseImagePath + element.thumb, thumbName);
 
     });
 
@@ -29,22 +20,13 @@ class SpecialColumn extends Service {
   }
 
   async find({id = 0,thumbName= 'thumb_600_600'}) {
-    const specialColumn = await this.ctx.model.SpecialColumn.findById(id,{
-      include: [{
-          model: this.ctx.model.Teacher,
-          attributes: ['name','subject','brief'],
-          as: 'teacher',
-      },{
-        model: this.ctx.model.CourseType,
-        attributes: ['name','grade'],
-      }],
-    });
+    const specialColumn = await this.ctx.model.SpecialColumn.getSpecialColumnById(id);
 
     if (!specialColumn) {
       this.ctx.throw(404, 'specialColumn not found');
     }
-    const app = this.ctx.app;
-    specialColumn.thumb = this.ctx.app.signatureUrl(app.courseImagePath + specialColumn.thumb,  thumbName);
+    const helper = this.ctx.helper;
+    specialColumn.thumb = helper.signatureUrl(helper.courseImagePath + specialColumn.thumb,  thumbName);
     return specialColumn;
   }
 
@@ -66,43 +48,31 @@ class SpecialColumn extends Service {
       this.ctx.throw(404, 'specialColumn not found');
     }
 
-    const app =this.ctx.app;
+    const app =this.ctx.helper;
     await app.deleteOssObject(app.courseImagePath + specialColumn.thumb);
 
     return specialColumn.destroy();
   }
 
   async getSpecialColumnsByTeacherId({id = 0, limit = 10, offset =0, thumbName = 'thumb_600_600'}){
-    const resultObj =  this.ctx.model.SpecialColumn.findAndCountAll({
-      offset,
-      limit,
-      order: [[ 'id', 'asc' ]],
-      where: {
-          teacherId:id,
-      },
-    });
+    const resultObj =  this.ctx.model.SpecialColumn.getSpecialColumnsByTeacherId({id,offset,limit});
 
-    const app = this.ctx.app;
+    const helper = this.ctx.helper;
 
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb, thumbName);
+      element.thumb = helper.signatureUrl(helper.courseImagePath + element.thumb, thumbName);
     });
 
     return resultObj;
   }
 
   async getSpecialColumnsByCourseType({courseType = 0, thumbName = 'thumb_600_600'}){
-    const resultObj =  await this.ctx.model.SpecialColumn.findAll({
-      order: [[ 'grade', 'asc' ]],
-      where: {
-          courseType:courseType,
-      },
-    });
+    const resultObj =  await this.ctx.model.SpecialColumn.getSpecialColumnsByCourseType(courseType);
 
-    const app = this.ctx.app;
+    const helper = this.ctx.helper;
 
     resultObj.forEach((element, index)=>{
-      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb, thumbName);
+      element.thumb = helper.signatureUrl(helper.courseImagePath + element.thumb, thumbName);
     });
 
     return resultObj;

@@ -19,8 +19,14 @@ class SpecialColumnController extends Controller {
 
   async create() {
     const ctx = this.ctx;
-    const specialColumn = await ctx.service.specialColumn.create(ctx.request.body);
-    ctx.body = ctx.app.success('创建成功!');
+    try{
+      const specialColumn = await ctx.service.specialColumn.create(ctx.request.body);
+      ctx.body = ctx.helper.success('创建成功!');
+    }
+    catch(e){
+      ctx.body = ctx.helper.failure(e.message);
+    }
+
   }
 
   async update() {
@@ -35,15 +41,27 @@ class SpecialColumnController extends Controller {
       price: ctx.request.body.price,
       grade:ctx.request.body.grade,
     };
-    await ctx.service.specialColumn.update({ id, updates });
-    ctx.body = ctx.app.success('更新成功!');
+    try{
+      await ctx.service.specialColumn.update({ id, updates });
+      ctx.body = ctx.helper.success('更新成功!');
+    }
+    catch(e){
+      ctx.body = ctx.helper.failure(e.message);
+    }
+
   }
 
   async destroy() {
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.id);
-    await ctx.service.specialColumn.del(id);
-    ctx.body = ctx.app.success('删除成功!');
+    try{
+      await ctx.service.specialColumn.del(id);
+      ctx.body = ctx.helper.success('删除成功!');
+    }
+    catch(e){
+      ctx.body = ctx.helper.failure(e.message);
+    }
+
   }
 
   async getSpecialColumnsByTeacherId(){

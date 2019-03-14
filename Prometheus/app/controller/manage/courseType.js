@@ -20,8 +20,14 @@ class CourseTypeController extends Controller {
 
   async create() {
     const ctx = this.ctx;
-    const courseType = await ctx.service.courseType.create(ctx.request.body);
-    ctx.body = ctx.app.success('创建成功!');
+    try{
+      const courseType = await ctx.service.courseType.create(ctx.request.body);
+      ctx.body = ctx.helper.success('创建成功!');
+    }
+    catch(e){
+        ctx.body = ctx.helper.failure(e.message);
+    }
+
   }
 
   async update() {
@@ -32,15 +38,27 @@ class CourseTypeController extends Controller {
       grade: ctx.request.body.grade,
       describe: ctx.request.body.describe,
     };
-    await ctx.service.courseType.update({ id, updates });
-    ctx.body = ctx.app.success('更新成功!');
+
+    try{
+      await ctx.service.courseType.update({ id, updates });
+      ctx.body = ctx.helper.success('更新成功!');
+    }
+    catch(e){
+        ctx.body = ctx.helper.failure(e.message);
+    }
   }
 
   async destroy() {
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.id);
-    await ctx.service.courseType.del(id);
-    ctx.body = ctx.app.success('删除成功!');
+
+    try{
+      await ctx.service.courseType.del(id);
+      ctx.body = ctx.helper.success('删除成功!');
+    }
+    catch(e){
+        ctx.body = ctx.helper.failure(e.message);
+    }
   }
 }
 

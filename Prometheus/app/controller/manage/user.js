@@ -19,8 +19,15 @@ class UserController extends Controller {
 
   async create() {
     const ctx = this.ctx;
-    const user = await ctx.service.user.create(ctx.request.body);
-    ctx.body = ctx.app.success('创建成功!');
+    try{
+      const user = await ctx.service.user.create(ctx.request.body);
+      ctx.body = ctx.helper.success('创建成功!');
+    }
+    catch(e)
+    {
+      ctx.body = ctx.helper.failure(e.message);
+    }
+
   }
 
   async update() {
@@ -30,15 +37,29 @@ class UserController extends Controller {
       headicon: ctx.request.body.headicon,
       password: ctx.request.body.password,
     };
-    await ctx.service.user.update({ id, updates });
-    ctx.body = ctx.app.success('更新成功!');
+    try{
+      await ctx.service.user.update({ id, updates });
+      ctx.body = ctx.helper.success('更新成功!');
+    }
+    catch(e)
+    {
+      ctx.body = ctx.helper.failure(e.message);
+    }
+
   }
 
   async destroy() {
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.id);
-    await ctx.service.user.del(id);
-    ctx.body = ctx.app.success('删除成功!');
+    try{
+      await ctx.service.user.del(id);
+      ctx.body = ctx.helper.success('删除成功!');
+    }
+    catch(e)
+    {
+      ctx.body = ctx.helper.failure(e.message);
+    }
+
   }
 }
 

@@ -9,9 +9,9 @@ class AliOSS extends Service {
     const ctx = this.ctx;
 
     let client = new OSS({
-      region: ctx.app.alioss.region,
-      accessKeyId: ctx.app.alioss.AccessKeyId,
-      accessKeySecret: ctx.app.alioss.AccessKeySecret
+      region: ctx.helper.alioss.region,
+      accessKeyId: ctx.helper.alioss.AccessKeyId,
+      accessKeySecret: ctx.helper.alioss.AccessKeySecret
     });
 
     return client;

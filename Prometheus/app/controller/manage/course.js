@@ -22,8 +22,14 @@ class CourseController extends Controller {
 
   async create() {
     const ctx = this.ctx;
-    const course = await ctx.service.course.create(ctx.request.body);
-    ctx.body = ctx.app.success('创建成功!');
+    try{
+      const course = await ctx.service.course.create(ctx.request.body);
+      ctx.body = ctx.helper.success('创建成功!');
+    }
+    catch(e){
+      ctx.body = ctx.helper.failure(e.message);
+    }
+
   }
 
   async update() {
@@ -38,15 +44,27 @@ class CourseController extends Controller {
       videoAddress: ctx.request.body.videoAddress,
       duration:ctx.request.body.duration,
     };
-    await ctx.service.course.update({ id, updates });
-    ctx.body = ctx.app.success('更新成功!');
+    try{
+      await ctx.service.course.update({ id, updates });
+      ctx.body = ctx.helper.success('更新成功!');
+    }
+    catch(e){
+      ctx.body = ctx.helper.failure(e.message);
+    }
+
   }
 
   async destroy() {
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.id);
-    await ctx.service.course.del(id);
-    ctx.body = ctx.app.success('删除成功!');
+    try{
+      await ctx.service.course.del(id);
+      ctx.body = ctx.helper.success('删除成功!');
+    }
+    catch(e){
+      ctx.body = ctx.helper.failure(e.message);
+    }
+
   }
 
   async getCourseBySpecialColumnId(){
@@ -87,24 +105,24 @@ class CourseController extends Controller {
     const course = ctx.service.course.findCourseObjById(id);
     if (!course.qrCode) {
 
-        const qrFileName = ctx.app.randomString(10) + '.jpg';
-        const qrFilePath = ctx.app.qrCodePath + qrFileName;
+        const qrFileName = ctx.helper.randomString(10) + '.jpg';
+        const qrFilePath = ctx.helper.qrCodePath + qrFileName;
 
-        const tokenBody = await wxUtil.getAccessToken(ctx.app.wx_appid,ctx.app.wx_secret);
+        const tokenBody = await wxUtil.getAccessToken(ctx.helper.wx_appid,ctx.helper.wx_secret);
         const imageRequest = wxUtil.getQRCodeImage(tokenBody, id);
         if (imageRequest != null){
           await imageRequest.then((data)=>{
-            ctx.app.putOssObject(qrFilePath,data);
+            ctx.helper.putOssObject(qrFilePath,data);
             ctx.service.course.updateQRCodeByCourseId(id, qrFileName);
           });
-          ctx.body = ctx.app.success(ctx.app.signatureUrl(qrFilePath, undefined));
+          ctx.body = ctx.helper.success(ctx.helper.signatureUrl(qrFilePath, undefined));
         }
         else{
-          ctx.body = ctx.app.failure('微信获取二维码失败!');
+          ctx.body = ctx.helper.failure('微信获取二维码失败!');
         }
 
     } else {
-      ctx.body = this.ctx.app.success(ctx.app.signatureUrl(ctx.app.qrCodePath + course.qrCode, undefined));
+      ctx.body = this.ctx.helper.success(ctx.helper.signatureUrl(ctx.helper.qrCodePath + course.qrCode, undefined));
     }
   }
 }

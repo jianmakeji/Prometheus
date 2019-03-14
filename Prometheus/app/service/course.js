@@ -4,25 +4,17 @@ const Service = require('egg').Service;
 
 class Course extends Service {
   async list({ offset = 0, limit = 10, thumbName = 'thumb_600_600' }) {
-    let resultObj = await this.ctx.model.Course.findAndCountAll({
+    let resultObj = await this.ctx.model.Course.getCourseByPage({
       offset,
-      limit,
-      order: [[ 'created_at', 'desc' ], [ 'id', 'desc' ]],
-      include: [{
-          model: this.ctx.model.SpecialColumn,
-          attributes: ['name','Id'],
-      },{
-        model: this.ctx.model.CourseType,
-        attributes: ['name','Id'],
-      }],
+      limit
     });
 
-    const app = this.ctx.app;
+    const helper = this.ctx.helper;
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb, thumbName);
-      element.videoAddress = app.signatureUrl(app.courseVideoPath + element.videoAddress);
+      element.thumb = helper.signatureUrl(helper.courseImagePath + element.thumb, thumbName);
+      element.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.videoAddress);
       if(element.qrCode){
-        element.qrCode = app.signatureUrl(app.qrCodePath + element.qrCode);
+        element.qrCode = helper.signatureUrl(helper.qrCodePath + element.qrCode);
       }
     });
 
@@ -30,52 +22,41 @@ class Course extends Service {
   }
 
   async find({id = 0,thumbName= 'thumb_600_600'}) {
-    const course = await this.ctx.model.Course.findById(id,{
-      include: [{
-          model: this.ctx.model.SpecialColumn,
-          attributes: ['name','Id'],
-      },{
-        model: this.ctx.model.CourseType,
-        attributes: ['name','Id'],
-      }],
-    });
-    if (!course) {
-      this.ctx.throw(404, 'course not found');
+    let transaction;
+    try {
+      transaction = await this.ctx.model.transaction();
+      const course = await this.ctx.model.Course.getCourseById(id,transaction);
+      if (!course) {
+        this.ctx.throw(404, 'course not found');
+      }
+      const helper = this.ctx.helper;
+      course.thumb = helper.signatureUrl(helper.courseImagePath + course.thumb, thumbName);
+      course.videoAddress = helper.signatureUrl(helper.courseVideoPath + course.videoAddress);
+      if(course.qrCode){
+        course.qrCode = helper.signatureUrl(helper.qrCodePath + course.qrCode);
+      }
+      await this.ctx.model.Course.addLookingNum(id,transaction);
+      await transaction.commit();
+      return course;
+    } catch (e) {
+      await transaction.rollback();
+      return false;
     }
-    const app = this.ctx.app;
-    course.thumb = app.signatureUrl(app.courseImagePath + course.thumb, thumbName);
-    course.videoAddress = app.signatureUrl(app.courseVideoPath + course.videoAddress);
-    if(course.qrCode){
-      course.qrCode = app.signatureUrl(app.qrCodePath + course.qrCode);
-    }
-    await this.ctx.model.Course.update({
-          lookingNum: this.app.Sequelize.fn('1 + abs', this.app.Sequelize.col('lookingNum'))
-        },{
-        where: {
-          Id: id
-        }
-    });
-
-    return course;
-
   }
 
   async create(course) {
-    return this.ctx.model.Course.create(course);
+    return this.ctx.model.Course.createCourse(course);
   }
 
   async update({ id, updates }) {
-    const course = await this.ctx.model.Course.findById(id);
-    if (!course) {
-      this.ctx.throw(404, 'course not found');
-    }
-    const app =this.ctx.app;
+    const course = await this.ctx.model.Course.updateCourse({ id, updates });
+    const helper =this.ctx.helper;
     let deleteArray = new Array();
     if (updates.videoAddress != course.videoAddress){
-      deleteArray.push(app.courseVideoPath + course.videoAddress);
+      deleteArray.push(helper.courseVideoPath + course.videoAddress);
     }
     if (updates.thumb != course.thumb){
-      deleteArray.push(app.courseImagePath + course.thumb);
+      deleteArray.push(helper.courseImagePath + course.thumb);
     }
 
     if (deleteArray.length > 0){
@@ -86,47 +67,41 @@ class Course extends Service {
   }
 
   async del(id) {
-    const course = await this.ctx.model.Course.findById(id);
-    if (!course) {
-      this.ctx.throw(404, 'course not found');
-    }
-    const app =this.ctx.app;
-    let delArray = new Array();
-    delArray.push(app.courseImagePath + course.thumb);
-    delArray.push(app.courseVideoPath + course.videoAddress);
-    if (course.qrCode){
-        delArray.push(app.qrCodePath + course.qrCode);
-    }
-    await app.deleteOssMultiObject(delArray);
-    await this.ctx.model.Favorite.destroy({
-      where:{
-        courseId:course.Id,
+    let transaction;
+    try {
+      transaction = await this.ctx.model.transaction();
+      const course = await this.ctx.model.Course.deleteCourseById(id,transaction);
+      await this.ctx.model.Favorite.delFavoriteByCourseId(course.Id,transaction);
+      const helper =this.ctx.helper;
+      let delArray = new Array();
+      delArray.push(helper.courseImagePath + course.thumb);
+      delArray.push(helper.courseVideoPath + course.videoAddress);
+      if (course.qrCode){
+          delArray.push(helper.qrCodePath + course.qrCode);
       }
-    });
-    return course.destroy();
+      await app.deleteOssMultiObject(delArray);
+      await transaction.commit();
+      return true;
+    } catch (e) {
+      await transaction.rollback();
+      return false;
+    }
   }
 
-  async getCourseBySpecialColumnId({id = 0, limit = 10, offset =0, thumbName = 'thumb_600_600'}){
-    let resultObj = await this.ctx.model.Course.findAndCountAll({
-      offset,
+  async getCourseBySpecialColumnId({id = 0, limit = 50, offset =0, thumbName = 'thumb_600_600'}){
+    let resultObj = await this.ctx.model.Course.getCourseBySpecialColumnId({
+      id,
       limit,
-      order: [[ 'id', 'asc' ]],
-      include: [{
-        model: this.ctx.model.CourseType,
-        attributes: ['name','Id'],
-      }],
-      where: {
-          specialColumn:id,
-      },
+      offset
     });
 
-    const app = this.ctx.app;
+    const helper = this.ctx.helper;
 
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb , thumbName);
-      element.videoAddress = app.signatureUrl(app.courseVideoPath + element.videoAddress);
+      element.thumb = helper.signatureUrl(helper.courseImagePath + element.thumb , thumbName);
+      element.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.videoAddress);
       if(element.qrCode){
-        element.qrCode = app.signatureUrl(app.qrCodePath + element.qrCode);
+        element.qrCode = helper.signatureUrl(helper.qrCodePath + element.qrCode);
       }
     });
 
@@ -134,25 +109,14 @@ class Course extends Service {
   }
 
   async getCourseByCourseTypeId({id = 0, limit = 10, offset =0, thumbName = 'thumb_600_600'}){
-    let resultObj = await this.ctx.model.Course.findAndCountAll({
-      offset,
-      limit,
-      order: [[ 'id', 'asc' ]],
-      include: [{
-          model: this.ctx.model.SpecialColumn,
-          attributes: ['name','Id'],
-      }],
-      where: {
-          courseType:id,
-      },
-    });
+    let resultObj = await this.ctx.model.Course.getCourseByCourseTypeId({id,limit,offset});
 
-    const app = this.ctx.app;
+    const helper = this.ctx.helper;
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb, thumbName);
-      element.videoAddress = app.signatureUrl(app.courseVideoPath + element.videoAddress);
+      element.thumb = helper.signatureUrl(helper.courseImagePath + element.thumb, thumbName);
+      element.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.videoAddress);
       if(element.qrCode){
-        element.qrCode = app.signatureUrl(app.qrCodePath + element.qrCode);
+        element.qrCode = helper.signatureUrl(helper.qrCodePath + element.qrCode);
       }
     });
 
@@ -160,55 +124,16 @@ class Course extends Service {
   }
 
   async getCourseByCondition({courseType = 0,specialColumn = 0,limit = 10, offset =0, thumbName = 'thumb_600_600'}){
-    let condition = {
-      offset,
-      limit,
-      order: [[ 'id', 'asc' ]],
-    };
 
-    if (courseType == 0 && specialColumn == 0){
-      condition.include = [{
-        model: this.ctx.model.SpecialColumn,
-        attributes: ['name','Id'],
-      },{
-        model: this.ctx.model.CourseType,
-        attributes: ['name','Id'],
-      }];
-    }
-    else if (courseType != 0 && specialColumn == 0){
-      condition.include = [{
-        model: this.ctx.model.SpecialColumn,
-        attributes: ['name','Id'],
-      }];
-      condition.where = {
-        courseType:courseType,
-      };
-    }
-    else if (courseType == 0 && specialColumn != 0){
-      condition.include = [{
-        model: this.ctx.model.CourseType,
-        attributes: ['name','Id'],
-      }];
-      condition.where = {
-        specialColumn:specialColumn,
-      };
-    }
-    else if (courseType != 0 && specialColumn != 0){
-      condition.where = {
-        courseType:courseType,
-        specialColumn:specialColumn,
-      };
-    }
+    let resultObj = await this.ctx.model.Course.getCourseByCondition({courseType,specialColumn,limit,offset});
 
-    let resultObj = await this.ctx.model.Course.findAndCountAll(condition);
-
-    const app = this.ctx.app;
+    const helper = this.ctx.helper;
 
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb, thumbName);
-      element.videoAddress = app.signatureUrl(app.courseVideoPath + element.videoAddress);
+      element.thumb = helper.signatureUrl(helper.courseImagePath + element.thumb, thumbName);
+      element.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.videoAddress);
       if(element.qrCode){
-        element.qrCode = app.signatureUrl(app.qrCodePath + element.qrCode);
+        element.qrCode = helper.signatureUrl(helper.qrCodePath + element.qrCode);
       }
     });
 
@@ -216,30 +141,14 @@ class Course extends Service {
   }
 
   async searchByKeywords({ offset = 0, limit = 10, keyword='', thumbName = 'thumb_600_600' }){
-    let resultObj = await this.ctx.model.Course.findAndCountAll({
-      offset,
-      limit,
-      order: [[ 'created_at', 'desc' ], [ 'id', 'desc' ]],
-      where: {
-          name:{
-            [this.app.Sequelize.Op.like]: '%'+keyword+'%',
-          },
-      },
-      include: [{
-          model: this.ctx.model.SpecialColumn,
-          attributes: ['name','Id'],
-      },{
-        model: this.ctx.model.CourseType,
-        attributes: ['name','Id'],
-      }],
-    });
+    let resultObj = await this.ctx.model.Course.searchByKeywords({offset,limit,keyword});
 
-    const app = this.ctx.app;
+    const helper = this.ctx.helper;
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = app.signatureUrl(app.courseImagePath + element.thumb, thumbName);
-      element.videoAddress = app.signatureUrl(app.courseVideoPath + element.videoAddress);
+      element.thumb = helper.signatureUrl(helper.courseImagePath + element.thumb, thumbName);
+      element.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.videoAddress);
       if(element.qrCode){
-        element.qrCode = app.signatureUrl(app.qrCodePath + element.qrCode);
+        element.qrCode = helper.signatureUrl(helper.qrCodePath + element.qrCode);
       }
     });
 
@@ -247,17 +156,11 @@ class Course extends Service {
   }
 
   async updateQRCodeByCourseId(id,qrCode){
-    return await this.ctx.model.Course.update({
-          qrCode: qrCode
-        },{
-        where: {
-          Id: id
-        }
-    });
+    return await this.ctx.model.Course.updateQRCodeByCourseId(id,qrCode);
   }
 
   async findCourseObjById(id){
-    const course = await this.ctx.model.Course.findById(id);
+    const course = await this.ctx.model.Course.findCourseObjById(id);
     return course;
   }
 

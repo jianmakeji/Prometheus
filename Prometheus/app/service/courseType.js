@@ -4,22 +4,14 @@ const Service = require('egg').Service;
 
 class CourseType extends Service {
   async list({ offset = 0, limit = 10 }) {
-    return this.ctx.model.CourseType.findAndCountAll({
+    return this.ctx.model.CourseType.getCourseTypeByPage({
       offset,
-      limit,
-      order: [[ 'id', 'asc' ]],
+      limit
     });
   }
 
   async find(id) {
-    const courseType = await this.ctx.model.CourseType.findById(id,{
-      include:[{
-        model:this.ctx.model.SpecialColumn
-      }]
-    });
-    if (!courseType) {
-      this.ctx.throw(404, 'courseType not found');
-    }
+    const courseType = await this.ctx.model.CourseType.getCourseTypeById(id);
     return courseType;
   }
 
@@ -28,19 +20,13 @@ class CourseType extends Service {
   }
 
   async update({ id, updates }) {
-    const courseType = await this.ctx.model.CourseType.findById(id);
-    if (!courseType) {
-      this.ctx.throw(404, 'courseType not found');
-    }
-    return courseType.update(updates);
+    const courseType = await this.ctx.model.CourseType.updateCourseType({ id, updates });
+    return courseType;
   }
 
   async del(id) {
-    const courseType = await this.ctx.model.CourseType.findById(id);
-    if (!courseType) {
-      this.ctx.throw(404, 'courseType not found');
-    }
-    return courseType.destroy();
+    const courseType = await this.ctx.model.CourseType.deleteCourseTypeById(id);
+    return courseType;
   }
 }
 

@@ -21,5 +21,40 @@ module.exports = app => {
     app.model.SpecialColumn.hasMany(app.model.Course,{sourceKey:'Id',foreignKey: 'courseType'});
   };
 
+  CourseType.getCourseTypeByPage = async function({ offset = 0, limit = 10 }){
+    return this.findAndCountAll({
+      offset,
+      limit,
+      order: [[ 'id', 'asc' ]],
+    });
+  }
+
+  CourseType.getCourseTypeById = async function(id){
+    const courseType = await this.findById(id,{
+      include:[{
+        model:this.ctx.model.SpecialColumn
+      }]
+    });
+    if (!courseType) {
+      throw new Error('courseType not found');
+    }
+    return courseType;
+  }
+
+  CourseType.updateCourseType = async function({ id, updates }){
+    const courseType = await this.findById(id);
+    if (!courseType) {
+      throw new Error('courseType not found');
+    }
+    return courseType.update(updates);
+  }
+
+  CourseType.deleteCourseTypeById = async function(id){
+    const courseType = await this.findById(id);
+    if (!courseType) {
+      throw new Error('courseType not found');
+    }
+    return courseType.destroy();
+  }
   return CourseType;
 };

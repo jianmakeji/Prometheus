@@ -24,8 +24,14 @@ class FavoriteController extends Controller {
       courseId: ctx.request.body.courseId,
       articleId: ctx.request.body.articleId,
     };
-    await ctx.service.favorite.create(favorite);
-    ctx.body = ctx.app.success('收藏成功!');
+    try{
+      await ctx.service.favorite.create(favorite);
+      ctx.body = ctx.helper.success('收藏成功!');
+    }
+    catch(e){
+      ctx.body = ctx.helper.failure(e.message);
+    }
+
   }
 
   async deleteFavorite() {
@@ -36,9 +42,14 @@ class FavoriteController extends Controller {
       courseId: ctx.query.courseId,
       articleId: ctx.query.articleId,
     };
+    try{
+      await ctx.service.favorite.del(favorite);
+      ctx.body = ctx.helper.success('取消成功!');
+    }
+    catch(e){
+      ctx.body = ctx.helper.failure(e.message);
+    }
 
-    await ctx.service.favorite.del(favorite);
-    ctx.body = ctx.app.success('取消成功!');
   }
 
   async checkIsFavite(){
@@ -53,10 +64,10 @@ class FavoriteController extends Controller {
     const favObj = await ctx.service.favorite.findFavByCategory(favorite);
 
     if (Object.keys(favObj).length > 0) {
-      ctx.body = ctx.app.success('已收藏');
+      ctx.body = ctx.helper.success('已收藏');
     }
     else{
-      ctx.body = ctx.app.success('未收藏');
+      ctx.body = ctx.helper.success('未收藏');
     }
   }
 

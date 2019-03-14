@@ -19,8 +19,14 @@ class TeacherController extends Controller {
 
   async create() {
     const ctx = this.ctx;
-    const teacher = await ctx.service.teacher.create(ctx.request.body);
-    ctx.body = ctx.app.success('创建成功!');
+    try{
+      const teacher = await ctx.service.teacher.create(ctx.request.body);
+      ctx.body = ctx.helper.success('创建成功!');
+    }
+    catch(e){
+      ctx.body = ctx.helper.failure(e.message);
+    }
+
   }
 
   async update() {
@@ -31,15 +37,27 @@ class TeacherController extends Controller {
       subject: ctx.request.body.subject,
       brief: ctx.request.body.brief,
     };
-    await ctx.service.teacher.update({ id, updates });
-    ctx.body = ctx.app.success('更新成功!');
+    try{
+      await ctx.service.teacher.update({ id, updates });
+      ctx.body = ctx.helper.success('更新成功!');
+    }
+    catch(e){
+      ctx.body = ctx.helper.failure(e.message);
+    }
+
   }
 
   async destroy() {
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.id);
-    await ctx.service.teacher.del(id);
-    ctx.body = ctx.app.success('删除成功!');
+    try{
+      await ctx.service.teacher.del(id);
+      ctx.body = ctx.helper.success('删除成功!');
+    }
+    catch(e){
+      ctx.body = ctx.helper.failure(e.message);
+    }
+
   }
 }
 

@@ -20,8 +20,14 @@ class CourseTypeController extends Controller {
 
   async create() {
     const ctx = this.ctx;
-    const courseType = await ctx.service.courseType.create(ctx.request.body);
-    ctx.body = ctx.app.success('创建成功!');
+    try{
+      const courseType = await ctx.service.courseType.create(ctx.request.body);
+      ctx.body = ctx.helper.success('创建成功!');
+    }
+    catch(e){
+      ctx.body = ctx.helper.failure(e.message);
+    }
+
   }
 
 }

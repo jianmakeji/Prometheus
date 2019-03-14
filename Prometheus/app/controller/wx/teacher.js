@@ -19,8 +19,13 @@ class TeacherController extends Controller {
 
   async create() {
     const ctx = this.ctx;
-    const teacher = await ctx.service.teacher.create(ctx.request.body);
-    ctx.body = ctx.app.success('创建成功!');
+    try{
+      const teacher = await ctx.service.teacher.create(ctx.request.body);
+      ctx.body = ctx.helper.success('创建成功!');
+    }
+    catch(e){
+      ctx.body = ctx.helper.failure(e.message);
+    }
   }
 
 }

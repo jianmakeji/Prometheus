@@ -10,18 +10,18 @@ class AliOSSController extends Controller {
   async getSTSSignature() {
 
     const ctx = this.ctx;
-    const aliConfigObj = ctx.app.aliConfig();
-    
+    const aliConfigObj = ctx.helper.aliConfig();
+
     const fileType = ctx.params.fileType;
     let dir = '';
     if (fileType == 1){
-      dir = ctx.app.courseImagePath;
+      dir = ctx.helper.courseImagePath;
     }
     else if (fileType == 2){
-      dir = ctx.app.courseVideoPath;
+      dir = ctx.helper.courseVideoPath;
     }
     else if (fileType == 3){
-      dir = ctx.app.articleImagePath;
+      dir = ctx.helper.articleImagePath;
     }
 
     let host = "http://" + aliConfigObj.bucket + "." + aliConfigObj.endpoint;
@@ -55,13 +55,13 @@ class AliOSSController extends Controller {
       result.credentials.dir = dir;
       ctx.body = result;
     }).catch((err) => {
-      ctx.body = ctx.app.failure(err);
+      ctx.body = ctx.helper.failure(err);
     });
   }
 
   async getUrlSignature(){
     const ctx = this.ctx;
-    ctx.body = ctx.app.signatureUrl(ctx.query.objectPath);
+    ctx.body = ctx.helper.signatureUrl(ctx.query.objectPath);
   }
 }
 

@@ -11,8 +11,14 @@ class CommentController extends Controller {
 
   async create() {
     const ctx = this.ctx;
-    const comment = await ctx.service.comment.create(ctx.request.body);
-    ctx.body = ctx.app.success('创建成功!');
+    try{
+      await ctx.service.comment.create(ctx.request.body);
+      ctx.body = ctx.helper.success('创建成功!');
+    }
+    catch(e){
+      ctx.body = ctx.helper.failure(e.message);
+    }
+
   }
 
 
