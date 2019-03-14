@@ -51,11 +51,11 @@ module.exports = app => {
 
     if (category == 1) {
       condition.include = [{
-        model: this.ctx.model.Course
+        model: app.model.Course
       }];
     } else if (category == 2) {
       condition.include = [{
-        model: this.ctx.model.Article
+        model: app.model.Article
       }];
     }
     const favData = await this.findAndCountAll(condition);

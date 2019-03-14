@@ -47,11 +47,11 @@ module.exports = app => {
       limit,
       order: [[ 'id', 'asc' ]],
       include: [{
-          model: this.ctx.model.Teacher,
+          model:app.model.Teacher,
           attributes: ['name','Id'],
           as: 'teacher',
       },{
-        model: this.ctx.model.CourseType,
+        model: app.model.CourseType,
         attributes: ['name','Id'],
       }],
     });
@@ -61,11 +61,11 @@ module.exports = app => {
   SpecialColumn.getSpecialColumnById = async function(id){
     const specialColumn = await this.findById(id,{
       include: [{
-          model: this.ctx.model.Teacher,
+          model: app.model.Teacher,
           attributes: ['name','subject','brief'],
           as: 'teacher',
       },{
-        model: this.ctx.model.CourseType,
+        model: app.model.CourseType,
         attributes: ['name','grade'],
       }],
     });

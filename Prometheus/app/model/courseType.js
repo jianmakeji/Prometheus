@@ -32,7 +32,7 @@ module.exports = app => {
   CourseType.getCourseTypeById = async function(id){
     const courseType = await this.findById(id,{
       include:[{
-        model:this.ctx.model.SpecialColumn
+        model:app.model.SpecialColumn
       }]
     });
     if (!courseType) {

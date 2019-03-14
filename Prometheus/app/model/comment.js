@@ -27,10 +27,10 @@ module.exports = app => {
       limit,
       order: [[ 'id', 'desc' ]],
       include:[{
-        model:this.ctx.model.User,
+        model:app.model.User,
         attributes: ['username','nickName','avatarUrl'],
       },{
-        model:this.ctx.model.Course,
+        model:app.model.Course,
         attributes: ['name'],
       }]
     });
@@ -39,7 +39,7 @@ module.exports = app => {
   Comment.getCommentById = async function(id){
     const comment = await this.findById(id,{
       include:[{
-        model:this.ctx.model.User,
+        model:app.model.User,
         attributes: ['username','nickName','avatarUrl'],
       }]
     });
@@ -60,7 +60,7 @@ module.exports = app => {
       order: [[ 'id', 'asc' ]],
       where: { courseId: courseId },
       include:[{
-        model:this.ctx.model.User,
+        model:app.model.User,
         attributes: ['username','nickName','avatarUrl'],
       }]
     });

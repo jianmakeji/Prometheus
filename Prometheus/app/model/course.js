@@ -34,10 +34,10 @@ module.exports = app => {
       limit,
       order: [[ 'created_at', 'desc' ], [ 'id', 'desc' ]],
       include: [{
-          model: this.ctx.model.SpecialColumn,
+          model: app.model.SpecialColumn,
           attributes: ['name','Id'],
       },{
-        model: this.ctx.model.CourseType,
+        model: app.model.CourseType,
         attributes: ['name','Id'],
       }],
     });
@@ -48,10 +48,10 @@ module.exports = app => {
     const course = await this.findById(id,{
       transaction:transaction,
       include: [{
-          model: this.ctx.model.SpecialColumn,
+          model: app.model.SpecialColumn,
           attributes: ['name','Id'],
       },{
-        model: this.ctx.model.CourseType,
+        model: app.model.CourseType,
         attributes: ['name','Id'],
       }],
     });
@@ -87,7 +87,7 @@ module.exports = app => {
       limit,
       order: [[ 'id', 'asc' ]],
       include: [{
-        model: this.ctx.model.CourseType,
+        model: app.model.CourseType,
         attributes: ['name','Id'],
       }],
       where: {
@@ -103,7 +103,7 @@ module.exports = app => {
       limit,
       order: [[ 'id', 'asc' ]],
       include: [{
-          model: this.ctx.model.SpecialColumn,
+          model: app.model.SpecialColumn,
           attributes: ['name','Id'],
       }],
       where: {
@@ -122,16 +122,16 @@ module.exports = app => {
 
     if (courseType == 0 && specialColumn == 0){
       condition.include = [{
-        model: this.ctx.model.SpecialColumn,
+        model: app.model.SpecialColumn,
         attributes: ['name','Id'],
       },{
-        model: this.ctx.model.CourseType,
+        model: app.model.CourseType,
         attributes: ['name','Id'],
       }];
     }
     else if (courseType != 0 && specialColumn == 0){
       condition.include = [{
-        model: this.ctx.model.SpecialColumn,
+        model: app.model.SpecialColumn,
         attributes: ['name','Id'],
       }];
       condition.where = {
@@ -140,7 +140,7 @@ module.exports = app => {
     }
     else if (courseType == 0 && specialColumn != 0){
       condition.include = [{
-        model: this.ctx.model.CourseType,
+        model: app.model.CourseType,
         attributes: ['name','Id'],
       }];
       condition.where = {
@@ -169,10 +169,10 @@ module.exports = app => {
           },
       },
       include: [{
-          model: this.ctx.model.SpecialColumn,
+          model: app.model.SpecialColumn,
           attributes: ['name','Id'],
       },{
-        model: this.ctx.model.CourseType,
+        model: app.model.CourseType,
         attributes: ['name','Id'],
       }],
     });
