@@ -11,7 +11,7 @@ module.exports = () => {
 
       let decoded; //解码token
       try {
-        decoded = jwt.verify(token, ctx.app.jwtSlot);
+        decoded = jwt.verify(token, ctx.helper.jwtSlot);
 
       } catch (error) {
         if (error.name == 'TokenExpiredError') {
@@ -24,18 +24,18 @@ module.exports = () => {
           });
 
           ctx.status = 409;
-          ctx.body = ctx.app.expireToken('token失效!', token);
+          ctx.body = ctx.helper.expireToken('token失效!', token);
           return;
         }
         else if (error.name == 'JsonWebTokenError')//被伪造
         {
           ctx.status = 407;
-          ctx.body = ctx.app.failure('token被伪造');
+          ctx.body = ctx.helper.failure('token被伪造');
           return;
         }
         else {
           ctx.status = 401;
-          ctx.body = ctx.app.failure(error.name);
+          ctx.body = ctx.helper.failure(error.name);
           return;
         }
       }
@@ -43,7 +43,7 @@ module.exports = () => {
       await next();
     } else {
       ctx.status = 403;
-      ctx.body = ctx.app.failure('没有token!');
+      ctx.body = ctx.helper.failure('没有token!');
 
       return;
     }
