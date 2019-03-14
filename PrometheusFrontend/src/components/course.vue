@@ -9,12 +9,12 @@
 		<Form :model="formItem" label-position="right" :label-width="80" inline style="width:100%;">
 			<FormItem label="类别">
 				<Select v-model="formItem.courseType" @on-change="courseTypeChange" label-in-value style="width:200px">
-					<Option v-for="item in courseTypeData" :value="item.Id">{{item.name}}</Option>
+					<Option v-for="(item,index) in courseTypeData" :value="item.Id" :key="index">{{item.name}}</Option>
 				</Select>
 			</FormItem>
 			<FormItem label="专栏">
 	            <Select v-model="formItem.specialColumn" @on-change="specialColumnChange" label-in-value style="width:200px">
-					<Option v-for="item in specialColumnData" :value="item.Id">{{item.name}}</Option>
+					<Option v-for="(item,index) in specialColumnData" :value="item.Id" :key="index">{{item.name}}</Option>
 	            </Select>
 	        </FormItem>
 	    </Form>
@@ -81,7 +81,7 @@ export default {
 				courseType:0			//类型
 			},
             columns:[
-                { title: 'id', key: 'Id', align: 'center' ,width:90},
+                // { title: 'id', key: 'Id', align: 'center' ,width:90},
                 { title: '名称', key: 'name', align: 'center' },
                 { title: '类别', key: 'course_type', align: 'center', width: 120,
                 	render:(h, params) =>{
@@ -91,7 +91,7 @@ export default {
                 		])
                 	}
                 },
-                { title: '专栏', key: 'special_column', align: 'center', width: 120,
+                { title: '专栏', key: 'special_column', align: 'center',
                 	render:(h, params) =>{
                 		return h('div',[
                             h('p', params.row.special_column ? params.row.special_column.name : this.specialColumnLabel)
@@ -150,7 +150,7 @@ export default {
 
                 	}
                 },
-                { title: '操作', key: 'opt', align: 'center',
+                { title: '操作', key: 'opt', align: 'center',width:160,
         			render: (h, params) => {
         				return h("div",[
         					h('Button', {
@@ -184,7 +184,7 @@ export default {
         				])
         			}
         		},
-                { title: '二维码操作', key: 'opt', align: 'center',
+                { title: '二维码操作', key: 'opt', align: 'center',width:160,
         			render: (h, params) => {
                         if(params.row.qrCode){
                             return h('Button', {

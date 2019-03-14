@@ -32,18 +32,24 @@ export default {
             commentTitle:"",
             deleteModel:false,
             columns:[
-                { title: 'id', key: 'Id', align: 'center', width:100},
-                { title: '用户ID', key: 'userId', align: 'center', width:100 },
-                { title: '用户名称', key: 'nickName', align: 'center', width:100,
+                // { title: 'id', key: 'Id', align: 'center', width:100},
+                // { title: '用户ID', key: 'userId', align: 'center', width:100 },
+                { title: '用户名称', key: 'nickName', align: 'center', width:150,
                     render:(h, params) =>{
                         return h('div',[
                             h('p', params.row.user.nickName)
                         ])
                     }
                 },
-                { title: '课程', key: 'courseId', align: 'center', width:200},
+                { title: '课程', key: 'courseId', align: 'center', width:200,
+                    render:(h, params) =>{
+                        return h('div',[
+                            h('p', params.row.course.name)
+                        ])
+                    }
+                },
                 { title: '内容', key: 'content', align: 'center' },
-                { title: '操作', key: 'opt', align: 'center', width:200,
+                { title: '操作', key: 'opt', align: 'center', width:80,
         			render: (h, params) => {
         				return h("div",[
         					h('Button', {
@@ -116,6 +122,7 @@ export default {
 		let getDataUrl = globel_.serverHost+ globel_.configAPI.getCommentData + this.offset;
 		this.$http.get( getDataUrl ).then(function(result){
 			that.$Loading.finish();
+            console.log(result);
 			that.dataList = result.data.rows;
 			that.total = result.data.count;
 		}).catch(function(err){

@@ -37,7 +37,7 @@
 			</FormItem>
 			<FormItem label="所属类别:">
 	            <Select v-model="formItem.articleType" placeholder="选择类别...">
-	                <Option v-for="item in articleTypeData" :value="item.id">{{item.title}}</Option>
+	                <Option v-for="(item,index) in articleTypeData" :value="item.id" :key="index">{{item.title}}</Option>
 	            </Select>
 	        </FormItem>
 			<FormItem>

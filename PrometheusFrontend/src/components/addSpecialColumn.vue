@@ -22,17 +22,17 @@
 		   	</FormItem>
 		   	<FormItem label="所属类别:">
 				<Select v-model="formItem.courseType" placeholder="选择类别...">
-	                <Option v-for="item in courseTypeData" :value="item.Id">{{item.name}}</Option>
+	                <Option v-for="(item,index) in courseTypeData" :value="item.Id" :key="index">{{item.name}}</Option>
 	            </Select>
 		   	</FormItem>
 			<FormItem label="所属年级:">
 				<Select v-model="formItem.grade" placeholder="选择年级...">
-	                <Option v-for="item in gradeData" :value="item.id">{{item.title}}</Option>
+	                <Option v-for="(item,index) in gradeData" :value="item.id" :key="index">{{item.title}}</Option>
 	            </Select>
 		   	</FormItem>
 			<FormItem label="对应老师:">
 				<Select v-model="formItem.teacherId" placeholder="选择老师...">
-					<Option v-for="item in teacherData" :value="item.Id">{{item.name}}</Option>
+					<Option v-for="(item,index) in teacherData" :value="item.Id" :key="index">{{item.name}}</Option>
 				</Select>
 			</FormItem>
 			<FormItem label="价格:">
@@ -43,7 +43,7 @@
 			<FormItem>
 				<Button type="primary" @click="addImg">添加图片</Button>
 		   	</FormItem>
-			<FormItem v-for="(imgItem,index) in imgList">
+			<FormItem v-for="(imgItem,index) in imgList" :key="index">
 				<img v-if="refresh" v-show="imgItem.length" :src="imgItem" style="width:80px;height:80px;" class="specialColumnImg"><br>
                 <input type="file" @change="addImgUpload" :imgIndex="index" accept="image/*"/>
 		   	</FormItem>
@@ -355,6 +355,7 @@ export default {
 	        	});
 	      	})
 	    } else { //新建
+			that.$Loading.finish();
 			this.BreadcrumbTitle = "新建专栏";
 	      	this.submitUrl = globel_.serverHost + globel_.configAPI.createSpecialColumn;
 	    }

@@ -1,8 +1,8 @@
 <script type="text/javascript">
 
 	// const serverHost = "http://prometheus.design-engine.org";
-	const serverHost = "https://bestpro.vip";
-	// const serverHost = "http://192.168.3.163:7001";
+	// const serverHost = "https://bestpro.vip";
+	const serverHost = "http://192.168.3.231:7001";
 
 	const aliHttp = "http://jm-prometheus.oss-cn-hangzhou.aliyuncs.com/";
 	// const aliHttp = "https://jm-prometheus.oss-cn-hangzhou.aliyuncs.com/";

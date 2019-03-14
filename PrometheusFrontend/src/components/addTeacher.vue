@@ -17,7 +17,7 @@
 		   	</FormItem>
 			<FormItem label="学科:">
 				<Select v-model="formItem.subject" placeholder="选择学科...">
-					<Option v-for="item in subjectData" :value="item.title">{{item.title}}</Option>
+					<Option v-for="(item,index) in subjectData" :value="item.title" :key="index">{{item.title}}</Option>
 	            </Select>
 		   	</FormItem>
 			<FormItem>

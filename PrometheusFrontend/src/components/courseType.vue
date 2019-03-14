@@ -32,7 +32,7 @@ export default {
 			index:"",
 			total:0,
 			columns:[
-				{ title: 'id', key: 'Id', align: 'center' },
+				// { title: 'id', key: 'Id', align: 'center' },
                 { title: '类别名称', key: 'name', align: 'center' },
 				{ title: '操作', key: 'opt', align: 'center',
 					render: (h, params) => {
