@@ -39,6 +39,7 @@ class Course extends Service {
       await transaction.commit();
       return course;
     } catch (e) {
+      console.log(e);
       await transaction.rollback();
       return false;
     }

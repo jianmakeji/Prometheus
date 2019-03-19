@@ -165,7 +165,7 @@ module.exports = app => {
       order: [[ 'created_at', 'desc' ], [ 'id', 'desc' ]],
       where: {
           name:{
-            [this.app.Sequelize.Op.like]: '%'+keyword+'%',
+            [app.Sequelize.Op.like]: '%'+keyword+'%',
           },
       },
       include: [{
@@ -194,8 +194,8 @@ module.exports = app => {
   }
 
   Course.addLookingNum = async function(id,transaction){
-    return await this.ctx.model.Course.update({
-          lookingNum: this.app.Sequelize.fn('1 + abs', this.app.Sequelize.col('lookingNum'))
+    return await this.update({
+          lookingNum: app.Sequelize.fn('1 + abs', app.Sequelize.col('lookingNum'))
         },{
         transaction:transaction,
         where: {
