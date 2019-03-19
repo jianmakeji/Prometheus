@@ -31,12 +31,12 @@
 		   	</FormItem>
 			<FormItem label="课程类别:">
 	            <Select v-model="formItem.courseType" placeholder="选择类别...">
-	                <Option v-for="item in courseTypeData" :value="item.Id">{{item.name}}</Option>
+	                <Option v-for="(item,index) in courseTypeData" :value="item.Id" :key="index">{{item.name}}</Option>
 	            </Select>
 	        </FormItem>
 			<FormItem label="专题:">
 	            <Select v-model="formItem.specialColumn" placeholder="选择专题...">
-	                <Option v-for="item in specialColumnData" :value="item.Id">{{item.name}}</Option>
+	                <Option v-for="(item,index) in specialColumnData" :value="item.Id" :key="index">{{item.name}}</Option>
 	            </Select>
 	        </FormItem>
             <FormItem label="时长:">

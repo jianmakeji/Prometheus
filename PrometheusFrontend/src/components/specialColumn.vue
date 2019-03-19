@@ -32,11 +32,11 @@ export default {
 			index:"",
 			total:0,
 			columns:[
-				{
-                    title: 'id',
-                    key: 'Id',
-					align: 'center'
-                },
+				// {
+                //     title: 'id',
+                //     key: 'Id',
+				// 	align: 'center'
+                // },
                 {
                     title: '专栏名称',
                     key: 'name',

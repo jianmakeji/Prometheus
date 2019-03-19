@@ -30,11 +30,11 @@ export default {
 			deleteModel:false,
 			total:100,
 			columns:[
-				{
-					title: 'id',
-					key: 'id',
-					align: 'center'
-				},
+				// {
+				// 	title: 'id',
+				// 	key: 'id',
+				// 	align: 'center'
+				// },
 				{
 					title: '类名',
 					key: 'title',

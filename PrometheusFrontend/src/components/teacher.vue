@@ -31,8 +31,7 @@ export default {
 			deleteModel:false,
 			total:0,
 			columns:[
-				{ 	title: 'id',	key: 'Id',	align: 'center'	},
-
+				// { 	title: 'id',	key: 'Id',	align: 'center'	},
 				{	title: '姓名',	key: 'name',	align: 'center'},
 				{	title: "学科",	key: 'subject',	align: 'center'},
 				{	title: "详情",	key: 'opt',	align: 'center',

@@ -29,101 +29,76 @@ Page({
    // 用户点击微信登陆按钮
    userInfoHandler(event) {
       let that = this;
-      wx.showNavigationBarLoading();
-      wx.getUserInfo({
+      // 微信授权登录
+      wx.login({
          success(res) {
-            setStorageWithUserInfo(res.userInfo); //缓存userInfo
-            loginWithCode(that); //login授权登陆 
-         },
-         fail: function() {
-            // fail
-            wx.showToast({
-               title: '获取信息失败！',
-               icon: none
+            console.log("微信授权登录", res);
+            let code = res.code;
+            // 获取用户信息
+            wx.getUserInfo({
+               success(res) {
+                  console.log("获取用户信息", res);
+                  setStorageWithUserInfo(res.userInfo);
+               }
+            })
+            // 获取openid
+            wx.request({
+               url: app.globalData.serverHost + app.globalData.globalAPI.getWxCode,
+               data: {
+                  jscode: res.code
+               },
+               header: {
+                  'content-type': 'application/json'
+               },
+               success: function (res) {
+                  console.log("获取openid", res);
+                  wx.setStorageSync("openid", res.data.openid);
+                  let data = {
+                     nickName: wx.getStorageSync("nickName"),
+                     avatarUrl: wx.getStorageSync("avatarUrl"),
+                     gender: wx.getStorageSync("gender"),
+                     province: wx.getStorageSync("province"),
+                     city: wx.getStorageSync("city"),
+                     country: wx.getStorageSync("country"),
+                     openId: wx.getStorageSync("openid"),
+                  }
+                  //创建用户
+                  wx.request({
+                     url: app.globalData.serverHost + app.globalData.globalAPI.createUser,
+                     method: "POST",
+                     data: data,
+                     success(res) {
+                        console.log("创建用户", res);
+                        wx.hideNavigationBarLoading();
+                        setStorageWithToken(res.data);
+
+                        //  =====================判断是跳转详情页还是首页==================================
+                        if (that.data.courseDetailId) {
+                           console.log("id有值", that.data.courseDetailId);
+                           wx.reLaunch({
+                              url: app.globalData.pageUrl.curriculumDetail + "?id=" + that.data.courseDetailId + "&courseName=" + that.data.courseName,
+                           })
+                        } else {
+                           console.log("id无值", that.data.courseDetailId);
+                           wx.switchTab({
+                              url: app.globalData.pageUrl.curriculum,
+                           })
+                        }
+                        // ===================================================
+                     },
+                     fail(err) {
+                        wx.showToast({
+                           title: '创建用户出错！',
+                           icon: none
+                        })
+                     }
+                  })
+               }
             })
          }
-      });
+      })
    }
 })
-// login授权登陆
-function loginWithCode(that) {
-   wx.login({
-      withCredentials: true,
-      success: function(res) {
-         if (res.code) {
-            requestWithCode(that, res);
-         } else {
-            // 否则弹窗显示，showToast需要封装
-            wx.showToast({
-               title: '登陆失败',
-               icon: none
-            })
-         }
-      }
-   })
-}
-// 根据code请求openid
-function requestWithCode(that, res) {
-   wx.request({
-      url: app.globalData.serverHost + app.globalData.globalAPI.getWxCode,
-      data: {
-         jscode: res.code
-      },
-      header: {
-         'content-type': 'application/json'
-      },
-      success: function(res) {
-         wx.setStorageSync("openid", res.data.openid);
-         that.setData({
-            userInfo: wx.getStorageSync("userInfo")
-         })
-         let data = {
-            nickName: wx.getStorageSync("nickName"),
-            avatarUrl: wx.getStorageSync("avatarUrl"),
-            gender: wx.getStorageSync("gender"),
-            province: wx.getStorageSync("province"),
-            city: wx.getStorageSync("city"),
-            country: wx.getStorageSync("country"),
-            openId: wx.getStorageSync("openid"),
-         }
-         createUserWithuserInfo(that, data);
-      },
-      fail(err) {}
-   })
-}
-// 建立用户获取token
-function createUserWithuserInfo(that, data) {
-   wx.request({
-      url: app.globalData.serverHost + app.globalData.globalAPI.createUser,
-      method: "POST",
-      data: data,
-      success(res) {
-         wx.hideNavigationBarLoading();
-         setStorageWithToken(res.data);
-         that.setData({
-            authorization: wx.getStorageSync("Authorization")
-         })
-
-         //  =====================判断是跳转详情页还是首页==================================
-         if (that.data.courseDetailId) {
-            wx.reLaunch({
-               url: app.globalData.pageUrl.curriculumDetail + "?id=" + that.data.courseDetailId + "&courseName=" + that.data.courseName,
-            })
-         } else {
-            wx.switchTab({
-               url: app.globalData.pageUrl.curriculum,
-            })
-         }
-         // ===================================================
-      },
-      fail(err) {
-         wx.showToast({
-            title: '微信登陆出错！',
-            icon: none
-         })
-      }
-   })
-}
 
 // 添加userInfo缓存
 function setStorageWithUserInfo(userInfo) {

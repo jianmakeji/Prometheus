@@ -32,11 +32,11 @@ export default {
 			articleTitle:"",
 			total:0,
 			columns:[
-				{
-					title: 'id',
-					key: 'id',
-					align: 'center'
-				},
+				// {
+				// 	title: 'id',
+				// 	key: 'id',
+				// 	align: 'center'
+				// },
 				{
 					title: '名称',
 					key: 'title',

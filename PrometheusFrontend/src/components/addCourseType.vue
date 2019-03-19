@@ -17,7 +17,7 @@
 		   	</FormItem>
 			<FormItem label="年级:">
 	            <Select v-model="formItem.grade" placeholder="选择年级...">
-					<Option v-for="item in gradeData" :value="item.id">{{item.title}}</Option>
+					<Option v-for="(item,index) in gradeData" :value="item.id" :key="index">{{item.title}}</Option>
 	            </Select>
 	        </FormItem>
 			<FormItem>
