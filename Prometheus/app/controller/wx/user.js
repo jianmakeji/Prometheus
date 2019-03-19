@@ -30,7 +30,7 @@ class UserController extends Controller {
         username: user.nickName,
         openId: user.openId
       }, ctx.helper.jwtSlot, {
-        expiresIn: '30s'
+        expiresIn: '100 days'
       });
       ctx.body = ctx.helper.loginSuccess('登录成功!', token, user.username, user.Id);
     } catch (error) {

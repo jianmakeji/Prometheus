@@ -21,7 +21,7 @@ module.exports = () => {
             username: user.nickName,
             openId: user.openId
           }, ctx.helper.jwtSlot, {
-            expiresIn: '10 days'
+            expiresIn: '100 days'
           });
 
           ctx.status = 409;
