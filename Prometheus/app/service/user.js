@@ -57,7 +57,11 @@ class User extends Service {
 
   async findByOpenId(openId){
 
-    return await this.ctx.model.User.findByOpenId(openId);
+    return await this.ctx.model.User.findOne({
+      where:{
+        openId:openId
+      }
+    });
   }
 
 }

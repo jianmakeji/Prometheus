@@ -12,14 +12,15 @@ module.exports = () => {
       let decoded; //解码token
       try {
         decoded = jwt.verify(token, ctx.helper.jwtSlot);
-
+        console.log(decoded);
       } catch (error) {
+        console.log(error);
         if (error.name == 'TokenExpiredError') {
           const user = await ctx.service.user.findByOpenId(openId);
           token = jwt.sign({
-            username: user.username,
+            username: user.nickName,
             openId: user.openId
-          }, ctx.app.jwtSlot, {
+          }, ctx.helper.jwtSlot, {
             expiresIn: '10 days'
           });
 

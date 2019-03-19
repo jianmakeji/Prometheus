@@ -85,7 +85,7 @@ module.exports = app => {
   }
 
   SpecialColumn.getSpecialColumnsByCourseType = async function(courseType){
-    const resultObj =  await this.ctx.model.SpecialColumn.findAll({
+    const resultObj =  await this.findAll({
       order: [[ 'grade', 'asc' ]],
       where: {
           courseType:courseType,

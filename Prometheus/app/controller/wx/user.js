@@ -27,10 +27,10 @@ class UserController extends Controller {
       const user = await ctx.service.user.create(ctx.request.body);
       let jwt = require('jsonwebtoken');
       let token = jwt.sign({
-        username: user.username,
+        username: user.nickName,
         openId: user.openId
       }, ctx.helper.jwtSlot, {
-        expiresIn: '10 days'
+        expiresIn: '30s'
       });
       ctx.body = ctx.helper.loginSuccess('登录成功!', token, user.username, user.Id);
     } catch (error) {
