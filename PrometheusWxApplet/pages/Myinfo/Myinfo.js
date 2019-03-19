@@ -24,12 +24,13 @@ Page({
             url: app.globalData.pageUrl.myCollect,
         })
     },
-    // clearStorageClick: function(event) {
-    //     wx.clearStorageSync();
-    //     wx.showToast({
-    //         title: '清除缓存成功',
-    //     })
-    // },
+    clearStorageClick: function(event) {
+      //   wx.clearStorageSync();
+      wx.setStorageSync("token", "data")
+        wx.showToast({
+            title: '清除缓存成功',
+        })
+    },
     /**
      * 生命周期函数--监听页面加载
      */

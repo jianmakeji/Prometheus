@@ -52,12 +52,15 @@ Page({
       })
    },
    onLoad: function(options) {
+
+   },
+   onShow: function() {
       let that = this;
-      this.setData({
-         authorization: wx.getStorageSync("Authorization")
-      })
       if (wx.getStorageSync("token")) {
-         wx.showNavigationBarLoading();
+         this.setData({
+            authorization: wx.getStorageSync("Authorization")
+         })
+         // 获取类别数据
          wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.getCourseTypeData,
             data: {
@@ -73,6 +76,7 @@ Page({
                   that.setData({
                      courseType: res.data.rows
                   });
+                  // 获取名校试题数据
                   wx.request({
                      url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnsByCourseType,
                      data: {
@@ -83,27 +87,31 @@ Page({
                         "Authorization": that.data.authorization
                      },
                      success(res) {
-                        let grade7arr = [],
-                           grade8arr = [],
-                           grade9arr = [];
-                        for (let i = 0; i < res.data.length; i++) {
-                           if (res.data[i].grade == 7) {
-                              grade7arr.push(res.data[i]);
-                           } else if (res.data[i].grade == 8) {
-                              grade8arr.push(res.data[i]);
-                           } else if (res.data[i].grade == 9) {
-                              grade9arr.push(res.data[i]);
-                           }
-                        };
-                        that.setData({
-                           JPgrade7_data: grade7arr,
-                           JPgrade8_data: grade8arr,
-                           JPgrade9_data: grade9arr,
-                           autoHeight: 402 + 320 * res.data.length
-                        });
-                        wx.hideNavigationBarLoading();
+                        if (res.statusCode == 200) {
+                           let grade7arr = [],
+                              grade8arr = [],
+                              grade9arr = [];
+                           for (let i = 0; i < res.data.length; i++) {
+                              if (res.data[i].grade == 7) {
+                                 grade7arr.push(res.data[i]);
+                              } else if (res.data[i].grade == 8) {
+                                 grade8arr.push(res.data[i]);
+                              } else if (res.data[i].grade == 9) {
+                                 grade9arr.push(res.data[i]);
+                              }
+                           };
+                           that.setData({
+                              JPgrade7_data: grade7arr,
+                              JPgrade8_data: grade8arr,
+                              JPgrade9_data: grade9arr,
+                              autoHeight: 402 + 320 * res.data.length
+                           });
+                        } else if (res.statusCode == 409) {
+                           getNewToken(res.data.token, that);
+                        }
                      }
                   });
+                  // 获取专题突破数据
                   wx.request({
                      url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnsByCourseType,
                      data: {
@@ -114,27 +122,27 @@ Page({
                         "Authorization": that.data.authorization
                      },
                      success(res) {
-                        that.setData({
-                           ZT_data: res.data
-                        })
-                        wx.hideNavigationBarLoading();
+                        if (res.statusCode == 200) {
+                           that.setData({
+                              ZT_data: res.data
+                           })
+                        } else if (res.statusCode == 409) {
+                           getNewToken(res.data.token, that);
+                        }
                      }
                   })
                } else if (res.statusCode == 409) {
-                  wx.setStorageSync("token", res.data.token);
-                  wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
-                  that.onLoad();
+                  getNewToken(res.data.token, that);
                }
+            },
+            fail(res) {
+               wx.showToast({
+                  icon: "none",
+                  title: '获取数据失败！',
+               })
             }
          })
       } else {
-         wx.redirectTo({
-            url: app.globalData.pageUrl.welcome,
-         })
-      }
-   },
-   onShow: function() {
-      if (wx.getStorageSync("token") == "") {
          wx.redirectTo({
             url: app.globalData.pageUrl.welcome,
          })
@@ -161,3 +169,9 @@ Page({
       }
    }
 })
+
+function getNewToken(token, that) {
+   wx.setStorageSync("token", token);
+   wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
+   that.onShow();
+}

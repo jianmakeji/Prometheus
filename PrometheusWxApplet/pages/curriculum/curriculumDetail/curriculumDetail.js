@@ -9,13 +9,13 @@ Page({
       id: "",
       userId: "",
       offset: 0,
-      courseTypeAndSpecial: "", //课程所属
-      videoAddress: "", //课程视频链接
-      describe: "", //课程介绍
-      collectFlag: 0, //0:未收藏，1:已收藏
-      commentValue: "", //评论内容
-      commentModal: false, //评论弹出层
-      commentData: [], //评论数据
+      courseTypeAndSpecial: "",  //课程所属
+      videoAddress: "",          //课程视频链接
+      describe: "",              //课程介绍
+      collectFlag: 0,            //0:未收藏，1:已收藏
+      commentValue: "",          //评论内容
+      commentModal: false,       //评论弹出层
+      commentData: [],           //评论数据
       commentLenght: 0,
       loadMore: false
    },
@@ -36,6 +36,7 @@ Page({
                "Authorization": this.data.authorization
             },
             success(res) {
+               console.log(res)
                if (res.statusCode == 200) {
                   if (res.data.status == 200) {
                      wx.showToast({
@@ -46,8 +47,7 @@ Page({
                      })
                   }
                } else if (res.statusCode == 409) {
-                  wx.setStorageSync("token", res.data.token);
-                  wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
+                  getNewToken(res.data.token, that);
                }
             }
          })
@@ -65,6 +65,7 @@ Page({
                "Authorization": this.data.authorization
             },
             success(res) {
+               console.log("222222",res);
                if (res.statusCode == 200) {
                   if (res.data.status == 200) {
                      wx.showToast({
@@ -75,8 +76,7 @@ Page({
                      })
                   }
                } else if (res.statusCode == 409) {
-                  wx.setStorageSync("token", res.data.token);
-                  wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
+                  getNewToken(res.data.token, that);
                }
             }
          })
@@ -133,8 +133,7 @@ Page({
                      })
                   }
                } else if (res.statusCode == 409) {
-                  wx.setStorageSync("token", res.data.token);
-                  wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
+                  getNewToken(res.data.token, that);
                }
 
             }
@@ -157,7 +156,6 @@ Page({
     * 生命周期函数--监听页面加载
     */
    onLoad: function(options) {
-      let that = this;
       if (options.scene) { //扫二维码进入
          this.setData({
             id: options.scene
@@ -167,7 +165,9 @@ Page({
             id: options.id
          })
       }
-
+   },
+   onShow() {
+      let that = this;
       if (wx.getStorageSync("token")) {
          this.setData({
             authorization: wx.getStorageSync("Authorization"),
@@ -185,8 +185,7 @@ Page({
                      commentLenght: res.data.count
                   })
                } else if (res.statusCode == 409) {
-                  wx.setStorageSync("token", res.data.token);
-                  wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
+                  getNewToken(res.data.token, that);
                }
             }
          })
@@ -196,9 +195,9 @@ Page({
                "Authorization": this.data.authorization
             },
             success(res) {
+               console.log(res)
                if (res.statusCode == 200) {
                   that.setData({
-
                      courseName: res.data.name,
                      videoAddress: res.data.videoAddress,
                      describe: res.data.describe,
@@ -208,8 +207,7 @@ Page({
                      title: res.data.name
                   })
                } else if (res.statusCode == 409) {
-                  wx.setStorageSync("token", res.data.token);
-                  wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
+                  getNewToken(res.data.token, that);
                }
             }
          })
@@ -233,8 +231,7 @@ Page({
                      }
                   }
                } else if (res.statusCode == 409) {
-                  wx.setStorageSync("token", res.data.token);
-                  wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
+                  getNewToken(res.data.token, that);
                }
             }
          })
@@ -265,8 +262,7 @@ Page({
                });
                wx.stopPullDownRefresh();
             } else if (res.statusCode == 409) {
-               wx.setStorageSync("token", res.data.token);
-               wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
+               getNewToken(res.data.token, that);
             }
          }
       })
@@ -294,8 +290,7 @@ Page({
                      loadMore: false
                   });
                } else if (res.statusCode == 409) {
-                  wx.setStorageSync("token", res.data.token);
-                  wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
+                  getNewToken(res.data.token, that);
                }
             }
          })
@@ -323,3 +318,8 @@ Page({
       }
    }
 })
+function getNewToken(token, that) {
+   wx.setStorageSync("token", token);
+   wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
+   that.onShow();
+}
