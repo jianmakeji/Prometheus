@@ -15,8 +15,8 @@ App({
    },
    // 全局数据
    globalData: {
-      // serverHost: "https://bestpro.vip",
-      serverHost: "http://192.168.3.252:7001",
+      serverHost: "https://bestpro.vip",
+      // serverHost: "http://192.168.3.252:7001",
 
       // request数据请求路径
       globalAPI: {

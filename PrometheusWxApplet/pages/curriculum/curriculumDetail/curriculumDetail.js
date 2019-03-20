@@ -65,7 +65,6 @@ Page({
                "Authorization": this.data.authorization
             },
             success(res) {
-               console.log("222222",res);
                if (res.statusCode == 200) {
                   if (res.data.status == 200) {
                      wx.showToast({
@@ -195,7 +194,6 @@ Page({
                "Authorization": this.data.authorization
             },
             success(res) {
-               console.log(res)
                if (res.statusCode == 200) {
                   that.setData({
                      courseName: res.data.name,

@@ -129,68 +129,69 @@ export default {
   	methods: {
 	    submitClick() {
 			console.log(this.imgBox.join(","));
-			this.formItem.thumb = this.fileImage;
-	      	let that = this;
-	      	this.$Loading.start();
-	      	if (this.id == 0) { //新建	post
-	        	this.$http.post(this.submitUrl, {
-		          	thumb: this.formItem.thumb,
-		          	teacherId: this.formItem.teacherId,
-		          	name: this.formItem.name,
-		          	describe: this.formItem.describe,
-		          	courseType: this.formItem.courseType,
-		          	price: this.formItem.price,
-		          	grade: this.formItem.grade
-	        	}).then(function(result) {
-		          	if (result.status == 200) {
-		            	that.$Loading.finish();
-		            	that.$Message.success({
-			              	duration: 2,
-			              	content: globel_.configMessage.operateSuccess
-		            	});
-			            setTimeout(function() {
-			              	that.$router.push({
-			                	name: "specialColumn"
-			              	});
-			            }, 3000)
-		          	}
-		        }).catch(function(err) {
-		          	that.$Loading.error();
-		          	that.$Message.error({
-		            	duration: 2,
-		            	content: err
-		          	});
-		        })
-	      	} else { //修改	put
-	        	this.$http.put(this.submitUrl, {
-	          		thumb: this.formItem.thumb,
-	          		teacherId: this.formItem.teacherId,
-	          		name: this.formItem.name,
-	          		describe: this.formItem.describe,
-	          		courseType: this.formItem.courseType,
-	          		price: this.formItem.price,
-		          	grade: this.formItem.grade
-	        	}).then(function(result) {
-	          		if (result.status == 200) {
-	            		that.$Loading.finish();
-	            		that.$Message.success({
-			              	duration: 2,
-	              			content: globel_.configMessage.operateSuccess
-	            		});
-	            		setTimeout(function() {
-	              			that.$router.push({
-	                			name: "specialColumn"
-	              			});
-	            		}, 3000)
-	          		}
-	        	}).catch(function(err) {
-	          		that.$Loading.error();
-	          		that.$Message.error({
-	            		duration: 2,
-	            		content: err
-	          		});
-	        	})
-	      	}
+			console.log("=====",this.formItem);
+			// this.formItem.thumb = this.fileImage;
+	      	// let that = this;
+	      	// this.$Loading.start();
+	      	// if (this.id == 0) { //新建	post
+	        // 	this.$http.post(this.submitUrl, {
+		    //       	thumb: this.formItem.thumb,
+		    //       	teacherId: this.formItem.teacherId,
+		    //       	name: this.formItem.name,
+		    //       	describe: this.formItem.describe,
+		    //       	courseType: this.formItem.courseType,
+		    //       	price: this.formItem.price,
+		    //       	grade: this.formItem.grade
+	        // 	}).then(function(result) {
+		    //       	if (result.status == 200) {
+		    //         	that.$Loading.finish();
+		    //         	that.$Message.success({
+			//               	duration: 2,
+			//               	content: globel_.configMessage.operateSuccess
+		    //         	});
+			//             setTimeout(function() {
+			//               	that.$router.push({
+			//                 	name: "specialColumn"
+			//               	});
+			//             }, 3000)
+		    //       	}
+		    //     }).catch(function(err) {
+		    //       	that.$Loading.error();
+		    //       	that.$Message.error({
+		    //         	duration: 2,
+		    //         	content: err
+		    //       	});
+		    //     })
+	      	// } else { //修改	put
+	        // 	this.$http.put(this.submitUrl, {
+	        //   		thumb: this.formItem.thumb,
+	        //   		teacherId: this.formItem.teacherId,
+	        //   		name: this.formItem.name,
+	        //   		describe: this.formItem.describe,
+	        //   		courseType: this.formItem.courseType,
+	        //   		price: this.formItem.price,
+		    //       	grade: this.formItem.grade
+	        // 	}).then(function(result) {
+	        //   		if (result.status == 200) {
+	        //     		that.$Loading.finish();
+	        //     		that.$Message.success({
+			//               	duration: 2,
+	        //       			content: globel_.configMessage.operateSuccess
+	        //     		});
+	        //     		setTimeout(function() {
+	        //       			that.$router.push({
+	        //         			name: "specialColumn"
+	        //       			});
+	        //     		}, 3000)
+	        //   		}
+	        // 	}).catch(function(err) {
+	        //   		that.$Loading.error();
+	        //   		that.$Message.error({
+	        //     		duration: 2,
+	        //     		content: err
+	        //   		});
+	        // 	})
+	      	// }
 	    },
 		addImg(){
 			this.imgList.push("");
