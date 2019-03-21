@@ -32,12 +32,10 @@ Page({
       // 微信授权登录
       wx.login({
          success(res) {
-            console.log("微信授权登录", res);
             let code = res.code;
             // 获取用户信息
             wx.getUserInfo({
                success(res) {
-                  console.log("获取用户信息", res);
                   setStorageWithUserInfo(res.userInfo);
                }
             })
@@ -51,7 +49,6 @@ Page({
                   'content-type': 'application/json'
                },
                success: function (res) {
-                  console.log("获取openid", res);
                   wx.setStorageSync("openid", res.data.openid);
                   let data = {
                      nickName: wx.getStorageSync("nickName"),
@@ -68,18 +65,14 @@ Page({
                      method: "POST",
                      data: data,
                      success(res) {
-                        console.log("创建用户", res);
-                        wx.hideNavigationBarLoading();
                         setStorageWithToken(res.data);
 
                         //  =====================判断是跳转详情页还是首页==================================
                         if (that.data.courseDetailId) {
-                           console.log("id有值", that.data.courseDetailId);
                            wx.reLaunch({
                               url: app.globalData.pageUrl.curriculumDetail + "?id=" + that.data.courseDetailId + "&courseName=" + that.data.courseName,
                            })
                         } else {
-                           console.log("id无值", that.data.courseDetailId);
                            wx.switchTab({
                               url: app.globalData.pageUrl.curriculum,
                            })
