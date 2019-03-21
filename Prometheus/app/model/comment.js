@@ -10,7 +10,8 @@ module.exports = app => {
       autoIncrement: true,
     },
     userId: INTEGER,
-    courseId:INTEGER,
+    specialCourseId:INTEGER,
+    eliteCourseId:INTEGER,
     content: STRING(255),
     created_at: DATE,
     updated_at: DATE,
@@ -18,7 +19,8 @@ module.exports = app => {
 
   Comment.associate = function(){
     app.model.Comment.belongsTo(app.model.User, {targetKey: 'Id', foreignKey: 'userId'});
-    app.model.Comment.belongsTo(app.model.Course, {targetKey: 'Id', foreignKey: 'courseId'});
+    app.model.Comment.belongsTo(app.model.SpecialCourse, {targetKey: 'Id', foreignKey: 'specialCourseId'});
+    app.model.Comment.belongsTo(app.model.EliteCourse, {targetKey: 'Id', foreignKey: 'eliteCourseId'});
   };
 
   Comment.getCommentbyPage = async function({offset = 0, limit = 10}){

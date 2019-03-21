@@ -10,19 +10,21 @@ module.exports = app => {
       autoIncrement: true,
     },
     name: STRING(16),
-    courseType: INTEGER,
+    schoolId: INTEGER,
     teacherId: INTEGER,
+    subject: INTEGER,
     thumb: STRING(30),
+    briefImages: STRING(255),
     grade: INTEGER,
     describe: STRING(50),
     price: FLOAT,
+    collectNum: INTEGER,
     created_at: DATE,
     updated_at: DATE,
   });
 
   SpecialColumn.associate = function() {
     app.model.SpecialColumn.belongsTo(app.model.Teacher, {targetKey: 'Id', foreignKey: 'teacherId'});
-    app.model.SpecialColumn.belongsTo(app.model.CourseType, { foreignKey: 'courseType'});
     app.model.SpecialColumn.hasMany(app.model.Course,{sourceKey:'Id',foreignKey: 'specialColumn'});
 
     app.model.SpecialColumn.belongsToMany(app.model.User,{
