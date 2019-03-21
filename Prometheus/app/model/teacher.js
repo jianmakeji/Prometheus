@@ -12,6 +12,7 @@ module.exports = app => {
     name: STRING(10),
     subject: STRING(8),
     brief: STRING(255),
+    avatar: STRING(50),
     created_at: DATE,
     updated_at: DATE,
   });
