@@ -1,0 +1,56 @@
+/* pages/curriculum/schoolDetail/schoolDetail.wxss */
+.course_btns{
+   width: 750rpx;
+   height: 60rpx;
+   margin-top: 100rpx;
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-start;
+   background: pink;
+}
+.course_btns button{
+   width: 130rpx;
+   color: #fff;
+   font-size: 24rpx;
+   border-radius: 26rpx;
+   position: absolute;
+   background: #85a5ff;
+}
+.course_btns .Math{
+   margin-left: 20rpx;
+}
+.course_btns .English{
+   margin-left: 190rpx;
+}
+.course_btns .physics{
+   margin-left: 360rpx;
+}
+
+.testpaper_list{
+   width: 750rpx;
+   margin-top: 20rpx;
+   padding: 10rpx 0;
+   background: pink;
+}
+
+.testpaper_list .testpaper{
+   width: 662rpx;
+   height: 140rpx;
+   margin: 24rpx auto;
+   border-radius: 20rpx;
+   background: greenyellow;
+}
+.testpaper_list .triangle{
+   position: absolute;
+   width: 20rpx;
+   height: 20rpx;
+   background: green;
+   margin-top: 0;
+   margin-left: 642rpx;
+}
+.testpaper_list .title{
+   line-height: 140rpx;
+   font-size: 32rpx;
+   color: #000;
+   margin-left: 58rpx;
+}

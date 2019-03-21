@@ -1,5 +1,37 @@
-<!--pages/curriculum/curriculum.wxml-->
-<view>
+<i-tabs current="{{currentTab}}" bindchange="handleChange"fixed>
+   <block wx:for="{{courseType}}" wx:for-item="item" wx:for-index="index">
+      <i-tab key="{{index}}" title="{{item.name}}"></i-tab>
+   </block>
+</i-tabs>
+<!-- 名校试题内容 -->
+<view class='school_list' wx:if="{{currentTab == 0}}">
+   <view class='shool_item'>
+      <image class='school_img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+   </view>
+   <view class='shool_item'>
+      <image class='school_img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+   </view>
+   <view class='shool_item'>
+      <image class='school_img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+   </view>
+   <view class='shool_item'>
+      <image class='school_img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+   </view>
+</view>
+<!-- 专题突破内容 -->
+<view class='school_list' wx:if="{{currentTab == 1}}">
+   <view class='special_item'>
+      <image class='teacher_img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+   </view>
+   <view class='special_item'>
+      <image class='teacher_img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+   </view>
+   <view class='special_item'>
+      <image class='teacher_img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+   </view>
+</view>
+
+<!-- <view>
     <i-tabs current="{{currentTab}}" bindchange="handleChange">
         <block wx:for="{{courseType}}" wx:for-item="item" wx:for-index="index">
             <i-tab key="{{index}}" title="{{item.name}}"></i-tab>
@@ -16,7 +48,7 @@
                     <block wx:for="{{JPgrade7_data}}" wx:for-item="item">
                         <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}' data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
                             <!-- <i-card title="{{item.name}}" thumb="{{item.thumb}}">
-                            </i-card> -->
+                            
                             <image src='{{item.thumb}}'></image>
                             <text class='course_title'>{{item.name}}</text>
                         </view>
@@ -33,7 +65,7 @@
                     <block wx:for="{{JPgrade8_data}}" wx:for-item="item">
                         <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}' data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
                             <!-- <i-card title="{{item.name}}" thumb="{{item.thumb}}">
-                            </i-card> -->
+                            
                             <image src='{{item.thumb}}'></image>
                             <text class='course_title'>{{item.name}}</text>
                         </view>
@@ -50,7 +82,7 @@
                     <block wx:for="{{JPgrade9_data}}" wx:for-item="item">
                         <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}' data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
                             <!-- <i-card title="{{item.name}}" thumb="{{item.thumb}}">
-                            </i-card> -->
+                            
                             <image src='{{item.thumb}}'></image>
                             <text class='course_title'>{{item.name}}</text>
                         </view>
@@ -66,7 +98,7 @@
                     <block wx:for="{{ZT_data}}" wx:for-item="item">
                         <view class='LX_class' data-special-column-id='{{item.Id}}' data-special-column-name='{{item.name}}' data-special-column-grade='{{item.grade}}' catchtap='catchtap'>
                             <!-- <i-card title="{{item.name}}" thumb="{{item.thumb}}">
-                            </i-card> -->
+                            
                             <image src='{{item.thumb}}'></image>
                             <text class='course_title'>{{item.name}}</text>
                         </view>
@@ -76,4 +108,4 @@
             </view>
         </swiper-item>
     </swiper>
-</view>
+</view> -->

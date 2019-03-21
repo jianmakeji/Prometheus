@@ -1,55 +1,86 @@
 /* pages/curriculum/curriculumList/curriculumList.wxss */
 
 .curriculum_list {
-    margin: 10rpx 20rpx;
-    border-radius: 10px;
+   width: 750rpx;
 }
 
-.curriculum_item{
-    display: flex;
+.curriculum_item {
+   /* display: flex;
     flex-direction: row;
     height:160rpx;
     border-radius:10rpx;
     border-bottom:solid 1px #d0d2d6;
-    background: #ffffff;
+    background: #ffffff; */
+   width: 662rpx;
+   height: 140rpx;
+   margin: 40rpx 44rpx;
+   border-radius: 20rpx;
+   background: #fff;
 }
 
-.curriculum_item image{
-    width: 160rpx;
-    height:160rpx; 
-    margin: 2rpx 0;
-    border-radius:8rpx;
-    margin-right: 30rpx;
+.curriculum_item .title{
+   font-size: 32rpx medium;
+   font-weight: bold;
+   color: #000;
+   line-height: 140rpx;
+   position: absolute;
+   margin-left: 68rpx;
+}
+.curriculum_item .times{
+   font-size: 24rpx;
+   font-weight: bold;
+   color: #9b9b9b;
+   position: absolute;
+   line-height: 140rpx;
+   margin-left: 490rpx;
 }
 
-.curriculum_item .curriculum_item_name{
-    width: 400rpx;
-    height:160rpx;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color:#80848f;
-    -webkit-line-clamp: 2;
+
+
+
+
+
+
+
+
+
+
+/* .curriculum_item image {
+   width: 160rpx;
+   height: 160rpx;
+   margin: 2rpx 0;
+   border-radius: 8rpx;
+   margin-right: 30rpx;
 }
 
-.curriculum_item .curriculum_item_duration{
-    width: 100rpx;
-    height:160rpx;
-    font-size: 14px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    text-align: center;
-    color:#80848f;
-    -webkit-line-clamp: 2;
+.curriculum_item .curriculum_item_name {
+   width: 400rpx;
+   height: 160rpx;
+   font-size: 14px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   color: #80848f;
+   -webkit-line-clamp: 2;
 }
 
-.curriculum_item .curriculum_item_link{
-    width: 40rpx;
-    height:160rpx;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.curriculum_item .curriculum_item_duration {
+   width: 100rpx;
+   height: 160rpx;
+   font-size: 14px;
+   display: flex;
+   align-items: flex-end;
+   justify-content: center;
+   text-align: center;
+   color: #80848f;
+   -webkit-line-clamp: 2;
 }
+
+.curriculum_item .curriculum_item_link {
+   width: 40rpx;
+   height: 160rpx;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+} */

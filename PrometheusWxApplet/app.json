@@ -1,9 +1,11 @@
 {
    "pages": [
-      "pages/welcome/welcome",
-      "pages/curriculum/curriculum",
-      "pages/curriculum/curriculumList/curriculumList",
       "pages/curriculum/curriculumDetail/curriculumDetail",
+      "pages/curriculum/curriculum",
+      "pages/recommend/recommend",
+      "pages/welcome/welcome",
+      "pages/curriculum/schoolDetail/schoolDetail",
+      "pages/curriculum/curriculumList/curriculumList",
       "pages/pieceShare/pieceShare",
       "pages/search/search",
       "pages/pieceShare/pieceShareDetail/pieceShareDetail",
@@ -20,6 +22,12 @@
    "tabBar": {
       "selectedColor": "#0D3D85",
       "list": [
+         {
+            "pagePath": "pages/recommend/recommend",
+            "text": "推荐",
+            "iconPath": "images/curriculum.png",
+            "selectedIconPath": "images/curriculum_h_1.png"
+         },
          {
             "pagePath": "pages/curriculum/curriculum",
             "text": "课程",

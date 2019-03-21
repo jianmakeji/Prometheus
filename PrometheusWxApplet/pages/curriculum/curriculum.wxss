@@ -1,5 +1,53 @@
 /* pages/curriculum/curriculum.wxss */
 
+.school_list{
+   width: 750rpx;
+   margin-top: 100rpx;
+   background: pink;
+}
+.shool_item{
+   width: 660rpx;
+   height: 300rpx;
+   background: greenyellow;
+   margin: 30rpx 45rpx;
+   border-radius: 20rpx;
+}
+.school_img{
+   width: 660rpx;
+   height: 300rpx;
+   border-radius: 20rpx;
+}
+
+.special_item{
+   width: 660rpx;
+   height: 350rpx;
+   background: greenyellow;
+   margin: 40rpx 45rpx;
+   border-radius: 20rpx;
+}
+.teacher_img{
+   width: 660rpx;
+   height: 350rpx;
+   border-radius: 20rpx;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .swiperItem {
     width: 750rpx;
     display: flex;
