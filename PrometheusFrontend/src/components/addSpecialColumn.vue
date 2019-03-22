@@ -2,7 +2,7 @@
 	<div class="addSpecialColumn">
 		<Breadcrumb>
 	        <BreadcrumbItem  to="/specialColumn">
-	            <Icon type="ios-build" size="24"/>专栏管理
+	            <Icon type="ios-build" size="24"/>专题突破管理
 	        </BreadcrumbItem>
 			<BreadcrumbItem>
 	            <Icon type="md-add" size="24"/>{{BreadcrumbTitle}}
@@ -14,16 +14,11 @@
                 <input type="file" @change="doUpload" ref="inputFile" class="fileInput" accept="image/*"/>
 				<Progress :percent="progressPercent" />
 	        </FormItem>
-		   	<FormItem label="专栏名称:">
+		   	<FormItem label="专题名称:">
 			   	<Input v-model="formItem.name" placeholder="请输入专栏名称..." clearable></Input>
 		   	</FormItem>
-			<FormItem label="专栏介绍:">
+			<FormItem label="专题介绍:">
 			   	<Input v-model="formItem.describe" placeholder="请输入专栏介绍..." type="textarea"></Input>
-		   	</FormItem>
-		   	<FormItem label="所属类别:">
-				<Select v-model="formItem.courseType" placeholder="选择类别...">
-	                <Option v-for="(item,index) in courseTypeData" :value="item.Id" :key="index">{{item.name}}</Option>
-	            </Select>
 		   	</FormItem>
 			<FormItem label="所属年级:">
 				<Select v-model="formItem.grade" placeholder="选择年级...">
@@ -38,18 +33,13 @@
 			<FormItem label="价格:">
 				<InputNumber v-model="formItem.price" @on-change="priceChange"></InputNumber>
 		   	</FormItem>
-
-
-			<FormItem>
+			<FormItem label="简介图:">
 				<Button type="primary" @click="addImg">添加图片</Button>
 		   	</FormItem>
 			<FormItem v-for="(imgItem,index) in imgList" :key="index">
 				<img v-if="refresh" v-show="imgItem.length" :src="imgItem" style="width:80px;height:80px;" class="specialColumnImg"><br>
                 <input type="file" @change="addImgUpload" :imgIndex="index" accept="image/*"/>
 		   	</FormItem>
-
-
-
 		   	<FormItem>
 	            <Button type="primary" long @click="submitClick">提交</Button>
 	        </FormItem>
@@ -337,7 +327,7 @@ export default {
 
     	this.id = this.$route.query.id;
 	    if (this.id != 0) { //修改
-			this.BreadcrumbTitle = "修改专栏";
+			this.BreadcrumbTitle = "修改专题";
 	      	this.submitUrl = globel_.serverHost + globel_.configAPI.updataSpecialColumnById.replace(":id", this.id);
 	      	let that = this,
 	        	getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialColumnDataById.replace(":id", this.id);
@@ -357,7 +347,7 @@ export default {
 	      	})
 	    } else { //新建
 			that.$Loading.finish();
-			this.BreadcrumbTitle = "新建专栏";
+			this.BreadcrumbTitle = "新建专题";
 	      	this.submitUrl = globel_.serverHost + globel_.configAPI.createSpecialColumn;
 	    }
 	}

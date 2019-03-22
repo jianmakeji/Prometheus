@@ -2,7 +2,7 @@
   	<div class="course">
 		<Breadcrumb>
 			<BreadcrumbItem>
-				<Icon type="ios-build" size="24"/>视频管理
+				<Icon type="ios-build" size="24"/>名校试题视频管理
 			</BreadcrumbItem>
 		</Breadcrumb><br />
 		<Button icon="md-add" type="primary" @click="newVideo">新建</Button><br /><br />
@@ -232,7 +232,7 @@ export default {
 		pageChange(index){
             this.offset  = (index-1)*10;
             let that = this,
-				getDataUrl = globel_.serverHost+ globel_.configAPI.getCourseByCondition + this.offset +'&courseType='+ this.courseTypeId + '&specialColumn=' + this.specialColumnId;
+				getDataUrl = globel_.serverHost + globel_.configAPI.getCourseByCondition + this.offset +'&courseType='+ this.courseTypeId + '&specialColumn=' + this.specialColumnId;
 			this.$Loading.start();
 			this.$http.get( getDataUrl ).then(function(result){
 				that.$Loading.finish();

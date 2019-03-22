@@ -1,5 +1,4 @@
 /* pages/Myinfo/Myinfo.wxss */
-
 .list-wrap {
    width: 100%;
    background: #efefef;
@@ -14,42 +13,72 @@
   margin: 26rpx auto;
 }
 .index_user>image{
-    width: 126rpx;
-    height: 126rpx;
-    border: 4rpx solid #fff;
+    width: 200rpx;
+    height: 200rpx;
+    border: 4rpx solid;
+    border-left-color: #5e7ef7;
+    border-right-color:#9254de;
+    border-top-color:  #7869ea;
+    border-bottom-color:  #7869ea;
     border-radius: 50%;
     background: #fff;
     margin-bottom: 4rpx;
     box-sizing: border-box;
 }
-.userinfo_btn {
-  width: 126rpx;
-  height: 126rpx;
-  position: absolute;
-  background: transparent;
-  left: 50%;
-  margin-left: -63rpx;
+.index_user .nickname{
+   font-size: 32rpx;
+   color: #4a4a4a;
 }
-
-.list-item {
+.scan_item{
+   width:750rpx;
+   height: 154rpx;
    background: #fff;
-   margin-bottom: 30rpx;
 }
-
-.list-item:last-child {
-   margin: 0;
+.scan_item .scan{
+   position: absolute;
+   margin-top: 46rpx;
+   margin-left: 32rpx;
 }
-
-.item {
-   flex: 1;
+.scan_item .title{
+   font-size: 32rpx;
+   color:  #4a4a4a;
+   position: absolute;
+   margin-top: 52rpx;
+   margin-left: 126rpx;
 }
-
-.desc-highlight {
-   font-size: 24rpx;
-   height: 38rpx;
-   padding: 0 22rpx;
-   border: 1px solid #f5342f;
-   border-radius: 20rpx;
-   color: #f5342f;
-   line-height: 38rpx;
+.collect_item{
+   width:750rpx;
+   height: 154rpx;
+   margin-top: 20rpx;
+   background: #fff;
+}
+.collect_item .collection{
+   position: absolute;
+   margin-top: 46rpx;
+   margin-left: 32rpx;
+}
+.collect_item .title{
+   font-size: 32rpx;
+   color:  #4a4a4a;
+   position: absolute;
+   margin-top: 52rpx;
+   margin-left: 126rpx;
+}
+.buy_item{
+   width:750rpx;
+   height: 154rpx;
+   margin-top: 20rpx;
+   background: #fff;
+}
+.buy_item .car{
+   position: absolute;
+   margin-top: 46rpx;
+   margin-left: 32rpx;
+}
+.buy_item .title{
+   font-size: 32rpx;
+   color:  #4a4a4a;
+   position: absolute;
+   margin-top: 52rpx;
+   margin-left: 126rpx;
 }

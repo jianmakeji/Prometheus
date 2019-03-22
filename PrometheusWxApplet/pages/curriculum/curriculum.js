@@ -4,7 +4,10 @@ Page({
    data: {
       authorization: "",
       currentTab: "0",
-      courseType: [],
+      courseType: [
+         { Id: 1, name: "名校试题" },
+         { Id: 2, name:"专题突破"}
+      ],
       JPgrade7_data: [], //七年级精品课程数据
       JPgrade8_data: [], //八年级精品课程数据
       JPgrade9_data: [], //九年级精品课程数据
@@ -60,27 +63,15 @@ Page({
          this.setData({
             authorization: wx.getStorageSync("Authorization")
          })
-         // 获取类别数据
-         wx.request({
-            url: app.globalData.serverHost + app.globalData.globalAPI.getCourseTypeData,
-            data: {
-               limit: 10,
-               offset: 0
-            },
-            method: "GET",
-            header: {
-               "Authorization": this.data.authorization
-            },
-            success(res) {
-               if (res.statusCode == 200) {
-                  that.setData({
-                     courseType: res.data.rows
-                  });
+   
+
+
+
                   // 获取名校试题数据
                   wx.request({
                      url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnsByCourseType,
                      data: {
-                        courseType: res.data.rows[0].Id,
+                        courseType: 1,
                         thumbName: "thumb_300_300"
                      },
                      header: {
@@ -115,7 +106,7 @@ Page({
                   wx.request({
                      url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnsByCourseType,
                      data: {
-                        courseType: res.data.rows[1].Id,
+                        courseType: 2,
                         thumbName: "thumb_300_300"
                      },
                      header: {
@@ -131,17 +122,9 @@ Page({
                         }
                      }
                   })
-               } else if (res.statusCode == 409) {
-                  getNewToken(res.data.token, that);
-               }
-            },
-            fail(res) {
-               wx.showToast({
-                  icon: "none",
-                  title: '获取数据失败！',
-               })
-            }
-         })
+
+
+               
       } else {
          wx.redirectTo({
             url: app.globalData.pageUrl.welcome,

@@ -1,22 +1,22 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // import login from '@/components/login'
-import courseType from '@/components/courseType'
-import addCourseType from '@/components/addCourseType'
 import specialColumn from '@/components/specialColumn'
 import addSpecialColumn from '@/components/addSpecialColumn'
-import course from '@/components/course'
-import addCourse from '@/components/addCourse'
-import articleType from '@/components/articleType'
-import addArticleType from '@/components/addArticleType'
-import articles from '@/components/articles'
-import addArticle from '@/components/addArticle'
+import specialCourse from '@/components/specialCourse'
+import addSpecialCourse from '@/components/addSpecialCourse'
 import user from '@/components/user'
 import teacher from '@/components/teacher'
 import teacherDetail from '@/components/teacherDetail'
 import addTeacher from '@/components/addTeacher'
 import exchange from '@/components/exchange'
 import comment from '@/components/comment'
+import school from '@/components/school'
+import addSchool from '@/components/addSchool'
+import eliteSchool from '@/components/eliteSchool'
+import addEliteSchool from '@/components/addEliteSchool'
+import eliteCourse from '@/components/eliteCourse'
+
 
 Vue.use(Router)
 
@@ -24,12 +24,8 @@ export default new Router({
   	routes: [{
             path:"/",
             name: '',
-	    	component: courseType
+	    	component: specialColumn
         },{
-	    	path: '/courseType',
-	    	name: 'courseType',
-	    	component: courseType
-	    },{
 	    	path: '/specialColumn',
 	    	name: 'specialColumn',
 	    	component: specialColumn
@@ -38,33 +34,13 @@ export default new Router({
 	    	name: 'addSpecialColumn',
 	    	component: addSpecialColumn
 	    },{
-	    	path: '/courseType/addCourseType',
-	    	name: 'addCourseType',
-	    	component: addCourseType
+	    	path: '/specialCourse',
+	    	name: 'specialCourse',
+	    	component: specialCourse
 	    },{
-	    	path: '/course',
-	    	name: 'course',
-	    	component: course
-	    },{
-	    	path: '/addCourse',
-	    	name: 'addCourse',
-	    	component: addCourse
-	    },{
-	    	path: '/articleType',
-	    	name: 'articleType',
-	    	component: articleType
-	    },{
-	    	path: '/articleType/addArticleType',
-	    	name: 'addArticleType',
-	    	component: addArticleType
-	    },{
-	    	path: '/articles',
-	    	name: 'articles',
-	    	component: articles
-	    },{
-	    	path: '/articles/addArticle',
-	    	name: 'addArticle',
-	    	component: addArticle
+	    	path: '/addSpecialCourse',
+	    	name: 'addSpecialCourse',
+	    	component: addSpecialCourse
 	    },{
 	    	path: '/user',
 	    	name: 'user',
@@ -89,6 +65,26 @@ export default new Router({
 	    	path: '/comment',
 	    	name: 'comment',
 	    	component: comment
+	    },{
+	    	path: '/school',
+	    	name: 'school',
+	    	component: school
+	    },{
+	    	path: '/addSchool',
+	    	name: 'addSchool',
+	    	component: addSchool
+	    },{
+	    	path: '/eliteSchool',
+	    	name: 'eliteSchool',
+	    	component: eliteSchool
+	    },{
+	    	path: '/addEliteSchool',
+	    	name: 'addEliteSchool',
+	    	component: addEliteSchool
+	    },{
+	    	path: '/eliteCourse',
+	    	name: 'eliteCourse',
+	    	component: eliteCourse
 	    }
 	]
 })

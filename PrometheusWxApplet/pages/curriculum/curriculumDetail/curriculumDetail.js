@@ -177,8 +177,8 @@ Page({
          })
       } else { //列表点击进入
          this.setData({
-            // id: options.id
-            id: 110
+            id: options.id
+            // id: 110
          })
       }
    },
@@ -255,32 +255,6 @@ Page({
             url: app.globalData.pageUrl.welcome + '?id=' + this.data.id + "&courseName=" + this.data.courseName,
          })
       }
-   },
-   /**
-    * 页面相关事件处理函数--监听用户下拉动作
-    */
-   onPullDownRefresh: function() {
-      let that = this;
-      this.setData({
-         offset: 0
-      })
-      wx.request({
-         url: app.globalData.serverHost + app.globalData.globalAPI.getCommentByCourseId + this.data.offset + "&courseId=" + that.data.id,
-         header: {
-            "Authorization": this.data.authorization
-         },
-         success(res) {
-            if (res.statusCode == 200) {
-               that.setData({
-                  commentData: res.data.rows,
-                  commentLenght: res.data.count
-               });
-               wx.stopPullDownRefresh();
-            } else if (res.statusCode == 409) {
-               getNewToken(res.data.token, that);
-            }
-         }
-      })
    },
 
    /**

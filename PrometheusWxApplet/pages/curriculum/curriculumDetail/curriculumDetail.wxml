@@ -18,21 +18,23 @@
          </block>
       </i-tabs>
       <view class='des' wx:if="{{currentTab == '0'}}">视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介</view>
+      <image class='collect' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
       <view class='comment_view' wx:if="{{currentTab == '1'}}">
          <view class='comment_info'>
             <image class='img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
             <text class='username'>账号信息</text>
             <text class='like'>123</text>
             <image class='zan_img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
-            <view class='comment'>视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介</view>
+            <view class='comment'>视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介</view>
          </view>
          <view class='comment_info'>
             <image class='img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
             <text class='username'>账号信息</text>
             <text class='like'>123</text>
             <image class='zan_img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
-            <view class='comment'>视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介</view>
+            <view class='comment'>视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介</view>
          </view>
+         <input class='editComment' placeholder-class="phclass" cursor-spacing="16px" confirm-type='send' placeholder="评论一下" />
       </view>
    </view>
    

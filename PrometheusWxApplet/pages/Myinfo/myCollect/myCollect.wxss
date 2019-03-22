@@ -1,10 +1,16 @@
 /* pages/Myinfo/myCollect/myCollect.wxss */
-.curriculum_list {
-    margin: 10rpx 20rpx;
-    border-radius: 10px;
+.collect{
+   width: 750rpx;
+   height: 154rpx;
+   margin-top: 30rpx;
+   background: #fff;
 }
-
-.icon_image {
-    width: 70rpx;
-    height: 70rpx;
+.collect .title{
+   width: 630rpx;
+   height: 154rpx;
+   line-height: 154rpx;
+   margin-left: 60rpx;
+   font-size: 32rpx;
+   font-weight: bold;
+   color: #4a4a4a;
 }

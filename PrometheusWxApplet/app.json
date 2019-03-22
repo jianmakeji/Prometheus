@@ -1,14 +1,13 @@
 {
    "pages": [
-      "pages/curriculum/curriculumDetail/curriculumDetail",
-      "pages/curriculum/curriculum",
       "pages/recommend/recommend",
+      "pages/curriculum/curriculum",
       "pages/welcome/welcome",
+      "pages/curriculum/specialDetail/specialDetail",
+      "pages/curriculum/curriculumDetail/curriculumDetail",
       "pages/curriculum/schoolDetail/schoolDetail",
       "pages/curriculum/curriculumList/curriculumList",
-      "pages/pieceShare/pieceShare",
       "pages/search/search",
-      "pages/pieceShare/pieceShareDetail/pieceShareDetail",
       "pages/Myinfo/Myinfo",
       "pages/Myinfo/myCollect/myCollect"
    ],
@@ -20,7 +19,8 @@
       "navigationBarTextStyle": "black"
    },
    "tabBar": {
-      "selectedColor": "#0D3D85",
+      "color":"#000",
+      "selectedColor": "#2f54eb",
       "list": [
          {
             "pagePath": "pages/recommend/recommend",

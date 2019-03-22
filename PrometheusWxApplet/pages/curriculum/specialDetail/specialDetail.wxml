@@ -1,0 +1,37 @@
+<!--专题详情-->
+<view>
+   <image class='special_img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+   <view class='teacher_info'>
+      <image class='img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+      <text class='name'>老师名称</text>
+      <text class='des'>老师名称老师名称老师名称</text>
+      <image class='collect_icon' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+      <text class='collect_text'>收藏</text>
+      <image class='share_icon' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+      <text class='share_text'>分享</text>
+      <text class='learn'>765</text>
+      <text class='text'>人在学习</text>
+   </view>
+   <view class='special_info'>
+      <i-tabs current="{{currentTab}}" bindchange="handleChange">
+         <block wx:for="{{typeArr}}" wx:for-item="item" wx:for-index="index">
+            <i-tab key="{{index}}" title="{{item.name}}"></i-tab>
+         </block>
+      </i-tabs>
+      <image class='collect' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+      <view class='des_imgs' wx:if="{{currentTab == 0}}">
+         <image class='des_img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+         <image class='des_img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+      </view>
+      <view class='special_catalog' wx:if="{{currentTab == 1}}">
+         <view class='catalog'>
+            <view class='num'>1.0</view> 
+            <view class='title'>发生的发大发送到发送到gas贵糖股份回家考虑开发拉水电费</view>
+         </view>
+         <view class='catalog'>
+            <view class='num'>1.0</view> 
+            <view class='title'>发生的发大发送到发送到gas贵糖股份回家考虑开发拉水电费</view>
+         </view>
+      </view>
+   </view>
+</view>

@@ -22,25 +22,25 @@
 						<MenuItem name="login" >
                           	<img style="width:100%;height:auto;" v-bind:src= "logoSrc"/>
                       	</MenuItem>
-                      	<MenuItem name="1">
+                        <MenuItem name="1" >
                           	<Icon type="ios-videocam" />
-                          	<span>类别管理</span>
+                          	<span>学校管理</span>
                       	</MenuItem>
                       	<MenuItem name="2" >
                           	<Icon type="ios-videocam" />
-                          	<span>专栏管理</span>
+                          	<span>专题突破管理</span>
                       	</MenuItem>
                       	<MenuItem name="3">
                           	<Icon type="ios-videocam" />
                           	<span>视频管理</span>
                       	</MenuItem>
-					  	<MenuItem name="4">
-                        	<Icon type="md-paper" />
-                          	<span>好文类别管理</span>
+                        <MenuItem name="4">
+                          	<Icon type="ios-videocam" />
+                          	<span>名校试题</span>
                       	</MenuItem>
-					  	<MenuItem name="5">
-                          	<Icon type="md-paper" />
-                          	<span>好文管理</span>
+                        <MenuItem name="5">
+                          	<Icon type="ios-videocam" />
+                          	<span>名校试题视频管理</span>
                       	</MenuItem>
 						<MenuItem name="6">
                           	<Icon type="md-person" />
@@ -124,15 +124,15 @@ export default {
 	  	menuTap (event){
                 let that = this;
                 if(event == 1){
-    				this.$router.push({name:"courseType"});		//类型
+    				this.$router.push({name:"school"});
     			}else if(event == 2){
     				this.$router.push({name:"specialColumn"});		//专栏
     			}else if(event == 3){
-    				this.$router.push({name:"course"});
+    				this.$router.push({name:"specialCourse"});
     			}else if(event == 4){
-    				this.$router.push({name:"articleType"});
+    				this.$router.push({name:"eliteSchool"});
     			}else if(event == 5){
-    				this.$router.push({name:"articles"});
+    				this.$router.push({name:"eliteCourse"});
     			}else if(event == 6){
     				this.$router.push({name:"user"});
     			}else if(event == 7){

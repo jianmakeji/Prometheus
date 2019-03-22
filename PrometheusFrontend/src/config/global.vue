@@ -18,11 +18,6 @@
 		{id:8,title:"八年级"},
 		{id:9,title:"九年级"}
 	];
-	const articleTypeData = [
-		{id:1,title:"父子篇"},
-		{id:2,title:"成长篇"},
-		{id:3,title:"亲子篇"}
-	];
 	const configMessage = {
 		uploadImgSuccess:"图片上传成功！",
 		uploadVideoSuccess:"视频上传成功！",
@@ -84,7 +79,6 @@
 		subjectData,		//学科数组
 		gradeData,			//年级
 		configAPI,			//接口数据
-		configMessage,		//提示信息
-		articleTypeData		//好文分享类别数据
+		configMessage		//提示信息
 	}
 </script>

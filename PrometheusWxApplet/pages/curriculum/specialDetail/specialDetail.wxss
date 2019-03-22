@@ -1,0 +1,136 @@
+.special_img{
+   width: 750rpx;
+   height: 480rpx;
+}
+
+.teacher_info{
+   width: 750rpx;
+   height: 176rpx;
+   margin-top: -10rpx;
+   background: #fff;
+}
+.teacher_info .img{
+   width: 100rpx;
+   height: 100rpx;
+   border-radius: 50rpx;
+   position: absolute;
+   margin-top: 34rpx;
+   margin-left: 52rpx;
+}
+.teacher_info .name{
+   position: absolute;
+   margin-top: 40rpx;
+   margin-left: 170rpx;
+   font-size: 24rpx;
+   font-weight: bold;
+   color: #000;
+}
+.teacher_info .des{
+   width: 400rpx;
+   position: absolute;
+   margin-top: 90rpx;
+   margin-left: 170rpx;
+   font-weight: bold;
+   font-size: 22rpx;
+   color: #9b9b9b;
+}
+.teacher_info .collect_icon{
+   width: 32rpx;
+   height: 32rpx;
+   position: absolute;
+   margin-top: 30rpx;
+   margin-left: 600rpx;
+}
+.teacher_info .share_icon{
+   width: 32rpx;
+   height: 32rpx;
+   position: absolute;
+   margin-top: 30rpx;
+   margin-left: 660rpx;
+}
+.teacher_info .collect_text{
+   font-size: 22rpx;
+   color: #9b9b9b;
+   position: absolute;
+   margin-top: 70rpx;
+   margin-left: 590rpx;
+}
+.teacher_info .share_text{
+   font-size: 22rpx;
+   color: #9b9b9b;
+   position: absolute;
+   margin-top: 70rpx;   
+   margin-left: 654rpx;
+}
+.teacher_info .learn{
+   width: 100rpx;
+   height: 40rpx;
+   line-height: 40rpx;
+   position: absolute;
+   margin-top: 117rpx;
+   margin-left: 530rpx;
+   font-weight: bold;
+   font-size: 24rpx;
+   text-align: right;
+   color: #2f54eb;
+}
+.teacher_info .text {
+   width: 100rpx;
+   height: 40rpx;
+   line-height: 40rpx;
+   position: absolute;
+   margin-top: 117rpx;
+   margin-left: 630rpx;
+   font-weight: bold;
+   font-size: 24rpx;
+   text-align: right;
+   color: #9b9b9b;
+}
+.special_info{
+   width: 750rpx;
+}
+.collect{
+   width: 90rpx;
+   height: 90rpx;
+   border-radius: 45rpx;
+   position: fixed;
+   top: 700rpx;
+   right: 24rpx;
+   opacity: 0.8;
+}
+.special_info .des_imgs{
+   width: 750rpx;
+}
+.special_info .des_img{
+   width: 750rpx;
+   margin-bottom: -10rpx;
+}
+.special_info .special_catalog{
+   width: 750rpx;
+}
+.special_info .special_catalog .catalog{
+   width: 750rpx;
+   height: 176rpx;
+   margin: 10rpx 0;
+   background: #fff;
+}
+.special_info .special_catalog .catalog .num{
+   width: 120rpx;
+   height: 176rpx;
+   line-height: 176rpx;
+   font-size: 32rpx;
+   color: #000;
+   position: absolute;
+   text-align: center;
+}
+.special_info .special_catalog .catalog .title{
+   width: 600rpx;
+   height: 176rpx;
+   font-size: 32rpx;
+   color: #000;
+   position: absolute;
+   margin-left: 120rpx;
+   text-align: left;
+   display: flex;
+   align-items: center;
+}

@@ -115,7 +115,15 @@
    margin: 40rpx 44rpx 0;
    background: gray;
 }
-
+.collect{
+   width: 90rpx;
+   height: 90rpx;
+   border-radius: 45rpx;
+   position: fixed;
+   top: 700rpx;
+   right: 24rpx;
+   opacity: 0.8;
+}
 .other_view .comment_view {
    width: 750rpx;
    background: pink;
@@ -180,7 +188,20 @@
    margin-left: 80rpx;
    padding: 0 0 10rpx;
 }
-
+.other_view .editComment{
+   width: 620rpx;
+   height: 70rpx;
+   margin: 20rpx auto;
+   font-size: 24rpx;
+   color: #9b9b9b;
+   padding-left: 40rpx;
+   border-radius: 40rpx;
+   background: #F7FAFF;
+}
+.other_view .phclass{
+   font-size: 24rpx;
+   color: #9b9b9b;
+}
 
 
 

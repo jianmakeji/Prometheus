@@ -2,7 +2,7 @@
 	<div class="specialColumn">
 		<Breadcrumb>
 	        <BreadcrumbItem>
-	            <Icon type="ios-build" size="24"/>专栏管理
+	            <Icon type="ios-build" size="24"/>专题突破管理
 	        </BreadcrumbItem>
 	    </Breadcrumb><br />
 		<Button icon="md-add" type="primary" @click="newType">新建</Button><br /><br />

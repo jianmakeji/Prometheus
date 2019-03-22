@@ -1,7 +1,7 @@
 <template lang="html">
-  	<div class="addCourse">
+  	<div class="addSpecialCourse">
 		<Breadcrumb>
-  			<BreadcrumbItem to="/course">
+  			<BreadcrumbItem to="/specialCourse">
   				<Icon type="ios-build" size="24"/>视频管理
   			</BreadcrumbItem>
 			<BreadcrumbItem>
@@ -86,7 +86,7 @@ function get_uploaded_object_name(filename) {
     return g_object_name;
 }
 export default {
-	name:"addCourse",
+	name:"addSpecialCourse",
 	data(){
 		return{
 			id:"",
@@ -327,7 +327,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.addCourse{
+.addSpecialCourse{
 	padding: 20px;
 }
 form{
