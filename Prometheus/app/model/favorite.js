@@ -13,21 +13,21 @@ module.exports = app => {
       autoIncrement: true,
     },
     userId: INTEGER,
-    category: INTEGER, // 1:课程  2：文章
-    courseId: INTEGER,
-    articleId: INTEGER,
+    category: INTEGER, // 1:名校课程  2：专题课程
+    specialCourseId: INTEGER,
+    eliteCourseId: INTEGER,
     created_at: DATE,
     updated_at: DATE,
   });
 
   Favorite.associate = function() {
-    app.model.Favorite.belongsTo(app.model.Article, {
+    app.model.Favorite.belongsTo(app.model.SpecialCourse, {
       targetKey: 'Id',
-      foreignKey: 'articleId'
+      foreignKey: 'specialCourseId'
     });
-    app.model.Favorite.belongsTo(app.model.Course, {
+    app.model.Favorite.belongsTo(app.model.EliteCourse, {
       targetKey: 'Id',
-      foreignKey: 'courseId'
+      foreignKey: 'eliteCourseId'
     });
   };
 
@@ -51,11 +51,11 @@ module.exports = app => {
 
     if (category == 1) {
       condition.include = [{
-        model: app.model.Course
+        model: app.model.SpecialCourse
       }];
     } else if (category == 2) {
       condition.include = [{
-        model: app.model.Article
+        model: app.model.EliteCourse
       }];
     }
     const favData = await this.findAndCountAll(condition);
@@ -68,9 +68,9 @@ module.exports = app => {
       category: favorite.category,
     };
     if (favorite.category == 1) {
-      condition.courseId = favorite.courseId;
+      condition.specialCourseId = favorite.specialCourseId;
     } else if (favorite.category == 2) {
-      condition.articleId = favorite.articleId;
+      condition.eliteCourseId = favorite.eliteCourseId;
     }
     const favoriteObj = await this.findAll({
       where: condition,
@@ -90,9 +90,9 @@ module.exports = app => {
       category: favorite.category,
     };
     if (favorite.category == 1) {
-      condition.courseId = favorite.courseId;
+      condition.specialCourseId = favorite.specialCourseId;
     } else if (favorite.category == 2) {
-      condition.articleId = favorite.articleId;
+      condition.eliteCourseId = favorite.eliteCourseId;
     }
     return this.ctx.model.Favorite.destroy({
       where: condition,

@@ -2,9 +2,9 @@
 
 const Service = require('egg').Service;
 
-class Course extends Service {
+class SpecialCourse extends Service {
   async list({ offset = 0, limit = 10, thumbName = 'thumb_600_600' }) {
-    let resultObj = await this.ctx.model.Course.getCourseByPage({
+    let resultObj = await this.ctx.model.SpecialCourse.getSpecialCourseByPage({
       offset,
       limit
     });
@@ -25,7 +25,7 @@ class Course extends Service {
     let transaction;
     try {
       transaction = await this.ctx.model.transaction();
-      const course = await this.ctx.model.Course.getCourseById(id,transaction);
+      const course = await this.ctx.model.SpecialCourse.getSpecialCourseById(id,transaction);
       if (!course) {
         this.ctx.throw(404, 'course not found');
       }
@@ -35,7 +35,7 @@ class Course extends Service {
       if(course.qrCode){
         course.qrCode = helper.signatureUrl(helper.qrCodePath + course.qrCode);
       }
-      await this.ctx.model.Course.addLookingNum(id,transaction);
+      await this.ctx.model.SpecialCourse.addLookingNum(id,transaction);
       await transaction.commit();
       return course;
     } catch (e) {
@@ -46,11 +46,11 @@ class Course extends Service {
   }
 
   async create(course) {
-    return this.ctx.model.Course.createCourse(course);
+    return this.ctx.model.Course.createSpecialCourse(course);
   }
 
   async update({ id, updates }) {
-    const course = await this.ctx.model.Course.updateCourse({ id, updates });
+    const course = await this.ctx.model.SpecialCourse.updateSpecialCourse({ id, updates });
     const helper =this.ctx.helper;
     let deleteArray = new Array();
     if (updates.videoAddress != course.videoAddress){
@@ -61,7 +61,7 @@ class Course extends Service {
     }
 
     if (deleteArray.length > 0){
-      await app.deleteOssMultiObject(deleteArray);
+      await helper.deleteOssMultiObject(deleteArray);
     }
 
     return course.update(updates);
@@ -71,7 +71,7 @@ class Course extends Service {
     let transaction;
     try {
       transaction = await this.ctx.model.transaction();
-      const course = await this.ctx.model.Course.deleteCourseById(id,transaction);
+      const course = await this.ctx.model.SpecialCourse.deleteSpecialCourseById(id,transaction);
       await this.ctx.model.Favorite.delFavoriteByCourseId(course.Id,transaction);
       const helper =this.ctx.helper;
       let delArray = new Array();
@@ -80,7 +80,7 @@ class Course extends Service {
       if (course.qrCode){
           delArray.push(helper.qrCodePath + course.qrCode);
       }
-      await app.deleteOssMultiObject(delArray);
+      await helper.deleteOssMultiObject(delArray);
       await transaction.commit();
       return true;
     } catch (e) {
@@ -89,8 +89,8 @@ class Course extends Service {
     }
   }
 
-  async getCourseBySpecialColumnId({id = 0, limit = 50, offset =0, thumbName = 'thumb_600_600'}){
-    let resultObj = await this.ctx.model.Course.getCourseBySpecialColumnId({
+  async getSpecialCourseBySpecialColumnId({id = 0, limit = 50, offset =0, thumbName = 'thumb_600_600'}){
+    let resultObj = await this.ctx.model.SpecialCourse.getSpecialCourseBySpecialColumnId({
       id,
       limit,
       offset
@@ -109,24 +109,9 @@ class Course extends Service {
     return resultObj;
   }
 
-  async getCourseByCourseTypeId({id = 0, limit = 10, offset =0, thumbName = 'thumb_600_600'}){
-    let resultObj = await this.ctx.model.Course.getCourseByCourseTypeId({id,limit,offset});
+  async getSpecialCourseByCondition({courseType = 0,specialColumn = 0,limit = 10, offset =0, thumbName = 'thumb_600_600'}){
 
-    const helper = this.ctx.helper;
-    resultObj.rows.forEach((element, index)=>{
-      element.thumb = helper.signatureUrl(helper.courseImagePath + element.thumb, thumbName);
-      element.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.videoAddress);
-      if(element.qrCode){
-        element.qrCode = helper.signatureUrl(helper.qrCodePath + element.qrCode);
-      }
-    });
-
-    return resultObj;
-  }
-
-  async getCourseByCondition({courseType = 0,specialColumn = 0,limit = 10, offset =0, thumbName = 'thumb_600_600'}){
-
-    let resultObj = await this.ctx.model.Course.getCourseByCondition({courseType,specialColumn,limit,offset});
+    let resultObj = await this.ctx.model.SpecialCourse.getSpecialCourseByCondition({courseType,specialColumn,limit,offset});
 
     const helper = this.ctx.helper;
 
@@ -142,7 +127,7 @@ class Course extends Service {
   }
 
   async searchByKeywords({ offset = 0, limit = 10, keyword='', thumbName = 'thumb_600_600' }){
-    let resultObj = await this.ctx.model.Course.searchByKeywords({offset,limit,keyword});
+    let resultObj = await this.ctx.model.SpecialCourse.searchByKeywords({offset,limit,keyword});
 
     const helper = this.ctx.helper;
     resultObj.rows.forEach((element, index)=>{
@@ -156,15 +141,15 @@ class Course extends Service {
     return resultObj;
   }
 
-  async updateQRCodeByCourseId(id,qrCode){
-    return await this.ctx.model.Course.updateQRCodeByCourseId(id,qrCode);
+  async updateQRCodeBySpecialCourseId(id,qrCode){
+    return await this.ctx.model.SpecialCourse.updateQRCodeBySpecialCourseId(id,qrCode);
   }
 
-  async findCourseObjById(id){
-    const course = await this.ctx.model.Course.findCourseObjById(id);
+  async findSpecialCourseObjById(id){
+    const course = await this.ctx.model.SpecialCourse.findSpecialCourseObjById(id);
     return course;
   }
 
 }
 
-module.exports = Course;
+module.exports = SpecialCourse;

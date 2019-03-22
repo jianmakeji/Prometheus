@@ -2,7 +2,7 @@
 
 const Controller = require('egg').Controller;
 
-class CourseController extends Controller {
+class SpecialCourseController extends Controller {
   async index() {
     const ctx = this.ctx;
     const query = {
@@ -10,15 +10,15 @@ class CourseController extends Controller {
       offset: ctx.helper.parseInt(ctx.query.offset),
       thumbName:ctx.query.thumbName,
     };
-    ctx.body = await ctx.service.course.list(query);
+    ctx.body = await ctx.service.specialCourse.list(query);
   }
 
   async show() {
     const ctx = this.ctx;
-    ctx.body = await ctx.service.course.find({id:ctx.helper.parseInt(ctx.params.id)});
+    ctx.body = await ctx.service.specialCourse.find({id:ctx.helper.parseInt(ctx.params.id)});
   }
 
-  async getCourseBySpecialColumnId(){
+  async getSpecialCourseBySpecialColumnId(){
     const ctx = this.ctx;
     const query = {
       limit: ctx.helper.parseInt(ctx.query.limit),
@@ -26,21 +26,10 @@ class CourseController extends Controller {
       id: ctx.params.id,
       thumbName:ctx.query.thumbName,
     };
-    ctx.body = await ctx.service.course.getCourseBySpecialColumnId(query);
+    ctx.body = await ctx.service.specialCourse.getSpecialCourseBySpecialColumnId(query);
   }
 
-  async getCourseByCourseTypeId(){
-    const ctx = this.ctx;
-    const query = {
-      limit: ctx.helper.parseInt(ctx.query.limit),
-      offset: ctx.helper.parseInt(ctx.query.offset),
-      id: ctx.params.id,
-      thumbName:ctx.query.thumbName,
-    };
-    ctx.body = await ctx.service.course.getCourseByCourseTypeId(query);
-  }
-
-  async getCourseByCondition(){
+  async getSpecialCourseByCondition(){
     const ctx = this.ctx;
     const query = {
       limit: ctx.helper.parseInt(ctx.query.limit),
@@ -49,7 +38,7 @@ class CourseController extends Controller {
       specialColumn: ctx.helper.parseInt(ctx.query.specialColumn),
       thumbName:ctx.query.thumbName,
     };
-    ctx.body = await ctx.service.course.getCourseByCondition(query);
+    ctx.body = await ctx.service.specialCourse.getSpecialCourseByCondition(query);
   }
 
   async searchByKeywords() {
@@ -60,8 +49,8 @@ class CourseController extends Controller {
       keyword:ctx.query.keyword,
       thumbName:ctx.query.thumbName,
     };
-    ctx.body = await ctx.service.course.searchByKeywords(query);
+    ctx.body = await ctx.service.specialCourse.searchByKeywords(query);
   }
 }
 
-module.exports = CourseController;
+module.exports = SpecialCourseController;

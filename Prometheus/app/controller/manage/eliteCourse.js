@@ -4,26 +4,26 @@ const Controller = require('egg').Controller;
 const request = require('request');
 const wxUtil = require('../../util/wxUtils');
 
-class CourseController extends Controller {
+class EliteCourseController extends Controller {
   async index() {
     const ctx = this.ctx;
     const query = {
       limit: ctx.helper.parseInt(ctx.query.limit),
       offset: ctx.helper.parseInt(ctx.query.offset),
     };
-    ctx.body = await ctx.service.course.list(query);
+    ctx.body = await ctx.service.eliteCourse.list(query);
   }
 
   async show() {
     const ctx = this.ctx;
 
-    ctx.body = await ctx.service.course.find({id:ctx.helper.parseInt(ctx.params.id)});
+    ctx.body = await ctx.service.eliteCourse.find({id:ctx.helper.parseInt(ctx.params.id)});
   }
 
   async create() {
     const ctx = this.ctx;
     try{
-      const course = await ctx.service.course.create(ctx.request.body);
+      const course = await ctx.service.eliteCourse.create(ctx.request.body);
       ctx.body = ctx.helper.success('创建成功!');
     }
     catch(e){
@@ -45,7 +45,7 @@ class CourseController extends Controller {
       duration:ctx.request.body.duration,
     };
     try{
-      await ctx.service.course.update({ id, updates });
+      await ctx.service.eliteCourse.updateEliteCourse({ id, updates });
       ctx.body = ctx.helper.success('更新成功!');
     }
     catch(e){
@@ -58,7 +58,7 @@ class CourseController extends Controller {
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.id);
     try{
-      await ctx.service.course.del(id);
+      await ctx.service.eliteCourse.del(id);
       ctx.body = ctx.helper.success('删除成功!');
     }
     catch(e){
@@ -67,42 +67,21 @@ class CourseController extends Controller {
 
   }
 
-  async getCourseBySpecialColumnId(){
+  async getEliteCourseByEliteSchoolId(){
     const ctx = this.ctx;
     const query = {
       limit: ctx.helper.parseInt(ctx.query.limit),
       offset: ctx.helper.parseInt(ctx.query.offset),
       id: ctx.params.id,
     };
-    ctx.body = await ctx.service.course.getCourseBySpecialColumnId(query);
-  }
-
-  async getCourseByCourseTypeId(){
-    const ctx = this.ctx;
-    const query = {
-      limit: ctx.helper.parseInt(ctx.query.limit),
-      offset: ctx.helper.parseInt(ctx.query.offset),
-      id: ctx.params.id,
-    };
-    ctx.body = await ctx.service.course.getCourseByCourseTypeId(query);
-  }
-
-  async getCourseByCondition(){
-    const ctx = this.ctx;
-    const query = {
-      limit: ctx.helper.parseInt(ctx.query.limit),
-      offset: ctx.helper.parseInt(ctx.query.offset),
-      courseType: ctx.helper.parseInt(ctx.query.courseType),
-      specialColumn: ctx.helper.parseInt(ctx.query.specialColumn),
-    };
-    ctx.body = await ctx.service.course.getCourseByCondition(query);
+    ctx.body = await ctx.service.eliteCourse.getEliteCourseByEliteSchoolId(query);
   }
 
   async getQRCode() {
     const ctx = this.ctx;
     const id = ctx.query.id;
 
-    const course = ctx.service.course.findCourseObjById(id);
+    const course = ctx.service.eliteCourse.findEliteCourseObjById(id);
     if (!course.qrCode) {
 
         const qrFileName = ctx.helper.randomString(10) + '.jpg';
@@ -113,7 +92,7 @@ class CourseController extends Controller {
         if (imageRequest != null){
           await imageRequest.then((data)=>{
             ctx.helper.putOssObject(qrFilePath,data);
-            ctx.service.course.updateQRCodeByCourseId(id, qrFileName);
+            ctx.service.eliteCourse.updateQRCodeByEliteCourseId(id, qrFileName);
           });
           ctx.body = ctx.helper.success(ctx.helper.signatureUrl(qrFilePath, undefined));
         }
@@ -127,4 +106,4 @@ class CourseController extends Controller {
   }
 }
 
-module.exports = CourseController;
+module.exports = EliteCourseController;

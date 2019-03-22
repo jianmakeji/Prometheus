@@ -18,12 +18,12 @@ module.exports = app => {
   });
 
   EliteSchool.associate = function() {
-    app.model.EliteSchool.hasOne(app.model.School, {sourceKey:'schoolId',foreignKey: 'Id'});
+    app.model.EliteSchool.belongsTo(app.model.School, {sourceKey:'schoolId',foreignKey: 'Id'});
     app.model.EliteSchool.hasMany(app.model.EliteCourse,{sourceKey:'Id',foreignKey:'eliteSchoolId'});
   };
 
   EliteSchool.createEliteSchool = async function(eliteSchool){
-    return this.create(eliteSchool);
+    return await this.create(eliteSchool);
   }
 
   EliteSchool.deleteEliteSchool = async function(id){
@@ -32,6 +32,10 @@ module.exports = app => {
       throw new Error('eliteSchool not found');
     }
     return eliteSchool.destroy();
+  }
+
+  EliteSchool.getEliteSchoolById = async function(id){
+    return await this.findById(id);
   }
 
   EliteSchool.updateEliteSchool = async function({id,updates}){

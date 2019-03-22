@@ -25,7 +25,7 @@ module.exports = app => {
 
   SpecialColumn.associate = function() {
     app.model.SpecialColumn.belongsTo(app.model.Teacher, {targetKey: 'Id', foreignKey: 'teacherId'});
-    app.model.SpecialColumn.hasMany(app.model.Course,{sourceKey:'Id',foreignKey: 'specialColumn'});
+    app.model.SpecialColumn.hasMany(app.model.SpecialCourse,{sourceKey:'Id',foreignKey: 'specialColumn'});
 
     app.model.SpecialColumn.belongsToMany(app.model.User,{
       foreignKey:'special_column',
@@ -52,9 +52,6 @@ module.exports = app => {
           model:app.model.Teacher,
           attributes: ['name','Id'],
           as: 'teacher',
-      },{
-        model: app.model.CourseType,
-        attributes: ['name','Id'],
       }],
     });
     return resultObj;
@@ -66,9 +63,6 @@ module.exports = app => {
           model: app.model.Teacher,
           attributes: ['name','subject','brief'],
           as: 'teacher',
-      },{
-        model: app.model.CourseType,
-        attributes: ['name','grade'],
       }],
     });
     return specialColumn;
@@ -86,14 +80,5 @@ module.exports = app => {
     return resultObj;
   }
 
-  SpecialColumn.getSpecialColumnsByCourseType = async function(courseType){
-    const resultObj =  await this.findAll({
-      order: [[ 'grade', 'asc' ]],
-      where: {
-          courseType:courseType,
-      },
-    });
-    return resultObj;
-  }
   return SpecialColumn;
 };

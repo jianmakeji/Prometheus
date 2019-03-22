@@ -22,8 +22,8 @@ module.exports = app => {
   });
 
   SpecialCourse.associate = function() {
-    app.model.Course.belongsTo(app.model.SpecialColumn, {targetKey: 'Id', foreignKey: 'specialColumn'});
-    app.model.Course.hasMany(app.model.Comment,{sourceKey:'Id',foreignKey:'courseId'});
+    app.model.SpecialCourse.belongsTo(app.model.SpecialColumn, {targetKey: 'Id', foreignKey: 'specialColumn'});
+    app.model.SpecialCourse.hasMany(app.model.Comment,{sourceKey:'Id',foreignKey:'courseId'});
   };
 
   SpecialCourse.getSpecialCourseByPage = async function({offset = 0, limit = 10}){
@@ -51,7 +51,7 @@ module.exports = app => {
   }
 
   SpecialCourse.createSpecialCourse = async function(course){
-    return this.create(course);
+    return await this.create(course);
   }
 
   SpecialCourse.updateSpecialCourse = async function({id, updates}){
@@ -133,7 +133,7 @@ module.exports = app => {
     return resultObj;
   }
 
-  SpecialCourse.updateQRCodeByCourseId = async function(id,qrCode){
+  SpecialCourse.updateQRCodeBySpecialCourseId = async function(id,qrCode){
     return await this.update({
           qrCode: qrCode
         },{

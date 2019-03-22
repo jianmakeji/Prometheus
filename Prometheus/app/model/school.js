@@ -48,6 +48,10 @@ module.exports = app => {
     });
     return resultObj;
   }
-  
+
+  School.getSchoolById = async function(id){
+    return await this.findById(id);
+  }
+
   return School;
 };

@@ -22,8 +22,8 @@ module.exports = app => {
   });
 
   EliteCourse.associate = function() {
-    app.model.Course.belongsTo(app.model.EliteSchool, {targetKey: 'Id', foreignKey: 'eliteSchoolId'});
-    app.model.Course.hasMany(app.model.Comment,{sourceKey:'Id',foreignKey:'eliteCourseId'});
+    app.model.EliteCourse.belongsTo(app.model.EliteSchool, {targetKey: 'Id', foreignKey: 'eliteSchoolId'});
+    app.model.EliteCourse.hasMany(app.model.Comment,{sourceKey:'Id',foreignKey:'eliteCourseId'});
   };
 
   EliteCourse.getEliteCourseByPage = async function({offset = 0, limit = 10}){
@@ -51,7 +51,7 @@ module.exports = app => {
   }
 
   EliteCourse.createEliteCourse = async function(course){
-    return this.create(course);
+    return await this.create(course);
   }
 
   EliteCourse.updateEliteCourse = async function({id, updates}){
@@ -85,29 +85,6 @@ module.exports = app => {
     return resultObj;
   }
 
-  EliteCourse.getEliteCourseByCondition = async function({eliteSchoolId = 0,limit = 10, offset =0}){
-    let condition = {
-      offset,
-      limit,
-      order: [[ 'id', 'asc' ]],
-    };
-
-    if (eliteSchoolId == 0){
-      condition.include = [{
-        model: app.model.EliteSchool,
-        attributes: ['name','Id'],
-      }];
-    }
-    else{
-      condition.where = {
-        eliteSchoolId:eliteSchoolId,
-      };
-    }
-
-    let resultObj = await this.findAndCountAll(condition);
-    return resultObj;
-  }
-
   EliteCourse.searchByKeywords = async function({ offset = 0, limit = 10, keyword=''}){
     let resultObj = await this.findAndCountAll({
       offset,
@@ -126,7 +103,7 @@ module.exports = app => {
     return resultObj;
   }
 
-  EliteCourse.updateQRCodeByCourseId = async function(id,qrCode){
+  EliteCourse.updateQRCodeByEliteCourseId = async function(id,qrCode){
     return await this.update({
           qrCode: qrCode
         },{
