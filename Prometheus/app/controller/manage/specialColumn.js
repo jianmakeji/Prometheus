@@ -34,12 +34,16 @@ class SpecialColumnController extends Controller {
     const id = ctx.params.id;
     const updates = {
       name: ctx.request.body.name,
-      courseType: ctx.request.body.courseType,
+      schoolId: ctx.request.body.schoolId,
       teacherId: ctx.request.body.teacherId,
+      subject: ctx.request.body.subject,
       thumb: ctx.request.body.thumb,
       describe: ctx.request.body.describe,
       price: ctx.request.body.price,
       grade:ctx.request.body.grade,
+      briefImages:ctx.request.body.briefImages,
+      recommand:ctx.request.body.recommand,
+      poster:ctx.request.body.poster
     };
     try{
       await ctx.service.specialColumn.update({ id, updates });
@@ -73,6 +77,7 @@ class SpecialColumnController extends Controller {
     };
     ctx.body = await ctx.service.specialColumn.getSpecialColumnsByTeacherId(query);
   }
+
 }
 
 module.exports = SpecialColumnController;

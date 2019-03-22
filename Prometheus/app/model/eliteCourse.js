@@ -12,7 +12,6 @@ module.exports = app => {
     name: STRING(30),
     describe: STRING(255),
     eliteSchoolId: INTEGER,
-    teacherId: INTEGER,
     qrCode: STRING(30),
     duration: INTEGER,
     lookingNum:INTEGER,

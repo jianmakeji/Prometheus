@@ -39,7 +39,7 @@ module.exports = app => {
 
   //微信小程序数据接口
   router.get('/api/wx/specialColumn/getSpecialColumnsByTeacherId/:id', wxChecktoken, controller.wx.specialColumn.getSpecialColumnsByTeacherId);
-  router.get('/api/wx/specialColumn/getSpecialColumnsByCourseType', wxChecktoken, controller.wx.specialColumn.getSpecialColumnsByCourseType);
+  router.get('/api/wx/specialColumn/getRecommandSpecialColumn', wxChecktoken, controller.wx.specialColumn.getRecommandSpecialColumn);
   router.get('/api/wx/comment/getCommentByCourseId', wxChecktoken, controller.wx.comment.getCommentByCourseId);
   router.get('/api/wx/eliteCourse/searchByKeywords', wxChecktoken, controller.wx.eliteCourse.searchByKeywords);
   router.get('/api/wx/specialCourse/searchByKeywords', wxChecktoken, controller.wx.specialCourse.searchByKeywords);

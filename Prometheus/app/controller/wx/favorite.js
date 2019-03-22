@@ -9,8 +9,7 @@ class FavoriteController extends Controller {
       limit: ctx.helper.parseInt(ctx.query.limit),
       offset: ctx.helper.parseInt(ctx.query.offset),
       category: ctx.helper.parseInt(ctx.query.category),
-      userId: ctx.helper.parseInt(ctx.query.userId),
-      thumbName:ctx.query.thumbName,
+      userId: ctx.helper.parseInt(ctx.query.userId)
     };
     ctx.body = await ctx.service.favorite.list(query);
   }
@@ -21,8 +20,8 @@ class FavoriteController extends Controller {
     const favorite = {
       userId: ctx.request.body.userId,
       category: ctx.request.body.category,
-      courseId: ctx.request.body.courseId,
-      articleId: ctx.request.body.articleId,
+      specialCourseId: ctx.request.body.specialCourseId,
+      eliteCourseId: ctx.request.body.eliteCourseId,
     };
     try{
       await ctx.service.favorite.create(favorite);
@@ -39,8 +38,8 @@ class FavoriteController extends Controller {
     const favorite = {
       userId: ctx.query.userId,
       category: ctx.query.category,
-      courseId: ctx.query.courseId,
-      articleId: ctx.query.articleId,
+      specialCourseId: ctx.query.specialCourseId,
+      eliteCourseId: ctx.query.eliteCourseId,
     };
     try{
       await ctx.service.favorite.del(favorite);
@@ -58,10 +57,10 @@ class FavoriteController extends Controller {
     const favorite = {
       userId: ctx.query.userId,
       category: ctx.query.category,
-      courseId: ctx.query.courseId,
-      articleId: ctx.query.articleId,
+      specialCourseId: ctx.query.specialCourseId,
+      eliteCourseId: ctx.query.eliteCourseId
     };
-    const favObj = await ctx.service.favorite.findFavByCategory(favorite);
+    const favObj = await ctx.service.favorite.list(favorite);
 
     if (Object.keys(favObj).length > 0) {
       ctx.body = ctx.helper.success('已收藏');
@@ -71,6 +70,30 @@ class FavoriteController extends Controller {
     }
   }
 
+  async getFavoriteByPage(){
+    const ctx = this.ctx;
+    const favorite = {
+      offset: ctx.query.offset,
+      limit: ctx.query.limit,
+      category: ctx.query.category,
+      userId: ctx.query.userId,
+      thumbName: ctx.query.thumbName
+    };
+    const favObj = await ctx.service.favorite.getFavoriteByPage(favorite);
+    ctx.body = favObj;
+  }
+
+  async findFavByCategory(){
+    const ctx = this.ctx;
+    const favorite = {
+      userId: ctx.query.userId,
+      category: ctx.query.category,
+      specialCourseId: ctx.query.specialCourseId,
+      eliteCourseId: ctx.query.eliteCourseId,
+    };
+    const favObj = await ctx.service.favorite.findFavByCategory(favorite);
+    ctx.body = favObj;
+  }
 }
 
 module.exports = FavoriteController;

@@ -66,18 +66,17 @@ class SpecialColumn extends Service {
     return resultObj;
   }
 
-  async getSpecialColumnsByCourseType({courseType = 0, thumbName = 'thumb_600_600'}){
-    const resultObj =  await this.ctx.model.SpecialColumn.getSpecialColumnsByCourseType(courseType);
+  async getRecommandSpecialColumn({limit = 12, thumbName = 'thumb_600_600'}){
+    const resultObj =  await this.ctx.model.SpecialColumn.getRecommandSpecialColumn(limit);
 
     const helper = this.ctx.helper;
 
     resultObj.forEach((element, index)=>{
-      element.thumb = helper.signatureUrl(helper.courseImagePath + element.thumb, thumbName);
+      element.poster = helper.signatureUrl(helper.courseImagePath + element.thumb, thumbName);
     });
 
     return resultObj;
   }
-
 }
 
 module.exports = SpecialColumn;

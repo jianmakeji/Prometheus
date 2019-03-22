@@ -19,6 +19,8 @@ module.exports = app => {
     describe: STRING(50),
     price: FLOAT,
     collectNum: INTEGER,
+    recommand: INTEGER,
+    poster: STRING(30),
     created_at: DATE,
     updated_at: DATE,
   });
@@ -78,6 +80,27 @@ module.exports = app => {
       },
     });
     return resultObj;
+  }
+
+  SpecialColumn.getRecommandSpecialColumn = async function(limit){
+    await this.findAll({
+      limit,
+      order: [['created_at','desc']],
+      where:{
+        recommand : 1
+      }
+    });
+  }
+
+  EliteCourse.addCollectNum = async function(id,transaction){
+    return await this.update({
+          collectNum: app.Sequelize.fn('1 + abs', app.Sequelize.col('collectNum'))
+        },{
+        transaction:transaction,
+        where: {
+          Id: id
+        }
+    });
   }
 
   return SpecialColumn;

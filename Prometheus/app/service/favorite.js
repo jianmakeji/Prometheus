@@ -7,10 +7,18 @@ class Favorite extends Service {
 
     const favData = await this.ctx.model.Favorite.getFavoriteByPage({offset, limit, category, userId});
     const helper = this.ctx.helper;
-    favData.rows.forEach((element, index)=>{
-      element.course.thumb = helper.signatureUrl(helper.courseImagePath + element.course.thumb, thumbName);
-      element.course.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.course.videoAddress);
-    });
+    if(category == 1){
+      favData.rows.forEach((element, index)=>{
+        element.specialCourse.thumb = helper.signatureUrl(helper.courseImagePath + element.specialCourse.thumb, thumbName);
+        element.specialCourse.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.specialCourse.videoAddress);
+      });
+    }
+    else{
+      favData.rows.forEach((element, index)=>{
+        element.eliteCourse.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.eliteCourse.videoAddress);
+      });
+    }
+
     return favData;
   }
 
