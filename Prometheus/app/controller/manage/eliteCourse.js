@@ -38,7 +38,7 @@ class EliteCourseController extends Controller {
     const updates = {
       name: ctx.request.body.name,
       describe: ctx.request.body.describe,
-      eliteSchoolId: ctx.request.body.eliteSchoolId
+      eliteSchoolId: ctx.request.body.eliteSchoolId,
       videoAddress: ctx.request.body.videoAddress,
       duration:ctx.request.body.duration,
     };
