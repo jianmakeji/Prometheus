@@ -20,7 +20,7 @@ class SchoolController extends Controller {
   async create() {
     const ctx = this.ctx;
     try{
-      const comment = await ctx.service.eliteSchool.create(ctx.request.body);
+      const comment = await ctx.service.school.create(ctx.request.body);
       ctx.body = ctx.helper.success('创建成功!');
     }
     catch(e){
@@ -37,7 +37,7 @@ class SchoolController extends Controller {
       bg: ctx.request.body.bg
     };
     try{
-      await ctx.service.eliteCourse.updateSchool({ id, updates });
+      await ctx.service.school.updateSchool({ id, updates });
       ctx.body = ctx.helper.success('更新成功!');
     }
     catch(e){
