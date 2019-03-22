@@ -5,6 +5,15 @@ Page({
     * 页面的初始数据
     */
    data: {
+      currentTab:"1",
+      typeArr:[
+         { name: "简介" },
+         {name:"讨论"}
+      ],
+
+
+
+
       authorization: "", //token # openid
       id: "",
       userId: "",
@@ -19,6 +28,13 @@ Page({
       commentLenght: 0,
       loadMore: false
    },
+   handleChange(event){
+      this.setData({
+         currentTab: event.detail.key
+      });
+   },
+
+
    // 添加至收藏
    collectTap: function(event) {
       let that = this;
@@ -161,7 +177,8 @@ Page({
          })
       } else { //列表点击进入
          this.setData({
-            id: options.id
+            // id: options.id
+            id: 110
          })
       }
    },

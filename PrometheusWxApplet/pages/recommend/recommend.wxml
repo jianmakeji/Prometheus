@@ -1,0 +1,8 @@
+<swiper class='card-swiper' bindchange="swiperChange">
+   <block wx:for="{{dataList}}" wx:for-item="item">
+      <swiper-item class="swiper-item" catchtap="catchItem">
+         <image class='item-image' src='{{item}}'></image>
+      </swiper-item>
+   </block>
+</swiper>
+<text class='page'>{{currentPage}}/{{totalPage}}</text>

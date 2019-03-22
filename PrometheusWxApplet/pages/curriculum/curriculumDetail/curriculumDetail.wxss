@@ -1,12 +1,201 @@
 /* pages/curriculum/curriculumDetail/curriculumDetail.wxss */
 
 .video {
-    width: 100%;
-    position: relative;
-    z-index: 1000；
+   width: 100%;
+   position: relative;
+   z-index: 1000；;
 }
 
 .content_view {
+   width: 750rpx;
+   background: pink;
+}
+
+.content_view .teacher_info {
+   width: 750rpx;
+   height: 206rpx;
+   background: pink;
+}
+
+.content_view .teacher_info .title {
+   width: 690rpx;
+   height: 50rpx;
+   line-height: 50rpx;
+   position: absolute;
+   margin-top: 20rpx;
+   margin-left: 30rpx;
+   font-size: 26rpx;
+   font-weight: bold;
+   color: #4a4a4a;
+   background: gray;
+   display: -webkit-box;
+   word-break: break-all;
+   -webkit-box-orient: vertical;
+   -webkit-line-clamp: 1;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+
+.content_view .teacher_info .name {
+   position: absolute;
+   margin-top: 100rpx;
+   margin-left: 120rpx;
+   font-size: 24rpx;
+   font-weight: bold;
+   color: #000;
+   background: gray;
+}
+
+.content_view .teacher_info .des {
+   width: 400rpx;
+   height: 60rpx;
+   position: absolute;
+   margin-top: 140rpx;
+   margin-left: 120rpx;
+   font-weight: bold;
+   font-size: 22rpx;
+   color: #9b9b9b;
+   background: gray;
+   display: -webkit-box;
+   word-break: break-all;
+   -webkit-box-orient: vertical;
+   -webkit-line-clamp: 2;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+
+.content_view .teacher_info .learn {
+   width: 100rpx;
+   height: 40rpx;
+   line-height: 40rpx;
+   position: absolute;
+   margin-top: 117rpx;
+   margin-left: 530rpx;
+   font-weight: bold;
+   font-size: 24rpx;
+   text-align: right;
+   color: #2f54eb;
+   background: gray;
+}
+
+.content_view .teacher_info .text {
+   width: 100rpx;
+   height: 40rpx;
+   line-height: 40rpx;
+   position: absolute;
+   margin-top: 117rpx;
+   margin-left: 630rpx;
+   font-weight: bold;
+   font-size: 24rpx;
+   text-align: right;
+   color: #9b9b9b;
+   background: blanchedalmond;
+}
+
+.content_view .teacher_info .img {
+   width: 70rpx;
+   height: 70rpx;
+   border-radius: 70rpx;
+   position: absolute;
+   margin-top: 100rpx;
+   margin-left: 30rpx;
+}
+
+.other_view {
+   width: 750rpx;
+   margin-top: 30rpx;
+   padding-bottom: 50rpx;
+   background: pink;
+}
+
+.other_view .des {
+   width: 662rpx;
+   font-size: 26rpx;
+   color: #4a4a4a;
+   margin: 40rpx 44rpx 0;
+   background: gray;
+}
+
+.other_view .comment_view {
+   width: 750rpx;
+   background: pink;
+}
+
+.other_view .comment_view .comment_info {
+   width: 660rpx;
+   min-height: 120rpx;
+   margin: 40rpx auto;
+   background: gray;
+}
+
+.other_view .comment_view .img {
+   width: 70rpx;
+   height: 70rpx;
+   border-radius: 35rpx;
+   margin-left: 0rpx;
+   margin-top: 25rpx;
+}
+
+.other_view .comment_view .username {
+   width: 400rpx;
+   height: 40rpx;
+   line-height: 40rpx;
+   font-size: 24rpx;
+   color: #a76262;
+   background: orange;
+   position: absolute;
+   margin-left: 10rpx;
+   margin-top: 10rpx;
+   word-break: break-all;
+   -webkit-box-orient: vertical;
+   -webkit-line-clamp: 1;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+.other_view .comment_view .like {
+   width: 100rpx;
+   height: 40rpx;
+   font-size: 24rpx;
+   color: #4a4a4a;
+   background: orange;
+   position: absolute;
+   margin-top: 10rpx;
+   margin-left: 420rpx;
+   text-align: right;
+}
+.other_view .comment_view .zan_img{
+   width: 40rpx;
+   height: 40rpx;
+   border-radius: 40rpx;
+   position: absolute;
+   margin-top: 10rpx;
+   margin-left: 530rpx;
+}
+.other_view .comment_view .comment{
+   width: 510rpx;
+   font-size: 24rpx;
+   color: #4a4a4a;
+   background: orange;
+   margin-top: -40rpx;
+   margin-left: 80rpx;
+   padding: 0 0 10rpx;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .content_view {
     display: flex;
     flex-direction: column;
 }
@@ -78,4 +267,4 @@
     font-size: 30rpx;
     margin-left: 40rpx;
     word-break: break-all;
-}
+} */

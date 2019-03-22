@@ -11,7 +11,7 @@ Page({
       ZT_data: [],
       autoHeight: 1020
    },
-   // 导航栏切换监听事件
+   // 类型切换事件
    handleChange: function(event) {
       this.setData({
          currentTab: event.detail.key
