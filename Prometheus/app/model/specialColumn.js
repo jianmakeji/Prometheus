@@ -92,7 +92,7 @@ module.exports = app => {
     });
   }
 
-  EliteCourse.addCollectNum = async function(id,transaction){
+  SpecialColumn.addCollectNum = async function(id,transaction){
     return await this.update({
           collectNum: app.Sequelize.fn('1 + abs', app.Sequelize.col('collectNum'))
         },{
