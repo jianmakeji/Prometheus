@@ -46,7 +46,7 @@ class SpecialColumnController extends Controller {
       price: ctx.request.body.price,
       grade:ctx.request.body.grade,
       briefImages:ctx.request.body.briefImages,
-      recommand:ctx.request.body.recommand,
+      recommend:ctx.request.body.recommend,
       poster:ctx.request.body.poster
     };
     try{
