@@ -27,6 +27,17 @@ class SpecialColumn extends Service {
     }
     const helper = this.ctx.helper;
     specialColumn.thumb = helper.signatureUrl(helper.courseImagePath + specialColumn.thumb,  thumbName);
+    let briefImages = specialColumn.briefImages.split(',');
+    let singImages = '';
+    if(briefImages.length > 0){
+      briefImages.forEach((element, index)=>{
+          singImages = singImages + helper.signatureUrl(helper.courseImagePath + element, "undefined") + ',';
+      })
+      specialColumn.briefImages = singImages;
+    }
+    if (specialColumn.recommend == 1 ){
+       specialColumn.poster = helper.signatureUrl(helper.courseImagePath + specialColumn.poster, "undefined");
+    }
     return specialColumn;
   }
 
