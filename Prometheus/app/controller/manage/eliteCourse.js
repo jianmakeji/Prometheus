@@ -10,6 +10,7 @@ class EliteCourseController extends Controller {
     const query = {
       limit: ctx.helper.parseInt(ctx.query.limit),
       offset: ctx.helper.parseInt(ctx.query.offset),
+      eliteSchoolId: ctx.helper.parseInt(ctx.query.eliteSchoolId),
     };
     ctx.body = await ctx.service.eliteCourse.list(query);
   }
@@ -17,7 +18,7 @@ class EliteCourseController extends Controller {
   async show() {
     const ctx = this.ctx;
 
-    ctx.body = await ctx.service.eliteCourse.find({id:ctx.helper.parseInt(ctx.params.id)});
+    ctx.body = await ctx.service.eliteCourse.find(ctx.helper.parseInt(ctx.params.id));
   }
 
   async create() {

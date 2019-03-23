@@ -3,12 +3,20 @@
 const Service = require('egg').Service;
 
 class Teacher extends Service {
-  async list({ offset = 0, limit = 10 }) {
-    return this.ctx.model.Teacher.findAndCountAll({
+  async list({ offset = 0, limit = 10, thumbName = "thumb_600_600" }) {
+    let resultObj = await this.ctx.model.Teacher.findAndCountAll({
       offset,
       limit,
       order: [[ 'id', 'asc' ]],
     });
+
+    const helper = this.ctx.helper;
+
+    resultObj.rows.forEach((element, index)=>{
+        element.avatar = helper.signatureUrl(helper.articleImagePath + element.avatar, thumbName);
+    });
+
+    return resultObj;
   }
 
   async find(id) {
@@ -20,6 +28,9 @@ class Teacher extends Service {
     if (!teacher) {
       this.ctx.throw(404, 'teacher not found');
     }
+
+    const helper = this.ctx.helper;
+    teacher.avatar = helper.signatureUrl(helper.articleImagePath + teacher.avatar, "undefined");
     return teacher;
   }
 

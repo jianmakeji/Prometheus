@@ -15,6 +15,7 @@ module.exports = app => {
     qrCode: STRING(30),
     duration: INTEGER,
     lookingNum:INTEGER,
+    teacherId:INTEGER,
     videoAddress: STRING(30),
     created_at: DATE,
     updated_at: DATE,
@@ -22,35 +23,45 @@ module.exports = app => {
 
   EliteCourse.associate = function() {
     app.model.EliteCourse.belongsTo(app.model.EliteSchool, {targetKey: 'Id', foreignKey: 'eliteSchoolId'});
+    app.model.EliteCourse.belongsTo(app.model.Teacher, {targetKey: 'Id', foreignKey: 'teacherId'});
     app.model.EliteCourse.hasMany(app.model.Comment,{sourceKey:'Id',foreignKey:'eliteCourseId'});
   };
 
-  EliteCourse.getEliteCourseByPage = async function({offset = 0, limit = 10}){
-    let resultObj = await this.findAndCountAll({
-      offset,
-      limit,
-      order: [[ 'created_at', 'desc' ], [ 'id', 'desc' ]],
-      include: [{
-          model: app.model.EliteSchool,
-          attributes: ['name','Id'],
-      }],
-    });
+  EliteCourse.getEliteCourseByPage = async function({offset = 0, limit = 10, eliteSchoolId = 0}){
+    let condition = {
+        offset,
+        limit,
+        where:{},
+        order: [[ 'created_at', 'desc' ], [ 'id', 'desc' ]],
+        include: [{
+            model: app.model.EliteSchool,
+            attributes: ['name','Id'],
+        }],
+    };
+
+    if (eliteSchoolId != 0){
+      condition.where.eliteSchoolId = eliteSchoolId;
+    }
+    let resultObj = await this.findAndCountAll(condition);
     return resultObj;
   }
 
   EliteCourse.getEliteCourseById = async function(id,transaction){
-    const course = await this.findById(id,{
+    const eliteCourse = await this.findById(id,{
       transaction:transaction,
       include: [{
           model: app.model.EliteSchool,
           attributes: ['name','Id'],
+      },{
+          model: app.model.Teacher,
+          attributes: ['name','Id','avatar','brief'],
       }],
     });
-    return course;
+    return eliteCourse;
   }
 
-  EliteCourse.createEliteCourse = async function(course){
-    return await this.create(course);
+  EliteCourse.createEliteCourse = async function(eliteCourse){
+    return await this.create(eliteCourse);
   }
 
   EliteCourse.updateEliteCourse = async function({id, updates}){

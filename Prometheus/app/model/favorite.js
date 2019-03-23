@@ -94,18 +94,28 @@ module.exports = app => {
     } else if (favorite.category == 2) {
       condition.eliteCourseId = favorite.eliteCourseId;
     }
-    return this.ctx.model.Favorite.destroy({
+    return this.destroy({
       where: condition,
     });
   }
 
-  Favorite.delFavoriteByCourseId = async function(courseId,transaction){
-    await this.ctx.model.Favorite.destroy({
+  Favorite.delFavoriteByCourseId = async function(courseId,category,transaction){
+
+    let condition = {
       transaction:transaction,
       where:{
-        courseId:courseId,
+        category:category
       }
-    });
+    };
+
+    if (category == 1){
+      condition.where.specialCourseId = courseId;
+    }
+    else if (category == 2){
+      condition.where.eliteCourseId = courseId;
+    }
+    
+    await this.destroy(condition);
   }
 
   return Favorite;

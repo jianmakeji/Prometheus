@@ -3,10 +3,11 @@
 const Service = require('egg').Service;
 
 class EliteCourse extends Service {
-  async list({ offset = 0, limit = 10}) {
+  async list({ offset = 0, limit = 10, eliteSchoolId = 0}) {
     let resultObj = await this.ctx.model.EliteCourse.getEliteCourseByPage({
       offset,
-      limit
+      limit,
+      eliteSchoolId
     });
 
     const helper = this.ctx.helper;
@@ -26,18 +27,18 @@ class EliteCourse extends Service {
     let transaction;
     try {
       transaction = await this.ctx.model.transaction();
-      const eliteCourse = await this.ctx.model.Course.getEliteCourseById(id);
+      const eliteCourse = await this.ctx.model.EliteCourse.getEliteCourseById(id,transaction);
       if (!eliteCourse) {
         this.ctx.throw(404, 'eliteCourse not found');
       }
       const helper = this.ctx.helper;
-      eliteCourse.videoAddress = helper.signatureUrl(helper.courseVideoPath + course.videoAddress);
+      eliteCourse.videoAddress = helper.signatureUrl(helper.courseVideoPath + eliteCourse.videoAddress);
       if(eliteCourse.qrCode){
-        eliteCourse.qrCode = helper.signatureUrl(helper.qrCodePath + course.qrCode);
+        eliteCourse.qrCode = helper.signatureUrl(helper.qrCodePath + eliteCourse.qrCode);
       }
       await this.ctx.model.EliteCourse.addLookingNum(id,transaction);
       await transaction.commit();
-      return course;
+      return eliteCourse;
     } catch (e) {
       console.log(e);
       await transaction.rollback();
@@ -50,7 +51,7 @@ class EliteCourse extends Service {
   }
 
   async updateEliteCourse({id, updates}){
-    const course = await this.ctx.model.Course.updateEliteCourse({ id, updates });
+    const course = await this.ctx.model.EliteCourse.updateEliteCourse({ id, updates });
     const helper =this.ctx.helper;
     let deleteArray = new Array();
     if (updates.videoAddress != course.videoAddress){
@@ -72,11 +73,11 @@ class EliteCourse extends Service {
     let transaction;
     try {
       transaction = await this.ctx.model.transaction();
-      const course = await this.ctx.model.EliteCourse.deleteCourseById(id,transaction);
-      await this.ctx.model.Favorite.delFavoriteByCourseId(course.Id,transaction);
+      const course = await this.ctx.model.EliteCourse.deleteEliteCourseById(id,transaction);
+
+      await this.ctx.model.Favorite.delFavoriteByCourseId(course.Id, 2, transaction);
       const helper =this.ctx.helper;
       let delArray = new Array();
-      delArray.push(helper.courseImagePath + course.thumb);
       delArray.push(helper.courseVideoPath + course.videoAddress);
       if (course.qrCode){
           delArray.push(helper.qrCodePath + course.qrCode);
