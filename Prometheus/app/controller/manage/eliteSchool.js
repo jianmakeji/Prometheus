@@ -6,10 +6,14 @@ class EliteSchoolController extends Controller {
   async index() {
     const ctx = this.ctx;
     const query = {
-      limit: ctx.helper.parseInt(ctx.query.limit),
       offset: ctx.helper.parseInt(ctx.query.offset),
+      limit: ctx.helper.parseInt(ctx.query.limit),
+      schoolId: ctx.helper.parseInt(ctx.query.schoolId),
+      grade: ctx.helper.parseInt(ctx.query.grade),
+      subject: ctx.helper.parseInt(ctx.query.subject),
     };
-    ctx.body = await ctx.service.eliteSchool.list(query);
+
+    ctx.body = await ctx.service.eliteSchool.getEliteSchoolByPage(query);
   }
 
   async show() {
@@ -39,7 +43,7 @@ class EliteSchoolController extends Controller {
       subject: ctx.request.body.subject,
     };
     try{
-      await ctx.service.eliteCourse.updateEliteSchool({ id, updates });
+      await ctx.service.eliteSchool.updateEliteSchool({ id, updates });
       ctx.body = ctx.helper.success('更新成功!');
     }
     catch(e){
@@ -57,7 +61,6 @@ class EliteSchoolController extends Controller {
     catch(e){
       ctx.body = ctx.helper.failure(e.message);
     }
-
   }
 }
 

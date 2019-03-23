@@ -20,7 +20,7 @@ module.exports = app => {
   };
 
   School.createSchool = async function(school){
-    return this.create(course);
+    return this.create(school);
   }
 
   School.deleteSchool = async function(id){

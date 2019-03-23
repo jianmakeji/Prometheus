@@ -29,13 +29,13 @@ class SpecialColumnController extends Controller {
     ctx.body = await ctx.service.specialColumn.getSpecialColumnsByTeacherId(query);
   }
 
-  async getRecommandSpecialColumn(){
+  async getRecommendSpecialColumn(){
     const ctx = this.ctx;
     const query = {
       limit: ctx.helper.parseInt(ctx.query.limit),
       thumbName: ctx.query.thumbName,
     };
-    ctx.body = await ctx.service.specialColumn.getRecommandSpecialColumn(query);
+    ctx.body = await ctx.service.specialColumn.getRecommendSpecialColumn(query);
   }
 }
 

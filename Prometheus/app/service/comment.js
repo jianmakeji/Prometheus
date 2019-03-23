@@ -7,7 +7,9 @@ class Comment extends Service {
     return this.ctx.model.Comment.getCommentbyPage({
       offset,
       limit,
-      });
+      eliteCourseId,
+      specialCourseId
+    });
   }
 
   async find(id) {
@@ -19,8 +21,12 @@ class Comment extends Service {
     return this.ctx.model.Comment.createComment(comment);
   }
 
-  async getCommentByCourseId({ offset = 0, limit = 10, courseId = 0}){
-    return this.ctx.model.Comment.getCommentByCourseId({offset,limit,courseId});
+  async getCommentByEliteCourseId({ offset = 0, limit = 10, eliteCourseId = 0}){
+    return this.ctx.model.Comment.getCommentByCourseId({offset,limit,eliteCourseId});
+  }
+
+  async getCommentBySpecialCourseId({ offset = 0, limit = 10, specialCourseId = 0}){
+    return this.ctx.model.Comment.getCommentByCourseId({offset,limit,specialCourseId});
   }
 
   async del(id) {

@@ -47,12 +47,29 @@ module.exports = app => {
     return eliteSchool.update(updates);
   }
 
-  EliteSchool.getEliteSchoolByPage = async function({offset = 0, limit = 10}){
-    let resultObj = await this.findAndCountAll({
+  EliteSchool.getEliteSchoolByPage = async function({offset = 0, limit = 10, schoolId = 0, grade = 0, subject = 0}){
+    let condition = {
       offset,
       limit,
       order: [[ 'created_at', 'desc' ], [ 'Id', 'desc' ]],
-    });
+      where: {
+
+      }
+    };
+
+    if (grade != 0){
+      condition.where.grade = grade;
+    }
+
+    if (subject != 0){
+      condition.where.subject = subject;
+    }
+
+    if (schoolId != 0){
+      condition.where.schoolId = schoolId;
+    }
+    
+    let resultObj = await this.findAndCountAll(condition);
     return resultObj;
   }
   return EliteSchool;

@@ -28,6 +28,7 @@ module.exports = app => {
 
   //管理后台API接口
   router.resources('manage.users', '/api/manage/users', managerChecktoken, controller.manage.user);
+  router.resources('manage.eliteSchool', '/api/manage/eliteSchool', managerChecktoken, controller.manage.eliteSchool);
   router.resources('manage.eliteCourse', '/api/manage/eliteCourse', managerChecktoken, controller.manage.eliteCourse);
   router.resources('manage.specialCourse', '/api/manage/specialCourse', managerChecktoken, controller.manage.specialCourse);
   router.resources('manage.exchange', '/api/manage/exchange', managerChecktoken, controller.manage.exchange);
@@ -35,12 +36,12 @@ module.exports = app => {
   router.resources('manage.teacher', '/api/manage/teacher', managerChecktoken, controller.manage.teacher);
   router.resources('manage.comment', '/api/manage/comment', managerChecktoken, controller.manage.comment);
   router.resources('manage.school', '/api/manage/school', managerChecktoken, controller.manage.school);
-  router.resources('manage.eliteSchool', '/api/manage/eliteSchool', managerChecktoken, controller.manage.eliteSchool);
 
   //微信小程序数据接口
   router.get('/api/wx/specialColumn/getSpecialColumnsByTeacherId/:id', wxChecktoken, controller.wx.specialColumn.getSpecialColumnsByTeacherId);
-  router.get('/api/wx/specialColumn/getRecommandSpecialColumn', wxChecktoken, controller.wx.specialColumn.getRecommandSpecialColumn);
-  router.get('/api/wx/comment/getCommentByCourseId', wxChecktoken, controller.wx.comment.getCommentByCourseId);
+  router.get('/api/wx/specialColumn/getRecommendSpecialColumn', wxChecktoken, controller.wx.specialColumn.getRecommendSpecialColumn);
+  router.get('/api/wx/comment/getCommentByEliteCourseId', wxChecktoken, controller.wx.comment.getCommentByEliteCourseId);
+  router.get('/api/wx/comment/getCommentBySpecialCourseId', wxChecktoken, controller.wx.comment.getCommentBySpecialCourseId);
   router.get('/api/wx/eliteCourse/searchByKeywords', wxChecktoken, controller.wx.eliteCourse.searchByKeywords);
   router.get('/api/wx/specialCourse/searchByKeywords', wxChecktoken, controller.wx.specialCourse.searchByKeywords);
   router.get('/api/wx/favorite/checkIsFavite', wxChecktoken, controller.wx.favorite.checkIsFavite);
@@ -57,11 +58,11 @@ module.exports = app => {
   router.resources('wx.specialColumn', '/api/wx/specialColumn', wxChecktoken, controller.wx.specialColumn);
   router.resources('wx.comment', '/api/wx/comment', wxChecktoken, controller.wx.comment);
   router.resources('wx.favorite', '/api/wx/favorite', wxChecktoken, controller.wx.favorite);
-  router.resources('wx.school', '/api/wx/school', wxChecktoken, controller.manage.school);
-  router.resources('wx.eliteSchool', '/api/wx/eliteSchool', wxChecktoken, controller.manage.eliteSchool);
-  router.resources('wx.eliteCourse', '/api/wx/eliteCourse', wxChecktoken, controller.manage.eliteCourse);
-  router.resources('wx.specialCourse', '/api/wx/specialCourse', wxChecktoken, controller.manage.specialCourse);
-  router.resources('wx.eliteCourse', '/api/wx/eliteCourse', wxChecktoken, controller.manage.eliteCourse);
+  router.resources('wx.school', '/api/wx/school', wxChecktoken, controller.wx.school);
+  router.resources('wx.eliteSchool', '/api/wx/eliteSchool', wxChecktoken, controller.wx.eliteSchool);
+  router.resources('wx.eliteCourse', '/api/wx/eliteCourse', wxChecktoken, controller.wx.eliteCourse);
+  router.resources('wx.specialCourse', '/api/wx/specialCourse', wxChecktoken, controller.wx.specialCourse);
+  router.resources('wx.eliteCourse', '/api/wx/eliteCourse', wxChecktoken, controller.wx.eliteCourse);
 
   //网站接口
   /*

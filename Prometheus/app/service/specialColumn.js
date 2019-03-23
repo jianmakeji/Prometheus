@@ -48,8 +48,8 @@ class SpecialColumn extends Service {
       this.ctx.throw(404, 'specialColumn not found');
     }
 
-    const app =this.ctx.helper;
-    await app.deleteOssObject(app.courseImagePath + specialColumn.thumb);
+    const helper =this.ctx.helper;
+    await helper.deleteOssObject(helper.courseImagePath + specialColumn.thumb);
 
     return specialColumn.destroy();
   }
@@ -66,8 +66,8 @@ class SpecialColumn extends Service {
     return resultObj;
   }
 
-  async getRecommandSpecialColumn({limit = 12, thumbName = 'thumb_600_600'}){
-    const resultObj =  await this.ctx.model.SpecialColumn.getRecommandSpecialColumn(limit);
+  async getRecommendSpecialColumn({limit = 12, thumbName = 'thumb_600_600'}){
+    const resultObj =  await this.ctx.model.SpecialColumn.getRecommendSpecialColumn(limit);
 
     const helper = this.ctx.helper;
 

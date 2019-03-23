@@ -10,7 +10,6 @@ module.exports = app => {
       autoIncrement: true,
     },
     name: STRING(16),
-    schoolId: INTEGER,
     teacherId: INTEGER,
     subject: INTEGER,
     thumb: STRING(30),
@@ -19,7 +18,7 @@ module.exports = app => {
     describe: STRING(50),
     price: FLOAT,
     collectNum: INTEGER,
-    recommand: INTEGER,
+    recommend: INTEGER,
     poster: STRING(30),
     created_at: DATE,
     updated_at: DATE,
@@ -82,12 +81,12 @@ module.exports = app => {
     return resultObj;
   }
 
-  SpecialColumn.getRecommandSpecialColumn = async function(limit){
+  SpecialColumn.getRecommendSpecialColumn = async function(limit){
     await this.findAll({
       limit,
       order: [['created_at','desc']],
       where:{
-        recommand : 1
+        recommend : 1
       }
     });
   }

@@ -3,7 +3,7 @@
 const Service = require('egg').Service;
 
 class EliteCourse extends Service {
-  async list({ offset = 0, limit = 10, thumbName="" }) {
+  async list({ offset = 0, limit = 10}) {
     let resultObj = await this.ctx.model.EliteCourse.getEliteCourseByPage({
       offset,
       limit
@@ -11,7 +11,6 @@ class EliteCourse extends Service {
 
     const helper = this.ctx.helper;
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = helper.signatureUrl(helper.courseImagePath + element.thumb, thumbName);
       element.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.videoAddress);
       if(element.qrCode){
         element.qrCode = helper.signatureUrl(helper.qrCodePath + element.qrCode);
@@ -32,7 +31,6 @@ class EliteCourse extends Service {
         this.ctx.throw(404, 'eliteCourse not found');
       }
       const helper = this.ctx.helper;
-      eliteCourse.thumb = helper.signatureUrl(helper.courseImagePath + course.thumb, thumbName);
       eliteCourse.videoAddress = helper.signatureUrl(helper.courseVideoPath + course.videoAddress);
       if(eliteCourse.qrCode){
         eliteCourse.qrCode = helper.signatureUrl(helper.qrCodePath + course.qrCode);
@@ -98,7 +96,6 @@ class EliteCourse extends Service {
 
     const helper = this.ctx.helper;
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = helper.signatureUrl(helper.courseImagePath + element.thumb, thumbName);
       element.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.videoAddress);
       if(element.qrCode){
         element.qrCode = helper.signatureUrl(helper.qrCodePath + element.qrCode);
@@ -113,7 +110,6 @@ class EliteCourse extends Service {
 
     const helper = this.ctx.helper;
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = helper.signatureUrl(helper.courseImagePath + element.thumb, thumbName);
       element.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.videoAddress);
       if(element.qrCode){
         element.qrCode = helper.signatureUrl(helper.qrCodePath + element.qrCode);
