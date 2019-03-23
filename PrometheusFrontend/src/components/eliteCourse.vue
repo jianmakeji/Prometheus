@@ -5,18 +5,13 @@
 				<Icon type="ios-build" size="24"/>名校试题视频管理
 			</BreadcrumbItem>
 		</Breadcrumb><br />
-		<Button icon="md-add" type="primary" @click="newVideo">新建</Button><br /><br />
-		<Form :model="formItem" label-position="right" :label-width="80" inline style="width:100%;">
-			<FormItem label="类别">
-				<Select v-model="formItem.courseType" @on-change="courseTypeChange" label-in-value style="width:200px">
-					<Option v-for="(item,index) in courseTypeData" :value="item.Id" :key="index">{{item.name}}</Option>
+		<Button icon="md-add" type="primary" @click="newEliteCourse">新建</Button><br /><br />
+		<Form label-position="right" :label-width="80" inline style="width:100%;">
+			<FormItem label="试题">
+				<Select v-model="eliteSchoolId" @on-change="eliteSchoolChange" label-in-value style="width:200px">
+					<Option v-for="(item,index) in eliteSchoolData" :value="item.Id" :key="index">{{item.name}}</Option>
 				</Select>
 			</FormItem>
-			<FormItem label="专栏">
-	            <Select v-model="formItem.specialColumn" @on-change="specialColumnChange" label-in-value style="width:200px">
-					<Option v-for="(item,index) in specialColumnData" :value="item.Id" :key="index">{{item.name}}</Option>
-	            </Select>
-	        </FormItem>
 	    </Form>
 		<Table :columns="columns" :data="dataList"></Table><br />
 		<Page :total="total" show-total @on-change="pageChange"/>
@@ -31,15 +26,6 @@
                 </video>
 			</div>
 	    </Modal>
-		<!-- <Modal v-model="codeModal"  @on-ok="downloadCode" ok-text="下载图片至本地">
-			<p slot="header" style="color:#19be6b;text-align:center;font-size:18px;">
-	            <Icon type="ios-brush-outline" />
-	            <span>{{codeTitle}}</span>
-	        </p>
-			<div style="text-align:center" v-show="qrcodeUrl" class="response">
-				<qrcode id="codeImage" :value="qrcodeUrl" v-if="qrcodeUrl"	:options="{ size: 120 }"></qrcode>
-			</div>
-	    </Modal> -->
 		<Modal v-model="deleteModel" width="360" @on-ok="okTap">
 	        <p slot="header" style="color:#ed4014;text-align:center;font-size:18px;">
 	            <Icon type="ios-information-circle" size="20"></Icon>
@@ -72,38 +58,20 @@ export default {
             previewModal:false,
             videoUrl:"",
 
-			specialColumnData:[{Id:0,name:"全部"}],courseTypeData:[{Id:0,name:"全部"}],
+			eliteSchoolData:[{Id:0,name:"全部"}],
 			specialColumnId:0,courseTypeId:0,
             specialColumnLabel:"",courseTypeLabel:"",
 
-			formItem:{
-				specialColumn:0,	//专题
-				courseType:0			//类型
-			},
+			eliteSchoolId:0,
             columns:[
                 // { title: 'id', key: 'Id', align: 'center' ,width:90},
                 { title: '名称', key: 'name', align: 'center' },
-                { title: '类别', key: 'course_type', align: 'center', width: 120,
+                { title: '试题', key: 'eliteSchoolId', align: 'center',
                 	render:(h, params) =>{
                 		return h('div',[
-                            // params.row.course_type.name
-                            h('p', params.row.course_type ? params.row.course_type.name : this.courseTypeLabel)
+                            h('p', params.row.elite_school ? params.row.elite_school.name : "无")
                 		])
                 	}
-                },
-                { title: '专栏', key: 'special_column', align: 'center',
-                	render:(h, params) =>{
-                		return h('div',[
-                            h('p', params.row.special_column ? params.row.special_column.name : this.specialColumnLabel)
-                		])
-                	}
-                },
-                { title: '时长', key: 'duration', align: 'center',width:90,
-                    render:(h, params) =>{
-                        return h('div',[
-                            h('p', parseInt(params.row.duration / 60) + ":" + (parseInt(params.row.duration % 60 / 10) ? params.row.duration % 60 : "0" + params.row.duration % 60))
-                        ])
-                    }
                 },
                 { title: '视频预览',key: 'opt', align: 'center', width: 100,
                     render:(h, params) =>{
@@ -125,30 +93,12 @@ export default {
                 		])
                 	}
                 },
-                { title: '二维码预览',key: 'opt', align: 'center', width: 150,
+                { title: '时长', key: 'duration', align: 'center',width:90,
                     render:(h, params) =>{
-                        if (params.row.qrCode == null) {
-                            return h('p', {
-                                style:{
-                                    color:"#ed3f14"
-                                }
-                            },"该课程暂无二维码")
-                        }else{
-                            return h('div', [
-                                h('img', {
-            						domProps: {
-            							src: params.row.qrCode,
-            						},
-            						style: {
-                                        width:"60px",
-            							width:"60px",
-                                        margin:"10px auto"
-            						}
-            					})
-                            ])
-                        }
-
-                	}
+                        return h('div',[
+                            h('p', parseInt(params.row.duration / 60) + ":" + (parseInt(params.row.duration % 60 / 10) ? params.row.duration % 60 : "0" + params.row.duration % 60))
+                        ])
+                    }
                 },
                 { title: '操作', key: 'opt', align: 'center',width:160,
         			render: (h, params) => {
@@ -183,43 +133,6 @@ export default {
         					},'删除')
         				])
         			}
-        		},
-                { title: '二维码操作', key: 'opt', align: 'center',width:160,
-        			render: (h, params) => {
-                        if(params.row.qrCode){
-                            return h('Button', {
-        						props: {
-        							type: 'info',
-        							size: 'small',
-                                    disabled:true
-        						},
-        						style: {
-        							marginRight: '5px'
-        						},
-        						on: {
-        							click: () => {
-        								this.generateCode(params.index)
-        							}
-        						}
-        					},'已生成二维码')
-                        }else{
-                            return h('Button', {
-        						props: {
-        							type: 'info',
-        							size: 'small'
-        						},
-        						style: {
-        							marginRight: '5px'
-        						},
-        						on: {
-        							click: () => {
-        								this.generateCode(params.index)
-        							}
-        						}
-        					},'生成二维码')
-                        }
-
-        			}
         		}
             ],
 			dataList: []
@@ -243,14 +156,13 @@ export default {
 				that.$Message.error({duration:3,content:err});
 			})
 		},
-		newVideo(){
-			this.$router.push({name:"addCourse",query:{id:0}});
+		newEliteCourse(){
+			this.$router.push({name:"addEliteCourse",query:{id:0}});
 		},
         previewVideo(index){
             this.previewModal = true;
 			this.videoTitle = this.dataList[index].name;
-            this.videoUrl = this.dataList[index].videoAddress;
-
+            this.videoUrl = this.dataList[index].videoAddress
         },
         visibleChange(boolean){
             var Media = document.getElementById("media");
@@ -261,7 +173,7 @@ export default {
 		//修改
 		changeTap(index){
 			let videoId = this.dataList[index].Id;
-			this.$router.push({name:"addCourse",query:{id:videoId}});
+			this.$router.push({name:"addEliteCourse",query:{id:videoId}});
 		},
 		//删除
 		removeTap(index){
@@ -299,13 +211,17 @@ export default {
 		},
 		okTap(){
 			let that = this,
-				deleteUrl = globel_.serverHost + globel_.configAPI.deleteCourseById.replace(":id",this.dataList[this.index].Id);
+				deleteUrl = globel_.serverHost + globel_.configAPI.deleteEliteCourseById.replace(":id",this.dataList[this.index].Id);
 			this.$Loading.start();
 			this.$http.delete(deleteUrl).then(function(result){
 				if(result.status == 200){
 					that.$Message.success({duration:3,content:globel_.configMessage.deleteSuccess});
-					let getDataUrl = globel_.serverHost + globel_.configAPI.getCourseData + that.offset;
-					that.$http.get( getDataUrl ).then(function(result){
+					let getDataUrl = globel_.serverHost + globel_.configAPI.getEliteCourseData;
+					that.$http.get( getDataUrl,{params:{
+                        limit:10,
+                        offset:that.offset,
+                        eliteSchoolId:that.eliteSchoolId
+                    }}).then(function(result){
 						that.$Loading.finish();
 						that.dataList = result.data.rows;
 						that.total = result.data.count;
@@ -319,58 +235,46 @@ export default {
 					that.$Message.error({duration:3,content:err});
 			})
 		},
-		courseTypeChange(option){
+		eliteSchoolChange(option){
             let value = option.value;
-			this.courseTypeId = value;
+			this.eliteSchoolId = value;
 			let that = this,
-				getDataUrl = globel_.serverHost+ globel_.configAPI.getCourseByCondition + this.offset +'&courseType='+ this.courseTypeId + '&specialColumn=' + this.specialColumnId;
-			this.$Loading.start();
-			this.$http.get( getDataUrl ).then(function(result){
-				that.$Loading.finish();
-				that.dataList = result.data.rows;
-				that.total = result.data.count;
-			}).catch(function(err){
-				that.$Loading.error();
-				that.$Message.error({duration:3,content:err});
-			})
-		},
-		specialColumnChange(option){
-            let value = option.value;
-			this.specialColumnId = value;
-			let that = this,
-				getDataUrl = globel_.serverHost+ globel_.configAPI.getCourseByCondition + this.offset +'&courseType='+ this.courseTypeId + '&specialColumn=' + this.specialColumnId;
-			this.$Loading.start();
-			this.$http.get( getDataUrl ).then(function(result){
-				that.$Loading.finish();
-				that.dataList = result.data.rows;
-				that.total = result.data.count;
-			}).catch(function(err){
-				that.$Loading.error();
-				that.$Message.error({duration:3,content:err});
-			})
-		},
+                getDataUrl = globel_.serverHost+ globel_.configAPI.getEliteCourseData;
+            this.$http.get( getDataUrl,{params:{
+                limit:10,
+                offset:this.offset,
+                eliteSchoolId:this.eliteSchoolId
+            }}).then(function(result){
+                console.log(result);
+                that.$Loading.finish();
+                that.dataList = result.data.rows;
+                that.total = result.data.count;
+            }).catch(function(err){
+                that.$Loading.error();
+                that.$Message.error({duration:3,content:err});
+            })
+		}
 	},
 	created(){
 		let that = this,
-			getCourseTyoeDataUrl = globel_.serverHost + "/api/manage/courseType?limit=1000&offset=0",
-			getSpecialColumnDataUrl = globel_.serverHost + "/api/manage/specialColumn?limit=1000&offset=0";
+			getEliteSchoolData = globel_.serverHost + globel_.configAPI.getEliteSchoolData;
 		this.$Loading.start();
 
-		// 获取类别数据作为选择项
-		this.$http.get( getCourseTyoeDataUrl ).then(function(result){
-			that.courseTypeData = that.courseTypeData.concat(result.data.rows);
+		// 获取试题数据作为选择项
+		this.$http.get( getEliteSchoolData ).then(function(result){
+			that.eliteSchoolData = that.eliteSchoolData.concat(result.data.rows);
 		}).catch(function(err){
-
-		});
-		//获取专栏数据作为选择项
-		this.$http.get( getSpecialColumnDataUrl ).then(function(result){
-			that.specialColumnData = that.specialColumnData.concat(result.data.rows);
-		}).catch(function(err){
-
+            that.$Loading.error();
+            that.$Message.error({duration:3,content:err});
 		});
 
-		let getDataUrl = globel_.serverHost+ globel_.configAPI.getCourseByCondition + this.offset +'&courseType='+ this.courseTypeId + '&specialColumn=' + this.specialColumnId;
-		this.$http.get( getDataUrl ).then(function(result){
+		let getDataUrl = globel_.serverHost+ globel_.configAPI.getEliteCourseData;
+		this.$http.get( getDataUrl,{params:{
+            limit:10,
+            offset:this.offset,
+            eliteSchoolId:this.eliteSchoolId
+        }}).then(function(result){
+            console.log(result);
 			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;

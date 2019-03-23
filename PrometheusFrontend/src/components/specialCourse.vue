@@ -5,13 +5,8 @@
 				<Icon type="ios-build" size="24"/>视频管理
 			</BreadcrumbItem>
 		</Breadcrumb><br />
-		<Button icon="md-add" type="primary" @click="newVideo">新建</Button><br /><br />
+		<Button icon="md-add" type="primary" @click="newSpecialCourse">新建</Button><br /><br />
 		<Form :model="formItem" label-position="right" :label-width="80" inline style="width:100%;">
-			<FormItem label="类别">
-				<Select v-model="formItem.courseType" @on-change="courseTypeChange" label-in-value style="width:200px">
-					<Option v-for="(item,index) in courseTypeData" :value="item.Id" :key="index">{{item.name}}</Option>
-				</Select>
-			</FormItem>
 			<FormItem label="专栏">
 	            <Select v-model="formItem.specialColumn" @on-change="specialColumnChange" label-in-value style="width:200px">
 					<Option v-for="(item,index) in specialColumnData" :value="item.Id" :key="index">{{item.name}}</Option>
@@ -72,25 +67,16 @@ export default {
             previewModal:false,
             videoUrl:"",
 
-			specialColumnData:[{Id:0,name:"全部"}],courseTypeData:[{Id:0,name:"全部"}],
-			specialColumnId:0,courseTypeId:0,
-            specialColumnLabel:"",courseTypeLabel:"",
+			specialColumnData:[{Id:0,name:"全部"}],
+			specialColumnId:0,
+            specialColumnLabel:"",
 
 			formItem:{
 				specialColumn:0,	//专题
-				courseType:0			//类型
 			},
             columns:[
                 // { title: 'id', key: 'Id', align: 'center' ,width:90},
                 { title: '名称', key: 'name', align: 'center' },
-                { title: '类别', key: 'course_type', align: 'center', width: 120,
-                	render:(h, params) =>{
-                		return h('div',[
-                            // params.row.course_type.name
-                            h('p', params.row.course_type ? params.row.course_type.name : this.courseTypeLabel)
-                		])
-                	}
-                },
                 { title: '专栏', key: 'special_column', align: 'center',
                 	render:(h, params) =>{
                 		return h('div',[
@@ -232,7 +218,7 @@ export default {
 		pageChange(index){
             this.offset  = (index-1)*10;
             let that = this,
-				getDataUrl = globel_.serverHost + globel_.configAPI.getCourseByCondition + this.offset +'&courseType='+ this.courseTypeId + '&specialColumn=' + this.specialColumnId;
+				getDataUrl = globel_.serverHost + globel_.configAPI.getCourseByCondition;
 			this.$Loading.start();
 			this.$http.get( getDataUrl ).then(function(result){
 				that.$Loading.finish();
@@ -243,8 +229,8 @@ export default {
 				that.$Message.error({duration:3,content:err});
 			})
 		},
-		newVideo(){
-			this.$router.push({name:"addCourse",query:{id:0}});
+		newSpecialCourse(){
+			this.$router.push({name:"addSpecialCourse",query:{id:0}});
 		},
         previewVideo(index){
             this.previewModal = true;
@@ -260,8 +246,8 @@ export default {
         },
 		//修改
 		changeTap(index){
-			let videoId = this.dataList[index].Id;
-			this.$router.push({name:"addCourse",query:{id:videoId}});
+			let specialCourseId = this.dataList[index].Id;
+			this.$router.push({name:"addSpecialCourse",query:{id:specialCourseId}});
 		},
 		//删除
 		removeTap(index){
@@ -279,7 +265,7 @@ export default {
 					that.$Message.success({
                         duration:2,content:globel_.configMessage.createCodeSuccess,
                         onClose(){
-                            let getNexDataUrl = globel_.serverHost+ globel_.configAPI.getCourseByCondition + that.offset +'&courseType='+ that.courseTypeId + '&specialColumn=' + that.specialColumnId;
+                            let getNexDataUrl = globel_.serverHost+ globel_.configAPI.getCourseByCondition;
                     		that.$http.get( getNexDataUrl ).then(function(result){
                     			that.$Loading.finish();
                                 that.dataList = [];
@@ -319,26 +305,11 @@ export default {
 					that.$Message.error({duration:3,content:err});
 			})
 		},
-		courseTypeChange(option){
-            let value = option.value;
-			this.courseTypeId = value;
-			let that = this,
-				getDataUrl = globel_.serverHost+ globel_.configAPI.getCourseByCondition + this.offset +'&courseType='+ this.courseTypeId + '&specialColumn=' + this.specialColumnId;
-			this.$Loading.start();
-			this.$http.get( getDataUrl ).then(function(result){
-				that.$Loading.finish();
-				that.dataList = result.data.rows;
-				that.total = result.data.count;
-			}).catch(function(err){
-				that.$Loading.error();
-				that.$Message.error({duration:3,content:err});
-			})
-		},
 		specialColumnChange(option){
             let value = option.value;
 			this.specialColumnId = value;
 			let that = this,
-				getDataUrl = globel_.serverHost+ globel_.configAPI.getCourseByCondition + this.offset +'&courseType='+ this.courseTypeId + '&specialColumn=' + this.specialColumnId;
+				getDataUrl = globel_.serverHost+ globel_.configAPI.getCourseByCondition;
 			this.$Loading.start();
 			this.$http.get( getDataUrl ).then(function(result){
 				that.$Loading.finish();
@@ -352,25 +323,24 @@ export default {
 	},
 	created(){
 		let that = this,
-			getCourseTyoeDataUrl = globel_.serverHost + "/api/manage/courseType?limit=1000&offset=0",
-			getSpecialColumnDataUrl = globel_.serverHost + "/api/manage/specialColumn?limit=1000&offset=0";
+			getSpecialColumnDataUrl = globel_.serverHost + globel_.configAPI.getSpecialColumnData;
 		this.$Loading.start();
-
-		// 获取类别数据作为选择项
-		this.$http.get( getCourseTyoeDataUrl ).then(function(result){
-			that.courseTypeData = that.courseTypeData.concat(result.data.rows);
-		}).catch(function(err){
-
-		});
 		//获取专栏数据作为选择项
-		this.$http.get( getSpecialColumnDataUrl ).then(function(result){
+		this.$http.get( getSpecialColumnDataUrl ,{params:{
+            limit:1000,
+            offset:0
+        }}).then(function(result){
 			that.specialColumnData = that.specialColumnData.concat(result.data.rows);
 		}).catch(function(err){
-
+            that.$Message.error({duration:3,content:err});
 		});
 
-		let getDataUrl = globel_.serverHost+ globel_.configAPI.getCourseByCondition + this.offset +'&courseType='+ this.courseTypeId + '&specialColumn=' + this.specialColumnId;
-		this.$http.get( getDataUrl ).then(function(result){
+		let getDataUrl = globel_.serverHost+ globel_.configAPI.getSpecialCourseData;
+		this.$http.get( getDataUrl ,{params:{
+            limit:10,
+            offset:this.offset
+        }}).then(function(result){
+            console.log("---",result);
 			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;
