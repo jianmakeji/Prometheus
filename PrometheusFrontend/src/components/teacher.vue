@@ -97,9 +97,12 @@ export default {
 		pageChange(index){
             this.offset = (index - 1) * 10;
 			let that = this,
-			 	getDataUrl = globel_.serverHost + globel_.configAPI.getTeacherData + that.offset;
+			 	getDataUrl = globel_.serverHost + globel_.configAPI.getTeacherData;
 			this.$Loading.start();
-			this.$http.get( getDataUrl ).then(function(result){
+			this.$http.get( getDataUrl ,{params:{
+                limit:10,
+                offset:this.offset
+            }}).then(function(result){
 				that.$Loading.finish();
 				that.dataList = result.data.rows;
 			}).catch(function(err){
@@ -130,8 +133,11 @@ export default {
 			this.$http.delete(deleteUrl).then(function(result){
 				if(result.status == 200){
 					that.$Message.success({duration:3,content:globel_.configMessage.deleteSuccess});
-					let getDataUrl = globel_.serverHost + globel_.configAPI.getTeacherData + that.offset;
-					that.$http.get( getDataUrl ).then(function(result){
+					let getDataUrl = globel_.serverHost + globel_.configAPI.getTeacherData;
+					that.$http.get( getDataUrl ,{params:{
+                        limit:10,
+                        offset:that.offset
+                    }}).then(function(result){
 						that.$Loading.finish();
 						that.dataList = result.data.rows;
 						that.total = result.data.count;
@@ -148,9 +154,12 @@ export default {
 	},
 	created(){
 		let that = this,
-			getDataUrl = globel_.serverHost + globel_.configAPI.getTeacherData + that.offset;
+			getDataUrl = globel_.serverHost + globel_.configAPI.getTeacherData;
 		this.$Loading.start();
-		this.$http.get( getDataUrl ).then(function(result){
+		this.$http.get( getDataUrl ,{params:{
+            limit:10,
+            offset:this.offset
+        }}).then(function(result){
 			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;

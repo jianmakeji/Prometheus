@@ -26,6 +26,7 @@
 
 <script>
 import globel_ from './../config/global.vue'
+import OSS from 'ali-oss'
 import $ from 'jquery'
 
 var g_object_name = "";
@@ -67,12 +68,11 @@ export default {
 			id:"",
             BreadcrumbTitle:"",
 			submitUrl:"",
-			gradeData:globel_.gradeData,
             imgUrl:"",
             progressPercent:0,
 			formItem:{
 				name: "",
-		        thumb: "",
+		        bg: "",
 			}
 		}
 	},
@@ -82,7 +82,7 @@ export default {
             var file = files.target.files[0]; //获取要上传的文件对象
             this.$http({
                 method: 'get',
-                url: globel_.serverHost + '/api/getSTSSignature/1'
+                url: globel_.serverHost + '/api/getSTSSignature/3'
             }).then((res) => {
                 var client = new OSS({
                     region: 'oss-cn-hangzhou',
@@ -94,13 +94,13 @@ export default {
 
     		calculate_object_name(file.name);
             var newFilename =  g_object_name;
-            client.multipartUpload('courseImages/' + newFilename, file, {
+            client.multipartUpload('articleImages/' + newFilename, file, {
     	        progress(p) {
     	            that.progressPercent = p * 100;
     	        }
             }).then(function(result) {
     			that.$http.get(globel_.serverHost + globel_.configAPI.getUrlSignature + result.name).then(function(result){
-                    that.fileImage = newFilename;
+                    that.formItem.bg = newFilename;
                   	that.$Loading.finish();
     	            that.$Message.success({
     	              duration: 2,
@@ -131,17 +131,63 @@ export default {
           });
         },
 		submitClick(){
-
+            let that = this;
+            if(this.id == 0){
+                this.$http.post( this.submitUrl ,{
+					name:this.formItem.name,
+					bg:this.formItem.bg
+				}).then(function(result){
+					if(result.status == 200){
+						that.$Loading.finish();
+						that.$Message.success({duration:2,content:globel_.configMessage.operateSuccess});
+						setTimeout(function(){
+							that.$router.push({name:"school"});
+						},2000)
+					}
+				}).catch(function(err){
+					that.$Loading.error();
+					that.$Message.error({duration:2,content:err});
+				})
+            }else{
+                this.$http.put( this.submitUrl ,{
+					name:this.formItem.name,
+					bg:this.formItem.bg
+				}).then(function(result){
+					if(result.status == 200){
+						that.$Loading.finish();
+						that.$Message.success({duration:2,content:globel_.configMessage.operateSuccess});
+						setTimeout(function(){
+							that.$router.push({name:"school"});
+						},2000)
+					}
+				}).catch(function(err){
+					that.$Loading.error();
+					that.$Message.error({duration:2,content:err});
+				})
+            }
 		},
 	},
 	created(){
+        let that = this;
 		this.id = this.$route.query.id;
 		if(this.id != 0){		//修改
             this.BreadcrumbTitle  = "修改学校";
-			// this.submitUrl = globel_.serverHost + globel_.configAPI.updataCourseById.replace(":id",this.id);
+			this.submitUrl = globel_.serverHost + globel_.configAPI.updateSchoolById.replace(":id",this.id);
+			this.$Loading.start();
+			this.$http.get( this.submitUrl ).then(function(result){
+				// 数据赋值
+				that.$Loading.finish();
+				that.formItem = result.data;
+                that.imgUrl = result.data.bg;
+                that.progressPercent = 100;
+                that.formItem.bg = result.data.bg.split("articleImages/")[1].split("?")[0];
+			}).catch(function(err){
+				that.$Loading.error();
+				that.$Message.error({duration:3,content:err});
+			})
 		}else{					//新建
             this.BreadcrumbTitle  = "新建学校";
-			// this.submitUrl = globel_.serverHost + globel_.configAPI.createCourse;
+			this.submitUrl = globel_.serverHost + globel_.configAPI.createSchool;
 		}
 	}
 }

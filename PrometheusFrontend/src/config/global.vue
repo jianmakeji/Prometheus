@@ -1,8 +1,8 @@
 <script type="text/javascript">
 
 	// const serverHost = "http://prometheus.design-engine.org";
-	const serverHost = "https://bestpro.vip";
-	// const serverHost = "http://192.168.3.231:7001";
+	// const serverHost = "https://bestpro.vip";
+	const serverHost = "http://192.168.3.252:7001";
 
 	const aliHttp = "http://jm-prometheus.oss-cn-hangzhou.aliyuncs.com/";
 	// const aliHttp = "https://jm-prometheus.oss-cn-hangzhou.aliyuncs.com/";
@@ -30,6 +30,24 @@
 		checkToken:"/api/manage/checkToken/:token",
 		getUrlSignature:"/api/getUrlSignature?objectPath=",				//获取图片或视频时请求
 
+		//学校增删改查
+		createSchool:"/api/manage/school",
+		getSchoolData:"/api/manage/school",
+		updateSchoolById:"/api/manage/school/:id",
+		deleteSchoolById:"/api/manage/school/:id",
+
+		//名校试题
+		createEliteSchool:"/api/manage/eliteSchool",
+		getEliteSchoolData:"/api/manage/eliteSchool",
+		updateEliteSchoolById:"/api/manage/eliteSchool/:id",
+		deleteEliteSchoolById:"/api/manage/eliteSchool/:id",
+
+		//名校试题视频
+		createEliteCourse:"/api/manage/eliteCourse",
+		getEliteCourseData:"/api/manage/eliteCourse",
+		updateEliteCourseById:"/api/manage/eliteCourse/:id",
+		deleteEliteCourseById:"/api/manage/eliteCourse/:id",
+
 		//课程类别增删改查
 		createCourseType:"/api/manage/courseType",
 		deleteCourseTypeById:"/api/manage/courseType/:id",
@@ -41,18 +59,18 @@
 		createSpecialColumn:"/api/manage/specialColumn",
 		deleteSpecialColumnById:"/api/manage/specialColumn/:id",
 		updataSpecialColumnById:"/api/manage/specialColumn/:id",
-		getSpecialColumnData:"/api/manage/specialColumn?limit=10&offset=",
+		getSpecialColumnData:"/api/manage/specialColumn",
 		getSpecialColumnDataById:"/api/manage/specialColumn/:id",
 
 		//课程增删改查
-		createCourse:"/api/manage/course",
-		deleteCourseById:"/api/manage/course/:id",
-		updataCourseById:"/api/manage/course/:id",
-		getCourseData:"/api/manage/course?limit=10&offset=",
-		getCourseDataById:"/api/manage/course/:id",
-		getCourseDataBySpecialColumn:"/api/manage/course/getCourseBySpecialColumnId/:id?limit=10000&offset=0",
-		getCourseByCondition:"/api/manage/course/getCourseByCondition?limit=10&offset=",
-		getQRCode:"/api/manage/course/getQRCode/:id",
+		createSpecialCourse:"/api/manage/specialCourse",
+		deleteSpecialCourseById:"/api/manage/specialCourse/:id",
+		updataSpecialCourseById:"/api/manage/specialCourse/:id",
+		getSpecialCourseData:"/api/manage/specialCourse",
+		getSpecialCourseDataById:"/api/manage/specialCourse/:id",
+		getSpecialCourseDataBySpecialColumn:"/api/manage/specialCourse/getCourseBySpecialColumnId/:id?limit=10000&offset=0",
+		getSpecialCourseByCondition:"/api/manage/specialCourse/getCourseByCondition",
+		getQRCode:"/api/manage/specialCourse/getQRCode/:id",
 
 		//好文增删改查
 		createArticle:"/api/manage/article",
@@ -65,7 +83,7 @@
 		createTeacher:"/api/manage/teacher",
 		deleteTeacherById:"/api/manage/teacher/:id",
 		updataTeacherById:"/api/manage/teacher/:id",
-		getTeacherData:"/api/manage/teacher?limit=10&offset=",
+		getTeacherData:"/api/manage/teacher",
 		getTeacherDataById:"/api/manage/teacher/:id",
 
 		getUser:"/api/manage/users?limit=10&offset=",

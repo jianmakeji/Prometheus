@@ -5,7 +5,7 @@
 	            <Icon type="ios-build" size="24"/>专题突破管理
 	        </BreadcrumbItem>
 	    </Breadcrumb><br />
-		<Button icon="md-add" type="primary" @click="newType">新建</Button><br /><br />
+		<Button icon="md-add" type="primary" @click="newSpecialColumn">新建</Button><br /><br />
 		<Table :columns="columns" :data="dataList"></Table><br />
 		<Page :total="total" show-total @on-change="pageChange"/>
 		<Modal v-model="deleteModel" width="360" @on-ok="okTap">
@@ -32,23 +32,22 @@ export default {
 			index:"",
 			total:0,
 			columns:[
-				// {
-                //     title: 'id',
-                //     key: 'Id',
-				// 	align: 'center'
-                // },
                 {
-                    title: '专栏名称',
+                    title: '专题名称',
                     key: 'name',
 					align: 'center'
                 },
                 {
-                    title: '所属类别',
-                    key: "courseType",
+                    title: '推荐',
+                    key: "recommend",
 					align: 'center',
 					render:(h, params) =>{
 						return h('div',[
-							h('p', params.row.course_type.name)
+							h('p', {
+								style: {
+									color: params.row.recommend ? "#19be6b" : "#ed4014"
+								},
+							},params.row.recommend ? "是" : "——")
 						])
 					}
                 },
@@ -104,9 +103,12 @@ export default {
 		pageChange(index){
 			this.offset = (index - 1) * 10;
 			let that = this,
-			 	getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialColumnData + that.offset;
+			 	getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialColumnData;
 			this.$Loading.start();
-			this.$http.get( getDataUrl ).then(function(result){
+			this.$http.get( getDataUrl ,{params:{
+				limit:0,
+				offset:that.offset
+			}}).then(function(result){
 				that.$Loading.finish();
 				that.dataList = result.data.rows;
 			}).catch(function(err){
@@ -114,12 +116,12 @@ export default {
 				that.$Message.error('获取数据失败！');
 			})
 		},
-		newType(){
+		newSpecialColumn(){
 			this.$router.push({name:"addSpecialColumn",query:{id:0}});
 		},
 		changeTap(index){
-			let typeId = this.dataList[index].Id;
-			this.$router.push({name:"addSpecialColumn",query:{id:typeId}});
+			let specialColumnId = this.dataList[index].Id;
+			this.$router.push({name:"addSpecialColumn",query:{id:specialColumnId}});
 		},
 		removeTap(index){
 			this.index = index;
@@ -133,8 +135,11 @@ export default {
 			this.$http.delete(deleteUrl).then(function(result){
 				if(result.status == 200){
 					that.$Message.success({duration:3,content:globel_.configMessage.deleteSuccess});
-					let getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialColumnData + that.offset;
-					that.$http.get( getDataUrl ).then(function(result){
+					let getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialColumnData;
+					that.$http.get( getDataUrl ,{params:{
+						limit:10,
+						offset:that.offset
+					}}).then(function(result){
 						that.$Loading.finish();
 						that.dataList = result.data.rows;
 						that.total = result.data.count;
@@ -151,9 +156,13 @@ export default {
     },
 	created(){
 		let that = this,
-			getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialColumnData + that.offset;
+			getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialColumnData;
 		this.$Loading.start();
-		this.$http.get( getDataUrl ).then(function(result){
+		this.$http.get( getDataUrl,{params:{
+			limit:10,
+			offset:this.offset
+		}}).then(function(result){
+			console.log(result);
 			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;

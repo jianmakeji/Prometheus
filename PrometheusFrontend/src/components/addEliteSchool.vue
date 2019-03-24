@@ -13,8 +13,8 @@
 			   	<Input v-model="formItem.name" placeholder="请输入试题名称..." clearable></Input>
 		   	</FormItem>
             <FormItem label="所属学校:">
-				<Select v-model="formItem.grade" placeholder="选择学校...">
-	                <Option v-for="(item,index) in gradeData" :value="item.id" :key="index">{{item.title}}</Option>
+				<Select v-model="formItem.schoolId" placeholder="选择学校...">
+	                <Option v-for="(item,index) in schoolData" :value="item.Id" :key="index">{{item.name}}</Option>
 	            </Select>
 		   	</FormItem>
 			<FormItem label="所属年级:">
@@ -23,8 +23,8 @@
 	            </Select>
 		   	</FormItem>
             <FormItem label="所属科目:">
-				<Select v-model="formItem.grade" placeholder="选择科目...">
-	                <Option v-for="(item,index) in gradeData" :value="item.id" :key="index">{{item.title}}</Option>
+				<Select v-model="formItem.subject" placeholder="选择科目...">
+	                <Option v-for="(item,index) in subject" :value="item.id" :key="index">{{item.title}}</Option>
 	            </Select>
 		   	</FormItem>
 		   	<FormItem>
@@ -45,24 +45,16 @@ export default {
 	      	id: "",
 			BreadcrumbTitle:"",
 	      	submitUrl: "",
-	      	g_object_name: '',
+			schoolData:[],	//学校数据
 
-	      	progressPercent: 0,
-		  	imgUrl:"",
-		  	fileImage:"",
-
-	      	courseTypeData: "", //所属类别的数据
 			gradeData: globel_.gradeData, //所属类别的数据
+			subject:globel_.subjectData,
 	      	teacherData: "",
 	      	formItem: {
-		        // thumb:globel_.defaultImage,
-		        thumb: "",
-		        teacherId: "",
 		        name: "",
-		        describe: "",
-		        courseType: "",
+		        schoolId:0,
 				grade:0,
-		        price: 0
+		        subject: 0
 		    },
 
 			imgList:[],		//点击添加图片，进行数据交互
@@ -72,85 +64,73 @@ export default {
   	},
   	methods: {
 	    submitClick() {
-			// this.formItem.thumb = this.fileImage;
-	      	// let that = this;
-	      	// this.$Loading.start();
-	      	// if (this.id == 0) { //新建	post
-	        // 	this.$http.post(this.submitUrl, {
-		    //       	thumb: this.formItem.thumb,
-		    //       	teacherId: this.formItem.teacherId,
-		    //       	name: this.formItem.name,
-		    //       	describe: this.formItem.describe,
-		    //       	courseType: this.formItem.courseType,
-		    //       	price: this.formItem.price,
-		    //       	grade: this.formItem.grade
-	        // 	}).then(function(result) {
-		    //       	if (result.status == 200) {
-		    //         	that.$Loading.finish();
-		    //         	that.$Message.success({
-			//               	duration: 2,
-			//               	content: globel_.configMessage.operateSuccess
-		    //         	});
-			//             setTimeout(function() {
-			//               	that.$router.push({
-			//                 	name: "specialColumn"
-			//               	});
-			//             }, 3000)
-		    //       	}
-		    //     }).catch(function(err) {
-		    //       	that.$Loading.error();
-		    //       	that.$Message.error({
-		    //         	duration: 2,
-		    //         	content: err
-		    //       	});
-		    //     })
-	      	// } else { //修改	put
-	        // 	this.$http.put(this.submitUrl, {
-	        //   		thumb: this.formItem.thumb,
-	        //   		teacherId: this.formItem.teacherId,
-	        //   		name: this.formItem.name,
-	        //   		describe: this.formItem.describe,
-	        //   		courseType: this.formItem.courseType,
-	        //   		price: this.formItem.price,
-		    //       	grade: this.formItem.grade
-	        // 	}).then(function(result) {
-	        //   		if (result.status == 200) {
-	        //     		that.$Loading.finish();
-	        //     		that.$Message.success({
-			//               	duration: 2,
-	        //       			content: globel_.configMessage.operateSuccess
-	        //     		});
-	        //     		setTimeout(function() {
-	        //       			that.$router.push({
-	        //         			name: "specialColumn"
-	        //       			});
-	        //     		}, 3000)
-	        //   		}
-	        // 	}).catch(function(err) {
-	        //   		that.$Loading.error();
-	        //   		that.$Message.error({
-	        //     		duration: 2,
-	        //     		content: err
-	        //   		});
-	        // 	})
-	      	// }
+			console.log(this.formItem);
+	      	let that = this;
+	      	this.$Loading.start();
+	      	if (this.id == 0) { //新建	post
+	        	this.$http.post(this.submitUrl, {
+		          	name: this.formItem.name,
+					schoolId:this.formItem.schoolId,
+			        subject:this.formItem.subject,
+		          	grade: this.formItem.grade
+	        	}).then(function(result) {
+		          	if (result.status == 200) {
+		            	that.$Loading.finish();
+		            	that.$Message.success({
+			              	duration: 2,
+			              	content: globel_.configMessage.operateSuccess
+		            	});
+			            setTimeout(function() {
+			              	that.$router.push({
+			                	name: "eliteSchool"
+			              	});
+			            }, 3000)
+		          	}
+		        }).catch(function(err) {
+		          	that.$Loading.error();
+		          	that.$Message.error({
+		            	duration: 2,
+		            	content: err
+		          	});
+		        })
+	      	} else { //修改	put
+	        	this.$http.put(this.submitUrl, {
+					name: this.formItem.name,
+					schoolId:this.formItem.schoolId,
+			        subject:this.formItem.subject,
+		          	grade: this.formItem.grade
+	        	}).then(function(result) {
+	          		if (result.status == 200) {
+	            		that.$Loading.finish();
+	            		that.$Message.success({
+			              	duration: 2,
+	              			content: globel_.configMessage.operateSuccess
+	            		});
+	            		setTimeout(function() {
+	              			that.$router.push({
+	                			name: "eliteSchool"
+	              			});
+	            		}, 3000)
+	          		}
+	        	}).catch(function(err) {
+	          		that.$Loading.error();
+	          		that.$Message.error({
+	            		duration: 2,
+	            		content: err
+	          		});
+	        	})
+	      	}
 	    }
   	},
   	created() {
     	let that = this,
-      	getCourseTyoeDataUrl = globel_.serverHost + "/api/manage/courseType?limit=1000&offset=0",
-      	getTeacherDataUrl = globel_.serverHost + "/api/manage/teacher?limit=1000&offset=0";
+      	getSchoolDataUrl = globel_.serverHost + "/api/manage/school?limit=1000&offset=0";
     	this.$Loading.start();
 
     	// 获取类别数据作为选择项
-    	this.$http.get(getCourseTyoeDataUrl).then(function(result) {
-      		that.courseTypeData = result.data.rows;
-    	}).catch(function(err) {
-      		that.$Loading.error();
-    	});
-    	//获取老师数据作为选择项
-    	this.$http.get(getTeacherDataUrl).then(function(result) {
-      	that.teacherData = result.data.rows;
+    	this.$http.get(getSchoolDataUrl).then(function(result) {
+			console.log(result);
+      		that.schoolData = result.data.rows;
     	}).catch(function(err) {
       		that.$Loading.error();
     	});
@@ -158,14 +138,13 @@ export default {
     	this.id = this.$route.query.id;
 	    if (this.id != 0) { //修改
 			this.BreadcrumbTitle = "修改名校试题";
-	      	this.submitUrl = globel_.serverHost + globel_.configAPI.updataSpecialColumnById.replace(":id", this.id);
+	      	this.submitUrl = globel_.serverHost + globel_.configAPI.updateEliteSchoolById.replace(":id", this.id);
 	      	let that = this,
-	        	getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialColumnDataById.replace(":id", this.id);
+	        	getDataUrl = globel_.serverHost + globel_.configAPI.updateEliteSchoolById.replace(":id", this.id);
 	      	this.$http.get(getDataUrl).then(function(result) {
-			  	that.fileImage = result.data.thumb.replace(globel_.aliHttp + "courseImages/",'').split('?')[0];
+				console.log(result);
 	        	// 数据赋值
 	        	that.$Loading.finish();
-				that.imgUrl = result.data.thumb;
 	        	that.formItem = result.data;
 				that.progressPercent = 100;
 	      	}).catch(function(err) {
@@ -178,7 +157,7 @@ export default {
 	    } else { //新建
 			that.$Loading.finish();
 			this.BreadcrumbTitle = "新建名校试题";
-	      	this.submitUrl = globel_.serverHost + globel_.configAPI.createSpecialColumn;
+	      	this.submitUrl = globel_.serverHost + globel_.configAPI.createEliteSchool;
 	    }
 	}
 }
