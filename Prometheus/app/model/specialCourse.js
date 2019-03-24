@@ -3,7 +3,7 @@
 module.exports = app => {
   const { STRING, INTEGER, DATE } = app.Sequelize;
 
-  const SpecialCourse = app.model.define('specail_course', {
+  const SpecialCourse = app.model.define('special_course', {
     Id: {
       type: INTEGER,
       primaryKey: true,
@@ -12,7 +12,6 @@ module.exports = app => {
     name: STRING(30),
     describe: STRING(255),
     specialColumn: INTEGER,
-    thumb: STRING(30),
     qrCode: STRING(30),
     duration: INTEGER,
     lookingNum:INTEGER,
@@ -23,19 +22,25 @@ module.exports = app => {
 
   SpecialCourse.associate = function() {
     app.model.SpecialCourse.belongsTo(app.model.SpecialColumn, {targetKey: 'Id', foreignKey: 'specialColumn'});
-    app.model.SpecialCourse.hasMany(app.model.Comment,{sourceKey:'Id',foreignKey:'courseId'});
+    app.model.SpecialCourse.hasMany(app.model.Comment,{sourceKey:'Id',foreignKey:'specialCourseId'});
   };
 
-  SpecialCourse.getSpecialCourseByPage = async function({offset = 0, limit = 10}){
-    let resultObj = await this.findAndCountAll({
+  SpecialCourse.getSpecialCourseByPage = async function({offset = 0, limit = 10, specialColumnId = 0}){
+    let condition = {
       offset,
       limit,
+      where:{},
       order: [[ 'created_at', 'desc' ], [ 'id', 'desc' ]],
       include: [{
           model: app.model.SpecialColumn,
           attributes: ['name','Id'],
       }],
-    });
+    };
+
+    if (specialColumnId > 0){
+      condition.where.specialColumn = specialColumnId;
+    }
+    let resultObj = await this.findAndCountAll(condition);
     return resultObj;
   }
 

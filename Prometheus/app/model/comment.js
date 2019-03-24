@@ -10,6 +10,7 @@ module.exports = app => {
       autoIncrement: true,
     },
     userId: INTEGER,
+    category: INTEGER,
     specialCourseId:INTEGER,
     eliteCourseId:INTEGER,
     content: STRING(255),
@@ -23,7 +24,7 @@ module.exports = app => {
     app.model.Comment.belongsTo(app.model.EliteCourse, {targetKey: 'Id', foreignKey: 'eliteCourseId'});
   };
 
-  Comment.getCommentbyPage = async function({offset = 0, limit = 10 , eliteCourseId = 0, specialCourseId =0}){
+  Comment.getCommentbyPage = async function({offset = 0, limit = 10 , category = 0}){
     let condition = {
       offset,
       limit,
@@ -34,22 +35,27 @@ module.exports = app => {
       include:[{
         model:app.model.User,
         attributes: ['username','nickName','avatarUrl'],
-      },{
-        model:app.model.Course,
-        attributes: ['name'],
       }]
     };
 
-    if(eliteCourseId != 0 ){
-      condition.where.eliteCourseId = eliteCourseId;
+    if( category != 0 ){
+      condition.where.category = category;
     }
 
-    if(specialCourseId != 0 ){
-      condition.where.specialCourseId = specialCourseId;
+    if (category == 1){
+      let specialCourseModel = {
+        model:app.model.SpecialCourse,
+        attributes: ['name'],
+      }
+      condition.include.push(specialCourseModel);
     }
-
-    condition
-
+    else if (category == 2){
+      let eliteCourseModel = {
+        model:app.model.EliteCourse,
+        attributes: ['name'],
+      }
+      condition.include.push(eliteCourseModel);
+    }
     return this.findAndCountAll(condition);
   }
 
@@ -95,7 +101,7 @@ module.exports = app => {
       }]
     });
   }
-  
+
   Comment.delCommentById = async function(id){
     const comment = await this.findById(id);
     if (!comment) {

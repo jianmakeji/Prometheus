@@ -36,6 +36,7 @@ class TeacherController extends Controller {
       name: ctx.request.body.name,
       subject: ctx.request.body.subject,
       brief: ctx.request.body.brief,
+      avatar: ctx.request.body.avatar
     };
     try{
       await ctx.service.teacher.update({ id, updates });

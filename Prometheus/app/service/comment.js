@@ -3,12 +3,11 @@
 const Service = require('egg').Service;
 
 class Comment extends Service {
-  async list({ offset = 0, limit = 10 }) {
+  async list({ offset = 0, limit = 10, category = 0 }) {
     return this.ctx.model.Comment.getCommentbyPage({
       offset,
       limit,
-      eliteCourseId,
-      specialCourseId
+      category
     });
   }
 

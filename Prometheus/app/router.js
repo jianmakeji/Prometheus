@@ -34,7 +34,7 @@ module.exports = app => {
   router.resources('manage.exchange', '/api/manage/exchange', managerChecktoken, controller.manage.exchange);
   router.resources('manage.specialColumn', '/api/manage/specialColumn', managerChecktoken, controller.manage.specialColumn);
   router.resources('manage.teacher', '/api/manage/teacher', managerChecktoken, controller.manage.teacher);
-  router.resources('manage.comment', '/api/manage/comment', managerChecktoken, controller.manage.comment);
+  router.resources('manage.comment', '/api/manage/comment', controller.manage.comment);
   router.resources('manage.school', '/api/manage/school', managerChecktoken, controller.manage.school);
 
   //微信小程序数据接口

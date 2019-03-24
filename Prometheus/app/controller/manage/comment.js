@@ -8,6 +8,7 @@ class CommentController extends Controller {
     const query = {
       limit: ctx.helper.parseInt(ctx.query.limit),
       offset: ctx.helper.parseInt(ctx.query.offset),
+      category: ctx.helper.parseInt(ctx.query.category),
     };
     ctx.body = await ctx.service.comment.list(query);
   }

@@ -30,7 +30,9 @@ class Teacher extends Service {
     }
 
     const helper = this.ctx.helper;
-    teacher.avatar = helper.signatureUrl(helper.articleImagePath + teacher.avatar, "undefined");
+    let avatarRules;
+
+    teacher.avatar = helper.signatureUrl(helper.articleImagePath + teacher.avatar, avatarRules);
     return teacher;
   }
 
@@ -43,6 +45,7 @@ class Teacher extends Service {
     if (!teacher) {
       this.ctx.throw(404, 'teacher not found');
     }
+    
     return teacher.update(updates);
   }
 

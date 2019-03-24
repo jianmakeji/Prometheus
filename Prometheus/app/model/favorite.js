@@ -114,7 +114,7 @@ module.exports = app => {
     else if (category == 2){
       condition.where.eliteCourseId = courseId;
     }
-    
+
     await this.destroy(condition);
   }
 

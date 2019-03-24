@@ -3,15 +3,15 @@
 const Service = require('egg').Service;
 
 class SpecialCourse extends Service {
-  async list({ offset = 0, limit = 10, thumbName = 'thumb_600_600' }) {
+  async list({ offset = 0, limit = 10, specialColumnId = 0, thumbName = 'thumb_600_600' }) {
     let resultObj = await this.ctx.model.SpecialCourse.getSpecialCourseByPage({
       offset,
-      limit
+      limit,
+      specialColumnId
     });
 
     const helper = this.ctx.helper;
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = helper.signatureUrl(helper.courseImagePath + element.thumb, thumbName);
       element.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.videoAddress);
       if(element.qrCode){
         element.qrCode = helper.signatureUrl(helper.qrCodePath + element.qrCode);
@@ -30,7 +30,6 @@ class SpecialCourse extends Service {
         this.ctx.throw(404, 'course not found');
       }
       const helper = this.ctx.helper;
-      course.thumb = helper.signatureUrl(helper.courseImagePath + course.thumb, thumbName);
       course.videoAddress = helper.signatureUrl(helper.courseVideoPath + course.videoAddress);
       if(course.qrCode){
         course.qrCode = helper.signatureUrl(helper.qrCodePath + course.qrCode);
@@ -39,14 +38,13 @@ class SpecialCourse extends Service {
       await transaction.commit();
       return course;
     } catch (e) {
-      console.log(e);
       await transaction.rollback();
       return false;
     }
   }
 
   async create(course) {
-    return this.ctx.model.Course.createSpecialCourse(course);
+    return this.ctx.model.SpecialCourse.createSpecialCourse(course);
   }
 
   async update({ id, updates }) {
@@ -72,10 +70,9 @@ class SpecialCourse extends Service {
     try {
       transaction = await this.ctx.model.transaction();
       const course = await this.ctx.model.SpecialCourse.deleteSpecialCourseById(id,transaction);
-      await this.ctx.model.Favorite.delFavoriteByCourseId(course.Id,transaction);
-      const helper =this.ctx.helper;
+      await this.ctx.model.Favorite.delFavoriteByCourseId(course.Id, 1, transaction);
+      const helper = this.ctx.helper;
       let delArray = new Array();
-      delArray.push(helper.courseImagePath + course.thumb);
       delArray.push(helper.courseVideoPath + course.videoAddress);
       if (course.qrCode){
           delArray.push(helper.qrCodePath + course.qrCode);
@@ -84,6 +81,7 @@ class SpecialCourse extends Service {
       await transaction.commit();
       return true;
     } catch (e) {
+      console.log(e);
       await transaction.rollback();
       return false;
     }
@@ -99,7 +97,6 @@ class SpecialCourse extends Service {
     const helper = this.ctx.helper;
 
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = helper.signatureUrl(helper.courseImagePath + element.thumb , thumbName);
       element.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.videoAddress);
       if(element.qrCode){
         element.qrCode = helper.signatureUrl(helper.qrCodePath + element.qrCode);
@@ -116,7 +113,6 @@ class SpecialCourse extends Service {
     const helper = this.ctx.helper;
 
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = helper.signatureUrl(helper.courseImagePath + element.thumb, thumbName);
       element.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.videoAddress);
       if(element.qrCode){
         element.qrCode = helper.signatureUrl(helper.qrCodePath + element.qrCode);
@@ -131,7 +127,6 @@ class SpecialCourse extends Service {
 
     const helper = this.ctx.helper;
     resultObj.rows.forEach((element, index)=>{
-      element.thumb = helper.signatureUrl(helper.courseImagePath + element.thumb, thumbName);
       element.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.videoAddress);
       if(element.qrCode){
         element.qrCode = helper.signatureUrl(helper.qrCodePath + element.qrCode);

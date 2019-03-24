@@ -25,18 +25,21 @@ class SpecialColumn extends Service {
     if (!specialColumn) {
       this.ctx.throw(404, 'specialColumn not found');
     }
+
+    let posterImage;
+
     const helper = this.ctx.helper;
     specialColumn.thumb = helper.signatureUrl(helper.courseImagePath + specialColumn.thumb,  thumbName);
     let briefImages = specialColumn.briefImages.split(',');
     let singImages = '';
     if(briefImages.length > 0){
       briefImages.forEach((element, index)=>{
-          singImages = singImages + helper.signatureUrl(helper.courseImagePath + element, "undefined") + ',';
+          singImages = singImages + helper.signatureUrl(helper.courseImagePath + element, posterImage) + ',';
       })
       specialColumn.briefImages = singImages;
     }
     if (specialColumn.recommend == 1 ){
-       specialColumn.poster = helper.signatureUrl(helper.courseImagePath + specialColumn.poster, "undefined");
+       specialColumn.poster = helper.signatureUrl(helper.courseImagePath + specialColumn.poster, posterImage);
     }
     return specialColumn;
   }

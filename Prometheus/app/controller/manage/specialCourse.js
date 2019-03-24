@@ -10,23 +10,26 @@ class SpecialCourseController extends Controller {
     const query = {
       limit: ctx.helper.parseInt(ctx.query.limit),
       offset: ctx.helper.parseInt(ctx.query.offset),
+      specialColumnId: ctx.helper.parseInt(ctx.query.specialColumnId),
     };
-    ctx.body = await ctx.service.specailCourse.list(query);
+    
+    ctx.body = await ctx.service.specialCourse.list(query);
   }
 
   async show() {
     const ctx = this.ctx;
 
-    ctx.body = await ctx.service.specailCourse.find({id:ctx.helper.parseInt(ctx.params.id)});
+    ctx.body = await ctx.service.specialCourse.find({id:ctx.helper.parseInt(ctx.params.id)});
   }
 
   async create() {
     const ctx = this.ctx;
     try{
-      const course = await ctx.service.specailCourse.create(ctx.request.body);
+      const course = await ctx.service.specialCourse.create(ctx.request.body);
       ctx.body = ctx.helper.success('创建成功!');
     }
     catch(e){
+
       ctx.body = ctx.helper.failure(e.message);
     }
 
@@ -40,12 +43,11 @@ class SpecialCourseController extends Controller {
       describe: ctx.request.body.describe,
       courseType: ctx.request.body.courseType,
       specialColumn: ctx.request.body.specialColumn,
-      thumb: ctx.request.body.thumb,
       videoAddress: ctx.request.body.videoAddress,
       duration:ctx.request.body.duration,
     };
     try{
-      await ctx.service.specailCourse.update({ id, updates });
+      await ctx.service.specialCourse.update({ id, updates });
       ctx.body = ctx.helper.success('更新成功!');
     }
     catch(e){
@@ -57,14 +59,14 @@ class SpecialCourseController extends Controller {
   async destroy() {
     const ctx = this.ctx;
     const id = ctx.helper.parseInt(ctx.params.id);
-    try{
-      await ctx.service.specailCourse.del(id);
+
+    let result = await ctx.service.specialCourse.del(id);
+    if(result){
       ctx.body = ctx.helper.success('删除成功!');
     }
-    catch(e){
-      ctx.body = ctx.helper.failure(e.message);
+    else{
+      ctx.body = ctx.helper.success('删除失败!');
     }
-
   }
 
   async getSpecialCourseBySpecialColumnId(){
@@ -74,7 +76,7 @@ class SpecialCourseController extends Controller {
       offset: ctx.helper.parseInt(ctx.query.offset),
       id: ctx.params.id,
     };
-    ctx.body = await ctx.service.specailCourse.getSpecialCourseBySpecialColumnId(query);
+    ctx.body = await ctx.service.specialCourse.getSpecialCourseBySpecialColumnId(query);
   }
 
   async getSpecialCourseByCondition(){
@@ -85,14 +87,14 @@ class SpecialCourseController extends Controller {
       courseType: ctx.helper.parseInt(ctx.query.courseType),
       specialColumn: ctx.helper.parseInt(ctx.query.specialColumn),
     };
-    ctx.body = await ctx.service.specailCourse.getSpecialCourseByCondition(query);
+    ctx.body = await ctx.service.specialCourse.getSpecialCourseByCondition(query);
   }
 
   async getQRCode() {
     const ctx = this.ctx;
     const id = ctx.query.id;
 
-    const course = ctx.service.specailCourse.findSpecialCourseObjById(id);
+    const course = ctx.service.specialCourse.findSpecialCourseObjById(id);
     if (!course.qrCode) {
 
         const qrFileName = ctx.helper.randomString(10) + '.jpg';
