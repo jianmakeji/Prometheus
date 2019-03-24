@@ -84,7 +84,7 @@ module.exports = app => {
       limit,
       order: [[ 'id', 'asc' ]],
       include: [{
-        model: app.model.CourseType,
+        model: app.model.SpecialColumn,
         attributes: ['name','Id'],
       }],
       where: {

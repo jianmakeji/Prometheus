@@ -17,12 +17,10 @@ module.exports = app => {
   router.get('/api/getSTSSignature/:fileType', managerChecktoken, controller.manage.alioss.getSTSSignature);
   router.get('/api/getUrlSignature', managerChecktoken, controller.manage.alioss.getUrlSignature);
 
-  router.get('/api/manage/specialColumn/getSpecialColumnsByTeacherId/:id', managerChecktoken, controller.manage.specialColumn.getSpecialColumnsByTeacherId);
-
-  router.get('/api/manage/eliteCourse/getEliteCourseByEliteSchoolId/:id', managerChecktoken, controller.manage.eliteCourse.getEliteCourseByEliteSchoolId);
+  router.get('/api/manage/specialColumn/getSpecialColumnsByTeacherId', managerChecktoken, controller.manage.specialColumn.getSpecialColumnsByTeacherId);
+  router.get('/api/manage/eliteCourse/getEliteCourseByEliteSchoolId', managerChecktoken, controller.manage.eliteCourse.getEliteCourseByEliteSchoolId);
   router.get('/api/manage/eliteCourse/getQRCode', managerChecktoken, controller.manage.eliteCourse.getQRCode);
-
-  router.get('/api/manage/specialCourse/getSpecialCourseBySpecialColumnId/:id', managerChecktoken, controller.manage.specialCourse.getSpecialCourseBySpecialColumnId);
+  router.get('/api/manage/specialCourse/getSpecialCourseBySpecialColumnId', managerChecktoken, controller.manage.specialCourse.getSpecialCourseBySpecialColumnId);
   router.get('/api/manage/specialCourse/getSpecialCourseByCondition', managerChecktoken, controller.manage.specialCourse.getSpecialCourseByCondition);
   router.get('/api/manage/specialCourse/getQRCode', managerChecktoken, controller.manage.specialCourse.getQRCode);
 
@@ -34,7 +32,7 @@ module.exports = app => {
   router.resources('manage.exchange', '/api/manage/exchange', managerChecktoken, controller.manage.exchange);
   router.resources('manage.specialColumn', '/api/manage/specialColumn', managerChecktoken, controller.manage.specialColumn);
   router.resources('manage.teacher', '/api/manage/teacher', managerChecktoken, controller.manage.teacher);
-  router.resources('manage.comment', '/api/manage/comment', controller.manage.comment);
+  router.resources('manage.comment', '/api/manage/comment', managerChecktoken, controller.manage.comment);
   router.resources('manage.school', '/api/manage/school', managerChecktoken, controller.manage.school);
 
   //微信小程序数据接口

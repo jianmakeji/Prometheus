@@ -12,7 +12,7 @@ class SpecialCourseController extends Controller {
       offset: ctx.helper.parseInt(ctx.query.offset),
       specialColumnId: ctx.helper.parseInt(ctx.query.specialColumnId),
     };
-    
+
     ctx.body = await ctx.service.specialCourse.list(query);
   }
 
@@ -74,8 +74,9 @@ class SpecialCourseController extends Controller {
     const query = {
       limit: ctx.helper.parseInt(ctx.query.limit),
       offset: ctx.helper.parseInt(ctx.query.offset),
-      id: ctx.params.id,
+      id: ctx.helper.parseInt(ctx.query.id)
     };
+    console.log(query);
     ctx.body = await ctx.service.specialCourse.getSpecialCourseBySpecialColumnId(query);
   }
 

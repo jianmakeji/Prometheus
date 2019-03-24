@@ -71,7 +71,7 @@ class EliteCourseController extends Controller {
     const query = {
       limit: ctx.helper.parseInt(ctx.query.limit),
       offset: ctx.helper.parseInt(ctx.query.offset),
-      id: ctx.params.id,
+      id: ctx.helper.parseInt(ctx.query.id),
     };
     ctx.body = await ctx.service.eliteCourse.getEliteCourseByEliteSchoolId(query);
   }
