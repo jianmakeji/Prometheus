@@ -145,7 +145,6 @@ export default {
 			this.formItem.poster = this.posterImage;
 	      	let that = this;
 	      	this.$Loading.start();
-			console.log(this.formItem);
 	      	if (this.id == 0) { //新建	post
 	        	this.$http.post(this.submitUrl, {
 					recommend:this.formItem.recommend,
@@ -273,7 +272,6 @@ export default {
 	      this.formItem.price = num;
 	    },
 		recommendChange(bool){
-			console.log(bool);
 			if(bool == true){
 				this.formItem.recommend = 1;
 			}else{
@@ -414,22 +412,26 @@ export default {
 				if(result.data.recommend == 1){
 					that.recommend = true;
 					that.posterImgUrl = result.data.poster;
-					that.formItem.poster = result.data.poster.split("courseImages/")[1].split("?")[0];
+					that.posterImage = result.data.poster.split("courseImages/")[1].split("?")[0];
 					that.posterPercent = 100;
 				}else{
 					that.recommend = false;
 				}
 				that.imgUrl = result.data.thumb;
-				that.formItem.thumb = result.data.thumb.split("courseImages/")[1].split("?")[0];
+				that.thumbImage = result.data.thumb.split("courseImages/")[1].split("?")[0];
 				that.progressPercent = 100;
 
-				that.imgBox = result.data.briefImages.split(",");
-				that.imgList = result.data.briefImages.split(",");
-				that.imgList.pop();
-
-				for (let i = 0; i < that.imgBox.length; i++) {
-					that.imgBox[i] = that.imgBox[i].split("courseImages/")[1].split("?")[0];
+				let imgListArr = new Array();
+				let imgBoxArr = new Array();
+				imgListArr = result.data.briefImages.split(",");
+				imgBoxArr = result.data.briefImages.split(",");
+				imgListArr.pop();
+				imgBoxArr.pop();
+				that.imgList = imgListArr;
+				for (let i = 0; i < imgBoxArr.length; i++) {
+					imgBoxArr[i] = imgBoxArr[i].split("courseImages/")[1].split("?")[0];
 				}
+				that.imgBox = imgBoxArr;
 	      	}).catch(function(err) {
 	        	that.$Loading.error();
 	        	that.$Message.error({

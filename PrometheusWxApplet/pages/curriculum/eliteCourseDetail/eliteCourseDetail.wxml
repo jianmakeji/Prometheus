@@ -1,0 +1,86 @@
+<!--名校试题视频-->
+<view>
+   <video class='video' src="{{eliteCourseData.videoAddress}}" autoplay custom-cache="{{false}}" page-gesture="true"></video>
+   <view class='content_view'>
+      <view class='teacher_info'>
+         <text class='title'>{{eliteCourseData.name}}</text>
+         <text class='name'>{{eliteCourseData.teacher.name}}</text>
+         <text class='des'>{{eliteCourseData.teacher.brief}}</text>
+         <text class='learn'>{{eliteCourseData.lookingNum ? eliteCourseData.lookingNum : '0'}}</text>
+         <text class='text'>人在学习</text>
+         <image class='img' src="{{eliteCourseData.teacher.avatar ? eliteCourseData.teacher.avatar : '/images/default_profile.jpg'}}"></image>
+      </view>
+   </view>
+   <view class='other_view'>
+      <i-tabs current="{{currentTab}}" bindchange="handleChange">
+         <block wx:for="{{typeArr}}" wx:for-item="item" wx:for-index="index">
+            <i-tab key="{{index}}" title="{{item.name}}"></i-tab>
+         </block>
+      </i-tabs>
+      <view class='des' wx:if="{{currentTab == '0'}}">{{eliteCourseData.describe}}</view>
+      <image class='collect' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+      <view class='comment_view' wx:if="{{currentTab == '1'}}">
+         <view class='comment_info'>
+            <image class='img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+            <text class='username'>账号信息</text>
+            <text class='like'>123</text>
+            <image class='zan_img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+            <view class='comment'>视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介</view>
+         </view>
+         <view class='comment_info'>
+            <image class='img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+            <text class='username'>账号信息</text>
+            <text class='like'>123</text>
+            <image class='zan_img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+            <view class='comment'>视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介</view>
+         </view>
+         <input class='editComment' placeholder-class="phclass" cursor-spacing="16px" confirm-type='send' placeholder="评论一下" />
+      </view>
+   </view>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <!-- <view class='content_view'>
+      <text class='classType'>{{courseTypeAndSpecial}}</text>
+      <view class='share_collect'>
+         <view class='share'>
+            <image class='iconImg' src='/images/shareIcon.png'></image>
+            <button class='text' open-type='share'>分享</button>
+         </view>
+         <view class='collect' catchtap='collectTap'>
+            <image class='iconImg' src='{{collectFlag ? "/images/collectIcon_h.png" : "/images/collectIcon.png"}}'></image>
+            <button class='text'>{{collectFlag ? "取消收藏" : "收藏"}}</button>
+         </view>
+         <view class='collect' catchtap='commentBtn'>
+            <image class='iconImg' src='/images/comment.png'></image>
+            <button class='text'>评论</button>
+         </view>
+      </view>
+      <i-divider class="divider">视频介绍</i-divider>
+      <text class='courseDes'>{{describe}}</text>
+      <i-divider class="divider">评论</i-divider>
+      <view class='commentView'>
+         <block wx:for="{{commentData}}">
+            <view class='commentHeader'>
+               <i-avatar src="{{item.user.avatarUrl}}" size="small"></i-avatar>
+               <text style='margin-left:30rpx;'>{{item.user.nickName}}</text>
+            </view>
+            <text class='commentContent'>{{item.content}}</text>
+            <i-divider height="2" class="divider"></i-divider>
+         </block>
+      </view>
+      <text>{{tex}}</text>
+      <i-load-more tip="没有更多了" loading="{{ loadMore }}" />
+      <i-modal title="评论" visible="{{ commentModal }}" ok-text="发表" bind:ok="tapOk" bind:cancel="tapCancel">
+         <view>
+            <wxc-input adjust-position value="{{ commentValue }}" bind:input="bindInput" placeholder="请输入评论内容"></wxc-input>
+         </view>
+      </i-modal>
+   </view> -->
+</view>

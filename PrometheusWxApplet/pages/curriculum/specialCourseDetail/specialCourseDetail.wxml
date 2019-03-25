@@ -1,14 +1,14 @@
-<!--pages/curriculum/curriculumDetail/curriculumDetail.wxml-->
+<!--名校试题视频-->
 <view>
-   <video class='video' src="{{videoAddress}}" autoplay custom-cache="{{false}}" page-gesture="true"></video>
+   <video class='video' src="{{specialCourseData.videoAddress}}" autoplay custom-cache="{{false}}" page-gesture="true"></video>
    <view class='content_view'>
       <view class='teacher_info'>
-         <text class='title'>{{courseTypeAndSpecial}}</text>
-         <text class='name'>老师名称</text>
-         <text class='des'>简介</text>
-         <text class='learn'>765</text>
+         <text class='title'>{{specialCourseData.name}}</text>
+         <text class='name'>{{specialTeacherName}}</text>
+         <text class='des'>{{specialTeacherBrief}}</text>
+         <text class='learn'>{{specialCourseData.lookingNum ? specialCourseData.lookingNum : '0'}}</text>
          <text class='text'>人在学习</text>
-         <image class='img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+         <image class='img' src="{{specialTeacherAvatar ? specialTeacherAvatar : '/images/default_profile.jpg'}}"></image>
       </view>
    </view>
    <view class='other_view'>
@@ -17,7 +17,7 @@
             <i-tab key="{{index}}" title="{{item.name}}"></i-tab>
          </block>
       </i-tabs>
-      <view class='des' wx:if="{{currentTab == '0'}}">视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介</view>
+      <view class='des' wx:if="{{currentTab == '0'}}">{{specialCourseData.describe}}</view>
       <image class='collect' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
       <view class='comment_view' wx:if="{{currentTab == '1'}}">
          <view class='comment_info'>

@@ -82,10 +82,10 @@ export default {
             let that = this,
                 getDataUrl = globel_.serverHost+ globel_.configAPI.getSchoolData;
             this.$Loading.start();
-            this.$http.get( getDataUrl ,{
+            this.$http.get( getDataUrl ,{ params:{
                 limit:10,
                 offset:this.offset
-            }).then(function(result){
+            }}).then(function(result){
                 that.$Loading.finish();
                 that.dataList = result.data.rows;
                 that.total = result.data.count;
@@ -111,10 +111,10 @@ export default {
 				if(result.status == 200){
 					that.$Message.success({duration:3,content:globel_.configMessage.deleteSuccess});
                     let getDataUrl = globel_.serverHost + globel_.configAPI.getSchoolData;
-            		that.$http.get( getDataUrl ,{
+            		that.$http.get( getDataUrl ,{ params:{
                         limit:10,
                         offset:this.offset
-                    }).then(function(result){
+                    }}).then(function(result){
             			that.$Loading.finish();
             			that.dataList = result.data.rows;
             			that.total = result.data.count;
@@ -133,10 +133,10 @@ export default {
         let that = this;
 		this.$Loading.start();
 		let getDataUrl = globel_.serverHost + globel_.configAPI.getSchoolData;
-		this.$http.get( getDataUrl ,{
+		this.$http.get( getDataUrl ,{ params:{
             limit:10,
             offset:this.offset
-        }).then(function(result){
+        }}).then(function(result){
 			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;

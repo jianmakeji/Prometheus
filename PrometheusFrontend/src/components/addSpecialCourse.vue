@@ -105,7 +105,7 @@ export default {
 		submitClick(){
             this.formItem.videoAddress = this.fileVideo;
 			let that = this;
-            // console.log(this.formItem);
+            console.log(this.formItem);
 			this.$Loading.start();
 			if(this.id == 0){		//新建	post
 				this.$http.post( this.submitUrl ,{
@@ -115,7 +115,6 @@ export default {
 					videoAddress:this.formItem.videoAddress,
                     duration:this.formItem.duration
 				}).then(function(result){
-                    console.log(result);
 					if(result.status == 200){
 						that.$Loading.finish();
 						that.$Message.success({duration:2,content:globel_.configMessage.operateSuccess});
@@ -135,6 +134,7 @@ export default {
 					videoAddress:this.formItem.videoAddress,
                     duration:this.formItem.duration
 				}).then(function(result){
+                    console.log(result);
 					if(result.status == 200){
 						that.$Loading.finish();
 						that.$Message.success({duration:2,content:globel_.configMessage.operateSuccess});
@@ -278,11 +278,12 @@ export default {
             this.BreadcrumbTitle  = "修改课程";
             this.progressPercent = 100;
             this.videoProgressPercent = 100;
-			this.submitUrl = globel_.serverHost + globel_.configAPI.updataCourseById.replace(":id",this.id);
+			this.submitUrl = globel_.serverHost + globel_.configAPI.getSpecialCourseDataById.replace(":id",this.id);
 			let that = this,
-				getDataUrl = globel_.serverHost + globel_.configAPI.getCourseDataById.replace(":id",this.id);
+				getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialCourseDataById.replace(":id",this.id);
 			this.$Loading.start();
 			this.$http.get( getDataUrl ).then(function(result){
+                console.log(result);
                 that.fileVideo = result.data.videoAddress.replace(globel_.aliHttp + "courseVideos/",'').split('?')[0];
 				// 数据赋值
 				that.$Loading.finish();

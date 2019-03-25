@@ -1,4 +1,5 @@
 // pages/recommend/recommend.js
+const app = getApp();
 Page({
 
    /**
@@ -6,78 +7,72 @@ Page({
     */
    data: {
       currentPage:"1",
-      totalPage:"10",
-      dataList:[
-         "https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640",
-         "https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640",
-         "https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640",
-         "https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640"
-      ]
+      totalPage:"",
+      dataList:[]
    },
    // cardSwiper
    swiperChange(event) {
-      console.log(event)
       let currentPage = event.detail.current;
       this.setData({
          currentPage: currentPage + 1
       })
    },
+   // 点击推荐专题
    catchItem(event){
-      console.log(event)
+      let specialColumnId = event.currentTarget.dataset.specialColumnId;
+      wx.navigateTo({
+         url: app.globalData.pageUrl.specialColumnDetail + "?specialColumnId=" + specialColumnId,
+      })
    },
    /**
     * 生命周期函数--监听页面加载
     */
    onLoad: function (options) {
+      if(wx.getStorageSync("token")){
 
+      }else{
+         wx.redirectTo({
+            url: app.globalData.pageUrl.welcome,
+         })
+      }
    },
-
-   /**
-    * 生命周期函数--监听页面初次渲染完成
-    */
-   onReady: function () {
-
+   onReady(){
+      let that = this;
+      if (wx.getStorageSync("token")) {
+         wx.request({
+            url: app.globalData.serverHost + app.globalData.globalAPI.getRecommendSpecialColumn,
+            header: {
+               "Authorization": wx.getStorageSync("Authorization")
+            },
+            data: { limit: 10 },
+            success(res) {
+               console.log(res);
+               if (res.statusCode == 200) {
+                  that.setData({
+                     dataList: res.data,
+                     totalPage: res.data.length
+                  })
+               } else if (res.statusCode == 409) {
+                  getNewToken(res.data.token, that);
+               }
+            }
+         })
+      } else {
+         wx.redirectTo({
+            url: app.globalData.pageUrl.welcome
+         })
+      }
    },
-
    /**
     * 生命周期函数--监听页面显示
     */
    onShow: function () {
-
-   },
-
-   /**
-    * 生命周期函数--监听页面隐藏
-    */
-   onHide: function () {
-
-   },
-
-   /**
-    * 生命周期函数--监听页面卸载
-    */
-   onUnload: function () {
-
-   },
-
-   /**
-    * 页面相关事件处理函数--监听用户下拉动作
-    */
-   onPullDownRefresh: function () {
-
-   },
-
-   /**
-    * 页面上拉触底事件的处理函数
-    */
-   onReachBottom: function () {
-
-   },
-
-   /**
-    * 用户点击右上角分享
-    */
-   onShareAppMessage: function () {
-
+      
    }
 })
+
+function getNewToken(token, that) {
+   wx.setStorageSync("token", token);
+   wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
+   that.onReady();
+}

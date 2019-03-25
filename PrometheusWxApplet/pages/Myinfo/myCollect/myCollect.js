@@ -25,10 +25,7 @@ Page({
          title: '我的收藏',
       })
    },
-   /**
-    * 生命周期函数--监听页面显示
-    */
-   onShow: function() {
+   onReady(){
       let that = this;
       this.setData({
          userId: wx.getStorageSync("userId"),
@@ -54,11 +51,17 @@ Page({
             }
          })
       }
+   },
+   /**
+    * 生命周期函数--监听页面显示
+    */
+   onShow: function() {
+      
    }
 })
 
 function getNewToken(token, that) {
    wx.setStorageSync("token", token);
    wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
-   that.onShow();
+   that.onReady();
 }

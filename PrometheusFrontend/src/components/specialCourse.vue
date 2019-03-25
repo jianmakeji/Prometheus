@@ -8,7 +8,7 @@
 		<Button icon="md-add" type="primary" @click="newSpecialCourse">新建</Button><br /><br />
 		<Form :model="formItem" label-position="right" :label-width="80" inline style="width:100%;">
 			<FormItem label="专栏">
-	            <Select v-model="formItem.specialColumn" @on-change="specialColumnChange" label-in-value style="width:200px">
+	            <Select v-model="formItem.specialColumnId" @on-change="specialColumnChange" label-in-value style="width:200px">
 					<Option v-for="(item,index) in specialColumnData" :value="item.Id" :key="index">{{item.name}}</Option>
 	            </Select>
 	        </FormItem>
@@ -80,7 +80,7 @@ export default {
                 { title: '专栏', key: 'special_column', align: 'center',
                 	render:(h, params) =>{
                 		return h('div',[
-                            h('p', params.row.special_column ? params.row.special_column.name : this.specialColumnLabel)
+                            h('p', params.row.specialColumn ? params.row.specialColumn : this.specialColumnLabel)
                 		])
                 	}
                 },
@@ -113,7 +113,7 @@ export default {
                 },
                 { title: '二维码预览',key: 'opt', align: 'center', width: 150,
                     render:(h, params) =>{
-                        if (params.row.qrCode == null) {
+                        if (params.row.qrCode == null || params.row.qrCode == "") {
                             return h('p', {
                                 style:{
                                     color:"#ed3f14"
@@ -218,9 +218,13 @@ export default {
 		pageChange(index){
             this.offset  = (index-1)*10;
             let that = this,
-				getDataUrl = globel_.serverHost + globel_.configAPI.getCourseByCondition;
+				getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialCourseData;
 			this.$Loading.start();
-			this.$http.get( getDataUrl ).then(function(result){
+			this.$http.get( getDataUrl ,{params:{
+                limit:10,
+                offset:that.offset,
+                specialColumnId:that.specialColumnId
+            }}).then(function(result){
 				that.$Loading.finish();
 				that.dataList = result.data.rows;
 				that.total = result.data.count;
@@ -265,8 +269,12 @@ export default {
 					that.$Message.success({
                         duration:2,content:globel_.configMessage.createCodeSuccess,
                         onClose(){
-                            let getNexDataUrl = globel_.serverHost+ globel_.configAPI.getCourseByCondition;
-                    		that.$http.get( getNexDataUrl ).then(function(result){
+                            let getNexDataUrl = globel_.serverHost+ globel_.configAPI.getSpecialCourseData;
+                    		that.$http.get( getNexDataUrl ,{params:{
+                                limit:10,
+                                offset:that.offset,
+                                specialColumnId:that.specialColumnId
+                            }}).then(function(result){
                     			that.$Loading.finish();
                                 that.dataList = [];
                     			that.dataList = result.data.rows;
@@ -285,13 +293,18 @@ export default {
 		},
 		okTap(){
 			let that = this,
-				deleteUrl = globel_.serverHost + globel_.configAPI.deleteCourseById.replace(":id",this.dataList[this.index].Id);
+				deleteUrl = globel_.serverHost + globel_.configAPI.deleteSpecialCourseById.replace(":id",this.dataList[this.index].Id);
 			this.$Loading.start();
 			this.$http.delete(deleteUrl).then(function(result){
+                console.log(result);
 				if(result.status == 200){
 					that.$Message.success({duration:3,content:globel_.configMessage.deleteSuccess});
-					let getDataUrl = globel_.serverHost + globel_.configAPI.getCourseData + that.offset;
-					that.$http.get( getDataUrl ).then(function(result){
+					let getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialCourseData;
+					that.$http.get( getDataUrl,{params:{
+                        limit:10,
+                        offset:that.offset,
+                        specialColumnId:that.specialColumnId
+                    }}).then(function(result){
 						that.$Loading.finish();
 						that.dataList = result.data.rows;
 						that.total = result.data.count;
@@ -309,9 +322,13 @@ export default {
             let value = option.value;
 			this.specialColumnId = value;
 			let that = this,
-				getDataUrl = globel_.serverHost+ globel_.configAPI.getCourseByCondition;
+				getDataUrl = globel_.serverHost+ globel_.configAPI.getSpecialCourseData;
 			this.$Loading.start();
-			this.$http.get( getDataUrl ).then(function(result){
+			this.$http.get( getDataUrl ,{params:{
+                limit:10,
+                offset:that.offset,
+                specialColumnId:that.specialColumnId
+            }}).then(function(result){
 				that.$Loading.finish();
 				that.dataList = result.data.rows;
 				that.total = result.data.count;
@@ -338,9 +355,9 @@ export default {
 		let getDataUrl = globel_.serverHost+ globel_.configAPI.getSpecialCourseData;
 		this.$http.get( getDataUrl ,{params:{
             limit:10,
-            offset:this.offset
+            offset:this.offset,
+            specialColumnId:this.specialColumnId
         }}).then(function(result){
-            console.log("---",result);
 			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;

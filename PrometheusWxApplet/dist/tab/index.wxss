@@ -21,7 +21,7 @@
    position: absolute;
    bottom: 0;
    left: 0;
-   background: #2f54eb;
+   /* background: #2f54eb; */
    background:linear-gradient(to right, #5e7ef7, #9254de) !important;
 
 }

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // import login from '@/components/login'
+import school from '@/components/school'
 import specialColumn from '@/components/specialColumn'
 import addSpecialColumn from '@/components/addSpecialColumn'
 import specialCourse from '@/components/specialCourse'
@@ -11,7 +12,6 @@ import teacherDetail from '@/components/teacherDetail'
 import addTeacher from '@/components/addTeacher'
 import exchange from '@/components/exchange'
 import comment from '@/components/comment'
-import school from '@/components/school'
 import addSchool from '@/components/addSchool'
 import eliteSchool from '@/components/eliteSchool'
 import addEliteSchool from '@/components/addEliteSchool'
@@ -25,8 +25,12 @@ export default new Router({
   	routes: [{
             path:"/",
             name: '',
-	    	component: specialColumn
+	    	component: school
         },{
+	    	path: '/school',
+	    	name: 'school',
+	    	component: school
+	    },{
 	    	path: '/specialColumn',
 	    	name: 'specialColumn',
 	    	component: specialColumn
@@ -66,10 +70,6 @@ export default new Router({
 	    	path: '/comment',
 	    	name: 'comment',
 	    	component: comment
-	    },{
-	    	path: '/school',
-	    	name: 'school',
-	    	component: school
 	    },{
 	    	path: '/addSchool',
 	    	name: 'addSchool',

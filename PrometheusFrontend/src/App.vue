@@ -32,7 +32,7 @@
                       	</MenuItem>
                       	<MenuItem name="3">
                           	<Icon type="ios-videocam" />
-                          	<span>视频管理</span>
+                          	<span>专题突破视频管理</span>
                       	</MenuItem>
                         <MenuItem name="4">
                           	<Icon type="ios-videocam" />
@@ -158,7 +158,8 @@ export default {
                     that.$Loading.finish();
                     that.loginModal = false;
                     that.$http.defaults.headers.common['Authorization'] = result.data.token;
-            		that.$router.push({name:"courseType"});
+                    // that.$http.defaults.withCredentials = true;
+            		that.$router.push({name:"school"});
 
                     that.mHeight = document.documentElement.clientHeight - 110 +"px";
                 }else{
@@ -216,7 +217,7 @@ export default {
 .menu-item span{
     display: inline-block;
     overflow: hidden;
-    width: 90px;
+    width: 150px;
     text-overflow: ellipsis;
     white-space: nowrap;
     vertical-align: bottom;

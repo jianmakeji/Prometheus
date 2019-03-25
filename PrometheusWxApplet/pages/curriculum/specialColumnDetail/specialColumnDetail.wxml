@@ -1,0 +1,37 @@
+<!--专题详情-->
+<view>
+   <image class='special_img' src='{{specialColumnData.thumb}}'></image>
+   <view class='teacher_info'>
+      <image class='img' src='{{specialColumnData.teacher.avatar}}'></image>
+      <text class='name'>{{specialColumnData.teacher.name}}</text>
+      <text class='des'>{{specialColumnData.teacher.brief}}</text>
+      <image class='collect_icon' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+      <text class='collect_text'>收藏</text>
+      <image class='share_icon' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+      <text class='share_text'>分享</text>
+      <text class='learn'>123</text>
+      <text class='text'>人在学习</text>
+   </view>
+   <view class='special_info'>
+      <i-tabs current="{{currentTab}}" bindchange="handleChange">
+         <block wx:for="{{typeArr}}" wx:for-item="item" wx:for-index="index">
+            <i-tab key="{{index}}" title="{{item.name}}"></i-tab>
+         </block>
+      </i-tabs>
+      <image class='collect' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+      <view class='des_imgs' wx:if="{{currentTab == 0}}">
+         <block wx:for="{{briefData}}" wx:for-item="item">
+            <image class='des_img' src='{{item}}'></image>
+         </block>
+      </view>
+      <view class='special_catalog' wx:if="{{currentTab == 1}}">
+         <block wx:for="{{specialCourseData}}" wx:for-item="item" wx:for-index="index">
+            <view class='catalog' data-special-course-id="{{item.Id}}" data-special-teacher-name="{{specialColumnData.teacher.name}}" data-special-teacher-avatar="{{specialColumnData.teacher.avatar}}" data-special-teacher-brief="{{specialColumnData.teacher.brief}}" catchtap='tapSpecialCourse'>
+               <view class='num'>{{index}}</view> 
+               <view class='title'>{{item.name}}</view>
+            </view>
+         </block>
+         <i-load-more tip="没有更多了" wx:if="{{specialCourseData.length == 0}}" loading="{{ loadMore }}" />
+      </view>
+   </view>
+</view>

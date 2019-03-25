@@ -3,6 +3,7 @@
 	// const serverHost = "http://prometheus.design-engine.org";
 	// const serverHost = "https://bestpro.vip";
 	const serverHost = "http://192.168.3.252:7001";
+	// const serverHost = "http://localhost:8080";
 
 	const aliHttp = "http://jm-prometheus.oss-cn-hangzhou.aliyuncs.com/";
 	// const aliHttp = "https://jm-prometheus.oss-cn-hangzhou.aliyuncs.com/";
@@ -48,13 +49,6 @@
 		updateEliteCourseById:"/api/manage/eliteCourse/:id",
 		deleteEliteCourseById:"/api/manage/eliteCourse/:id",
 
-		//课程类别增删改查
-		createCourseType:"/api/manage/courseType",
-		deleteCourseTypeById:"/api/manage/courseType/:id",
-		updataCourseTypeById:"/api/manage/courseType/:id",
-		getCourseTypeData:"/api/manage/courseType?limit=10&offset=",
-		getCourseTypeDataById:"/api/manage/courseType/:id",
-
 		//课程专栏增删改查
 		createSpecialColumn:"/api/manage/specialColumn",
 		deleteSpecialColumnById:"/api/manage/specialColumn/:id",
@@ -68,16 +62,9 @@
 		updataSpecialCourseById:"/api/manage/specialCourse/:id",
 		getSpecialCourseData:"/api/manage/specialCourse",
 		getSpecialCourseDataById:"/api/manage/specialCourse/:id",
-		getSpecialCourseDataBySpecialColumn:"/api/manage/specialCourse/getCourseBySpecialColumnId/:id?limit=10000&offset=0",
+		getSpecialCourseDataBySpecialColumnId:"/api/manage/specialCourse/getSpecialCourseBySpecialColumnId",
 		getSpecialCourseByCondition:"/api/manage/specialCourse/getCourseByCondition",
 		getQRCode:"/api/manage/specialCourse/getQRCode/:id",
-
-		//好文增删改查
-		createArticle:"/api/manage/article",
-		deleteArticleById:"/api/manage/article/:id",
-		updataArticleById:"/api/manage/article/:id",
-		getArticleData:"/api/manage/article?limit=10&offset=",
-		getArticleDataById:"/api/manage/article/:id",
 
 		//老师增删改查
 		createTeacher:"/api/manage/teacher",
@@ -86,10 +73,10 @@
 		getTeacherData:"/api/manage/teacher",
 		getTeacherDataById:"/api/manage/teacher/:id",
 
-		getUser:"/api/manage/users?limit=10&offset=",
+		getUser:"/api/manage/users",
 		//评论
 		deleteCommentById:"/api/manage/comment/:id",
-		getCommentData:"/api/manage/comment?limit=10&offset="
+		getCommentData:"/api/manage/comment"
 	};
 	export default{
 		aliHttp,			//阿里云文件存储

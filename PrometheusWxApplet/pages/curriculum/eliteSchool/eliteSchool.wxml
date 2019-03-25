@@ -1,0 +1,20 @@
+<!--pages/curriculum/schoolDetail/schoolDetail.wxmlomo-->
+<i-tabs current="{{currentTab}}" bindchange="handleChange" scroll fixed>
+   <block wx:for="{{gradeList}}" wx:for-item="item" wx:for-index="index">
+      <i-tab key="{{index}}" title="{{item.title}}"></i-tab>
+   </block>
+</i-tabs>
+<view class='course_btns'>
+   <block wx:for="{{subjectList}}" wx:for-item="item" wx:for-index="index">
+      <button class="{{tabIndex == index ? 'active' : 'unActive'}}" id="{{index}}" data-id="{{item.id}}" bindtap="subjectChange">{{item.title}}</button>
+   </block>
+</view>
+<view class='testpaper_list'>
+   <block wx:for="{{eliteSchoolData}}" wx:for-item="item">
+      <view class='testpaper' data-elite-school-id="{{item.Id}}" catchtap='catchEliteSchool'>
+         <image class='triangle'></image>
+         <text class='title'>{{item.name}}</text>
+      </view>
+   </block>
+   <i-load-more tip="没有更多了" wx:if="{{eliteSchoolData.length == 0}}" loading="{{ loadMore }}" />
+</view>
