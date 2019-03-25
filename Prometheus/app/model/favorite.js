@@ -44,10 +44,13 @@ module.exports = app => {
         ['created_at', 'desc']
       ],
       where: {
-        userId: userId,
         category: category,
       }
     };
+
+    if(userId != 0){
+      condition.where.userId = userId;
+    }
 
     if (category == 1) {
       condition.include = [{

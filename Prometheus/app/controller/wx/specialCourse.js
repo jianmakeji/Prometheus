@@ -34,7 +34,6 @@ class SpecialCourseController extends Controller {
     const query = {
       limit: ctx.helper.parseInt(ctx.query.limit),
       offset: ctx.helper.parseInt(ctx.query.offset),
-      courseType: ctx.helper.parseInt(ctx.query.courseType),
       specialColumn: ctx.helper.parseInt(ctx.query.specialColumn),
       thumbName:ctx.query.thumbName,
     };

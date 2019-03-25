@@ -6,15 +6,18 @@ class Favorite extends Service {
   async list({ offset = 0, limit = 10, category = 1, userId = 0, thumbName = 'thumb_600_600' }) {
 
     const favData = await this.ctx.model.Favorite.getFavoriteByPage({offset, limit, category, userId});
+
     const helper = this.ctx.helper;
     if(category == 1){
+
       favData.rows.forEach((element, index)=>{
-        element.specialCourse.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.specialCourse.videoAddress);
+        element.special_course.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.special_course.videoAddress);
       });
     }
     else{
       favData.rows.forEach((element, index)=>{
-        element.eliteCourse.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.eliteCourse.videoAddress);
+        console.log(element.eliteCourse);
+        element.elite_course.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.elite_course.videoAddress);
       });
     }
 
