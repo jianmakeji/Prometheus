@@ -36,31 +36,57 @@ module.exports = app => {
   router.resources('manage.school', '/api/manage/school', managerChecktoken, controller.manage.school);
 
   //微信小程序数据接口
-  router.get('/api/wx/specialColumn/getSpecialColumnsByTeacherId/:id', wxChecktoken, controller.wx.specialColumn.getSpecialColumnsByTeacherId);
-  router.get('/api/wx/specialColumn/getRecommendSpecialColumn', wxChecktoken, controller.wx.specialColumn.getRecommendSpecialColumn);
-  router.get('/api/wx/comment/getCommentByEliteCourseId', wxChecktoken, controller.wx.comment.getCommentByEliteCourseId);
-  router.get('/api/wx/comment/getCommentBySpecialCourseId', wxChecktoken, controller.wx.comment.getCommentBySpecialCourseId);
-  router.get('/api/wx/eliteCourse/searchByKeywords', wxChecktoken, controller.wx.eliteCourse.searchByKeywords);
-  router.get('/api/wx/specialCourse/searchByKeywords', wxChecktoken, controller.wx.specialCourse.searchByKeywords);
-  router.get('/api/wx/favorite/checkIsFavite', wxChecktoken, controller.wx.favorite.checkIsFavite);
-  router.get('/api/wx/favorite/deleteFavorite', wxChecktoken, controller.wx.favorite.deleteFavorite);
+  // router.get('/api/wx/specialColumn/getSpecialColumnsByTeacherId/:id', wxChecktoken, controller.wx.specialColumn.getSpecialColumnsByTeacherId);
+  // router.get('/api/wx/specialColumn/getRecommendSpecialColumn', wxChecktoken, controller.wx.specialColumn.getRecommendSpecialColumn);
+  // router.get('/api/wx/comment/getCommentByEliteCourseId', wxChecktoken, controller.wx.comment.getCommentByEliteCourseId);
+  // router.get('/api/wx/comment/getCommentBySpecialCourseId', wxChecktoken, controller.wx.comment.getCommentBySpecialCourseId);
+  // router.get('/api/wx/eliteCourse/searchByKeywords', wxChecktoken, controller.wx.eliteCourse.searchByKeywords);
+  // router.get('/api/wx/specialCourse/searchByKeywords', wxChecktoken, controller.wx.specialCourse.searchByKeywords);
+  // router.get('/api/wx/favorite/checkIsFavite', wxChecktoken, controller.wx.favorite.checkIsFavite);
+  // router.get('/api/wx/favorite/deleteFavorite', wxChecktoken, controller.wx.favorite.deleteFavorite);
+  // router.get('/api/wx/user/getWxCode', controller.wx.user.getWxCode);
+  //
+  // router.get('/api/wx/eliteCourse/getEliteCourseByEliteSchoolId/:id', wxChecktoken, controller.wx.eliteCourse.getEliteCourseByEliteSchoolId);
+  // router.get('/api/wx/specialCourse/getSpecialCourseBySpecialColumnId/:id', wxChecktoken, controller.wx.specialCourse.getSpecialCourseBySpecialColumnId);
+  // router.get('/api/wx/specialCourse/getSpecialCourseByCondition/:id', wxChecktoken, controller.wx.specialCourse.getSpecialCourseByCondition);
+  // router.get('/api/wx/specialCourse/searchByKeywords/:id', wxChecktoken, controller.wx.specialCourse.searchByKeywords);
+  //
+  // router.resources('wx.users', '/api/wx/users', controller.wx.user);
+  // router.resources('wx.exchange', '/api/wx/exchange', wxChecktoken, controller.wx.exchange);
+  // router.resources('wx.specialColumn', '/api/wx/specialColumn', wxChecktoken, controller.wx.specialColumn);
+  // router.resources('wx.comment', '/api/wx/comment', wxChecktoken, controller.wx.comment);
+  // router.resources('wx.favorite', '/api/wx/favorite', wxChecktoken, controller.wx.favorite);
+  // router.resources('wx.school', '/api/wx/school', wxChecktoken, controller.wx.school);
+  // router.resources('wx.eliteSchool', '/api/wx/eliteSchool', wxChecktoken, controller.wx.eliteSchool);
+  // router.resources('wx.eliteCourse', '/api/wx/eliteCourse', wxChecktoken, controller.wx.eliteCourse);
+  // router.resources('wx.specialCourse', '/api/wx/specialCourse', wxChecktoken, controller.wx.specialCourse);
+  // router.resources('wx.eliteCourse', '/api/wx/eliteCourse', wxChecktoken, controller.wx.eliteCourse);
+
+  router.get('/api/wx/specialColumn/getSpecialColumnsByTeacherId', controller.wx.specialColumn.getSpecialColumnsByTeacherId);
+  router.get('/api/wx/specialColumn/getRecommendSpecialColumn', controller.wx.specialColumn.getRecommendSpecialColumn);
+  router.get('/api/wx/comment/getCommentByEliteCourseId', controller.wx.comment.getCommentByEliteCourseId);
+  router.get('/api/wx/comment/getCommentBySpecialCourseId', controller.wx.comment.getCommentBySpecialCourseId);
+  router.get('/api/wx/eliteCourse/searchByKeywords', controller.wx.eliteCourse.searchByKeywords);
+  router.get('/api/wx/specialCourse/searchByKeywords', controller.wx.specialCourse.searchByKeywords);
+  router.get('/api/wx/favorite/checkIsFavite', controller.wx.favorite.checkIsFavite);
+  router.get('/api/wx/favorite/deleteFavorite',controller.wx.favorite.deleteFavorite);
   router.get('/api/wx/user/getWxCode', controller.wx.user.getWxCode);
 
-  router.get('/api/wx/eliteCourse/getEliteCourseByEliteSchoolId/:id', wxChecktoken, controller.wx.eliteCourse.getEliteCourseByEliteSchoolId);
-  router.get('/api/wx/specialCourse/getSpecialCourseBySpecialColumnId/:id', wxChecktoken, controller.wx.specialCourse.getSpecialCourseBySpecialColumnId);
-  router.get('/api/wx/specialCourse/getSpecialCourseByCondition/:id', wxChecktoken, controller.wx.specialCourse.getSpecialCourseByCondition);
-  router.get('/api/wx/specialCourse/searchByKeywords/:id', wxChecktoken, controller.wx.specialCourse.searchByKeywords);
+  router.get('/api/wx/eliteCourse/getEliteCourseByEliteSchoolId', controller.wx.eliteCourse.getEliteCourseByEliteSchoolId);
+  router.get('/api/wx/specialCourse/getSpecialCourseBySpecialColumnId', controller.wx.specialCourse.getSpecialCourseBySpecialColumnId);
+  router.get('/api/wx/specialCourse/getSpecialCourseByCondition', controller.wx.specialCourse.getSpecialCourseByCondition);
+  router.get('/api/wx/specialCourse/searchByKeywords', controller.wx.specialCourse.searchByKeywords);
 
   router.resources('wx.users', '/api/wx/users', controller.wx.user);
-  router.resources('wx.exchange', '/api/wx/exchange', wxChecktoken, controller.wx.exchange);
-  router.resources('wx.specialColumn', '/api/wx/specialColumn', wxChecktoken, controller.wx.specialColumn);
-  router.resources('wx.comment', '/api/wx/comment', wxChecktoken, controller.wx.comment);
-  router.resources('wx.favorite', '/api/wx/favorite', wxChecktoken, controller.wx.favorite);
-  router.resources('wx.school', '/api/wx/school', wxChecktoken, controller.wx.school);
-  router.resources('wx.eliteSchool', '/api/wx/eliteSchool', wxChecktoken, controller.wx.eliteSchool);
-  router.resources('wx.eliteCourse', '/api/wx/eliteCourse', wxChecktoken, controller.wx.eliteCourse);
-  router.resources('wx.specialCourse', '/api/wx/specialCourse', wxChecktoken, controller.wx.specialCourse);
-  router.resources('wx.eliteCourse', '/api/wx/eliteCourse', wxChecktoken, controller.wx.eliteCourse);
+  router.resources('wx.exchange', '/api/wx/exchange', controller.wx.exchange);
+  router.resources('wx.specialColumn', '/api/wx/specialColumn', controller.wx.specialColumn);
+  router.resources('wx.comment', '/api/wx/comment', controller.wx.comment);
+  router.resources('wx.favorite', '/api/wx/favorite', controller.wx.favorite);
+  router.resources('wx.school', '/api/wx/school', controller.wx.school);
+  router.resources('wx.eliteSchool', '/api/wx/eliteSchool', controller.wx.eliteSchool);
+  router.resources('wx.eliteCourse', '/api/wx/eliteCourse', controller.wx.eliteCourse);
+  router.resources('wx.specialCourse', '/api/wx/specialCourse', controller.wx.specialCourse);
+  router.resources('wx.eliteCourse', '/api/wx/eliteCourse', controller.wx.eliteCourse);
 
   //网站接口
   /*

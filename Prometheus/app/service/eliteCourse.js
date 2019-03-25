@@ -27,15 +27,18 @@ class EliteCourse extends Service {
     let transaction;
     try {
       transaction = await this.ctx.model.transaction();
+
       const eliteCourse = await this.ctx.model.EliteCourse.getEliteCourseById(id,transaction);
       if (!eliteCourse) {
         this.ctx.throw(404, 'eliteCourse not found');
       }
+
       const helper = this.ctx.helper;
       eliteCourse.videoAddress = helper.signatureUrl(helper.courseVideoPath + eliteCourse.videoAddress);
       if(eliteCourse.qrCode){
         eliteCourse.qrCode = helper.signatureUrl(helper.qrCodePath + eliteCourse.qrCode);
       }
+      eliteCourse.teacher.avatar = helper.signatureUrl(helper.articleImagePath + eliteCourse.teacher.avatar);
       await this.ctx.model.EliteCourse.addLookingNum(id,transaction);
       await transaction.commit();
       return eliteCourse;

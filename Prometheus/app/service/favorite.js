@@ -9,7 +9,6 @@ class Favorite extends Service {
     const helper = this.ctx.helper;
     if(category == 1){
       favData.rows.forEach((element, index)=>{
-        element.specialCourse.thumb = helper.signatureUrl(helper.courseImagePath + element.specialCourse.thumb, thumbName);
         element.specialCourse.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.specialCourse.videoAddress);
       });
     }

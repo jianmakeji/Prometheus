@@ -62,7 +62,7 @@ module.exports = app => {
     const specialColumn = await this.findById(id,{
       include: [{
           model: app.model.Teacher,
-          attributes: ['name','subject','brief'],
+          attributes: ['name','subject','brief','avatar'],
           as: 'teacher',
       }],
     });
@@ -82,7 +82,7 @@ module.exports = app => {
   }
 
   SpecialColumn.getRecommendSpecialColumn = async function(limit){
-    await this.findAll({
+    return await this.findAll({
       limit,
       order: [['created_at','desc']],
       where:{

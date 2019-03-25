@@ -30,6 +30,8 @@ class SpecialColumn extends Service {
 
     const helper = this.ctx.helper;
     specialColumn.thumb = helper.signatureUrl(helper.courseImagePath + specialColumn.thumb,  thumbName);
+    specialColumn.teacher.avatar = helper.signatureUrl(helper.articleImagePath + specialColumn.teacher.avatar);
+
     let briefImages = specialColumn.briefImages.split(',');
     let singImages = '';
     if(briefImages.length > 0){
@@ -86,7 +88,7 @@ class SpecialColumn extends Service {
     const helper = this.ctx.helper;
 
     resultObj.forEach((element, index)=>{
-      element.poster = helper.signatureUrl(helper.courseImagePath + element.thumb, thumbName);
+      element.poster = helper.signatureUrl(helper.courseImagePath + element.poster, thumbName);
     });
 
     return resultObj;

@@ -34,6 +34,7 @@ class SpecialCourse extends Service {
       if(course.qrCode){
         course.qrCode = helper.signatureUrl(helper.qrCodePath + course.qrCode);
       }
+    
       await this.ctx.model.SpecialCourse.addLookingNum(id,transaction);
       await transaction.commit();
       return course;

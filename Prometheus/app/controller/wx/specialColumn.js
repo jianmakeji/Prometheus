@@ -15,7 +15,12 @@ class SpecialColumnController extends Controller {
 
   async show() {
     const ctx = this.ctx;
-    ctx.body = await ctx.service.specialColumn.find({id:ctx.helper.parseInt(ctx.params.id),thumbName:ctx.query.thumbName});
+    try{
+      ctx.body = await ctx.service.specialColumn.find({id:ctx.helper.parseInt(ctx.params.id),thumbName:ctx.query.thumbName});
+    }
+    catch(e){
+      ctx.body = ctx.helper.failure('未找到对应ID的值!');
+    }
   }
 
   async getSpecialColumnsByTeacherId(){
@@ -23,7 +28,7 @@ class SpecialColumnController extends Controller {
     const query = {
       limit: ctx.helper.parseInt(ctx.query.limit),
       offset: ctx.helper.parseInt(ctx.query.offset),
-      id: ctx.params.id,
+      id: ctx.helper.parseInt(ctx.query.id),
       thumbName:ctx.query.thumbName,
     };
     ctx.body = await ctx.service.specialColumn.getSpecialColumnsByTeacherId(query);

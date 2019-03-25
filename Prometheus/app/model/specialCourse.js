@@ -130,9 +130,6 @@ module.exports = app => {
       include: [{
           model: app.model.SpecialColumn,
           attributes: ['name','Id'],
-      },{
-        model: app.model.CourseType,
-        attributes: ['name','Id'],
       }],
     });
     return resultObj;
