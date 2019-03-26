@@ -49,7 +49,7 @@ class EliteCourseController extends Controller {
       keyword:ctx.query.keyword,
       thumbName:ctx.query.thumbName,
     };
-    ctx.body = await ctx.service.specialCourse.searchByKeywords(query);
+    ctx.body = await ctx.service.eliteCourse.searchByKeywords(query);
   }
 }
 

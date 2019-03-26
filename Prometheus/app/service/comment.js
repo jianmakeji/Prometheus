@@ -21,11 +21,11 @@ class Comment extends Service {
   }
 
   async getCommentByEliteCourseId({ offset = 0, limit = 10, eliteCourseId = 0}){
-    return this.ctx.model.Comment.getCommentByCourseId({offset,limit,eliteCourseId});
+    return this.ctx.model.Comment.getCommentByEliteCourseId({offset,limit,eliteCourseId});
   }
 
   async getCommentBySpecialCourseId({ offset = 0, limit = 10, specialCourseId = 0}){
-    return this.ctx.model.Comment.getCommentByCourseId({offset,limit,specialCourseId});
+    return this.ctx.model.Comment.getCommentBySpecialCourseId({offset,limit,specialCourseId});
   }
 
   async del(id) {

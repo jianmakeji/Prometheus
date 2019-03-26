@@ -60,9 +60,9 @@ class FavoriteController extends Controller {
       specialCourseId: ctx.query.specialCourseId,
       eliteCourseId: ctx.query.eliteCourseId
     };
-    const favObj = await ctx.service.favorite.list(favorite);
+    const favObj = await ctx.service.favorite.findFavByCategory(favorite);
 
-    if (Object.keys(favObj).length > 0) {
+    if (Object.keys(favObj).length  > 0) {
       ctx.body = ctx.helper.success('已收藏');
     }
     else{

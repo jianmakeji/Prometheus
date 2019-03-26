@@ -75,6 +75,9 @@ module.exports = app => {
     } else if (favorite.category == 2) {
       condition.eliteCourseId = favorite.eliteCourseId;
     }
+    
+    console.log(condition);
+
     const favoriteObj = await this.findAll({
       where: condition,
     });

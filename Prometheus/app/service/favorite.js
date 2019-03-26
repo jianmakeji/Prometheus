@@ -16,7 +16,6 @@ class Favorite extends Service {
     }
     else{
       favData.rows.forEach((element, index)=>{
-        console.log(element.eliteCourse);
         element.elite_course.videoAddress = helper.signatureUrl(helper.courseVideoPath + element.elite_course.videoAddress);
       });
     }
