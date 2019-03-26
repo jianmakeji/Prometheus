@@ -23,10 +23,9 @@ Page({
       });
    },
    tapSpecialCourse(event){
-      console.log(event.currentTarget.dataset)
       let dataset = event.currentTarget.dataset;
       wx.navigateTo({
-         url: app.globalData.pageUrl.specialCourseDetail + "?specialCourseId=" + dataset.specialCourseId + "&specialTeacherAvatar=" + escape(dataset.specialTeacherAvatar) + "&specialTeacherBrief=" + dataset.specialTeacherBrief + "&specialTeacherName=" + dataset.specialTeacherName,
+         url: app.globalData.pageUrl.specialCourseDetail + "?specialCourseId=" + dataset.specialCourseId
       })
    },
    /**

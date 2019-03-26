@@ -7,6 +7,7 @@ Page({
          { Id: 1, name: "名校试题" },
          { Id: 2, name:"专题突破"}
       ],
+      offset:0,
       schoolData: [],         //名校数据
       specialColumnsData:[],  //专题突破数据
    },
@@ -38,7 +39,8 @@ Page({
          wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.getSchoolData,
             data: {
-               limit: 100
+               limit: 100,
+               offset:0
             },
             header: {
                "Authorization": wx.getStorageSync("Authorization")
@@ -58,7 +60,7 @@ Page({
             url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnData,
             data: {
                limit: 10,
-               offset: 0
+               offset: that.data.offset
             },
             header: {
                "Authorization": wx.getStorageSync("Authorization")
@@ -80,6 +82,92 @@ Page({
       }
    },
    onShow: function() {
+      
+   },
+   onPullDownRefresh(){
+      let that = this;
+      this.setData({
+         offset:0
+      })
+      // 获取名校试题数据
+      wx.request({
+         url: app.globalData.serverHost + app.globalData.globalAPI.getSchoolData,
+         data: {
+            limit: 100,
+            offset:0
+         },
+         header: {
+            "Authorization": wx.getStorageSync("Authorization")
+         },
+         success(res) {
+            if (res.statusCode == 200) {
+               wx.stopPullDownRefresh();
+               that.setData({
+                  schoolData: res.data.rows
+               })
+            } else if (res.statusCode == 409) {
+               getNewToken(res.data.token, that);
+            }
+         }
+      });
+      // 获取专题突破数据
+      wx.request({
+         url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnData,
+         data: {
+            limit: 10,
+            offset: 0
+         },
+         header: {
+            "Authorization": wx.getStorageSync("Authorization")
+         },
+         success(res) {
+            if (res.statusCode == 200) {
+               wx.stopPullDownRefresh();
+               that.setData({
+                  specialColumnsData: res.data.rows
+               })
+            } else if (res.statusCode == 409) {
+               getNewToken(res.data.token, that);
+            }
+         }
+      })
+   },
+   onReachBottom(){
+      let that = this;
+      if (this.data.specialColumnsData.length < this.data.offset){
+         this.setData({
+            offset: this.data.offset + 10
+         })
+         wx.showLoading({
+            title: '玩命加载中',
+         })
+         // 获取专题突破数据
+         wx.request({
+            url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnData,
+            data: {
+               limit: 10,
+               offset: this.data.offset
+            },
+            header: {
+               "Authorization": wx.getStorageSync("Authorization")
+            },
+            success(res) {
+               if (res.statusCode == 200) {
+                  wx.hideLoading();
+                  that.setData({
+                     specialColumnsData: that.data.specialColumnsData.concat(res.data.rows)
+                  })
+               } else if (res.statusCode == 409) {
+                  getNewToken(res.data.token, that);
+               }
+            }
+         })
+      }else{
+         wx.showToast({
+            title: '无其他数据',
+            icon:"none"
+         })
+      }
       
    },
    /**

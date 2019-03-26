@@ -18,23 +18,18 @@
          </block>
       </i-tabs>
       <view class='des' wx:if="{{currentTab == '0'}}">{{eliteCourseData.describe}}</view>
-      <image class='collect' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
+      <image class='collect' catchtap='collectTap' src="{{collectFlag ? '/images/collectIcon_h.png' : '/images/collectIcon.png'}}"></image>
       <view class='comment_view' wx:if="{{currentTab == '1'}}">
-         <view class='comment_info'>
-            <image class='img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
-            <text class='username'>账号信息</text>
-            <text class='like'>123</text>
-            <image class='zan_img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
-            <view class='comment'>视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介</view>
-         </view>
-         <view class='comment_info'>
-            <image class='img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
-            <text class='username'>账号信息</text>
-            <text class='like'>123</text>
-            <image class='zan_img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image>
-            <view class='comment'>视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介视频简介</view>
-         </view>
-         <input class='editComment' placeholder-class="phclass" cursor-spacing="16px" confirm-type='send' placeholder="评论一下" />
+         <input class='editComment' value='{{commentValue}}' placeholder-class="phclass" cursor-spacing="16px" confirm-type='send' placeholder="评论一下" bindinput="commentChange" bindconfirm="submitComment"/>
+         <block wx:for="{{commentData}}" wx:for-item="item">
+            <view class='comment_info'>
+               <image class='img' src="{{item.user.avatarUrl ? item.user.avatarUrl :  '/images/default_profile.jpg'}}"></image>
+               <text class='username'>{{item.user.nickName}}</text>
+               <!-- <text class='like'>123</text>
+               <image class='zan_img' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image> -->
+               <view class='comment'>{{item.content}}</view>
+            </view>
+         </block>
       </view>
    </view>
    

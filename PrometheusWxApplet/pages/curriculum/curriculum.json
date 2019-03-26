@@ -3,5 +3,6 @@
       "i-tabs": "/dist/tabs/index",
       "i-tab": "/dist/tab/index"
    },
-   "disableSwipeBack": true
+   "disableSwipeBack": true,
+   "enablePullDownRefresh":true
 }

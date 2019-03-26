@@ -5,21 +5,14 @@ Page({
     * 页面的初始数据
     */
    data: {
-      currentTab:"1",
+      currentTab:"0",
       typeArr:[
          { name: "简介" },
          {name:"讨论"}
       ],
       eliteCourseData: "",
-
-
-
-      authorization: "", //token # openid
-      id: "",
-      userId: "",
+      eliteCourseId: "",
       offset: 0,
-      videoAddress: "",          //课程视频链接
-      describe: "",              //课程介绍
       collectFlag: 0,            //0:未收藏，1:已收藏
       commentValue: "",          //评论内容
       commentModal: false,       //评论弹出层
@@ -27,13 +20,12 @@ Page({
       commentLenght: 0,
       loadMore: false
    },
+   // 简介/讨论切换
    handleChange(event){
       this.setData({
          currentTab: event.detail.key
       });
    },
-
-
    // 添加至收藏
    collectTap: function(event) {
       let that = this;
@@ -41,17 +33,16 @@ Page({
          wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.deleteFavorite,
             data: {
-               userId: this.data.userId,
-               category: 1,
-               courseId: this.data.id,
-               articleId: 0
+               userId: wx.getStorageSync("userId"),
+               category: 2,
+               eliteCourseId: this.data.id,
+               specialCourseId: 0
             },
             method: "GET",
             header: {
                "Authorization": wx.getStorageSync("Authorization")
             },
             success(res) {
-               console.log(res)
                if (res.statusCode == 200) {
                   if (res.data.status == 200) {
                      wx.showToast({
@@ -70,10 +61,10 @@ Page({
          wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.createFavorite,
             data: {
-               userId: this.data.userId,
-               category: 1,
-               courseId: this.data.id,
-               articleId: 0
+               userId: wx.getStorageSync("userId"),
+               category: 2,
+               eliteCourseId: this.data.id,
+               specialCourseId: 0
             },
             method: "POST",
             header: {
@@ -96,28 +87,24 @@ Page({
          })
       }
    },
-   //点击评论
-   commentBtn: function(event) {
-      this.setData({
-         commentModal: true
-      })
-   },
    // input内容变化监听
-   bindInput: function(event) {
+   commentChange: function(event) {
       this.setData({
          commentValue: event.detail.value
       })
    },
    // 发表评论
-   tapOk: function(event) {
+   submitComment: function(event) {
       let that = this;
       if (this.data.commentValue != "") {
          wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.createComment,
             method: "POST",
             data: {
-               userId: this.data.userId,
-               courseId: this.data.id,
+               userId: wx.getStorageSync("userId"),
+               category:2,
+               specialCourseId:0,
+               eliteCourseId: this.data.eliteCourseId,
                content: this.data.commentValue
             },
             header: {
@@ -134,15 +121,26 @@ Page({
                         commentValue: "",
                         offset: 0
                      });
+                     // 获取评论数据
                      wx.request({
-                        url: app.globalData.serverHost + app.globalData.globalAPI.getCommentByCourseId + that.data.offset + "&courseId=" + that.data.id,
+                        url: app.globalData.serverHost + app.globalData.globalAPI.getCommentByEliteCourseId,
+                        data:{
+                           limit:10,
+                           offset:0,
+                           eliteCourseId: that.data.eliteCourseId
+                        },
                         header: {
-                           "Authorization": that.data.authorization
+                           "Authorization": wx.getStorageSync("Authorization")
                         },
                         success(res) {
-                           that.setData({
-                              commentData: res.data.rows
-                           })
+                           console.log("评论数据",res)
+                           if(res.statusCode == 200){
+                              that.setData({
+                                 commentData: res.data.rows
+                              })
+                           } else if (res.statusCode == 409) {
+                              getNewToken(res.data.token, that);
+                           }
                         }
                      })
                   }
@@ -170,26 +168,21 @@ Page({
     * 生命周期函数--监听页面加载
     */
    onLoad: function(options) {
-      console.log(options)
       if (options.scene) { //扫二维码进入
          this.setData({
-            id: options.scene
+            eliteCourseId: options.scene
          })
       } else { //列表点击进入
          this.setData({
-            id: options.eliteCourseId
+            eliteCourseId: options.eliteCourseId
          })
       }
    },
    onReady(){
       let that = this;
       if (wx.getStorageSync("token")) {
-         this.setData({
-            authorization: wx.getStorageSync("Authorization"),
-            userId: wx.getStorageSync("userId"),
-         })
          wx.request({
-            url: app.globalData.serverHost + app.globalData.globalAPI.getEliteCourseDataById + this.data.id,
+            url: app.globalData.serverHost + app.globalData.globalAPI.getEliteCourseDataById + this.data.eliteCourseId,
             header: {
                "Authorization": wx.getStorageSync("Authorization")
             },
@@ -203,71 +196,59 @@ Page({
                }
             }
          })
-
-         // wx.request({
-         //    url: app.globalData.serverHost + app.globalData.globalAPI.getCommentByCourseId + this.data.offset + "&courseId=" + this.data.id,
-         //    header: {
-         //       "Authorization": this.data.authorization
-         //    },
-         //    success(res) {
-         //       if (res.statusCode == 200) {
-         //          that.setData({
-         //             commentData: res.data.rows,
-         //             commentLenght: res.data.count
-         //          })
-         //       } else if (res.statusCode == 409) {
-         //          getNewToken(res.data.token, that);
-         //       }
-         //    }
-         // })
-         // wx.request({
-         //    url: app.globalData.serverHost + app.globalData.globalAPI.getCourseData + "/" + this.data.id,
-         //    header: {
-         //       "Authorization": this.data.authorization
-         //    },
-         //    success(res) {
-         //       if (res.statusCode == 200) {
-         //          that.setData({
-         //             courseName: res.data.name,
-         //             videoAddress: res.data.videoAddress,
-         //             describe: res.data.describe,
-         //             courseTypeAndSpecial: res.data.course_type.name + "·" + res.data.special_column.name
-         //          })
-         //          wx.setNavigationBarTitle({
-         //             title: res.data.name
-         //          })
-         //       } else if (res.statusCode == 409) {
-         //          getNewToken(res.data.token, that);
-         //       }
-         //    }
-         // })
-         // wx.request({
-         //    url: app.globalData.serverHost + app.globalData.globalAPI.checkIsFavite + "userId=" + this.data.userId +
-         //       "&category=1&courseId=" + this.data.id + "&articleId=0",
-         //    header: {
-         //       "Authorization": this.data.authorization
-         //    },
-         //    success(res) {
-         //       if (res.statusCode == 200) {
-         //          if (res.data.status == 200) {
-         //             if (res.data.message == "未收藏") {
-         //                that.setData({
-         //                   collectFlag: 0
-         //                })
-         //             } else if (res.data.message == "已收藏") {
-         //                that.setData({
-         //                   collectFlag: 1
-         //                })
-         //             }
-         //          }
-         //       } else if (res.statusCode == 409) {
-         //          getNewToken(res.data.token, that);
-         //       }
-         //    }
-         // })
+         wx.request({
+            url: app.globalData.serverHost + app.globalData.globalAPI.checkIsFavite,
+            data:{
+               userId:wx.getStorageSync("userId"),
+               category:2,
+               specialCourseId:0,
+               eliteCourseId:that.data.id
+            },
+            header:{
+               "Authorization": wx.getStorageSync("Authorization")
+            },
+            success(res){
+               if (res.statusCode == 200) {
+                  if (res.data.status == 200) {
+                     if (res.data.message == "未收藏") {
+                        that.setData({
+                           collectFlag: 0
+                        })
+                     } else if (res.data.message == "已收藏") {
+                        that.setData({
+                           collectFlag: 1
+                        })
+                     }
+                  }
+               } else if (res.statusCode == 409) {
+                  getNewToken(res.data.token, that);
+               }
+            }
+         })
+         wx.request({
+            url: app.globalData.serverHost + app.globalData.globalAPI.getCommentByEliteCourseId,
+            data: {
+               limit: 10,
+               offset: 0,
+               eliteCourseId: that.data.eliteCourseId
+            },
+            header: {
+               "Authorization": wx.getStorageSync("Authorization")
+            },
+            success(res) {
+               console.log("评论数据", res)
+               if (res.statusCode == 200) {
+                  that.setData({
+                     commentData: res.data.rows
+                  })
+               } else if (res.statusCode == 409) {
+                  getNewToken(res.data.token, that);
+               }
+            }
+         })
       } else {
          wx.redirectTo({
-            url: app.globalData.pageUrl.welcome + '?id=' + this.data.id + "&courseName=" + this.data.courseName,
+            url: app.globalData.pageUrl.welcome + '?eliteCourseId=' + this.data.eliteCourseId + "&courseName=" + this.data.courseName,
          })
       }
    },
@@ -286,7 +267,7 @@ Page({
             loadMore: true
          });
          wx.request({
-            url: app.globalData.serverHost + app.globalData.globalAPI.getCommentByCourseId + this.data.offset + "&courseId=" + this.data.id,
+            url: app.globalData.serverHost + app.globalData.globalAPI.getCommentByCourseId + this.data.offset + "&courseId=" + this.data.eliteCourseId,
             header: {
                "Authorization": wx.getStorageSync("Authorization")
             },
@@ -310,7 +291,7 @@ Page({
    onShareAppMessage: function(res) {
       return {
          title: '师道慧享',
-         path: '/pages/curriculum/curriculumDetail/curriculumDetail?id=' + this.data.id + "&courseName=" + this.data.courseName,
+         path: '/pages/curriculum/curriculumDetail/curriculumDetail?id=' + this.data.eliteCourseId + "&courseName=" + this.data.courseName,
          success: function(res) {
             wx.showToast({
                title: '转发成功！',

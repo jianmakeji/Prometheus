@@ -1,11 +1,36 @@
 /* pages/Myinfo/myCollect/myCollect.wxss */
-.collect{
+.eliteCourse_view{
+   width: 750rpx;
+   height: 900rpx;
+   margin-top: 90rpx;
+}
+.eliteCourse_view .collect{
    width: 750rpx;
    height: 154rpx;
-   margin-top: 30rpx;
+   margin-top: 20rpx;
    background: #fff;
 }
-.collect .title{
+.eliteCourse_view .collect .title{
+   width: 630rpx;
+   height: 154rpx;
+   line-height: 154rpx;
+   margin-left: 60rpx;
+   font-size: 32rpx;
+   font-weight: bold;
+   color: #4a4a4a;
+}
+.specialColumn_view{
+   width: 750rpx;
+   height: 900rpx;
+   margin-top: 90rpx;
+}
+.specialColumn_view .collect{
+   width: 750rpx;
+   height: 154rpx;
+   margin-top: 20rpx;
+   background: #fff;
+}
+.specialColumn_view .collect .title{
    width: 630rpx;
    height: 154rpx;
    line-height: 154rpx;
