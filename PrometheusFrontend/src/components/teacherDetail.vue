@@ -87,8 +87,13 @@ export default {
 			this.checkModel = true;
 			let specialColumnId = this.dataList[index].Id,
 				that = this,
-				getDataUrl = globel_.serverHost + globel_.configAPI.getCourseDataBySpecialColumn.replace(":id",specialColumnId);
-			this.$http.get( getDataUrl ).then(function(result){
+				getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialCourseDataBySpecialColumnId;
+			this.$http.get( getDataUrl ,{params:{
+                id:specialColumnId,
+                limit:1000,
+                offset:0
+            }}).then(function(result){
+                console.log("===",result);
 				// 数据赋值
 				that.$Loading.finish();
 				that.courseList = result.data.rows;

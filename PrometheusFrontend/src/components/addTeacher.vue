@@ -96,7 +96,7 @@ export default {
 	      	var file = files.target.files[0]; //获取要上传的文件对象
 	      	this.$http({
 	        	method: 'get',
-	        	url: globel_.serverHost + '/api/getSTSSignature/1'
+	        	url: globel_.serverHost + '/api/getSTSSignature/3'
 	      	}).then((res) => {
 		        var client = new OSS({
 		          	region: 'oss-cn-hangzhou',
@@ -108,7 +108,7 @@ export default {
 
 				calculate_object_name(file.name);
 		        var newFilename =  g_object_name;
-		        client.multipartUpload('courseImages/' + newFilename, file, {
+		        client.multipartUpload('articleImages/' + newFilename, file, {
 			        progress(p) {
 			            that.progressPercent = p * 100;
 			        }
@@ -169,9 +169,10 @@ export default {
 				})
 			}else{				//修改	put
 				this.$http.put( this.submitUrl ,{
-					name:this.formItem.name,
+                    name:this.formItem.name,
 					brief:this.formItem.brief,
-					subject:this.formItem.subject
+					subject:this.formItem.subject,
+                    avatar:this.formItem.avatar
 				}).then(function(result){
 					if(result.status == 200){
 						that.$Loading.finish();
@@ -200,7 +201,7 @@ export default {
 				that.$Loading.finish();
 				that.formItem = result.data;
                 that.imgUrl = result.data.avatar;
-                that.formItem.avatar = result.data.avatar.split("courseImages/")[1].split("?")[0];
+                that.thumbImage = result.data.avatar.split("articleImages/")[1].split("?")[0];
 			}).catch(function(err){
 				that.$Loading.error();
 				that.$Message.error({duration:3,content:err});

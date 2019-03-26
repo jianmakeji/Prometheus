@@ -6,18 +6,20 @@
    display: flex;
    flex-direction: row;
    justify-content: flex-start;
-   background: pink;
 }
 .course_btns button{
    width: 130rpx;
    color: #fff;
    font-size: 24rpx;
    border-radius: 26rpx;
-   position: absolute;
+   /* position: absolute; */
    background: #85a5ff;
 }
-.course_btns .Math{
-   margin-left: 20rpx;
+.course_btns button.active{
+   background: #85a5ff !important;
+}
+.course_btns button.unActive{
+   background: #9a9a9a !important;
 }
 .course_btns .English{
    margin-left: 190rpx;
@@ -30,7 +32,6 @@
    width: 750rpx;
    margin-top: 20rpx;
    padding: 10rpx 0;
-   background: pink;
 }
 
 .testpaper_list .testpaper{

@@ -6,51 +6,50 @@ Page({
     * 页面的初始数据
     */
    data: {
-      authorization: "",
       courseType: "",
       classTitle: "",
-      specialColumnId: "",
+      eliteSchoolId: "",
       specialColumnName: "", //标题
       dataList: []
    },
    clickClass: function(event) {
       wx.navigateTo({
-         url: app.globalData.pageUrl.curriculumDetail + "?id=" + event.currentTarget.dataset.courseId + "&courseName=" + event.currentTarget.dataset.courseName
+         url: app.globalData.pageUrl.eliteCourseDetail + "?eliteCourseId=" + event.currentTarget.dataset.eliteCourseId
       })
    },
    /**
     * 生命周期函数--监听页面加载
     */
    onLoad: function(options) {
-      wx.setNavigationBarTitle({
-         title: options.specialColumnName,
-      })
+      console.log(options.eliteSchoolId)
       this.setData({
-         specialColumnId: options.specialColumnId
+         eliteSchoolId: options.eliteSchoolId
       })
    },
-   onShow(){
+   onReady(){
       let that = this;
       if (wx.getStorageSync("token")) {
-         this.setData({
-            authorization: wx.getStorageSync("Authorization")
-         })
+
          wx.request({
-            url: app.globalData.serverHost + app.globalData.globalAPI.getCourseBySpecialColumnId.replace(":id", this.data.specialColumnId),
+            url: app.globalData.serverHost + app.globalData.globalAPI.getEliteCourseByEliteSchoolId,
             data: {
-               thumbName: "thumb_300_300"
+               id: this.data.eliteSchoolId,
+               limit: 10,
+               offset: 0
             },
             header: {
-               "Authorization": that.data.authorization
+               "Authorization": wx.getStorageSync("Authorization")
             },
             success(res) {
+               console.log(res)
                if (res.statusCode == 200) {
-                  let dataListArr = res.data.rows;
-                  for (let i = 0; i < res.data.rows.length; i++) {
-                     dataListArr[i].duration = parseInt(res.data.rows[i].duration / 60) + ":" + (parseInt(res.data.rows[i].duration % 60 / 10) ? res.data.rows[i].duration % 60 : "0" + res.data.rows[i].duration % 60);
+                  let dataArr = new Array();
+                  dataArr = res.data.rows;
+                  for (let i = 0; i < dataArr.length; i++) {
+                     dataArr[i].duration = parseInt(dataArr[i].duration / 60) + ":" + (parseInt(dataArr[i].duration % 60 / 10) ? dataArr[i].duration % 60 : "0" + dataArr[i].duration % 60);
                   }
                   that.setData({
-                     dataList: dataListArr
+                     dataList: dataArr
                   })
                } else if (res.statusCode == 409) {
                   getNewToken(res.data.token, that);
@@ -62,10 +61,13 @@ Page({
             url: app.globalData.pageUrl.welcome
          })
       }
+   },
+   onShow(){
+      
    }
 })
 function getNewToken(token, that) {
    wx.setStorageSync("token", token);
    wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
-   that.onShow();
+   that.onReady();
 }

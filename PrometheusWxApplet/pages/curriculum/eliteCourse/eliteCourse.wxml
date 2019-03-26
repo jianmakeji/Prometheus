@@ -1,0 +1,8 @@
+
+<view class='curriculum_list'>
+   <view class='curriculum_item' wx:for="{{dataList}}" wx:for-item="item" data-elite-course-id="{{item.Id}}" data-elite-course-name="{{item.name}}" bindtap="clickClass">
+      <text class='title'>{{item.name}}</text>
+      <text class='times'>时长: {{item.duration}}</text>
+   </view>
+</view>
+<i-divider wx:if="{{!dataList.length}}" height="20" content="暂无数据"></i-divider>

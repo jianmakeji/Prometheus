@@ -46,9 +46,12 @@ export default {
 		pageChange(index){
             this.offset  = (index-1)*10;
             let that = this,
-				getDataUrl = globel_.serverHost+ globel_.configAPI.getUser + this.offset;
+				getDataUrl = globel_.serverHost+ globel_.configAPI.getUser;
 			this.$Loading.start();
-			this.$http.get( getDataUrl ).then(function(result){
+			this.$http.get( getDataUrl ,{params:{
+                limit:10,
+                offset:that.offset
+            }}).then(function(result){
 				that.$Loading.finish();
 				that.dataList = result.data.rows;
 				that.total = result.data.count;
@@ -60,8 +63,11 @@ export default {
 	},
     created(){
         let that = this;
-        let getDataUrl = globel_.serverHost+ globel_.configAPI.getUser + this.offset;
-		this.$http.get( getDataUrl ).then(function(result){
+        let getDataUrl = globel_.serverHost+ globel_.configAPI.getUser;
+		this.$http.get( getDataUrl ,{params:{
+            limit:10,
+            offset:that.offset
+        }}).then(function(result){
 			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;

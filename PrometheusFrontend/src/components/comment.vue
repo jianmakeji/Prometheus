@@ -5,6 +5,13 @@
 				<Icon type="ios-build" size="24"/>评论管理
 			</BreadcrumbItem>
 		</Breadcrumb><br />
+        <Form label-position="right" :label-width="80" inline style="width:100%;">
+			<FormItem label="课程类别:">
+	            <Select v-model="category" @on-change="categoryChange" label-in-value style="width:200px">
+					<Option v-for="(item,index) in categoryData" :value="item.Id" :key="index">{{item.name}}</Option>
+	            </Select>
+	        </FormItem>
+	    </Form>
         <Table :columns="columns" :data="dataList"></Table><br />
 		<Page :total="total" show-total @on-change="pageChange"/>
         <Modal v-model="deleteModel" width="360" @on-ok="okTap">
@@ -21,6 +28,7 @@
 
 <script>
 import globel_ from './../config/global.vue'
+import $ from 'jquery'
 export default {
     name:"comment",
     data(){
@@ -29,6 +37,11 @@ export default {
             index:"",
             offset:0,
             total:100,
+            category:1,
+            categoryData:[
+                {Id:1,name:"专题突破"},
+                {Id:2,name:"名校试题"}
+            ],
             commentTitle:"",
             deleteModel:false,
             columns:[
@@ -74,12 +87,36 @@ export default {
         }
     },
     methods:{
+        categoryChange(option){
+            let value = option.value;
+			this.category = value;
+            console.log(option);
+            let that = this,
+                getDataUrl = globel_.serverHost+ globel_.configAPI.getCommentData;
+            this.$Loading.start();
+            this.$http.get( getDataUrl ,{params:{
+                limit:10,
+                offset:that.offset,
+                category:that.category
+            }}).then(function(result){
+    			that.$Loading.finish();
+    			that.dataList = result.data.rows;
+    			that.total = result.data.count;
+    		}).catch(function(err){
+    			that.$Loading.error();
+    			that.$Message.error({duration:3,content:err});
+    		})
+        },
         pageChange(index){
             this.offset  = (index-1)*10;
             let that = this,
-                getDataUrl = globel_.serverHost+ globel_.configAPI.getCommentData + this.offset;
+                getDataUrl = globel_.serverHost+ globel_.configAPI.getCommentData;
             this.$Loading.start();
-            this.$http.get( getDataUrl ).then(function(result){
+            this.$http.get( getDataUrl ,{params:{
+                limit:10,
+                offset:that.offset,
+                category:that.category
+            }}).then(function(result){
     			that.$Loading.finish();
     			that.dataList = result.data.rows;
     			that.total = result.data.count;
@@ -100,8 +137,12 @@ export default {
 			this.$http.delete(deleteUrl).then(function(result){
 				if(result.status == 200){
 					that.$Message.success({duration:3,content:globel_.configMessage.deleteSuccess});
-					let getDataUrl = globel_.serverHost + globel_.configAPI.getCommentData + that.offset;
-					that.$http.get( getDataUrl ).then(function(result){
+					let getDataUrl = globel_.serverHost + globel_.configAPI.getCommentData;
+					that.$http.get( getDataUrl ,{params:{
+                        limit:10,
+                        offset:that.offset,
+                        category:that.category
+                    }}).then(function(result){
 						that.$Loading.finish();
 						that.dataList = result.data.rows;
 						that.total = result.data.count;
@@ -119,13 +160,18 @@ export default {
     created(){
         let that = this;
 		this.$Loading.start();
-		let getDataUrl = globel_.serverHost+ globel_.configAPI.getCommentData + this.offset;
-		this.$http.get( getDataUrl ).then(function(result){
+		let getDataUrl = globel_.serverHost + globel_.configAPI.getCommentData;
+		this.$http.get( getDataUrl ,{params:{
+            limit:10,
+            offset:that.offset,
+            category:that.category
+        }}).then(function(result){
 			that.$Loading.finish();
             console.log(result);
 			that.dataList = result.data.rows;
 			that.total = result.data.count;
 		}).catch(function(err){
+            console.log(err);
 			that.$Loading.error();
 			that.$Message.error({duration:3,content:err});
 		})

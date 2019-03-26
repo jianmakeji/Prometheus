@@ -1,0 +1,15 @@
+{
+   "usingComponents": {
+      "i-tabs": "/dist/tabs/index",
+      "i-tab": "/dist/tab/index",
+      "i-input": "/dist/input/index",
+      "i-icon": "/dist/icon/index",
+      "i-divider": "/dist/divider/index",
+      "wxc-input": "/@minui/wxc-input/dist/index",
+      "i-button": "/dist/button/index",
+      "i-modal": "/dist/modal/index",
+      "i-avatar": "/dist/avatar/index",
+      "i-load-more": "/dist/load-more/index"
+   },
+   "onReachBottomDistance": 50
+}
