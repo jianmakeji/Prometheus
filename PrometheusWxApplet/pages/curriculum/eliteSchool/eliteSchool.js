@@ -16,11 +16,10 @@ Page({
 
       gradeList: app.globalData.gradeData,
       subjectList: app.globalData.subjectData,
-      eliteSchoolData:[],
-      loadMore:false
+      count:0,
+      eliteSchoolData:[]
    },
    handleChange(event){
-      console.log(event)
       this.setData({
          currentTab: event.detail.key,
          grade: this.data.gradeList[event.detail.key].id
@@ -59,7 +58,6 @@ Page({
          subject: event.currentTarget.dataset.id
       });
       let that = this;
-      if (wx.getStorageSync("token")) {
          wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.getEliteSchoolData,
             data: {
@@ -82,10 +80,8 @@ Page({
                }
             }
          })
-      }
    },
    catchEliteSchool(event){
-      console.log(event)
       let eliteSchoolId = event.currentTarget.dataset.eliteSchoolId;
       wx.navigateTo({
          url: app.globalData.pageUrl.eliteCourse + "?eliteSchoolId=" + eliteSchoolId
@@ -123,56 +119,113 @@ Page({
             success(res) {
                if (res.statusCode == 200) {
                   that.setData({
-                     eliteSchoolData: res.data.rows
+                     eliteSchoolData: res.data.rows,
+                     count:res.data.count
                   })
                } else if (res.statusCode == 409) {
                   getNewToken(res.data.token, that);
                }
             }
          })
+      }else{
+         wx.redirectTo({
+            url: app.globalData.pageUrl.welcome,
+         })
       }
-   },
-
-   /**
-    * 生命周期函数--监听页面显示
-    */
-   onShow: function () {
-      
-   },
-
-   /**
-    * 生命周期函数--监听页面隐藏
-    */
-   onHide: function () {
-
-   },
-
-   /**
-    * 生命周期函数--监听页面卸载
-    */
-   onUnload: function () {
-
    },
 
    /**
     * 页面相关事件处理函数--监听用户下拉动作
     */
    onPullDownRefresh: function () {
-
+      let that = this;
+      this.setData({
+         offset:0
+      })
+      wx.request({
+         url: app.globalData.serverHost + app.globalData.globalAPI.getEliteSchoolData,
+         data: {
+            limit: 10,
+            offset: this.data.offset,
+            schoolId: this.data.schoolId,
+            grade: this.data.grade,
+            subject: this.data.subject
+         },
+         header: {
+            "Authorization": wx.getStorageSync("Authorization")
+         },
+         success(res) {
+            if (res.statusCode == 200) {
+               wx.stopPullDownRefresh();
+               that.setData({
+                  eliteSchoolData: res.data.rows
+               })
+            } else if (res.statusCode == 409) {
+               getNewToken(res.data.token, that);
+            }
+         }
+      })
    },
 
    /**
     * 页面上拉触底事件的处理函数
     */
    onReachBottom: function () {
-
+      let that = this;
+         if (this.data.eliteSchoolData.length < this.data.count){
+            this.setData({
+               offset:this.data.offset + 10
+            })
+            wx.request({
+               url: app.globalData.serverHost + app.globalData.globalAPI.getEliteSchoolData,
+               data: {
+                  limit: 10,
+                  offset: this.data.offset,
+                  schoolId: this.data.schoolId,
+                  grade: this.data.grade,
+                  subject: this.data.subject
+               },
+               header: {
+                  "Authorization": wx.getStorageSync("Authorization")
+               },
+               success(res) {
+                  if (res.statusCode == 200) {
+                     wx.hideLoading();
+                     that.setData({
+                        eliteSchoolData: that.data.eliteSchoolData.concat(res.data.rows)
+                     })
+                  } else if (res.statusCode == 409) {
+                     getNewToken(res.data.token, that);
+                  }
+               }
+            })
+         }else{
+            wx.showToast({
+               title: '无其他数据',
+               icon: "none"
+            })
+         }
    },
 
    /**
     * 用户点击右上角分享
     */
    onShareAppMessage: function () {
-
+      return {
+         title: '师道慧享',
+         path: app.globalData.pageUrl.eliteSchool + "?schoolId=" + this.data.schoolId,
+         success: function (res) {
+            wx.showToast({
+               title: '转发成功！',
+            })
+         },
+         fail: function (res) {
+            wx.showToast({
+               title: '转发失败!',
+               icon: 'none'
+            })
+         }
+      }
    }
 })
 function getNewToken(token, that) {

@@ -24,9 +24,9 @@ Page({
          url: app.globalData.pageUrl.myCollect,
       })
    },
-   myBuy:function(event){
+   // myBuy:function(event){
       
-   },
+   // },
    //  clearStorageClick: function(event) {
    //      wx.clearStorageSync();
    //    // wx.setStorageSync("token", "data")

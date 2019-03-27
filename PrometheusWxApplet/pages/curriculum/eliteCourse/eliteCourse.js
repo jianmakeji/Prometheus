@@ -9,24 +9,24 @@ Page({
       courseType: "",
       classTitle: "",
       eliteSchoolId: "",
-      specialColumnName: "", //标题
+      offset: 0,
+      count:0,
       dataList: []
    },
    clickClass: function(event) {
       wx.navigateTo({
-         url: app.globalData.pageUrl.eliteCourseDetail + "?eliteCourseId=" + event.currentTarget.dataset.eliteCourseId
+         url: app.globalData.pageUrl.eliteCourseDetail + "?eliteCourseId=" + event.currentTarget.dataset.eliteCourseId + "&category=2"
       })
    },
    /**
     * 生命周期函数--监听页面加载
     */
    onLoad: function(options) {
-      console.log(options.eliteSchoolId)
       this.setData({
          eliteSchoolId: options.eliteSchoolId
       })
    },
-   onReady(){
+   onReady() {
       let that = this;
       if (wx.getStorageSync("token")) {
 
@@ -35,16 +35,16 @@ Page({
             data: {
                id: this.data.eliteSchoolId,
                limit: 10,
-               offset: 0
+               offset: that.data.offset
             },
             header: {
                "Authorization": wx.getStorageSync("Authorization")
             },
             success(res) {
-               console.log(res)
                if (res.statusCode == 200) {
                   let dataArr = new Array();
                   dataArr = res.data.rows;
+                  count:res.data.count;
                   for (let i = 0; i < dataArr.length; i++) {
                      dataArr[i].duration = parseInt(dataArr[i].duration / 60) + ":" + (parseInt(dataArr[i].duration % 60 / 10) ? dataArr[i].duration % 60 : "0" + dataArr[i].duration % 60);
                   }
@@ -62,10 +62,96 @@ Page({
          })
       }
    },
-   onShow(){
-      
+   onPullDownRefresh(){
+      let that = this;
+      this.setData({
+         offset:0
+      })
+      wx.request({
+         url: app.globalData.serverHost + app.globalData.globalAPI.getEliteCourseByEliteSchoolId,
+         data: {
+            id: this.data.eliteSchoolId,
+            limit: 10,
+            offset: that.data.offset
+         },
+         header: {
+            "Authorization": wx.getStorageSync("Authorization")
+         },
+         success(res) {
+            if (res.statusCode == 200) {
+               wx.stopPullDownRefresh();
+               let dataArr = new Array();
+               dataArr = res.data.rows;
+               for (let i = 0; i < dataArr.length; i++) {
+                  dataArr[i].duration = parseInt(dataArr[i].duration / 60) + ":" + (parseInt(dataArr[i].duration % 60 / 10) ? dataArr[i].duration % 60 : "0" + dataArr[i].duration % 60);
+               }
+               that.setData({
+                  dataList: dataArr
+               })
+            } else if (res.statusCode == 409) {
+               getNewToken(res.data.token, that);
+            }
+         }
+      })
+   },
+   onReachBottom(){
+      let that = this;
+      if (this.data.dataList.length < this.data.count){
+         this.setData({
+            offset:this.data.offset + 10
+         })
+         wx.request({
+            url: app.globalData.serverHost + app.globalData.globalAPI.getEliteCourseByEliteSchoolId,
+            data: {
+               id: this.data.eliteSchoolId,
+               limit: 10,
+               offset: that.data.offset
+            },
+            header: {
+               "Authorization": wx.getStorageSync("Authorization")
+            },
+            success(res) {
+               if (res.statusCode == 200) {
+                  wx.hideLoading();
+                  let dataArr = new Array();
+                  dataArr = res.data.rows;
+                  for (let i = 0; i < dataArr.length; i++) {
+                     dataArr[i].duration = parseInt(dataArr[i].duration / 60) + ":" + (parseInt(dataArr[i].duration % 60 / 10) ? dataArr[i].duration % 60 : "0" + dataArr[i].duration % 60);
+                  }
+                  that.setData({
+                     dataList: that.data.dataList.concat(dataArr)
+                  })
+               } else if (res.statusCode == 409) {
+                  getNewToken(res.data.token, that);
+               }
+            }
+         })
+      } else {
+         wx.showToast({
+            title: '无其他数据',
+            icon: "none"
+         })
+      }
+   },
+   onShareAppMessage(){
+      return {
+         title: '师道慧享',
+         path: app.globalData.pageUrl.eliteCourse + "?eliteSchoolId=" + this.data.eliteSchoolId,
+         success: function (res) {
+            wx.showToast({
+               title: '转发成功！',
+            })
+         },
+         fail: function (res) {
+            wx.showToast({
+               title: '转发失败!',
+               icon: 'none'
+            })
+         }
+      }
    }
 })
+
 function getNewToken(token, that) {
    wx.setStorageSync("token", token);
    wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));

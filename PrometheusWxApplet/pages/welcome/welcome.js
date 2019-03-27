@@ -3,27 +3,27 @@ var app = getApp();
 Page({
    data: {
       courseDetailId: "",
-      courseName: ""
+      courseName: "",
+
+      eliteCourseId:"",
+      specialCourseId:"",
+      category:""
    },
 
    onLoad: function(options) {
+      // options只有id值 和 视频类型变量category 
+      // category : 1为专题突破  2为名校试题
       let that = this;
-      if (options.id && options.courseName) {
+      if(options.eliteCourseId){
          this.setData({
-            courseDetailId: options.id,
-            courseName: options.courseName
+            eliteCourseId: options.eliteCourseId,
+            category: options.category
          })
-      }
-      if (wx.getStorageSync("token")) {
-         if (options.id) {
-            wx.navigateTo({
-               url: app.globalData.pageUrl.curriculumDetail + "?id=" + this.data.courseDetailId + "&courseName=" + this.data.courseName,
-            })
-         } else {
-            wx.switchTab({
-               url: app.globalData.pageUrl.curriculum,
-            })
-         }
+      } else if (options.specialCourseId){
+         this.setData({
+            specialCourseId: options.specialCourseId,
+            category: options.category
+         })
       }
    },
    // 用户点击微信登陆按钮
@@ -68,13 +68,17 @@ Page({
                         setStorageWithToken(res.data);
 
                         //  =====================判断是跳转详情页还是首页==================================
-                        if (that.data.courseDetailId) {
+                        if (that.data.category == 2) {
                            wx.reLaunch({
-                              url: app.globalData.pageUrl.curriculumDetail + "?id=" + that.data.courseDetailId + "&courseName=" + that.data.courseName,
+                              url: app.globalData.pageUrl.eliteCourseDetail + "?eliteCourseId=" + that.data.eliteCourseId + "&category=2"
+                           })
+                        } else if (that.data.category == 1) {
+                           wx.reLaunch({
+                              url: app.globalData.pageUrl.specialCourseDetail + "?specialCourseId=" + that.data.specialCourseId + "&category=1"
                            })
                         } else {
                            wx.switchTab({
-                              url: app.globalData.pageUrl.curriculum,
+                              url: app.globalData.pageUrl.recommend,
                            })
                         }
                         // ===================================================

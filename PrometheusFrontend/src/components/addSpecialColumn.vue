@@ -34,6 +34,7 @@
 			<FormItem v-for="(imgItem,index) in imgList" :key="index">
 				<img v-if="refresh" v-show="imgItem.length" :src="imgItem" style="width:80px;height:80px;" class="specialColumnImg"><br>
 				<input type="file" @change="addImgUpload" :imgIndex="index" accept="image/*"/>
+				<!-- <Button type="error" @click="deleteBriefImg(index)">删除</Button> -->
 			</FormItem>
 			<FormItem label="所属年级:">
 				<Select v-model="formItem.grade" placeholder="选择年级...">
@@ -268,6 +269,10 @@ export default {
 				});
 		    });
 		},
+		// deleteBriefImg(index){
+		// 	console.log("deleteBriefImg",index);
+		// 	this.imgList.splice(index,1);
+		// },
 	    priceChange(num) {
 	      this.formItem.price = num;
 	    },

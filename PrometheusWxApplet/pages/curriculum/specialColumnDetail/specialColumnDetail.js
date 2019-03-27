@@ -14,6 +14,8 @@ Page({
       specialColumnId:"",
       specialColumnData:"",
       briefData:[],
+      specialCourseOffset:0,
+      specialCourseCount:0,
       specialCourseData:[],
       loadMore:false
    },
@@ -25,7 +27,7 @@ Page({
    tapSpecialCourse(event){
       let dataset = event.currentTarget.dataset;
       wx.navigateTo({
-         url: app.globalData.pageUrl.specialCourseDetail + "?specialCourseId=" + dataset.specialCourseId
+         url: app.globalData.pageUrl.specialCourseDetail + "?specialCourseId=" + dataset.specialCourseId + "&category=1"
       })
    },
    /**
@@ -44,15 +46,80 @@ Page({
     */
    onReady: function () {
       let that = this;
+      if(wx.getStorageSync("token")){
+         wx.request({
+            url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnById + this.data.specialColumnId,
+            header: {
+               "Authorization": wx.getStorageSync("Authorization")
+            },
+            success(res) {
+               if (res.statusCode == 200) {
+
+                  let briefString = new Object(),
+                     briefArr = new Array();
+                  briefString = res.data.briefImages;
+                  briefArr = briefString.split(",");
+                  briefArr.pop();
+
+                  that.setData({
+                     specialColumnId: res.data.Id,
+                     specialColumnData: res.data,
+                     briefData: briefArr
+                  })
+
+                  wx.request({
+                     url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialCourseBySpecialColumnId,
+                     data: {
+                        limit: 10,
+                        offset: that.data.specialCourseOffset,
+                        id: res.data.Id,
+                     },
+                     header: {
+                        "Authorization": wx.getStorageSync("Authorization")
+                     },
+                     success(res) {
+                        if (res.statusCode == 200) {
+                           that.setData({
+                              specialCourseData: res.data.rows,
+                              specialCourseCount: res.data.count
+                           })
+                        } else if (res.statusCode == 409) {
+                           getNewToken(res.data.token, that);
+                        }
+                     }
+                  })
+               } else if (res.statusCode == 409) {
+                  getNewToken(res.data.token, that);
+               }
+            }
+         })
+      }else{
+         wx.redirectTo({
+            url: app.globalData.pageUrl.welcome,
+         })
+      }
+      
+   },
+
+   /**
+    * 生命周期函数--监听页面显示
+    */
+   onShow: function () {
+      
+   },
+   onPullDownRefresh(){
+      let that = this;
+      this.setData({
+         specialCourseOffset:0
+      })
       wx.request({
          url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnById + this.data.specialColumnId,
          header: {
             "Authorization": wx.getStorageSync("Authorization")
          },
          success(res) {
-            console.log(res)
             if (res.statusCode == 200) {
-
+               wx.stopPullDownRefresh();
                let briefString = new Object(),
                   briefArr = new Array();
                briefString = res.data.briefImages;
@@ -69,7 +136,7 @@ Page({
                   url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialCourseBySpecialColumnId,
                   data: {
                      limit: 10,
-                     offset: 0,
+                     offset: that.data.specialCourseOffset,
                      id: res.data.Id,
                   },
                   header: {
@@ -91,13 +158,57 @@ Page({
          }
       })
    },
-
-   /**
-    * 生命周期函数--监听页面显示
-    */
-   onShow: function () {
-      
+   onReachBottom(){
+      let that = this;
+      if(this.data.specialCourseData.length < this.data.specialCourseCount){
+         this.setData({
+            specialCourseOffset:this.data.specialCourseOffset + 10
+         })
+         wx.request({
+            url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialCourseBySpecialColumnId,
+            data: {
+               limit: 10,
+               offset: that.data.specialCourseOffset,
+               id: that.data.specialColumnId,
+            },
+            header: {
+               "Authorization": wx.getStorageSync("Authorization")
+            },
+            success(res) {
+               if (res.statusCode == 200) {
+                  wx.hideLoading();
+                  that.setData({
+                     specialCourseData: that.data.specialCourseData.concat(res.data.rows)
+                  })
+               } else if (res.statusCode == 409) {
+                  getNewToken(res.data.token, that);
+               }
+            }
+         })
+      }else{
+         wx.showToast({
+            title: '无其他数据',
+            icon: "none"
+         })
+      }
    },
+   onShareAppMessage(){
+      return {
+         title: '师道慧享',
+         path: app.globalData.pageUrl.specialColumnDetail + "?specialColumnId=" + this.data.specialColumnId,
+         success: function (res) {
+            wx.showToast({
+               title: '转发成功！',
+            })
+         },
+         fail: function (res) {
+            wx.showToast({
+               title: '转发失败!',
+               icon: 'none'
+            })
+         }
+      }
+   }
 })
 function getNewToken(token, that) {
    wx.setStorageSync("token", token);

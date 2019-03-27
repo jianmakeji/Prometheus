@@ -80,7 +80,7 @@ export default {
                 { title: '专栏', key: 'special_column', align: 'center',
                 	render:(h, params) =>{
                 		return h('div',[
-                            h('p', params.row.specialColumn ? params.row.specialColumn : this.specialColumnLabel)
+                            h('p', params.row.special_column.name ? params.row.special_column.name : this.specialColumnLabel)
                 		])
                 	}
                 },
@@ -262,9 +262,11 @@ export default {
         // 生成二维码
         generateCode(index){
             let that = this,
-				getDataUrl = globel_.serverHost + globel_.configAPI.getQRCode.replace(":id",this.dataList[index].Id);
+				getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialCourseQRCode;
 			this.$Loading.start();
-			this.$http.get(getDataUrl).then(function(result){
+			this.$http.get(getDataUrl,{params:{
+                id:this.dataList[index].Id
+            }}).then(function(result){
 				if(result.data.status == 200){
 					that.$Message.success({
                         duration:2,content:globel_.configMessage.createCodeSuccess,
@@ -285,7 +287,11 @@ export default {
                         }
                     });
 
-				}
+				}else{
+                    that.$Message.error({
+                        duration:2,content:globel_.configMessage.createCodeError,
+                    });
+                }
 			}).catch(function(err){
 					that.$Loading.error();
 					that.$Message.error({duration:3,content:err});
@@ -312,7 +318,9 @@ export default {
 						that.$Loading.error();
 						that.$Message.error({duration:3,content:err});
 					})
-				}
+				}else{
+                    that.$Message.error({duration:3,content:globel_.configMessage.optError});
+                }
 			}).catch(function(err){
 					that.$Loading.error();
 					that.$Message.error({duration:3,content:err});
@@ -358,6 +366,7 @@ export default {
             offset:this.offset,
             specialColumnId:this.specialColumnId
         }}).then(function(result){
+            console.log(result);
 			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;

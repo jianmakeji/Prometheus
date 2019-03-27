@@ -24,7 +24,9 @@
 		uploadVideoSuccess:"视频上传成功！",
 		operateSuccess:"操作成功，等待2秒后返回！",
 		deleteSuccess:"删除成功！",
-		createCodeSuccess:"二维码生成成功"
+		createCodeSuccess:"二维码生成成功",
+		createCodeError:"二维码生成失败",
+		optError:"操作失败"
 	};
 	const configAPI = {
 		login:"/api/manage/login",
@@ -48,6 +50,7 @@
 		getEliteCourseData:"/api/manage/eliteCourse",
 		updateEliteCourseById:"/api/manage/eliteCourse/:id",
 		deleteEliteCourseById:"/api/manage/eliteCourse/:id",
+		getEliteCourseQRCode:"/api/manage/eliteCourse/getQRCode",
 
 		//课程专栏增删改查
 		createSpecialColumn:"/api/manage/specialColumn",
@@ -64,7 +67,7 @@
 		getSpecialCourseDataById:"/api/manage/specialCourse/:id",
 		getSpecialCourseDataBySpecialColumnId:"/api/manage/specialCourse/getSpecialCourseBySpecialColumnId",
 		getSpecialCourseByCondition:"/api/manage/specialCourse/getCourseByCondition",
-		getQRCode:"/api/manage/specialCourse/getQRCode/:id",
+		getSpecialCourseQRCode:"/api/manage/specialCourse/getQRCode",
 
 		//老师增删改查
 		createTeacher:"/api/manage/teacher",

@@ -92,6 +92,7 @@ App({
       ],
       // 小程序界面路径
       pageUrl: {
+         recommend:"/pages/recommend/recommend",
          // 课程
          curriculum: "/pages/curriculum/curriculum",
          // 专题详情
@@ -105,8 +106,8 @@ App({
          // 名校试题视频详情
          eliteCourseDetail: "/pages/curriculum/eliteCourseDetail/eliteCourseDetail",
 
-         curriculumDetail: '/pages/curriculum/curriculumDetail/curriculumDetail',
-         curriculumList: "/pages/curriculum/curriculumList/curriculumList",
+         // curriculumDetail: '/pages/curriculum/curriculumDetail/curriculumDetail',
+         // curriculumList: "/pages/curriculum/curriculumList/curriculumList",
          welcome: '/pages/welcome/welcome',
          myCollect: '/pages/Myinfo/myCollect/myCollect'
       }

@@ -6,12 +6,13 @@
 <view class='search_view'>
    <icon class='search_icon' size='20' color='#000' type='search'></icon>
    <input class='search_input' value='{{searchValue}}' type='text' placeholder-class="phclass" placeholder='搜索课程名称' bindinput="bindInput"></input>
-   <i-icon class='scan_icon' size='26' color='#2f54eb' type='scan' />
+   <i-icon class='scan_icon' wx:if="{{!searchValue}}" catchtap='tapScan' size='26' color='#2f54eb' type='scan' />
+   <i-icon class='scan_icon' wx:if="{{searchValue}}" catchtap='tapDelete' size='26' color='#2f54eb' type='delete' />
 </view>
 <i-action-sheet visible="{{ actionVisible }}" actions="{{ searchObjData }}" show-cancel bind:cancel="tapCancel" bind:click="clickItem" />
 <view class='opt' wx:if="{{!dataList.length}}">
-   <text class='title'>热门搜索</text>
-   <i-icon class='clear' size='26' color='#4a4a4a' type='trash' />
+   <text class='title'>最近搜索</text>
+   <i-icon class='clear' catchtap='clearStorage' size='26' color='#4a4a4a' type='trash' />
 </view>
 <view class='hot_search' wx:if="{{!dataList.length}}">
    <block wx:for="{{storageData}}" wx:for-item="item">
@@ -22,7 +23,7 @@
    <text class='text'>为您找到以下内容:</text>
    <block wx:for="{{dataList}}" wx:for-item="item">
       <view class='result'>
-         <text class='title' data-course-id="{{item.Id}}">{{item.name}}</text>   
+         <text class='title' data-course-id="{{item.Id}}" catchtap='tapSearchItem'>{{item.name}}</text>   
       </view>
    </block>
 </view>

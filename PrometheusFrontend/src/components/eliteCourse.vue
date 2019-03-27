@@ -100,6 +100,30 @@ export default {
                         ])
                     }
                 },
+                { title: '二维码预览',key: 'opt', align: 'center', width: 150,
+                    render:(h, params) =>{
+                        if (params.row.qrCode == null || params.row.qrCode == "") {
+                            return h('p', {
+                                style:{
+                                    color:"#ed3f14"
+                                }
+                            },"该课程暂无二维码")
+                        }else{
+                            return h('div', [
+                                h('img', {
+            						domProps: {
+            							src: params.row.qrCode,
+            						},
+            						style: {
+                                        width:"60px",
+            							width:"60px",
+                                        margin:"10px auto"
+            						}
+            					})
+                            ])
+                        }
+                	}
+                },
                 { title: '操作', key: 'opt', align: 'center',width:160,
         			render: (h, params) => {
         				return h("div",[
@@ -132,6 +156,43 @@ export default {
         						}
         					},'删除')
         				])
+        			}
+        		},
+                { title: '二维码操作', key: 'opt', align: 'center',width:160,
+        			render: (h, params) => {
+                        if(params.row.qrCode){
+                            return h('Button', {
+        						props: {
+        							type: 'info',
+        							size: 'small',
+                                    disabled:true
+        						},
+        						style: {
+        							marginRight: '5px'
+        						},
+        						on: {
+        							click: () => {
+        								this.generateCode(params.index)
+        							}
+        						}
+        					},'已生成二维码')
+                        }else{
+                            return h('Button', {
+        						props: {
+        							type: 'info',
+        							size: 'small'
+        						},
+        						style: {
+        							marginRight: '5px'
+        						},
+        						on: {
+        							click: () => {
+        								this.generateCode(params.index)
+        							}
+        						}
+        					},'生成二维码')
+                        }
+
         			}
         		}
             ],
@@ -184,9 +245,11 @@ export default {
         // 生成二维码
         generateCode(index){
             let that = this,
-				getDataUrl = globel_.serverHost + globel_.configAPI.getQRCode.replace(":id",this.dataList[index].Id);
+				getDataUrl = globel_.serverHost + globel_.configAPI.getEliteCourseQRCode;
 			this.$Loading.start();
-			this.$http.get(getDataUrl).then(function(result){
+			this.$http.get(getDataUrl,{params:{
+                id:this.dataList[index].Id
+            }}).then(function(result){
 				if(result.data.status == 200){
 					that.$Message.success({
                         duration:2,content:globel_.configMessage.createCodeSuccess,
