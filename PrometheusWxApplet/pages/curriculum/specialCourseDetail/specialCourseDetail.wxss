@@ -98,6 +98,7 @@
    width: 750rpx;
    margin-top: 30rpx;
    padding-bottom: 50rpx;
+   background: #fff;
 }
 
 .other_view .des {

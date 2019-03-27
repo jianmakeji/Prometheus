@@ -3,51 +3,65 @@ var app = getApp();
 Page({
    // 页面的初始数据
    data: {
-      searchCursor: "",
-      searchDivider: false,
       dataList: [],
-      storageData: "",
+      storageData: wx.getStorageSync('search'),
+      actionVisible:false,
+      searchObjData:[
+         {id:1, name: '试题' },
+         {id:2, name: '突破' },
+      ],
+      searchObj:"试题",
       searchValue: "",
       userId: ""
    },
-   // 搜索结果点击跳转到详情
-   clickClass: function(event) {
-      wx.navigateTo({
-         url: app.globalData.pageUrl.curriculumDetail + "?id=" + event.currentTarget.dataset.id + "&courseType=" + event.currentTarget.dataset.courseType + "&courseName=" + event.currentTarget.dataset.courseName
+   // 点击搜索类
+   tapSearchObj(){
+      this.setData({
+         actionVisible:true
       })
    },
+   // 隐藏搜索类选择
+   tapCancel(){
+      this.setData({
+         actionVisible: false
+      });
+   },  
+   // 选中某个搜索类 
+   clickItem({ detail }) {
+      const index = detail.index;
+      this.setData({
+         searchObj: this.data.searchObjData[index].name
+      })
+   },
+   // 搜索结果点击跳转到详情
+   // clickClass: function(event) {
+   //    wx.navigateTo({
+   //       url: app.globalData.pageUrl.curriculumDetail + "?id=" + event.currentTarget.dataset.id + "&courseType=" + event.currentTarget.dataset.courseType + "&courseName=" + event.currentTarget.dataset.courseName
+   //    })
+   // },
    // input内容变化监听
    bindInput: function(event) {
+      console.log(event)
+      let that = this;
       this.setData({
-         searchValue: event.detail.value,
-         storageData: wx.getStorageSync('search')
+         searchValue: event.detail.value
       })
-      if (event.detail.cursor == 0) {
-         this.setData({
-            searchCursor: 0,
-            storageData: wx.getStorageSync('search'),
-            searchDivider: false
-         })
-      }
-   },
-   bindConfirmr: function(event) {
-      let that = this,
-         urlData = app.globalData.serverHost + app.globalData.globalAPI.searchByKeywords + this.data.searchValue;
-      if (this.data.searchValue) {
+      if (this.data.searchObj == "试题" && event.detail.cursor){
          wx.request({
-            url: urlData,
+            url: app.globalData.serverHost + app.globalData.globalAPI.searchEliteCourseByKeywords,
+            data:{
+               limit:10,
+               offset:0,
+               keyword: this.data.searchValue
+            },
             header: {
                "Authorization": this.data.authorization
             },
-            success(res) {
-               if (res.statusCode == 200) {
-                  let dataListArr = res.data.rows;
-                  for (let i = 0; i < res.data.rows.length; i++) {
-                     dataListArr[i].duration = parseInt(res.data.rows[i].duration / 60) + ":" + (parseInt(res.data.rows[i].duration % 60 / 10) ? res.data.rows[i].duration % 60 : "0" + res.data.rows[i].duration % 60);
-                  }
+            success(res){
+               console.log(res)
+               if(res.statusCode == 200){
                   that.setData({
-                     searchCursor: 1,
-                     dataList: dataListArr
+                     dataList:res.data.rows
                   })
                   if (res.data.count > 0) {
                      let storageArr = wx.getStorageSync("search") || [];
@@ -55,65 +69,127 @@ Page({
                         storageArr.unshift(that.data.searchValue);
                      }
                      wx.setStorageSync("search", storageArr);
-                  } else if (res.data.count == 0) {
-                     that.setData({
-                        searchDivider: true
-                     })
+                  }
+               }else if(res.statusCode == 409){
+                  getNewToken(res.data.token, that);
+               }
+            }
+         })
+      } else if (this.data.searchObj == "突破" && event.detail.cursor){
+         wx.request({
+            url: app.globalData.serverHost + app.globalData.globalAPI.searchSpecialCourseByKeywords,
+            data: {
+               limit: 10,
+               offset: 0,
+               keyword: this.data.searchValue
+            },
+            header: {
+               "Authorization": this.data.authorization
+            },
+            success(res) {
+               console.log(res)
+               if (res.statusCode == 200) {
+                  that.setData({
+                     dataList: res.data.rows
+                  })
+                  if (res.data.count > 0) {
+                     let storageArr = wx.getStorageSync("search") || [];
+                     if (storageArr.indexOf(that.data.searchValue) == -1) {
+                        storageArr.unshift(that.data.searchValue);
+                     }
+                     wx.setStorageSync("search", storageArr);
                   }
                } else if (res.statusCode == 409) {
                   getNewToken(res.data.token, that);
                }
             }
          })
+      }else{
+         that.setData({
+            dataList: [],
+            storageData: wx.getStorageSync('search')
+         })
       }
    },
+
    // 点击历史数据
-   handleClick: function(event) {
+   catStorageItem: function(event) {
+      let that = this;
       var searchValue = event.currentTarget.dataset.storageValue;
       this.setData({
          searchValue: searchValue
       })
+      if (this.data.searchObj == "试题") {
+         wx.request({
+            url: app.globalData.serverHost + app.globalData.globalAPI.searchEliteCourseByKeywords,
+            data: {
+               limit: 10,
+               offset: 0,
+               keyword: this.data.searchValue
+            },
+            header: {
+               "Authorization": this.data.authorization
+            },
+            success(res) {
+               console.log(res)
+               if (res.statusCode == 200) {
+                  that.setData({
+                     dataList: res.data.rows
+                  })
+                  if (res.data.count > 0) {
+                     let storageArr = wx.getStorageSync("search") || [];
+                     if (storageArr.indexOf(that.data.searchValue) == -1) {
+                        storageArr.unshift(that.data.searchValue);
+                     }
+                     wx.setStorageSync("search", storageArr);
+                  }
+               } else if (res.statusCode == 409) {
+                  getNewToken(res.data.token, that);
+               }
+            }
+         })
+      } else if (this.data.searchObj == "突破") {
+         wx.request({
+            url: app.globalData.serverHost + app.globalData.globalAPI.searchSpecialCourseByKeywords,
+            data: {
+               limit: 10,
+               offset: 0,
+               keyword: this.data.searchValue
+            },
+            header: {
+               "Authorization": this.data.authorization
+            },
+            success(res) {
+               console.log(res)
+               if (res.statusCode == 200) {
+                  that.setData({
+                     dataList: res.data.rows
+                  })
+                  if (res.data.count > 0) {
+                     let storageArr = wx.getStorageSync("search") || [];
+                     if (storageArr.indexOf(that.data.searchValue) == -1) {
+                        storageArr.unshift(that.data.searchValue);
+                     }
+                     wx.setStorageSync("search", storageArr);
+                  }
+               } else if (res.statusCode == 409) {
+                  getNewToken(res.data.token, that);
+               }
+            }
+         })
+      } else {
+         that.setData({
+            dataList: [],
+            storageData: wx.getStorageSync('search')
+         })
+      }
    },
    // 点击清除按钮
    clearTap: function(event) {
       this.setData({
          searchValue: "",
-         searchCursor: 0,
          storageData: wx.getStorageSync('search')
       })
-   },
-   // 点击搜索按钮
-   searchTap: function(event) {
-      let that = this;
-      if (this.data.searchValue) {
-         wx.request({
-            url: app.globalData.serverHost + app.globalData.globalAPI.searchByKeywords + this.data.searchValue,
-            header: {
-               "Authorization": this.data.authorization
-            },
-            success(res) {
-               if (res.statusCode == 200) {
-                  let dataListArr = res.data.rows;
-                  for (let i = 0; i < res.data.rows.length; i++) {
-                     dataListArr[i].duration = parseInt(res.data.rows[i].duration / 60) + ":" + (parseInt(res.data.rows[i].duration % 60 / 10) ? res.data.rows[i].duration % 60 : "0" + res.data.rows[i].duration % 60);
-                  }
-                  that.setData({
-                     searchCursor: 1,
-                     dataList: dataListArr
-                  })
-                  if (res.data.count > 0) {
-                     let storageArr = wx.getStorageSync("search") || [];
-                     if (storageArr.indexOf(that.data.searchValue) == -1) {
-                        storageArr.unshift(that.data.searchValue);
-                     }
-                     wx.setStorageSync("search", storageArr);
-                  }
-               } else if (res.statusCode == 409) {
-                  getNewToken(res.data.token, that);
-               }
-            }
-         })
-      }
    },
    // 清缓存
    clearStorage: function(event) {
@@ -133,7 +209,6 @@ Page({
    onHide: function() {
       this.setData({
          searchValue: "",
-         searchCursor: 0,
          storageData: wx.getStorageSync('search')
       })
    }

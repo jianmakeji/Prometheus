@@ -1,8 +1,21 @@
-<view>
-   <block wx:for="{{courseDataList}}" wx:for-item="item">
-      <view class='collect' data-course-id="{{item.course.Id}}" data-course-name="{{item.course.name}}" catchtap="clickClass">
-         <text class='title'>{{item.course.name}}</text>
+<i-tabs current="{{currentTab}}" bindchange="handleChange"fixed>
+   <block wx:for="{{collectType}}" wx:for-item="item" wx:for-index="index">
+      <i-tab key="{{index}}" title="{{item.title}}"></i-tab>
+   </block>
+</i-tabs>
+<view class='eliteCourse_view' wx:if="{{currentTab == 0}}">
+   <block wx:for="{{eliteCourseData}}" wx:for-item="item">
+      <view class='collect' data-elite-course-id="{{item.elite_course.Id}}" data-course-name="{{item.elite_course.name}}" catchtap="tapEliteCourse">
+         <text class='title'>{{item.elite_course.name}}</text>
       </view>
    </block>
-   <i-divider wx:if="{{!courseDataList.length}}" height="40" content="暂无数据"></i-divider>
+   <i-divider wx:if="{{!eliteCourseData.length}}" height="40" content="暂无数据"></i-divider>
+</view>
+<view class='specialColumn_view' wx:if="{{currentTab == 1}}">
+   <block wx:for="{{specialColumnData}}" wx:for-item="item">
+      <view class='collect' data-special-course-id="{{item.special_course.Id}}" catchtap="tapSpecialCourse">
+         <text class='title'>{{item.special_course.name}}</text>
+      </view>
+   </block>
+   <i-divider wx:if="{{!specialColumnData.length}}" height="40" content="暂无数据"></i-divider>
 </view>

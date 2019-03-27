@@ -1,5 +1,6 @@
 {
    "pages": [
+      "pages/search/search",
       "pages/curriculum/curriculum",
       "pages/recommend/recommend",
       "pages/welcome/welcome",
@@ -8,7 +9,6 @@
       "pages/curriculum/eliteCourseDetail/eliteCourseDetail",
       "pages/curriculum/specialCourseDetail/specialCourseDetail",
       "pages/curriculum/specialColumnDetail/specialColumnDetail",
-      "pages/search/search",
       "pages/Myinfo/Myinfo",
       "pages/Myinfo/myCollect/myCollect"
    ],

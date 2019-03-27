@@ -1,8 +1,30 @@
+.search_title{
+   width: 100rpx;
+   height: 80rpx;
+   position: absolute;
+   top: 40rpx;
+   background: pink
+}
+.search_title .search_obj{
+   width: 75rpx;
+   height: 80rpx;
+   line-height: 80rpx;
+   text-align: center;
+   position: absolute;
+   font-size: 24rpx;
+   font-weight: bold;
+   color: #2f54eb;
+}
+.search_title .search_obj_icon{
+   position: absolute;
+   margin-left: 60rpx;
+   margin-top: 12rpx;
+}
 .search_view {
-   width: 670rpx;
+   width: 600rpx;
    height: 80rpx;
    margin-top: 40rpx;
-   margin-left: 40rpx;
+   margin-left: 100rpx;
    border-radius: 40rpx;
    background: #fff;
 }
@@ -14,7 +36,7 @@
 }
 
 .search_view  .search_input {
-   width: 500rpx;
+   width: 420rpx;
    height: 80rpx;
    border: none;
    font-size: 32rpx;
@@ -31,7 +53,7 @@
 .search_view .scan_icon {
    position: absolute;
    margin-top: 10rpx;
-   margin-left: 590rpx;
+   margin-left: 520rpx;
 }
 
 .opt {

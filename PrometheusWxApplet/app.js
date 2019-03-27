@@ -46,6 +46,21 @@ App({
          getSpecialCourseBySpecialColumnId:"/api/wx/specialCourse/getSpecialCourseBySpecialColumnId",
          getSpecialCourseDataById:"/api/wx/specialCourse/",
 
+         // 收藏
+         getFavoriteByCategory: "/api/wx/favorite",
+         checkIsFavite: "/api/wx/favorite/checkIsFavite",
+         createFavorite: "/api/wx/favorite", //添加收藏
+         deleteFavorite: "/api/wx/favorite/deleteFavorite", //删除收藏
+
+         // 评论
+         createComment: "/api/wx/comment", //添加评论
+         getCommentByEliteCourseId: "/api/wx/comment/getCommentByEliteCourseId", 
+         getCommentBySpecialCourseId: "/api/wx/comment/getCommentBySpecialCourseId",
+
+         // 搜索
+         searchEliteCourseByKeywords: "/api/wx/eliteCourse/searchByKeywords",
+         searchSpecialCourseByKeywords:"/api/wx/specialCourse/searchByKeywords",
+
          getCourseData: "/api/wx/course",
          getCourseTypeData: "/api/wx/courseType",
          getSpecialColumnData: "/api/wx/specialColumn",
@@ -58,12 +73,8 @@ App({
          getSpecialColumnsByCourseType: "/api/wx/specialColumn/getSpecialColumnsByCourseType",
          getCommentByCourseId: "/api/wx/comment/getCommentByCourseId?limit=10&offset=",
 
-         createComment: "/api/wx/comment", //添加评论
-
-         checkIsFavite: "/api/wx/favorite/checkIsFavite?",
+         
          getFavoriteByCategoryAndUserid: "/api/wx/favorite?limit=1000&offset=",
-         createFavorite: "/api/wx/favorite", //添加收藏
-         deleteFavorite: "/api/wx/favorite/deleteFavorite", //删除收藏
       },
       gradeData: [
          { id: 7, title: "七年级" },
