@@ -98,7 +98,7 @@ module.exports = app => {
     let condition = {
       offset,
       limit,
-      order: [[ 'id', 'asc' ]],
+      order: [[ 'created_at', 'desc' ]],
     };
 
     if (specialColumn == 0){

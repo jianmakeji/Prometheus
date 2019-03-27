@@ -87,7 +87,7 @@ module.exports = app => {
     let resultObj = await this.findAndCountAll({
       offset,
       limit,
-      order: [[ 'id', 'asc' ]],
+      order: [[ 'created_at', 'desc' ]],
       where: {
           eliteSchoolId:id,
       },

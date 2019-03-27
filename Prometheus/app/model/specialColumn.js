@@ -48,7 +48,7 @@ module.exports = app => {
     let resultObj = await this.findAndCountAll({
       offset,
       limit,
-      order: [[ 'id', 'asc' ]],
+      order: [[ 'created_at', 'desc' ]],
       include: [{
           model:app.model.Teacher,
           attributes: ['name','Id'],
@@ -73,7 +73,7 @@ module.exports = app => {
     const resultObj =  this.ctx.model.SpecialColumn.findAndCountAll({
       offset,
       limit,
-      order: [[ 'id', 'asc' ]],
+      order: [[ 'created_at', 'desc' ]],
       where: {
           teacherId:id,
       },
