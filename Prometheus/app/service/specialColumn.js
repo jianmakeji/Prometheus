@@ -32,14 +32,17 @@ class SpecialColumn extends Service {
     specialColumn.thumb = helper.signatureUrl(helper.courseImagePath + specialColumn.thumb,  thumbName);
     specialColumn.teacher.avatar = helper.signatureUrl(helper.articleImagePath + specialColumn.teacher.avatar);
 
-    let briefImages = specialColumn.briefImages.split(',');
-    let singImages = '';
-    if(briefImages.length > 0){
-      briefImages.forEach((element, index)=>{
-          singImages = singImages + helper.signatureUrl(helper.courseImagePath + element, posterImage) + ',';
-      })
-      specialColumn.briefImages = singImages;
+    if(specialColumn.briefImages != null && specialColumn.briefImages != ''){
+      let briefImages = specialColumn.briefImages.split(',');
+      let singImages = '';
+      if(briefImages.length > 0){
+        briefImages.forEach((element, index)=>{
+            singImages = singImages + helper.signatureUrl(helper.courseImagePath + element, posterImage) + ',';
+        })
+        specialColumn.briefImages = singImages;
+      }
     }
+
     if (specialColumn.recommend == 1 ){
        specialColumn.poster = helper.signatureUrl(helper.courseImagePath + specialColumn.poster, posterImage);
     }

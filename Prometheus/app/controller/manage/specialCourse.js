@@ -102,11 +102,11 @@ class SpecialCourseController extends Controller {
         const qrFilePath = ctx.helper.qrCodePath + qrFileName;
 
         const tokenBody = await wxUtil.getAccessToken(ctx.helper.wx_appid,ctx.helper.wx_secret);
-        const imageRequest = wxUtil.getQRCodeImage(tokenBody, id);
+        const imageRequest = wxUtil.getQRCodeImage(tokenBody, id, 1);
         if (imageRequest != null){
           await imageRequest.then((data)=>{
             ctx.helper.putOssObject(qrFilePath,data);
-            ctx.service.specailCourse.updateQRCodeBySpecialCourseId(id, qrFileName);
+            ctx.service.specialCourse.updateQRCodeBySpecialCourseId(id, qrFileName);
           });
           ctx.body = ctx.helper.success(ctx.helper.signatureUrl(qrFilePath, undefined));
         }

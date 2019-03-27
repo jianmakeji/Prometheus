@@ -87,7 +87,7 @@ class EliteCourseController extends Controller {
         const qrFilePath = ctx.helper.qrCodePath + qrFileName;
 
         const tokenBody = await wxUtil.getAccessToken(ctx.helper.wx_appid,ctx.helper.wx_secret);
-        const imageRequest = wxUtil.getQRCodeImage(tokenBody, id);
+        const imageRequest = wxUtil.getQRCodeImage(tokenBody, id, 2);
         if (imageRequest != null){
           await imageRequest.then((data)=>{
             ctx.helper.putOssObject(qrFilePath,data);

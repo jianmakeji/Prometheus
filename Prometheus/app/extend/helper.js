@@ -86,7 +86,6 @@ module.exports = {
 
     try {
       let result = await client.putStream(objectName, stream);
-      console.log(result);
     } catch (e) {
       console.log(e)
     }
@@ -139,5 +138,5 @@ module.exports = {
     };
     return result;
   },
-  
+
 };
