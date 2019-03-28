@@ -64,7 +64,6 @@ export default {
   	},
   	methods: {
 	    submitClick() {
-			console.log(this.formItem);
 	      	let that = this;
 	      	this.$Loading.start();
 	      	if (this.id == 0) { //新建	post

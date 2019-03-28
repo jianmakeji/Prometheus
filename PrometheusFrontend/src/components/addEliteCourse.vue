@@ -17,7 +17,7 @@
 		   	</FormItem>
 
 		   	<FormItem label="视频名:">
-			   	<Input v-model="formItem.name" placeholder="请输入视频名称..." clearable></Input>
+			   	<Input v-model="formItem.name" maxlength="24" placeholder="请输入视频名称(不超过24个字符)" clearable></Input>
 		   	</FormItem>
 			<FormItem label="视频介绍:">
 			   	<Input v-model="formItem.describe" type="textarea" placeholder="请输入视频介绍..."></Input>
@@ -243,7 +243,6 @@ export default {
 				getDataUrl = globel_.serverHost + globel_.configAPI.updateEliteCourseById.replace(":id",this.id);
 			this.$Loading.start();
 			this.$http.get( getDataUrl ).then(function(result){
-                console.log(result);
                 that.fileVideo = result.data.videoAddress.replace(globel_.aliHttp + "courseVideos/",'').split('?')[0];
 				// 数据赋值
 				that.$Loading.finish();

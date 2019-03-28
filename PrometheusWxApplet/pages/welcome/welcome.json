@@ -1,5 +1,6 @@
 {
-    "usingComponents": {
-        "i-button": "/dist/button/index"
-    }
+   "usingComponents": {
+      "i-button": "/dist/button/index"
+   },
+   "disableSwipeBack": true
 }

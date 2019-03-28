@@ -2,7 +2,7 @@
 	<div class="addSpecialColumn">
 		<Breadcrumb>
 	        <BreadcrumbItem  to="/specialColumn">
-	            <Icon type="ios-build" size="24"/>专题突破管理
+	            <Icon type="ios-build" size="24"/>专题管理
 	        </BreadcrumbItem>
 			<BreadcrumbItem>
 	            <Icon type="md-add" size="24"/>{{BreadcrumbTitle}}

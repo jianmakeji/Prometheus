@@ -15,7 +15,7 @@
 				<Progress :percent="progressPercent" />
 	        </FormItem>
 		   	<FormItem label="学校名:">
-			   	<Input v-model="formItem.name" placeholder="请输入视频名称..." clearable></Input>
+			   	<Input v-model="formItem.name" placeholder="请输入学校名称..." clearable></Input>
 		   	</FormItem>
 			<FormItem>
 				<Button type="primary" long @click="submitClick">提交</Button>

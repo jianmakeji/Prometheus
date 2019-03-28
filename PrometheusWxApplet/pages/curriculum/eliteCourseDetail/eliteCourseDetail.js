@@ -18,8 +18,7 @@ Page({
       collectFlag: 0,            //0:未收藏，1:已收藏
       commentValue: "",          //评论内容
       commentData: [],           //评论数据
-      commentLenght: 0,
-      loadMore: false
+      commentLoad: false
    },
    // 简介/讨论切换
    handleChange(event){
@@ -264,7 +263,8 @@ Page({
       let that = this;
       if(this.data.commentData.length < this.data.commentCount){
          this.setData({
-            commentOffset:this.data.commentOffset + 10
+            commentOffset:this.data.commentOffset + 10,
+            commentLoad:true
          })
          wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.getCommentByEliteCourseId,
@@ -279,17 +279,13 @@ Page({
             success(res) {
                if (res.statusCode == 200) {
                   that.setData({
-                     commentData: that.data.commentData.concat(res.data.rows)
+                     commentData: that.data.commentData.concat(res.data.rows),
+                     commentLoad:false
                   })
                } else if (res.statusCode == 409) {
                   getNewToken(res.data.token, that);
                }
             }
-         })
-      }else{
-         wx.showToast({
-            title: '无其他数据',
-            icon: "none"
          })
       }
    },

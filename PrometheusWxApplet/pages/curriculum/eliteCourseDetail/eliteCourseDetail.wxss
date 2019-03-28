@@ -107,13 +107,27 @@
    color: #4a4a4a;
    margin: 40rpx 44rpx 0;
 }
-.collect{
-   width: 90rpx;
-   height: 90rpx;
-   border-radius: 45rpx;
+.collect_view {
+   width: 80rpx;
+   height: 80rpx;
    position: fixed;
-   top: 700rpx;
-   right: 24rpx;
+   top: 704rpx;
+   right: 31rpx;
+   border: 4rpx solid;
+   border-left-color: #5e7ef7;
+   border-right-color: #9254de;
+   border-top-color: #7869ea;
+   border-bottom-color: #7869ea;
+   border-radius: 50rpx;
+}
+
+.collect_view .collect {
+   width: 70rpx;
+   height: 70rpx;
+   border-radius: 71rpx;
+   position: fixed;
+   top: 710rpx;
+   right: 40rpx;
    opacity: 0.8;
 }
 .other_view .comment_view {

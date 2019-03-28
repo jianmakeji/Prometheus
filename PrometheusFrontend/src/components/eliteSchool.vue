@@ -58,9 +58,35 @@ export default {
             columns:[
                 { title: 'id', key: 'Id', align: 'center' ,width:90},
                 { title: '名称', key: 'name', align: 'center' },
-                { title: '年级', key: 'grade', align: 'center' },
-                { title: '科目', key: 'subject', align: 'center' },
-                { title: '学校', key: 'schoolId', align: 'center' },
+                { title: '年级', key: 'grade', align: 'center' ,
+                    render:(h, params) => {
+                        if(params.row.grade == "7"){
+                            return h("p", this.gradeData[1].title)
+                        }else if(params.row.grade == "8"){
+                            return h("p", this.gradeData[2].title)
+                        }else if(params.row.grade == "9"){
+                            return h("p", this.gradeData[3].title)
+                        }
+                    }
+                },
+                { title: '科目', key: 'subject', align: 'center' ,
+                    render:(h, params) => {
+                        if(params.row.subject == "1"){
+                            return h("p", this.subjectData[1].title)
+                        }else if(params.row.subject == "2"){
+                            return h("p", this.subjectData[2].title)
+                        }else if(params.row.subject == "3"){
+                            return h("p", this.subjectData[3].title)
+                        }else if(params.row.subject == "4"){
+                            return h("p", this.subjectData[4].title)
+                        }
+                    }
+                },
+                { title: '学校', key: 'school', align: 'center' ,
+                    render:(h, params) => {
+                        return h("p", this.dataList[params.index].school.name)
+                    }
+                },
                 { title: '操作', key: 'opt', align: 'center',width:160,
         			render: (h, params) => {
         				return h("div",[
@@ -104,7 +130,23 @@ export default {
             this.$router.push({name:"addEliteSchool",query:{id:0}});
         },
         pageChange(index){
-
+            this.offset = (index - 1) * 10;
+            let that = this,
+                getDataUrl = globel_.serverHost + globel_.configAPI.getEliteSchoolData;
+            this.$Loading.start();
+    		this.$http.get( getDataUrl ,{ params:{
+                limit:10,
+                offset:that.offset,
+                grade:that.grade,
+                subject:that.subject,
+                schoolId:that.schoolId
+            }}).then(function(result){
+    			that.$Loading.finish();
+    			that.dataList = result.data.rows;
+    		}).catch(function(err){
+    			that.$Loading.error();
+    			that.$Message.error({duration:3,content:err});
+    		})
         },
         gradeChange(option){
             let value = option.value;
@@ -162,6 +204,7 @@ export default {
                 subject:that.subject,
                 schoolId:that.schoolId
             }}).then(function(result){
+                console.log(result);
                 that.$Loading.finish();
                 that.dataList = result.data.rows;
                 that.total = result.data.count;
@@ -218,7 +261,6 @@ export default {
         }}).then(function(result){
             that.gradeData = that.gradeData.concat(globel_.gradeData);
             that.subjectData = that.subjectData.concat(globel_.subjectData);
-			// that.schoolData = that.schoolData.concat(result.data.rows);
             that.schoolData = result.data.rows;
 		}).catch(function(err){
 			that.$Loading.error();
@@ -233,6 +275,7 @@ export default {
             subject:that.subject,
             schoolId:that.schoolId
         }}).then(function(result){
+            console.log(result);
 			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;

@@ -3,5 +3,7 @@
       "i-icon": "/dist/icon/index",
       "i-divider": "/dist/divider/index",
       "i-action-sheet": "/dist/action-sheet/index"
-   }
+   },
+   "disableScroll":true,
+   "disableSwipeBack":true
 }

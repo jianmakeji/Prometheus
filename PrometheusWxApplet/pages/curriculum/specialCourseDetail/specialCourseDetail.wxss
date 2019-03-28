@@ -107,15 +107,31 @@
    color: #4a4a4a;
    margin: 40rpx 44rpx 0;
 }
-.collect{
-   width: 90rpx;
-   height: 90rpx;
-   border-radius: 45rpx;
+
+.collect_view {
+   width: 80rpx;
+   height: 80rpx;
    position: fixed;
-   top: 700rpx;
-   right: 24rpx;
+   top: 704rpx;
+   right: 31rpx;
+   border: 4rpx solid;
+   border-left-color: #5e7ef7;
+   border-right-color: #9254de;
+   border-top-color: #7869ea;
+   border-bottom-color: #7869ea;
+   border-radius: 50rpx;
+}
+
+.collect_view .collect {
+   width: 70rpx;
+   height: 70rpx;
+   border-radius: 71rpx;
+   position: fixed;
+   top: 710rpx;
+   right: 40rpx;
    opacity: 0.8;
 }
+
 .other_view .comment_view {
    width: 750rpx;
 }
@@ -149,6 +165,7 @@
    overflow: hidden;
    text-overflow: ellipsis;
 }
+
 .other_view .comment_view .like {
    width: 100rpx;
    height: 40rpx;
@@ -159,7 +176,8 @@
    margin-left: 420rpx;
    text-align: right;
 }
-.other_view .comment_view .zan_img{
+
+.other_view .comment_view .zan_img {
    width: 40rpx;
    height: 40rpx;
    border-radius: 40rpx;
@@ -167,7 +185,8 @@
    margin-top: 10rpx;
    margin-left: 530rpx;
 }
-.other_view .comment_view .comment{
+
+.other_view .comment_view .comment {
    width: 510rpx;
    font-size: 24rpx;
    color: #4a4a4a;
@@ -175,7 +194,8 @@
    margin-left: 80rpx;
    padding: 0 0 10rpx;
 }
-.other_view .editComment{
+
+.other_view .editComment {
    width: 620rpx;
    height: 70rpx;
    margin: 20rpx auto;
@@ -183,25 +203,13 @@
    color: #9b9b9b;
    padding-left: 40rpx;
    border-radius: 40rpx;
-   background: #F7FAFF;
+   background: #f7faff;
 }
-.other_view .phclass{
+
+.other_view .phclass {
    font-size: 24rpx;
    color: #9b9b9b;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* .content_view {
     display: flex;

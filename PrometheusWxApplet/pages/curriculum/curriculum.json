@@ -1,7 +1,8 @@
 {
    "usingComponents": {
       "i-tabs": "/dist/tabs/index",
-      "i-tab": "/dist/tab/index"
+      "i-tab": "/dist/tab/index",
+      "i-load-more": "/dist/load-more/index"
    },
    "disableSwipeBack": true,
    "enablePullDownRefresh":true

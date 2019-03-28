@@ -17,7 +17,8 @@ Page({
       gradeList: app.globalData.gradeData,
       subjectList: app.globalData.subjectData,
       count:0,
-      eliteSchoolData:[]
+      eliteSchoolData:[],
+      eliteSchoolLoad:false
    },
    handleChange(event){
       this.setData({
@@ -174,7 +175,8 @@ Page({
       let that = this;
          if (this.data.eliteSchoolData.length < this.data.count){
             this.setData({
-               offset:this.data.offset + 10
+               offset:this.data.offset + 10,
+               eliteSchoolLoad:true
             })
             wx.request({
                url: app.globalData.serverHost + app.globalData.globalAPI.getEliteSchoolData,
@@ -192,17 +194,13 @@ Page({
                   if (res.statusCode == 200) {
                      wx.hideLoading();
                      that.setData({
-                        eliteSchoolData: that.data.eliteSchoolData.concat(res.data.rows)
+                        eliteSchoolData: that.data.eliteSchoolData.concat(res.data.rows),
+                        eliteSchoolLoad:false
                      })
                   } else if (res.statusCode == 409) {
                      getNewToken(res.data.token, that);
                   }
                }
-            })
-         }else{
-            wx.showToast({
-               title: '无其他数据',
-               icon: "none"
             })
          }
    },

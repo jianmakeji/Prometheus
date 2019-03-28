@@ -21,7 +21,7 @@ Page({
       commentValue: "",          //评论内容
       commentData: [],           //评论数据
       commentCount: 0,
-      loadMore: false
+      commentLoad: false
    },
    handleChange(event) {
       this.setData({
@@ -281,7 +281,7 @@ Page({
       if (this.data.commentCount > this.data.commentData.length) {
          this.setData({
             offset: that.data.commentOffset + 10,
-            loadMore: true
+            commentLoad: true
          });
          wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.getCommentBySpecialCourseId,
@@ -296,17 +296,13 @@ Page({
             success(res) {
                if (res.statusCode == 200) {
                   that.setData({
-                     commentData: this.data.commentData.concat(res.data.rows)
+                     commentData: this.data.commentData.concat(res.data.rows),
+                     commentLoad:false
                   })
                } else if (res.statusCode == 409) {
                   getNewToken(res.data.token, that);
                }
             }
-         })
-      }else{
-         wx.showToast({
-            title: '无其他数据',
-            icon: "none"
          })
       }
    },

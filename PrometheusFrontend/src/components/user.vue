@@ -19,7 +19,7 @@ export default {
 			total:0,
             offset:0,
 			columns:[
-                // { 	title: 'id',	key: 'Id',	align: 'center'	},
+                { 	title: 'id',	key: 'Id',	align: 'center'	},
                 {	title: '用户名',	key: 'nickName',	align: 'center'},
 				{	title: '用户头像',	key: 'avatarUrl',	align: 'center',
                     render: (h, params) => {

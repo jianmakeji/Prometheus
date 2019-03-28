@@ -15,7 +15,7 @@
 	    </Form>
 		<Table :columns="columns" :data="dataList"></Table><br />
 		<Page :total="total" show-total @on-change="pageChange"/>
-        <Modal v-model="previewModal" width="60%" footer-hide @on-visible-change="visibleChange">
+        <Modal v-model="previewModal" width="54%" footer-hide @on-visible-change="visibleChange">
 			<p slot="header" style="color:#19be6b;text-align:center;font-size:18px;">
 	            <Icon type="md-eye" />
 	            <span>{{videoTitle}}</span>
@@ -64,7 +64,7 @@ export default {
 
 			eliteSchoolId:0,
             columns:[
-                // { title: 'id', key: 'Id', align: 'center' ,width:90},
+                { title: 'id', key: 'Id', align: 'center' ,width:90},
                 { title: '名称', key: 'name', align: 'center' },
                 { title: '试题', key: 'eliteSchoolId', align: 'center',
                 	render:(h, params) =>{
@@ -206,16 +206,18 @@ export default {
 		pageChange(index){
             this.offset  = (index-1)*10;
             let that = this,
-				getDataUrl = globel_.serverHost + globel_.configAPI.getCourseByCondition + this.offset +'&courseType='+ this.courseTypeId + '&specialColumn=' + this.specialColumnId;
-			this.$Loading.start();
-			this.$http.get( getDataUrl ).then(function(result){
-				that.$Loading.finish();
-				that.dataList = result.data.rows;
-				that.total = result.data.count;
-			}).catch(function(err){
-				that.$Loading.error();
-				that.$Message.error({duration:3,content:err});
-			})
+                getDataUrl = globel_.serverHost+ globel_.configAPI.getEliteCourseData;
+            this.$http.get( getDataUrl,{params:{
+                limit:10,
+                offset:this.offset,
+                eliteSchoolId:this.eliteSchoolId
+            }}).then(function(result){
+                that.$Loading.finish();
+                that.dataList = result.data.rows;
+            }).catch(function(err){
+                that.$Loading.error();
+                that.$Message.error({duration:3,content:err});
+            })
 		},
 		newEliteCourse(){
 			this.$router.push({name:"addEliteCourse",query:{id:0}});
@@ -254,14 +256,17 @@ export default {
 					that.$Message.success({
                         duration:2,content:globel_.configMessage.createCodeSuccess,
                         onClose(){
-                            let getNexDataUrl = globel_.serverHost+ globel_.configAPI.getCourseByCondition + that.offset +'&courseType='+ that.courseTypeId + '&specialColumn=' + that.specialColumnId;
-                    		that.$http.get( getNexDataUrl ).then(function(result){
+                            let getDataUrl = globel_.serverHost+ globel_.configAPI.getEliteCourseData;
+                    		that.$http.get( getDataUrl,{params:{
+                                limit:10,
+                                offset:that.offset,
+                                eliteSchoolId:that.eliteSchoolId
+                            }}).then(function(result){
                     			that.$Loading.finish();
-                                that.dataList = [];
                     			that.dataList = result.data.rows;
                     		}).catch(function(err){
                     			that.$Loading.error();
-                    			that.$Message.error({duration:2,content:err});
+                    			that.$Message.error({duration:3,content:err});
                     		})
                         }
                     });
@@ -308,7 +313,6 @@ export default {
                 offset:this.offset,
                 eliteSchoolId:this.eliteSchoolId
             }}).then(function(result){
-                console.log(result);
                 that.$Loading.finish();
                 that.dataList = result.data.rows;
                 that.total = result.data.count;
@@ -337,7 +341,6 @@ export default {
             offset:this.offset,
             eliteSchoolId:this.eliteSchoolId
         }}).then(function(result){
-            console.log(result);
 			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;

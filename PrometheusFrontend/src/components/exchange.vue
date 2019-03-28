@@ -17,7 +17,7 @@ export default {
 		return{
 			total:0,
 			columns:[
-				// { title: 'id', key: 'Id', align: 'center' },
+				{ title: 'id', key: 'Id', align: 'center' },
 				{ title: '名称', key: 'title', align: 'center' },
 				{ title: '类型', key: 'type', align: 'center' },
 				{ title: '专题', key: 'specialColumn', align: 'center' },
