@@ -18,7 +18,7 @@ module.exports = app => {
   });
 
   EliteSchool.associate = function() {
-    app.model.EliteSchool.belongsTo(app.model.School, {sourceKey:'schoolId',foreignKey: 'Id'});
+    app.model.EliteSchool.belongsTo(app.model.School, {sourceKey:'Id',foreignKey: 'schoolId'});
     app.model.EliteSchool.hasMany(app.model.EliteCourse,{sourceKey:'Id',foreignKey:'eliteSchoolId'});
   };
 
@@ -54,7 +54,11 @@ module.exports = app => {
       order: [[ 'created_at', 'desc' ], [ 'Id', 'desc' ]],
       where: {
 
-      }
+      },
+      include:[{
+        model:app.model.School,
+        attributes: ['name','Id'],
+      }]
     };
 
     if (grade != 0){
@@ -68,7 +72,7 @@ module.exports = app => {
     if (schoolId != 0){
       condition.where.schoolId = schoolId;
     }
-    
+
     let resultObj = await this.findAndCountAll(condition);
     return resultObj;
   }
