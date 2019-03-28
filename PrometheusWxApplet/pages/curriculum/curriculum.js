@@ -7,7 +7,10 @@ Page({
          { Id: 1, name: "名校试题" },
          { Id: 2, name:"专题突破"}
       ],
-      offset:0,
+      schoolCount:0,
+      specialColumnsCount:0,
+      schoolOffset:0,
+      specialColumnsOffset:0,
       schoolData: [],         //名校数据
       specialColumnsData:[],  //专题突破数据
    },
@@ -39,8 +42,8 @@ Page({
          wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.getSchoolData,
             data: {
-               limit: 100,
-               offset:0
+               limit: 10,
+               offset: that.data.schoolOffset
             },
             header: {
                "Authorization": wx.getStorageSync("Authorization")
@@ -48,7 +51,8 @@ Page({
             success(res) {
                if (res.statusCode == 200) {
                   that.setData({
-                     schoolData: res.data.rows
+                     schoolData: res.data.rows,
+                     schoolCount:res.data.count
                   })
                } else if (res.statusCode == 409) {
                   getNewToken(res.data.token, that);
@@ -60,7 +64,7 @@ Page({
             url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnData,
             data: {
                limit: 10,
-               offset: that.data.offset
+               offset: that.data.specialColumnsOffset
             },
             header: {
                "Authorization": wx.getStorageSync("Authorization")
@@ -68,7 +72,8 @@ Page({
             success(res) {
                if (res.statusCode == 200) {
                   that.setData({
-                     specialColumnsData: res.data.rows
+                     specialColumnsData: res.data.rows,
+                     specialColumnsCount:res.data.count
                   })
                } else if (res.statusCode == 409) {
                   getNewToken(res.data.token, that);
@@ -87,14 +92,15 @@ Page({
    onPullDownRefresh(){
       let that = this;
       this.setData({
-         offset:0
+         schoolOffset: 0,
+         specialColumnsOffset:0
       })
       // 获取名校试题数据
       wx.request({
          url: app.globalData.serverHost + app.globalData.globalAPI.getSchoolData,
          data: {
-            limit: 100,
-            offset:0
+            limit: 10,
+            offset:that.data.schoolOffset
          },
          header: {
             "Authorization": wx.getStorageSync("Authorization")
@@ -115,7 +121,7 @@ Page({
          url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnData,
          data: {
             limit: 10,
-            offset: 0
+            offset: that.data.specialColumnsOffset
          },
          header: {
             "Authorization": wx.getStorageSync("Authorization")
@@ -134,9 +140,9 @@ Page({
    },
    onReachBottom(){
       let that = this;
-      if (this.data.specialColumnsData.length < this.data.offset){
+      if (this.data.specialColumnsData.length < this.data.specialColumnsCount && this.data.currentTab == "1"){
          this.setData({
-            offset: this.data.offset + 10
+            offset: that.data.specialColumnsOffset + 10
          })
          wx.showLoading({
             title: '玩命加载中',
@@ -146,7 +152,7 @@ Page({
             url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnData,
             data: {
                limit: 10,
-               offset: this.data.offset
+               offset: this.data.specialColumnsOffset
             },
             header: {
                "Authorization": wx.getStorageSync("Authorization")
@@ -162,7 +168,35 @@ Page({
                }
             }
          })
-      }else{
+      } else if (this.data.schoolData.length < this.data.schoolCount && this.data.currentTab == "0"){
+         this.setData({
+            offset: that.data.schoolOffset + 10
+         })
+         wx.showLoading({
+            title: '玩命加载中',
+         })
+         // 获取专题突破数据
+         wx.request({
+            url: app.globalData.serverHost + app.globalData.globalAPI.getSchoolData,
+            data: {
+               limit: 10,
+               offset: this.data.schoolOffset
+            },
+            header: {
+               "Authorization": wx.getStorageSync("Authorization")
+            },
+            success(res) {
+               if (res.statusCode == 200) {
+                  wx.hideLoading();
+                  that.setData({
+                     schoolData: that.data.schoolData.concat(res.data.rows)
+                  })
+               } else if (res.statusCode == 409) {
+                  getNewToken(res.data.token, that);
+               }
+            }
+         })
+      } else {
          wx.showToast({
             title: '无其他数据',
             icon:"none"

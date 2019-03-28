@@ -12,10 +12,11 @@ Page({
       ],
       eliteCourseData: "",
       eliteCourseId: "",
-      offset: 0,
+      category:"",
+      commentOffset: 0,
+      commentCount:0,
       collectFlag: 0,            //0:未收藏，1:已收藏
       commentValue: "",          //评论内容
-      commentModal: false,       //评论弹出层
       commentData: [],           //评论数据
       commentLenght: 0,
       loadMore: false
@@ -25,6 +26,11 @@ Page({
       this.setData({
          currentTab: event.detail.key
       });
+      if(this.data.currentTab == "0"){
+         this.setData({
+            commentOffset:0
+         })
+      }
    },
    // 添加至收藏
    collectTap: function(event) {
@@ -117,23 +123,21 @@ Page({
                         title: '发表评论成功！',
                      });
                      that.setData({
-                        commentModal: false,
                         commentValue: "",
-                        offset: 0
+                        offset: that.data.commentOffset
                      });
                      // 获取评论数据
                      wx.request({
                         url: app.globalData.serverHost + app.globalData.globalAPI.getCommentByEliteCourseId,
                         data:{
                            limit:10,
-                           offset:0,
+                           offset: that.data.commentOffset,
                            eliteCourseId: that.data.eliteCourseId
                         },
                         header: {
                            "Authorization": wx.getStorageSync("Authorization")
                         },
                         success(res) {
-                           console.log("评论数据",res)
                            if(res.statusCode == 200){
                               that.setData({
                                  commentData: res.data.rows
@@ -157,24 +161,21 @@ Page({
          })
       }
    },
-   // 取消评论
-   tapCancel: function(event) {
-      this.setData({
-         commentModal: false
-      })
-   },
-
    /**
     * 生命周期函数--监听页面加载
     */
-   onLoad: function(options) {
+   onLoad: function (options) {
       if (options.scene) { //扫二维码进入
+         let arr = new Array();
+         arr = options.scene.split("#");
          this.setData({
-            eliteCourseId: options.scene
+            eliteCourseId: arr[0],
+            category: arr[1]
          })
       } else { //列表点击进入
          this.setData({
-            eliteCourseId: options.eliteCourseId
+            eliteCourseId: options.eliteCourseId,
+            category: options.category
          })
       }
    },
@@ -202,7 +203,7 @@ Page({
                userId:wx.getStorageSync("userId"),
                category:2,
                specialCourseId:0,
-               eliteCourseId:that.data.id
+               eliteCourseId: that.data.eliteCourseId
             },
             header:{
                "Authorization": wx.getStorageSync("Authorization")
@@ -229,17 +230,17 @@ Page({
             url: app.globalData.serverHost + app.globalData.globalAPI.getCommentByEliteCourseId,
             data: {
                limit: 10,
-               offset: 0,
+               offset: this.data.commentOffset,
                eliteCourseId: that.data.eliteCourseId
             },
             header: {
                "Authorization": wx.getStorageSync("Authorization")
             },
             success(res) {
-               console.log("评论数据", res)
                if (res.statusCode == 200) {
                   that.setData({
-                     commentData: res.data.rows
+                     commentData: res.data.rows,
+                     commentCount:res.data.count
                   })
                } else if (res.statusCode == 409) {
                   getNewToken(res.data.token, that);
@@ -248,7 +249,7 @@ Page({
          })
       } else {
          wx.redirectTo({
-            url: app.globalData.pageUrl.welcome + '?eliteCourseId=' + this.data.eliteCourseId + "&courseName=" + this.data.courseName,
+            url: app.globalData.pageUrl.welcome + '?eliteCourseId=' + this.data.eliteCourseId + "&category=" + this.data.category,
          })
       }
    },
@@ -261,26 +262,34 @@ Page({
     */
    onReachBottom: function() {
       let that = this;
-      if (this.data.commentLenght > this.data.offset) {
+      if(this.data.commentData.length < this.data.commentCount){
          this.setData({
-            offset: this.data.offset + 10,
-            loadMore: true
-         });
+            commentOffset:this.data.commentOffset + 10
+         })
          wx.request({
-            url: app.globalData.serverHost + app.globalData.globalAPI.getCommentByCourseId + this.data.offset + "&courseId=" + this.data.eliteCourseId,
+            url: app.globalData.serverHost + app.globalData.globalAPI.getCommentByEliteCourseId,
+            data: {
+               limit: 10,
+               offset: this.data.commentOffset,
+               eliteCourseId: that.data.eliteCourseId
+            },
             header: {
                "Authorization": wx.getStorageSync("Authorization")
             },
             success(res) {
                if (res.statusCode == 200) {
                   that.setData({
-                     commentData: that.data.commentData.concat(res.data.rows),
-                     loadMore: false
-                  });
+                     commentData: that.data.commentData.concat(res.data.rows)
+                  })
                } else if (res.statusCode == 409) {
                   getNewToken(res.data.token, that);
                }
             }
+         })
+      }else{
+         wx.showToast({
+            title: '无其他数据',
+            icon: "none"
          })
       }
    },
@@ -291,7 +300,7 @@ Page({
    onShareAppMessage: function(res) {
       return {
          title: '师道慧享',
-         path: '/pages/curriculum/curriculumDetail/curriculumDetail?id=' + this.data.eliteCourseId + "&courseName=" + this.data.courseName,
+         path: app.globalData.pageUrl.eliteCourseDetail + "?eliteCourseId=" + this.data.eliteCourseId + "&category=" + this.data.category,
          success: function(res) {
             wx.showToast({
                title: '转发成功！',

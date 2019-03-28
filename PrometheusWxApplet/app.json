@@ -1,16 +1,16 @@
 {
    "pages": [
-      "pages/search/search",
-      "pages/curriculum/curriculum",
       "pages/recommend/recommend",
-      "pages/welcome/welcome",
+      "pages/curriculum/curriculum",
       "pages/curriculum/eliteSchool/eliteSchool",
       "pages/curriculum/eliteCourse/eliteCourse",
       "pages/curriculum/eliteCourseDetail/eliteCourseDetail",
       "pages/curriculum/specialCourseDetail/specialCourseDetail",
       "pages/curriculum/specialColumnDetail/specialColumnDetail",
+      "pages/search/search",
       "pages/Myinfo/Myinfo",
-      "pages/Myinfo/myCollect/myCollect"
+      "pages/Myinfo/myCollect/myCollect",
+      "pages/welcome/welcome"
    ],
    "window": {
       "backgroundTextStyle": "dark",

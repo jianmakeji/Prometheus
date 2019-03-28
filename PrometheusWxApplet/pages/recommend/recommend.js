@@ -46,7 +46,6 @@ Page({
             },
             data: { limit: 10 },
             success(res) {
-               console.log(res);
                if (res.statusCode == 200) {
                   that.setData({
                      dataList: res.data,

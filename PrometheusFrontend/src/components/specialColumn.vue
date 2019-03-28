@@ -103,17 +103,16 @@ export default {
 		pageChange(index){
 			this.offset = (index - 1) * 10;
 			let that = this,
-			 	getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialColumnData;
+				getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialColumnData;
 			this.$Loading.start();
-			this.$http.get( getDataUrl ,{params:{
-				limit:0,
-				offset:that.offset
+			this.$http.get( getDataUrl,{params:{
+				limit:10,
+				offset:this.offset
 			}}).then(function(result){
 				that.$Loading.finish();
 				that.dataList = result.data.rows;
 			}).catch(function(err){
 				that.$Loading.error();
-				that.$Message.error('获取数据失败！');
 			})
 		},
 		newSpecialColumn(){
