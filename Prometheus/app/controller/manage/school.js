@@ -10,6 +10,7 @@ class SchoolController extends Controller {
       offset: ctx.helper.parseInt(ctx.query.offset),
       thumbName: ctx.query.thumbName,
     };
+    
     ctx.body = await ctx.service.school.list(query);
   }
 

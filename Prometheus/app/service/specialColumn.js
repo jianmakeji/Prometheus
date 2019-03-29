@@ -3,7 +3,7 @@
 const Service = require('egg').Service;
 
 class SpecialColumn extends Service {
-  async list({ offset = 0, limit = 10, thumbName = 'thumb_600_600' }) {
+  async list({ offset = 0, limit = 10, thumbName = 'thumb_330_225' }) {
     let resultObj = await this.ctx.model.SpecialColumn.getSpecialColumnByPage({
       offset,
       limit

@@ -3,14 +3,14 @@
 const Service = require('egg').Service;
 
 class School extends Service {
-  async list({ offset = 0, limit = 10,thumbName= 'thumb_600_600' }) {
+  async list({ offset = 0, limit = 10,thumbName= 'thumb_330_150' }) {
     let resultObj = await this.ctx.model.School.getSchoolByPage({
       offset,
       limit,
       thumbName});
 
     const helper = this.ctx.helper;
-
+    
     resultObj.rows.forEach((element, index)=>{
         element.bg = helper.signatureUrl(helper.articleImagePath + element.bg, thumbName);
 
