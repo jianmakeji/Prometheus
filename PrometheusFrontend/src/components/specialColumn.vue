@@ -2,7 +2,7 @@
 	<div class="specialColumn">
 		<Breadcrumb>
 	        <BreadcrumbItem>
-	            <Icon type="ios-build" size="24"/>专题突破管理
+	            <Icon type="ios-build" size="24"/>专题管理
 	        </BreadcrumbItem>
 	    </Breadcrumb><br />
 		<Button icon="md-add" type="primary" @click="newSpecialColumn">新建</Button><br /><br />
@@ -11,7 +11,7 @@
 		<Modal v-model="deleteModel" width="360" @on-ok="okTap">
 	        <p slot="header" style="color:#ed4014;text-align:center;font-size:18px;">
 	            <Icon type="ios-information-circle" size="20"></Icon>
-	            <span>确定要删除专栏</span>
+	            <span>确定要删除专题？</span>
 	        </p>
 	        <div style="text-align:center">
 	            {{specialColumnTitle}}
@@ -32,6 +32,7 @@ export default {
 			index:"",
 			total:0,
 			columns:[
+				{ 	title: 'id',	key: 'Id',	align: 'center'	},
                 {
                     title: '专题名称',
                     key: 'name',
@@ -47,7 +48,7 @@ export default {
 								style: {
 									color: params.row.recommend ? "#19be6b" : "#ed4014"
 								},
-							},params.row.recommend ? "是" : "——")
+							},params.row.recommend ? "是" : "—")
 						])
 					}
                 },
@@ -161,7 +162,6 @@ export default {
 			limit:10,
 			offset:this.offset
 		}}).then(function(result){
-			console.log(result);
 			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;

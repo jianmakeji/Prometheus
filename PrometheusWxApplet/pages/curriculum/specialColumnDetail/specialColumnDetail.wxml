@@ -27,11 +27,11 @@
       <view class='special_catalog' wx:if="{{currentTab == 1}}">
          <block wx:for="{{specialCourseData}}" wx:for-item="item" wx:for-index="index">
             <view class='catalog' data-special-course-id="{{item.Id}}" catchtap='tapSpecialCourse'>
-               <view class='num'>{{index}}</view> 
+               <view class='num'>{{index+1}}</view> 
                <view class='title'>{{item.name}}</view>
             </view>
          </block>
-         <i-load-more tip="没有更多了" wx:if="{{specialCourseData.length == 0}}" loading="{{ loadMore }}" />
+         <i-load-more tip="暂无数据" loading="{{ specialColumnLoad }}" />
       </view>
    </view>
 </view>

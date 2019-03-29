@@ -11,7 +11,8 @@ Page({
       eliteSchoolId: "",
       offset: 0,
       count:0,
-      dataList: []
+      dataList: [],
+      eliteCourseLoad:false
    },
    clickClass: function(event) {
       wx.navigateTo({
@@ -98,7 +99,8 @@ Page({
       let that = this;
       if (this.data.dataList.length < this.data.count){
          this.setData({
-            offset:this.data.offset + 10
+            offset:this.data.offset + 10,
+            eliteCourseLoad:true
          })
          wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.getEliteCourseByEliteSchoolId,
@@ -112,24 +114,19 @@ Page({
             },
             success(res) {
                if (res.statusCode == 200) {
-                  wx.hideLoading();
                   let dataArr = new Array();
                   dataArr = res.data.rows;
                   for (let i = 0; i < dataArr.length; i++) {
                      dataArr[i].duration = parseInt(dataArr[i].duration / 60) + ":" + (parseInt(dataArr[i].duration % 60 / 10) ? dataArr[i].duration % 60 : "0" + dataArr[i].duration % 60);
                   }
                   that.setData({
-                     dataList: that.data.dataList.concat(dataArr)
+                     dataList: that.data.dataList.concat(dataArr),
+                     eliteCourseLoad:false
                   })
                } else if (res.statusCode == 409) {
                   getNewToken(res.data.token, that);
                }
             }
-         })
-      } else {
-         wx.showToast({
-            title: '无其他数据',
-            icon: "none"
          })
       }
    },

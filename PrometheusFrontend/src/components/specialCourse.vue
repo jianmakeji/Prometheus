@@ -2,12 +2,12 @@
   	<div class="specialCourse">
 		<Breadcrumb>
 			<BreadcrumbItem>
-				<Icon type="ios-build" size="24"/>视频管理
+				<Icon type="ios-build" size="24"/>专题视频管理
 			</BreadcrumbItem>
 		</Breadcrumb><br />
 		<Button icon="md-add" type="primary" @click="newSpecialCourse">新建</Button><br /><br />
 		<Form :model="formItem" label-position="right" :label-width="80" inline style="width:100%;">
-			<FormItem label="专栏">
+			<FormItem label="专题">
 	            <Select v-model="formItem.specialColumnId" @on-change="specialColumnChange" label-in-value style="width:200px">
 					<Option v-for="(item,index) in specialColumnData" :value="item.Id" :key="index">{{item.name}}</Option>
 	            </Select>
@@ -15,7 +15,7 @@
 	    </Form>
 		<Table :columns="columns" :data="dataList"></Table><br />
 		<Page :total="total" show-total @on-change="pageChange"/>
-        <Modal v-model="previewModal" width="60%" footer-hide @on-visible-change="visibleChange">
+        <Modal v-model="previewModal" width="54%" footer-hide @on-visible-change="visibleChange">
 			<p slot="header" style="color:#19be6b;text-align:center;font-size:18px;">
 	            <Icon type="md-eye" />
 	            <span>{{videoTitle}}</span>
@@ -26,19 +26,10 @@
                 </video>
 			</div>
 	    </Modal>
-		<!-- <Modal v-model="codeModal"  @on-ok="downloadCode" ok-text="下载图片至本地">
-			<p slot="header" style="color:#19be6b;text-align:center;font-size:18px;">
-	            <Icon type="ios-brush-outline" />
-	            <span>{{codeTitle}}</span>
-	        </p>
-			<div style="text-align:center" v-show="qrcodeUrl" class="response">
-				<qrcode id="codeImage" :value="qrcodeUrl" v-if="qrcodeUrl"	:options="{ size: 120 }"></qrcode>
-			</div>
-	    </Modal> -->
 		<Modal v-model="deleteModel" width="360" @on-ok="okTap">
 	        <p slot="header" style="color:#ed4014;text-align:center;font-size:18px;">
 	            <Icon type="ios-information-circle" size="20"></Icon>
-	            <span>确定要删除视频</span>
+	            <span>确定要删除专题视频？</span>
 	        </p>
 	        <div style="text-align:center">
 	            {{videoTitle}}
@@ -75,7 +66,7 @@ export default {
 				specialColumn:0,	//专题
 			},
             columns:[
-                // { title: 'id', key: 'Id', align: 'center' ,width:90},
+                { title: 'id', key: 'Id', align: 'center' ,width:90},
                 { title: '名称', key: 'name', align: 'center' },
                 { title: '专栏', key: 'special_column', align: 'center',
                 	render:(h, params) =>{
@@ -302,7 +293,6 @@ export default {
 				deleteUrl = globel_.serverHost + globel_.configAPI.deleteSpecialCourseById.replace(":id",this.dataList[this.index].Id);
 			this.$Loading.start();
 			this.$http.delete(deleteUrl).then(function(result){
-                console.log(result);
 				if(result.status == 200){
 					that.$Message.success({duration:3,content:globel_.configMessage.deleteSuccess});
 					let getDataUrl = globel_.serverHost + globel_.configAPI.getSpecialCourseData;
@@ -366,7 +356,6 @@ export default {
             offset:this.offset,
             specialColumnId:this.specialColumnId
         }}).then(function(result){
-            console.log(result);
 			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;

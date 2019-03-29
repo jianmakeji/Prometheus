@@ -45,8 +45,8 @@ export default {
             commentTitle:"",
             deleteModel:false,
             columns:[
-                // { title: 'id', key: 'Id', align: 'center', width:100},
-                // { title: '用户ID', key: 'userId', align: 'center', width:100 },
+                { title: 'id', key: 'Id', align: 'center', width:60},
+                { title: '用户ID', key: 'userId', align: 'center', width:100 },
                 { title: '用户名称', key: 'nickName', align: 'center', width:150,
                     render:(h, params) =>{
                         return h('div',[
@@ -54,10 +54,10 @@ export default {
                         ])
                     }
                 },
-                { title: '课程', key: 'courseId', align: 'center', width:200,
+                { title: '课程', key: 'name', align: 'center', width:200,
                     render:(h, params) =>{
                         return h('div',[
-                            h('p', params.row.course.name)
+                            h('p', params.row.special_course.name)
                         ])
                     }
                 },
@@ -90,7 +90,6 @@ export default {
         categoryChange(option){
             let value = option.value;
 			this.category = value;
-            console.log(option);
             let that = this,
                 getDataUrl = globel_.serverHost+ globel_.configAPI.getCommentData;
             this.$Loading.start();
@@ -167,11 +166,9 @@ export default {
             category:that.category
         }}).then(function(result){
 			that.$Loading.finish();
-            console.log(result);
 			that.dataList = result.data.rows;
 			that.total = result.data.count;
 		}).catch(function(err){
-            console.log(err);
 			that.$Loading.error();
 			that.$Message.error({duration:3,content:err});
 		})

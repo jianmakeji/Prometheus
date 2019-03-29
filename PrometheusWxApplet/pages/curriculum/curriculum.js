@@ -10,9 +10,11 @@ Page({
       schoolCount:0,
       specialColumnsCount:0,
       schoolOffset:0,
+      schoolLoadMore:false,
       specialColumnsOffset:0,
       schoolData: [],         //名校数据
       specialColumnsData:[],  //专题突破数据
+      specialColumnLoad:false
    },
    catchSchool(event){
       let schoolId = event.currentTarget.dataset.schoolId;
@@ -142,10 +144,8 @@ Page({
       let that = this;
       if (this.data.specialColumnsData.length < this.data.specialColumnsCount && this.data.currentTab == "1"){
          this.setData({
-            offset: that.data.specialColumnsOffset + 10
-         })
-         wx.showLoading({
-            title: '玩命加载中',
+            offset: that.data.specialColumnsOffset + 10,
+            schoolLoadMore:true
          })
          // 获取专题突破数据
          wx.request({
@@ -159,9 +159,9 @@ Page({
             },
             success(res) {
                if (res.statusCode == 200) {
-                  wx.hideLoading();
                   that.setData({
-                     specialColumnsData: that.data.specialColumnsData.concat(res.data.rows)
+                     specialColumnsData: that.data.specialColumnsData.concat(res.data.rows),
+                     schoolLoadMore: false
                   })
                } else if (res.statusCode == 409) {
                   getNewToken(res.data.token, that);
@@ -170,10 +170,8 @@ Page({
          })
       } else if (this.data.schoolData.length < this.data.schoolCount && this.data.currentTab == "0"){
          this.setData({
-            offset: that.data.schoolOffset + 10
-         })
-         wx.showLoading({
-            title: '玩命加载中',
+            offset: that.data.schoolOffset + 10,
+            specialColumnLoad:true
          })
          // 获取专题突破数据
          wx.request({
@@ -187,22 +185,16 @@ Page({
             },
             success(res) {
                if (res.statusCode == 200) {
-                  wx.hideLoading();
                   that.setData({
-                     schoolData: that.data.schoolData.concat(res.data.rows)
+                     schoolData: that.data.schoolData.concat(res.data.rows),
+                     specialColumnLoad:false
                   })
                } else if (res.statusCode == 409) {
                   getNewToken(res.data.token, that);
                }
             }
          })
-      } else {
-         wx.showToast({
-            title: '无其他数据',
-            icon:"none"
-         })
-      }
-      
+      }      
    },
    /**
     * 用户点击右上角分享

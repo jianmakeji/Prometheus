@@ -80,19 +80,19 @@ export default {
         pageChange(index){
             this.offset  = (index-1)*10;
             let that = this,
-                getDataUrl = globel_.serverHost+ globel_.configAPI.getSchoolData;
+                getDataUrl = globel_.serverHost + globel_.configAPI.getSchoolData;
             this.$Loading.start();
             this.$http.get( getDataUrl ,{ params:{
                 limit:10,
                 offset:this.offset
             }}).then(function(result){
-                that.$Loading.finish();
-                that.dataList = result.data.rows;
-                that.total = result.data.count;
-            }).catch(function(err){
-                that.$Loading.error();
-                that.$Message.error({duration:3,content:err});
-            })
+    			that.$Loading.finish();
+    			that.dataList = result.data.rows;
+    			that.total = result.data.count;
+    		}).catch(function(err){
+    			that.$Loading.error();
+    			that.$Message.error({duration:3,content:err});
+    		})
         },
         changeTap(index){
             let schoolId = this.dataList[index].Id;

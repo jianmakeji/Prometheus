@@ -51,8 +51,15 @@
    margin-left: 642rpx;
 }
 .testpaper_list .title{
+   height: 140rpx;
    line-height: 140rpx;
    font-size: 32rpx;
    color: #000;
    margin-left: 58rpx;
+   display: -webkit-box;
+   word-break: break-all;
+   -webkit-box-orient: vertical;
+   -webkit-line-clamp: 1;
+   overflow: hidden;
+   text-overflow: ellipsis;
 }

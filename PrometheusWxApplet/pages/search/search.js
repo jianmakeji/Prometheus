@@ -12,7 +12,7 @@ Page({
       ],
       searchObj:"试题",
       searchValue: "",
-      userId: ""
+      showNoResultImg:false
    },
    // 点击搜索类
    tapSearchObj(){
@@ -39,11 +39,11 @@ Page({
       addSearchStorage(this);
       if (this.data.searchObj == "试题"){
          wx.navigateTo({
-            url: app.globalData.pageUrl.eliteCourseDetail + "?eliteCourseId=" + event.currentTarget.dataset.courseId
+            url: app.globalData.pageUrl.eliteCourseDetail + "?eliteCourseId=" + event.currentTarget.dataset.courseId + "&category=2"
          })
       }else{
          wx.navigateTo({
-            url: app.globalData.pageUrl.specialCourseDetail + "?specialCourseId=" + event.currentTarget.dataset.courseId
+            url: app.globalData.pageUrl.specialCourseDetail + "?specialCourseId=" + event.currentTarget.dataset.courseId + "&category=1"
          })
       }
       
@@ -63,7 +63,8 @@ Page({
    tapDelete(){
       this.setData({
          searchValue:"",
-         dataList: [],
+         dataList: [], 
+         showNoResultImg: false,
          storageData: wx.getStorageSync('search')
       })
    },
@@ -77,7 +78,7 @@ Page({
          wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.searchEliteCourseByKeywords,
             data:{
-               limit:10,
+               limit:5,
                offset:0,
                keyword: this.data.searchValue
             },
@@ -89,6 +90,7 @@ Page({
                   that.setData({
                      dataList:res.data.rows
                   })
+                  showNoResultImg(res.data.count, that);
                }else if(res.statusCode == 409){
                   getNewToken(res.data.token, that);
                }
@@ -98,7 +100,7 @@ Page({
          wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.searchSpecialCourseByKeywords,
             data: {
-               limit: 10,
+               limit: 5,
                offset: 0,
                keyword: this.data.searchValue
             },
@@ -110,6 +112,7 @@ Page({
                   that.setData({
                      dataList: res.data.rows
                   })
+                  showNoResultImg(res.data.count, that);
                } else if (res.statusCode == 409) {
                   getNewToken(res.data.token, that);
                }
@@ -118,6 +121,7 @@ Page({
       }else{
          that.setData({
             dataList: [],
+            showNoResultImg: false,
             storageData: wx.getStorageSync('search')
          })
       }
@@ -134,7 +138,7 @@ Page({
          wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.searchEliteCourseByKeywords,
             data: {
-               limit: 10,
+               limit: 5,
                offset: 0,
                keyword: this.data.searchValue
             },
@@ -146,6 +150,7 @@ Page({
                   that.setData({
                      dataList: res.data.rows
                   })
+                  showNoResultImg(res.data.count, that);
                } else if (res.statusCode == 409) {
                   getNewToken(res.data.token, that);
                }
@@ -155,7 +160,7 @@ Page({
          wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.searchSpecialCourseByKeywords,
             data: {
-               limit: 10,
+               limit: 5,
                offset: 0,
                keyword: this.data.searchValue
             },
@@ -167,6 +172,7 @@ Page({
                   that.setData({
                      dataList: res.data.rows
                   })
+                  showNoResultImg(res.data.count, that);
                } else if (res.statusCode == 409) {
                   getNewToken(res.data.token, that);
                }
@@ -175,6 +181,7 @@ Page({
       } else {
          that.setData({
             dataList: [],
+            showNoResultImg: false,
             storageData: wx.getStorageSync('search')
          })
       }
@@ -190,7 +197,6 @@ Page({
    onLoad: function(options) {
       this.setData({
          authorization: wx.getStorageSync("Authorization"),
-         userId: wx.getStorageSync('userId'),
          storageData: wx.getStorageSync('search')
       })
    },
@@ -215,4 +221,16 @@ function addSearchStorage(that){
       storageArr.unshift(that.data.searchValue);
    }
    wx.setStorageSync("search", storageArr);
+}
+
+function showNoResultImg(count, that){
+   if (count == 0 && that.data.searchValue) {
+      that.setData({
+         showNoResultImg: true
+      })
+   } else {
+      that.setData({
+         showNoResultImg: false
+      })
+   }
 }

@@ -32,7 +32,7 @@ export default {
 			total:0,
 			checkModel:false,
 			columns:[
-				// { title: 'id', key: 'Id', align: 'center' },
+				{ title: 'id', key: 'Id', align: 'center' },
 				{ title: '专栏名', key: 'name', align: 'center' },
                 { title: '价格', key: 'price', align: 'center' },
 				{ title: '课程详情', key: 'opt', align: 'center',

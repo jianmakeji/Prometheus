@@ -10,6 +10,7 @@
          <image class='school_img' src='{{item.bg}}'></image>
       </view>
    </block>
+   <i-load-more tip="暂无数据" loading="{{ schoolLoadMore }}" />
 </view>
 <!-- 专题突破内容 -->
 <view class='school_list' wx:if="{{currentTab == 1}}">
@@ -18,4 +19,5 @@
          <image class='teacher_img' src='{{item.thumb}}'></image>
       </view>
    </block>
+   <i-load-more tip="暂无数据" loading="{{ specialColumnLoad }}" />
 </view>

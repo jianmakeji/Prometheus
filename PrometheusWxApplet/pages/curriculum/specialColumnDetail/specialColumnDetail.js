@@ -17,7 +17,7 @@ Page({
       specialCourseOffset:0,
       specialCourseCount:0,
       specialCourseData:[],
-      loadMore:false
+      specialColumnLoad:false
    },
    handleChange(event) {
       this.setData({
@@ -162,7 +162,8 @@ Page({
       let that = this;
       if(this.data.specialCourseData.length < this.data.specialCourseCount){
          this.setData({
-            specialCourseOffset:this.data.specialCourseOffset + 10
+            specialCourseOffset:this.data.specialCourseOffset + 10,
+            specialColumnLoad:true
          })
          wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialCourseBySpecialColumnId,
@@ -178,17 +179,13 @@ Page({
                if (res.statusCode == 200) {
                   wx.hideLoading();
                   that.setData({
-                     specialCourseData: that.data.specialCourseData.concat(res.data.rows)
+                     specialCourseData: that.data.specialCourseData.concat(res.data.rows),
+                     specialColumnLoad:false
                   })
                } else if (res.statusCode == 409) {
                   getNewToken(res.data.token, that);
                }
             }
-         })
-      }else{
-         wx.showToast({
-            title: '无其他数据',
-            icon: "none"
          })
       }
    },
