@@ -25,6 +25,9 @@ Page({
             category: options.category
          })
       }
+      wx.setNavigationBarTitle({
+         title: "登录",
+      })
    },
    // 用户点击微信登陆按钮
    userInfoHandler(event) {

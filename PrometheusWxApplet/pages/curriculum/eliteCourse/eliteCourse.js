@@ -26,6 +26,9 @@ Page({
       this.setData({
          eliteSchoolId: options.eliteSchoolId
       })
+      wx.setNavigationBarTitle({
+         title: '名校试题',
+      })
    },
    onReady() {
       let that = this;

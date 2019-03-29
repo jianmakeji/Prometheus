@@ -105,6 +105,7 @@
    width: 740rpx;
    height: 100rpx; 
    margin: 10rpx auto;  
+   background: #fff;
 }
 .search_result .result .title{
    width: 620rpx;

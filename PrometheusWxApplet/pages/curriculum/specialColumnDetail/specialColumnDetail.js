@@ -39,6 +39,9 @@ Page({
             specialColumnId: options.specialColumnId
          })
       }
+      wx.setNavigationBarTitle({
+         title: '专题详情',
+      })
    },
 
    /**

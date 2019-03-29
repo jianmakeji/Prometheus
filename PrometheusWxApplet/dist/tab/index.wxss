@@ -27,7 +27,7 @@
 }
 
 .i-tabs-tab-title {
-   font-size: 14px;
+   font-size: 16px;
    text-align: center;
    box-sizing: border-box;
    color: #000;

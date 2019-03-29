@@ -1,8 +1,8 @@
-<swiper class='card-swiper' bindchange="swiperChange">
+<swiper class='card-swiper' bindchange="swiperChange" style="width:660rpx;height:1056rpx;margin-top:{{marginTop}};margin-left:45rpx">
    <block wx:for="{{dataList}}" wx:for-item="item">
       <swiper-item class="swiper-item" data-special-column-id="{{item.Id}}" catchtap="catchItem">
          <image class='item-image' src='{{item.poster}}'></image>
       </swiper-item>
    </block>
 </swiper>
-<text class='page'>{{currentPage}}/{{totalPage}}</text>
+<text class='page' style="width: 750rpx;text-align: center;position: absolute;font-size: 32rpx;color: #9b9b9b;margin-top:{{pageMarginTop}};">{{currentPage}}/{{totalPage}}</text>

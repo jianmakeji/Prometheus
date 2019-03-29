@@ -2,11 +2,18 @@
    width: 750rpx;
    height: 480rpx;
 }
+.block_view{
+   width: 750rpx;
+   height: 120rpx;
+   background: #fff;
+   position: absolute;
+   margin-top: -117rpx;
+}
 
 .teacher_info{
    width: 750rpx;
    height: 176rpx;
-   margin-top: -10rpx;
+   margin-top: -120rpx;
    background: #fff;
 }
 .teacher_info .img{

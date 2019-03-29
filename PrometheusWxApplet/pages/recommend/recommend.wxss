@@ -1,17 +1,14 @@
-.card-swiper{
-   width: 660rpx;
-   height: 900rpx;
-   margin:96rpx 45rpx;
-}
+
 .swiper-item{
-   width: 600rpx !important;
-   margin:0 40rpx;
+   width: 660rpx !important;
+   height: 100%;
+   /* margin:0 40rpx; */
    border-radius:40rpx;
    background: #fff;
 }
 .item-image{
-   width:96%;
-   height: 700rpx;
+   width:100%;
+   height: 100%;
    /* margin: 0 2%; */
    border-radius:40rpx;
 }
@@ -20,7 +17,7 @@
    width: 750rpx;
    text-align: center;
    position: absolute;
-   margin-top: -60rpx;
+   margin-top: 60rpx;
    font-size: 32rpx;
    color: #9b9b9b;
 }

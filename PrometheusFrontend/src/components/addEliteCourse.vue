@@ -17,7 +17,7 @@
 		   	</FormItem>
 
 		   	<FormItem label="视频名:">
-			   	<Input v-model="formItem.name" maxlength="24" placeholder="请输入视频名称(不超过24个字符)" clearable></Input>
+			   	<Input v-model="formItem.name" :maxlength="24" placeholder="请输入视频名称(不超过24个字符)" clearable></Input>
 		   	</FormItem>
 			<FormItem label="视频介绍:">
 			   	<Input v-model="formItem.describe" type="textarea" placeholder="请输入视频介绍..."></Input>

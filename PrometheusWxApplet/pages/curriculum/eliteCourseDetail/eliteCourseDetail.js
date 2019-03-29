@@ -177,6 +177,9 @@ Page({
             category: options.category
          })
       }
+      wx.setNavigationBarTitle({
+         title: '试题详解',
+      })
    },
    onReady(){
       let that = this;

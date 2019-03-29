@@ -10,7 +10,7 @@
   		</Breadcrumb><br />
 		<Form :model="formItem" :label-width="80">
             <FormItem label="封面图:">
-				<img v-if="imgUrl.length" :src="imgUrl" style="width:80px;height:80px;" class="schoolImg"><br>
+				<img v-if="imgUrl.length" :src="imgUrl" style="width:330px;height:150px;" class="schoolImg"><br>
                 <input type="file" @change="doUpload" ref="inputFile" accept="image/*"/>
 				<Progress :percent="progressPercent" />
 	        </FormItem>
@@ -172,9 +172,11 @@ export default {
 		this.id = this.$route.query.id;
 		if(this.id != 0){		//修改
             this.BreadcrumbTitle  = "修改学校";
-			this.submitUrl = globel_.serverHost + globel_.configAPI.updateSchoolById.replace(":id",this.id);
+			this.submitUrl = globel_.serverHost + globel_.configAPI.getSchoolById.replace(":id",this.id);
 			this.$Loading.start();
-			this.$http.get( this.submitUrl ).then(function(result){
+			this.$http.get( this.submitUrl ,{params:{
+                thumbName:"thumb_330_150"
+            }}).then(function(result){
 				// 数据赋值
 				that.$Loading.finish();
 				that.formItem = result.data;
