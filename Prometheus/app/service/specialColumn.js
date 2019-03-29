@@ -19,7 +19,7 @@ class SpecialColumn extends Service {
     return resultObj;
   }
 
-  async find({id = 0,thumbName= 'thumb_600_600'}) {
+  async find({id = 0,thumbName= 'thumb_330_225'}) {
     const specialColumn = await this.ctx.model.SpecialColumn.getSpecialColumnById(id);
 
     if (!specialColumn) {
@@ -73,7 +73,7 @@ class SpecialColumn extends Service {
     return specialColumn.destroy();
   }
 
-  async getSpecialColumnsByTeacherId({id = 0, limit = 10, offset =0, thumbName = 'thumb_600_600'}){
+  async getSpecialColumnsByTeacherId({id = 0, limit = 10, offset =0, thumbName = 'thumb_330_225'}){
     const resultObj =  this.ctx.model.SpecialColumn.getSpecialColumnsByTeacherId({id,offset,limit});
 
     const helper = this.ctx.helper;
@@ -85,7 +85,7 @@ class SpecialColumn extends Service {
     return resultObj;
   }
 
-  async getRecommendSpecialColumn({limit = 12, thumbName = 'thumb_600_600'}){
+  async getRecommendSpecialColumn({limit = 12, thumbName = 'thumb_330_528'}){
     const resultObj =  await this.ctx.model.SpecialColumn.getRecommendSpecialColumn(limit);
 
     const helper = this.ctx.helper;

@@ -40,6 +40,7 @@ class SpecialColumnController extends Controller {
       limit: ctx.helper.parseInt(ctx.query.limit),
       thumbName: ctx.query.thumbName,
     };
+    
     ctx.body = await ctx.service.specialColumn.getRecommendSpecialColumn(query);
   }
 }

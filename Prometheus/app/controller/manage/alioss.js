@@ -61,7 +61,7 @@ class AliOSSController extends Controller {
 
   async getUrlSignature(){
     const ctx = this.ctx;
-    ctx.body = ctx.helper.signatureUrl(ctx.query.objectPath);
+    ctx.body = ctx.helper.signatureUrl(ctx.query.objectPath,ctx.query.thumbName);
   }
 }
 
