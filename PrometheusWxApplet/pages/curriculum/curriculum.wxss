@@ -18,12 +18,12 @@
 
 .special_item{
    width: 660rpx;
-   height: 350rpx;
+   height: 450rpx;
    margin: 40rpx 45rpx;
    border-radius: 20rpx;
 }
 .teacher_img{
    width: 660rpx;
-   height: 350rpx;
+   height: 450rpx;
    border-radius: 20rpx;
 }

@@ -107,21 +107,7 @@
    color: #4a4a4a;
    margin: 40rpx 44rpx 0;
 }
-.collect_view {
-   width: 80rpx;
-   height: 80rpx;
-   position: fixed;
-   top: 704rpx;
-   right: 31rpx;
-   border: 4rpx solid;
-   border-left-color: #5e7ef7;
-   border-right-color: #9254de;
-   border-top-color: #7869ea;
-   border-bottom-color: #7869ea;
-   border-radius: 50rpx;
-}
-
-.collect_view .collect {
+.collect {
    width: 70rpx;
    height: 70rpx;
    border-radius: 71rpx;

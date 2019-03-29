@@ -97,6 +97,9 @@ Page({
             schoolId: options.schoolId
          })
       }
+      wx.setNavigationBarTitle({
+         title: '名校试题',
+      })
    },
 
    /**

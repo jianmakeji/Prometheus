@@ -6,6 +6,8 @@ Page({
     * 页面的初始数据
     */
    data: {
+      marginTop:"",
+      pageMarginTop:"",
       currentPage:"1",
       totalPage:"",
       dataList:[]
@@ -35,16 +37,39 @@ Page({
             url: app.globalData.pageUrl.welcome,
          })
       }
+      wx.setNavigationBarTitle({
+         title: '推荐',
+      })
    },
    onReady(){
       let that = this;
+      wx.getSystemInfo({
+         success: function (res) {
+            if (res.screenHeight <= 667) {
+               that.setData({
+                  marginTop: "20rpx",
+                  pageMarginTop: "-60rpx"
+               })
+            } else if (res.screenHeight > 667 && res.screenHeight <= 812){
+               that.setData({
+                  marginTop: "48rpx",
+                  pageMarginTop: "-60rpx"
+               })
+            }else{
+               that.setData({
+                  marginTop: "96rpx",
+                  pageMarginTop: "60rpx"
+               })
+            }
+         },
+      })
       if (wx.getStorageSync("token")) {
          wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.getRecommendSpecialColumn,
             header: {
                "Authorization": wx.getStorageSync("Authorization")
             },
-            data: { limit: 10 },
+            data: { limit: 10, thumb:"thumb_330_528"},
             success(res) {
                if (res.statusCode == 200) {
                   that.setData({

@@ -18,9 +18,7 @@
          </block>
       </i-tabs>
       <view class='des' wx:if="{{currentTab == '0'}}">{{eliteCourseData.describe}}</view>
-      <view class='collect_view'>
-         <image class='collect' catchtap='collectTap' src="{{collectFlag ? '/images/collectIcon_h.png' : '/images/collectIcon.png'}}"></image>
-      </view>
+      <image class='collect' catchtap='collectTap' src="{{collectFlag ? '/images/collectIcon_h.png' : '/images/collectIcon.png'}}"></image>
       <view class='comment_view' wx:if="{{currentTab == '1'}}">
          <input class='editComment' value='{{commentValue}}' placeholder-class="phclass" cursor-spacing="16px" confirm-type='send' placeholder="评论一下" bindinput="commentChange" bindconfirm="submitComment"/>
          <block wx:for="{{commentData}}" wx:for-item="item">

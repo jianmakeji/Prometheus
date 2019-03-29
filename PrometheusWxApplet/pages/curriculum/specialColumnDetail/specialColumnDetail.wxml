@@ -1,6 +1,7 @@
 <!--专题详情-->
 <view>
    <image class='special_img' src='{{specialColumnData.thumb}}'></image>
+   <view class='block_view'></view>
    <view class='teacher_info'>
       <image class='img' src='{{specialColumnData.teacher.avatar}}'></image>
       <text class='name'>{{specialColumnData.teacher.name}}</text>

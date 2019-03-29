@@ -175,6 +175,9 @@ Page({
             category: options.category
          })
       }
+      wx.setNavigationBarTitle({
+         title: '专题详解',
+      })
    },
    onReady(){
       let that = this;

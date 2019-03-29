@@ -46,7 +46,6 @@
    position: absolute;
    width: 20rpx;
    height: 20rpx;
-   background: green;
    margin-top: 0;
    margin-left: 642rpx;
 }

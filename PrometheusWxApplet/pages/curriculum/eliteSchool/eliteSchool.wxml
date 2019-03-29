@@ -12,7 +12,7 @@
 <view class='testpaper_list'>
    <block wx:for="{{eliteSchoolData}}" wx:for-item="item">
       <view class='testpaper' data-elite-school-id="{{item.Id}}" catchtap='catchEliteSchool'>
-         <image class='triangle'></image>
+         <image class='triangle' src="/images/triangle_h.png"></image>
          <text class='title'>{{item.name}}</text>
       </view>
    </block>

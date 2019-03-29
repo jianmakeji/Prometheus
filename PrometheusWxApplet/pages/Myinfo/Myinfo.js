@@ -49,5 +49,8 @@ Page({
             shouquan: 0
          })
       }
+      wx.setNavigationBarTitle({
+         title: '我的',
+      })
    }
 })

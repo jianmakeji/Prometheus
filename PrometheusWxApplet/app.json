@@ -26,8 +26,8 @@
          {
             "pagePath": "pages/recommend/recommend",
             "text": "推荐",
-            "iconPath": "images/curriculum.png",
-            "selectedIconPath": "images/curriculum_h_1.png"
+            "iconPath": "images/recommend.png",
+            "selectedIconPath": "images/recommend_h_1.png"
          },
          {
             "pagePath": "pages/curriculum/curriculum",

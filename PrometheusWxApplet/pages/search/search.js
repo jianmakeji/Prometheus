@@ -199,6 +199,9 @@ Page({
          authorization: wx.getStorageSync("Authorization"),
          storageData: wx.getStorageSync('search')
       })
+      wx.setNavigationBarTitle({
+         title: '搜索',
+      })
    },
    onHide: function() {
       this.setData({

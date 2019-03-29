@@ -35,7 +35,9 @@ Page({
       });
    },
    onLoad: function(options) {
-      
+      wx.setNavigationBarTitle({
+         title: '课程',
+      })
    },
    onReady(){
       let that = this;
@@ -45,7 +47,8 @@ Page({
             url: app.globalData.serverHost + app.globalData.globalAPI.getSchoolData,
             data: {
                limit: 10,
-               offset: that.data.schoolOffset
+               offset: that.data.schoolOffset,
+               thumbName:"thumb_330_150"
             },
             header: {
                "Authorization": wx.getStorageSync("Authorization")
@@ -66,7 +69,8 @@ Page({
             url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnData,
             data: {
                limit: 10,
-               offset: that.data.specialColumnsOffset
+               offset: that.data.specialColumnsOffset,
+               thumbName: "thumb_330_225"
             },
             header: {
                "Authorization": wx.getStorageSync("Authorization")
@@ -102,7 +106,8 @@ Page({
          url: app.globalData.serverHost + app.globalData.globalAPI.getSchoolData,
          data: {
             limit: 10,
-            offset:that.data.schoolOffset
+            offset:that.data.schoolOffset,
+            thumbName: "thumb_330_150"
          },
          header: {
             "Authorization": wx.getStorageSync("Authorization")
@@ -116,6 +121,9 @@ Page({
             } else if (res.statusCode == 409) {
                getNewToken(res.data.token, that);
             }
+         },
+         complete() {
+            wx.stopPullDownRefresh();
          }
       });
       // 获取专题突破数据
@@ -123,7 +131,8 @@ Page({
          url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnData,
          data: {
             limit: 10,
-            offset: that.data.specialColumnsOffset
+            offset: that.data.specialColumnsOffset,
+            thumbName: "thumb_330_225"
          },
          header: {
             "Authorization": wx.getStorageSync("Authorization")
@@ -152,7 +161,8 @@ Page({
             url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnData,
             data: {
                limit: 10,
-               offset: this.data.specialColumnsOffset
+               offset: this.data.specialColumnsOffset, 
+               thumbName: "thumb_330_225"
             },
             header: {
                "Authorization": wx.getStorageSync("Authorization")
@@ -173,12 +183,13 @@ Page({
             offset: that.data.schoolOffset + 10,
             specialColumnLoad:true
          })
-         // 获取专题突破数据
+         // 获取名校试题数据
          wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.getSchoolData,
             data: {
                limit: 10,
-               offset: this.data.schoolOffset
+               offset: this.data.schoolOffset,
+               thumbName: "thumb_330_150"
             },
             header: {
                "Authorization": wx.getStorageSync("Authorization")
