@@ -23,24 +23,24 @@
                           	<img style="width:100%;height:auto;" v-bind:src= "logoSrc"/>
                       	</MenuItem>
                         <MenuItem name="1" >
-                          	<Icon type="ios-videocam" />
+                          	<Icon type="ios-school" />
                           	<span>学校管理</span>
                       	</MenuItem>
                       	<MenuItem name="2" >
                           	<Icon type="ios-videocam" />
-                          	<span>专题突破管理</span>
+                          	<span>专题管理</span>
                       	</MenuItem>
                       	<MenuItem name="3">
                           	<Icon type="ios-videocam" />
-                          	<span>专题突破视频管理</span>
+                          	<span>专题视频管理</span>
                       	</MenuItem>
                         <MenuItem name="4">
-                          	<Icon type="ios-videocam" />
-                          	<span>名校试题</span>
+                          	<Icon type="ios-book" />
+                          	<span>试题管理</span>
                       	</MenuItem>
                         <MenuItem name="5">
-                          	<Icon type="ios-videocam" />
-                          	<span>名校试题视频管理</span>
+                          	<Icon type="ios-book" />
+                          	<span>试题视频管理</span>
                       	</MenuItem>
 						<MenuItem name="6">
                           	<Icon type="md-person" />
@@ -55,7 +55,7 @@
                           	<span>交易管理</span>
                       	</MenuItem>
                         <MenuItem name="9">
-                          	<Icon type="ios-chatboxes-outline" />
+                          	<Icon type="ios-chatbubbles" />
                           	<span>评论管理</span>
                       	</MenuItem>
                   	</Menu>

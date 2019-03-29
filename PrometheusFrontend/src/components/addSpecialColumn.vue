@@ -11,7 +11,7 @@
 		<Form :model="formItem" :label-width="80">
 
 			<FormItem label="封面图:">
-				<img v-if="imgUrl.length" :src="imgUrl" style="width:80px;height:80px;" class="specialColumnImg"><br>
+				<img v-if="imgUrl.length" :src="imgUrl" style="width:165px;height:112px;" class="specialColumnImg"><br>
                 <input type="file" @change="doUpload" ref="inputFile" class="fileInput" accept="image/*"/>
 				<Progress :percent="progressPercent" />
 	        </FormItem>
@@ -51,7 +51,7 @@
 				<i-switch v-model="recommend" @on-change="recommendChange" />
 		   	</FormItem>
 			<FormItem label="海报:" v-if="recommend">
-				<img v-if="posterImgUrl.length" :src="posterImgUrl" style="width:80px;height:80px;" class="specialColumnImg"><br>
+				<img v-if="posterImgUrl.length" :src="posterImgUrl" style="width:110px;height:176px;" class="specialColumnImg"><br>
                 <input type="file" @change="doUploadPoster" ref="inputFile" class="fileInput" accept="image/*"/>
 				<Progress :percent="posterPercent" />
 	        </FormItem>

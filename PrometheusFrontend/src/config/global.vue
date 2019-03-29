@@ -36,6 +36,7 @@
 		//学校增删改查
 		createSchool:"/api/manage/school",
 		getSchoolData:"/api/manage/school",
+		getSchoolById:"/api/manage/school/:id",
 		updateSchoolById:"/api/manage/school/:id",
 		deleteSchoolById:"/api/manage/school/:id",
 
