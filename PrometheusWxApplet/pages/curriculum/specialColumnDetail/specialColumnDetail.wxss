@@ -34,12 +34,19 @@
 }
 .teacher_info .des{
    width: 400rpx;
+   height: 60rpx;
    position: absolute;
    margin-top: 90rpx;
    margin-left: 170rpx;
    font-weight: bold;
    font-size: 22rpx;
    color: #9b9b9b;
+   display: -webkit-box;
+   word-break: break-all;
+   -webkit-box-orient: vertical;
+   -webkit-line-clamp: 2;
+   overflow: hidden;
+   text-overflow: ellipsis;
 }
 .teacher_info .collect_icon{
    width: 32rpx;
@@ -107,10 +114,12 @@
 }
 .special_info .des_imgs{
    width: 750rpx;
+   display: flex;
+   flex-direction: column;
 }
 .special_info .des_img{
    width: 750rpx;
-   margin-bottom: -10rpx;
+   /* margin-bottom: -10rpx; */
 }
 .special_info .special_catalog{
    width: 750rpx;

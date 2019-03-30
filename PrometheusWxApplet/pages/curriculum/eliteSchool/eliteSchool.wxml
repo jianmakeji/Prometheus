@@ -1,5 +1,5 @@
 <!--pages/curriculum/schoolDetail/schoolDetail.wxmlomo-->
-<i-tabs current="{{currentTab}}" bindchange="handleChange" scroll fixed>
+<i-tabs current="{{currentTab}}" bindchange="handleChange" fixed>
    <block wx:for="{{gradeList}}" wx:for-item="item" wx:for-index="index">
       <i-tab key="{{index}}" title="{{item.title}}"></i-tab>
    </block>
@@ -16,5 +16,5 @@
          <text class='title'>{{item.name}}</text>
       </view>
    </block>
-   <i-load-more tip="暂无数据" loading="{{ eliteSchoolLoad }}" />
+   <i-load-more tip="暂无更多数据" loading="{{ eliteSchoolLoad }}" />
 </view>

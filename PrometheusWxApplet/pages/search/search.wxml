@@ -27,6 +27,7 @@
       </view>
    </block>
 </view>
-   <image class='noResult' lazy-load wx:if="{{showNoResultImg}}" src="https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640"></image>
+<image class='noResult' lazy-load wx:if="{{showNoResultImg}}" src="/images/noResult.png"></image>
+<view class='noResultText' wx:if="{{showNoResultImg}}">什么也没找到，试试其他关键词吧</view>
 
    
