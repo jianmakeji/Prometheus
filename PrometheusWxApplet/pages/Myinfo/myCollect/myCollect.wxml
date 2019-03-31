@@ -9,7 +9,7 @@
          <text class='title'>{{item.elite_course.name}}</text>
       </view>
    </block>
-   <i-divider wx:if="{{!eliteCourseData.length}}" height="40" content="暂无数据"></i-divider>
+   <i-divider wx:if="{{!eliteCourseData.length}}" height="40" content="暂无更多数据"></i-divider>
 </view>
 <view class='specialColumn_view' wx:if="{{currentTab == 1}}">
    <block wx:for="{{specialColumnData}}" wx:for-item="item">
@@ -17,5 +17,5 @@
          <text class='title'>{{item.special_course.name}}</text>
       </view>
    </block>
-   <i-divider wx:if="{{!specialColumnData.length}}" height="40" content="暂无数据"></i-divider>
+   <i-divider wx:if="{{!specialColumnData.length}}" height="40" content="暂无更多数据"></i-divider>
 </view>

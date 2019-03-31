@@ -124,6 +124,15 @@
    text-overflow: ellipsis;
 }
 .noResult{
+   width: 116rpx;
+   height: 106rpx;
+   margin-top: 300rpx;
+   margin-left: 317rpx;
+}
+.noResultText{
    width: 750rpx;
-   height: 900rpx
+   font-size: 32rpx;
+   margin-top: 30rpx;
+   color: #9b9b9b;
+   text-align: center;
 }

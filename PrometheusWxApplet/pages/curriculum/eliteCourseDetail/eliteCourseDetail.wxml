@@ -30,7 +30,7 @@
                <view class='comment'>{{item.content}}</view>
             </view>
          </block>
-         <i-load-more tip="暂无数据" loading="{{ commentLoad }}" />
+         <i-load-more tip="暂无更多数据" loading="{{ commentLoad }}" />
       </view>
    </view>
 </view>

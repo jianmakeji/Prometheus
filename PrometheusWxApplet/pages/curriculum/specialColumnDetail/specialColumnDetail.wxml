@@ -22,7 +22,7 @@
       <!-- <image class='collect' src='https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640'></image> -->
       <view class='des_imgs' wx:if="{{currentTab == 0}}">
          <block wx:for="{{briefData}}" wx:for-item="item">
-            <image class='des_img' src='{{item}}'></image>
+            <image class='des_img' mode='widthFix' src='{{item}}'></image>
          </block>
       </view>
       <view class='special_catalog' wx:if="{{currentTab == 1}}">
@@ -32,7 +32,7 @@
                <view class='title'>{{item.name}}</view>
             </view>
          </block>
-         <i-load-more tip="暂无数据" loading="{{ specialColumnLoad }}" />
+         <i-load-more tip="暂无更多数据" loading="{{ specialColumnLoad }}" />
       </view>
    </view>
 </view>

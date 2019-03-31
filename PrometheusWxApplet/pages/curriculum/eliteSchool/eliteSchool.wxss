@@ -40,7 +40,7 @@
    height: 140rpx;
    margin: 24rpx auto;
    border-radius: 20rpx;
-   background: greenyellow;
+   background: #fff;
 }
 .testpaper_list .triangle{
    position: absolute;
