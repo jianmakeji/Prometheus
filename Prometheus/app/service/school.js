@@ -10,7 +10,7 @@ class School extends Service {
       thumbName});
 
     const helper = this.ctx.helper;
-    
+
     resultObj.rows.forEach((element, index)=>{
         element.bg = helper.signatureUrl(helper.articleImagePath + element.bg, thumbName);
 
@@ -19,7 +19,7 @@ class School extends Service {
     return resultObj;
   }
 
-  async find({id = 0,thumbName= 'thumb_600_600'}) {
+  async find({id = 0,thumbName= 'thumb_330_150'}) {
     const school = await this.ctx.model.School.getSchoolById(id);
     const helper = this.ctx.helper;
     school.bg = helper.signatureUrl(helper.articleImagePath + school.bg,  thumbName);

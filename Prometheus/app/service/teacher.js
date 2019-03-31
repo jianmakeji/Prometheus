@@ -3,7 +3,7 @@
 const Service = require('egg').Service;
 
 class Teacher extends Service {
-  async list({ offset = 0, limit = 10, thumbName = "thumb_600_600" }) {
+  async list({ offset = 0, limit = 10, thumbName = "thumb_200_200" }) {
     let resultObj = await this.ctx.model.Teacher.findAndCountAll({
       offset,
       limit,
@@ -30,7 +30,7 @@ class Teacher extends Service {
     }
 
     const helper = this.ctx.helper;
-    let avatarRules;
+    let avatarRules = "thumb_80_80";
 
     teacher.avatar = helper.signatureUrl(helper.articleImagePath + teacher.avatar, avatarRules);
     return teacher;
@@ -45,7 +45,7 @@ class Teacher extends Service {
     if (!teacher) {
       this.ctx.throw(404, 'teacher not found');
     }
-    
+
     return teacher.update(updates);
   }
 
