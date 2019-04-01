@@ -55,10 +55,7 @@ export default {
                     }
                 },
                 { title: '课程', key: 'name', align: 'center', width:200,
-                    render:(h, params) =>{
-                        return h('div',[
-                            h('p', params.row.special_course.name)
-                        ])
+                    render:(h, params) =>{return h('p', params.row.special_course ? params.row.special_course.name : "--")
                     }
                 },
                 { title: '内容', key: 'content', align: 'center' },
