@@ -1,4 +1,4 @@
-<swiper class='card-swiper' bindchange="swiperChange" style="width:660rpx;height:1056rpx;margin-top:{{marginTop}};margin-left:45rpx">
+<swiper class='card-swiper' bindchange="swiperChange" style="width:750rpx;height:1056rpx;margin-top:{{marginTop}};">
    <block wx:for="{{dataList}}" wx:for-item="item">
       <swiper-item class="swiper-item" data-special-column-id="{{item.Id}}" catchtap="catchItem">
          <image class='item-image' src='{{item.poster}}'></image>

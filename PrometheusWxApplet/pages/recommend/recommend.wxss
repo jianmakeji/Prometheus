@@ -1,15 +1,13 @@
-
 .swiper-item{
-   width: 660rpx !important;
+   width: 680rpx !important;
    height: 100%;
-   /* margin:0 40rpx; */
+   margin:0 35rpx;
    border-radius:40rpx;
-   background: #fff;
 }
 .item-image{
-   width:100%;
+   width:660rpx;
    height: 100%;
-   /* margin: 0 2%; */
+   margin-left:10rpx;
    border-radius:40rpx;
 }
 

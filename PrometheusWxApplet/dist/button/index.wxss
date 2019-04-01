@@ -73,7 +73,7 @@
 
 .i-btn-bestPro {
    color: #fff !important;
-   background: #0D3D85 !important;
+   background: linear-gradient(to right, #5e7ef7, #9254de) !important;
 }
 .i-btn-historyBtn {
    color: #fff !important;

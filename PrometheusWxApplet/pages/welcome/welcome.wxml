@@ -1,6 +1,6 @@
 <!--pages/welcome/welcome.wxml-->
 <view class='loginView'>
     <image class='loginImg' src='/images/loginImg_c.png'></image>
-    <i-button class='loginBtn' open-type='getUserInfo' bindgetuserinfo='userInfoHandler' type='bestPro'>微信登陆</i-button>
+    <i-button class='loginBtn' open-type='getUserInfo' bindgetuserinfo='userInfoHandler' type='bestPro' shape="circle" size='small'>微信登陆</i-button>
     <text class='version'>v.1.0.0</text>
 </view>

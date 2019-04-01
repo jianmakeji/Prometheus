@@ -112,7 +112,7 @@
    height: 70rpx;
    border-radius: 71rpx;
    position: fixed;
-   top: 710rpx;
+   top: 1000rpx;
    right: 40rpx;
    opacity: 0.8;
 }
@@ -189,90 +189,3 @@
    font-size: 24rpx;
    color: #9b9b9b;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* .content_view {
-    display: flex;
-    flex-direction: column;
-}
-.content{
-    height: 100%;
-}
-.classType {
-    font-size: 30rpx;
-    color: #808695;
-    margin-top: 10rpx;
-    margin-left: 20rpx;
-}
-
-.share_collect {
-    display: flex;
-    flex-direction: row;
-}
-
-.share, .collect {
-    padding: 20rpx 0rpx;
-    margin-left: 32rpx;
-    display: flex;
-    flex-direction: row;
-}
-
-.iconImg {
-    width: 50rpx;
-    height: 50rpx;
-}
-
-.text {
-    color: #808695;
-    font-size: 28rpx;
-    width: 120rpx;
-    height: 60rpx;
-    line-height: 60rpx;
-    padding: 0rpx;
-    margin-top: -6rpx;
-}
-
-.i-divider-content {
-    font-size: 20px;
-}
-
-.courseDes {
-    font-size: 14px;
-    color: #495060;
-    text-indent: 2em;
-    padding: 10rpx 30rpx;
-}
-
-.commentView {
-    display: flex;
-    flex-direction: column;
-    padding: 0 60rpx;
-}
-
-.commentHeader {
-    margin-top: 30rpx;
-}
-
-.commentHeader text {
-    color: #808695;
-    font-size: 28rpx;
-}
-
-.commentContent {
-    color: #808695;
-    font-size: 30rpx;
-    margin-left: 40rpx;
-    word-break: break-all;
-} */
