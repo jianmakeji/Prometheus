@@ -30,7 +30,7 @@ class SpecialColumn extends Service {
 
     const helper = this.ctx.helper;
     specialColumn.thumb = helper.signatureUrl(helper.courseImagePath + specialColumn.thumb,  thumbName);
-    specialColumn.teacher.avatar = helper.signatureUrl(helper.articleImagePath + specialColumn.teacher.avatar);
+    specialColumn.teacher.avatar = helper.signatureUrl(helper.articleImagePath + specialColumn.teacher.avatar, "thumb_80_80");
 
     if(specialColumn.briefImages != null && specialColumn.briefImages != ''){
       let briefImages = specialColumn.briefImages.split(',');

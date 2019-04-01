@@ -27,7 +27,7 @@ module.exports.getQRCodeImage = (tokenBody, id, category) => {
     if(category == 1){
       requestData = {
         'scene': `${id}#${category}`,
-        'page': `pages/curriculum/specialColumnDetail/specialColumnDetail`,
+        'page': `pages/curriculum/specialCourseDetail/specialCourseDetail`,
         'width': '400',
       };
     }
@@ -38,7 +38,7 @@ module.exports.getQRCodeImage = (tokenBody, id, category) => {
         'width': '400',
       };
     }
-    
+
     return new Promise((resolve, reject) => {
       resolve(
         request({

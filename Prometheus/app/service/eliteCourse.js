@@ -38,7 +38,7 @@ class EliteCourse extends Service {
       if(eliteCourse.qrCode){
         eliteCourse.qrCode = helper.signatureUrl(helper.qrCodePath + eliteCourse.qrCode);
       }
-      eliteCourse.teacher.avatar = helper.signatureUrl(helper.articleImagePath + eliteCourse.teacher.avatar);
+      eliteCourse.teacher.avatar = helper.signatureUrl(helper.articleImagePath + eliteCourse.teacher.avatar, "thumb_80_80");
       await this.ctx.model.EliteCourse.addLookingNum(id,transaction);
       await transaction.commit();
       return eliteCourse;
