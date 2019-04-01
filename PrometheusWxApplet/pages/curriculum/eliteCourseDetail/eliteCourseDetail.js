@@ -40,7 +40,7 @@ Page({
             data: {
                userId: wx.getStorageSync("userId"),
                category: 2,
-               eliteCourseId: this.data.id,
+               eliteCourseId: this.data.eliteCourseId,
                specialCourseId: 0
             },
             method: "GET",
@@ -68,7 +68,7 @@ Page({
             data: {
                userId: wx.getStorageSync("userId"),
                category: 2,
-               eliteCourseId: this.data.id,
+               eliteCourseId: this.data.eliteCourseId,
                specialCourseId: 0
             },
             method: "POST",
@@ -166,7 +166,6 @@ Page({
    onLoad: function (options) {
       if (options.scene) { //扫二维码进入
          let arr = new Array();
-         arr = options.scene.split("#");
          this.setData({
             eliteCourseId: arr[0],
             category: arr[1]

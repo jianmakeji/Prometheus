@@ -204,7 +204,6 @@ export default {
                 subject:that.subject,
                 schoolId:that.schoolId
             }}).then(function(result){
-                console.log(result);
                 that.$Loading.finish();
                 that.dataList = result.data.rows;
                 that.total = result.data.count;
@@ -275,7 +274,6 @@ export default {
             subject:that.subject,
             schoolId:that.schoolId
         }}).then(function(result){
-            console.log(result);
 			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;

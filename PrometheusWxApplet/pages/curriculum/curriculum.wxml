@@ -7,7 +7,7 @@
 <view class='school_list' wx:if="{{currentTab == 0}}">
    <block wx:for="{{schoolData}}" wx:for-item="item">
       <view class='shool_item' data-school-id="{{item.Id}}" catchtap='catchSchool'>
-         <image class='school_img' mode='scaleToFill' src='{{item.bg}}'></image>
+         <image class='school_img' lazy-load mode='scaleToFill' src='{{item.bg}}'></image>
       </view>
    </block>
    <i-load-more tip="暂无更多数据" loading="{{ schoolLoadMore }}" />

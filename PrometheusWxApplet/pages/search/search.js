@@ -53,7 +53,7 @@ Page({
       wx.scanCode({
          onlyFromCamera: false,
          success: function (res) {
-            var path = "/" + res.path;
+            var path = "/" + unescape(res.path);
             wx.navigateTo({
                url: path,
             })

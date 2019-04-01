@@ -8,8 +8,8 @@
 }
 
 .loginImg{
-    width: 374rpx;
-    height: 314rpx;
+    width: 300rpx;
+    height: 300rpx;
 }
 .loginBtn{
     margin-top: 200rpx;
