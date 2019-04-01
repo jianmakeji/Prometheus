@@ -42,6 +42,7 @@ class EliteCourseController extends Controller {
       eliteSchoolId: ctx.request.body.eliteSchoolId,
       videoAddress: ctx.request.body.videoAddress,
       duration:ctx.request.body.duration,
+      teacherId:ctx.request.body.teacherId,
     };
     try{
       await ctx.service.eliteCourse.updateEliteCourse({ id, updates });
