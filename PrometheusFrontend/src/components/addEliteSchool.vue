@@ -27,6 +27,10 @@
 	                <Option v-for="(item,index) in subject" :value="item.id" :key="index">{{item.title}}</Option>
 	            </Select>
 		   	</FormItem>
+			<FormItem label="试题上传:">
+				<input type="file" @change="downloadFile" ref="inputFile" accept="application/pdf"/>
+				<Progress :percent="fileProgressPercent" />
+		   	</FormItem>
 		   	<FormItem>
 	            <Button type="primary" long @click="submitClick">提交</Button>
 	        </FormItem>
@@ -37,6 +41,39 @@
 <script>
 import globel_ from './../config/global.vue'
 import $ from 'jquery'
+import OSS from 'ali-oss'
+
+var g_object_name = "";
+var key = '';
+var hostPrefix = "http://dc-yl.oss-cn-hangzhou.aliyuncs.com/";
+
+function random_string(len) {
+    var len = len || 32;
+    var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
+    var maxPos = chars.length;
+    var pwd = '';
+    for (var i = 0; i < len; i++) {
+        pwd += chars.charAt(Math.floor(Math.random() * maxPos));
+    }
+    return pwd;
+}
+function get_suffix(filename) {
+    var pos = filename.lastIndexOf('.')
+    var suffix = ''
+    if (pos != -1) {
+        suffix = filename.substring(pos)
+    }
+    return suffix;
+}
+function calculate_object_name(filename) {
+
+    var suffix = get_suffix(filename)
+    g_object_name = key + random_string(10) + suffix
+
+}
+function get_uploaded_object_name(filename) {
+    return g_object_name;
+}
 
 export default {
   	name: "addEliteSchool",
@@ -50,11 +87,14 @@ export default {
 			gradeData: globel_.gradeData, //所属类别的数据
 			subject:globel_.subjectData,
 	      	teacherData: "",
+			pdfFile:"",
+			fileProgressPercent:0,
 	      	formItem: {
 		        name: "",
 		        schoolId:0,
 				grade:0,
-		        subject: 0
+		        subject: 0,
+				downloadFile:""
 		    },
 
 			imgList:[],		//点击添加图片，进行数据交互
@@ -63,7 +103,61 @@ export default {
 		}
   	},
   	methods: {
+		//pdf上传
+        downloadFile(files) {
+            let that = this;
+            var file = files.target.files[0]; //获取要上传的文件对象
+            this.$http({
+                method: 'get',
+              url: globel_.serverHost + '/api/getSTSSignature/5'
+              }).then((res) => {
+              var client = new OSS({
+                  region: 'oss-cn-hangzhou',
+                  accessKeyId: res.data.credentials.AccessKeyId,
+                  accessKeySecret: res.data.credentials.AccessKeySecret,
+                  stsToken: res.data.credentials.SecurityToken,
+                  bucket: 'jm-prometheus'
+              });
+
+              calculate_object_name(file.name);
+              var newFilename =  g_object_name;
+              client.multipartUpload('downloadFile/' + newFilename, file, {
+                  progress(p) {
+                      that.fileProgressPercent = p * 100;
+                  }
+              }).then(function(result) {
+                  that.$http.get(globel_.serverHost + globel_.configAPI.getUrlSignature + result.name).then(function(result){
+                      that.pdfFile = newFilename;
+                      that.$Loading.finish();
+                      that.$Message.success({
+                          duration: 2,
+                          content: globel_.configMessage.uploadVideoSuccess
+                      });
+                  }).catch(function(err){
+                      that.$Loading.error();
+                      that.$Message.error({
+                          duration: 2,
+                          content:err
+                      });
+                  })
+
+              }).catch(function(err) {
+                  that.$Loading.error();
+                  that.$Message.error({
+                      duration: 2,
+                      content: err
+                  });
+              });
+          }).catch((err) => {
+              that.$Loading.error();
+              that.$Message.error({
+                  duration: 2,
+                  content: err
+              });
+          });
+       },
 	    submitClick() {
+			this.formItem.downloadFile = this.pdfFile;
 	      	let that = this;
 	      	this.$Loading.start();
 	      	if (this.id == 0) { //新建	post
@@ -71,7 +165,8 @@ export default {
 		          	name: this.formItem.name,
 					schoolId:this.formItem.schoolId,
 			        subject:this.formItem.subject,
-		          	grade: this.formItem.grade
+		          	grade: this.formItem.grade,
+					downloadFile:this.formItem.downloadFile
 	        	}).then(function(result) {
 		          	if (result.status == 200) {
 		            	that.$Loading.finish();
@@ -97,7 +192,8 @@ export default {
 					name: this.formItem.name,
 					schoolId:this.formItem.schoolId,
 			        subject:this.formItem.subject,
-		          	grade: this.formItem.grade
+		          	grade: this.formItem.grade,
+					downloadFile:this.formItem.downloadFile
 	        	}).then(function(result) {
 	          		if (result.status == 200) {
 	            		that.$Loading.finish();
@@ -128,7 +224,6 @@ export default {
 
     	// 获取类别数据作为选择项
     	this.$http.get(getSchoolDataUrl).then(function(result) {
-			console.log(result);
       		that.schoolData = result.data.rows;
     	}).catch(function(err) {
       		that.$Loading.error();
@@ -141,11 +236,11 @@ export default {
 	      	let that = this,
 	        	getDataUrl = globel_.serverHost + globel_.configAPI.updateEliteSchoolById.replace(":id", this.id);
 	      	this.$http.get(getDataUrl).then(function(result) {
-				console.log(result);
+				that.pdfFile = result.data.downloadFile;
 	        	// 数据赋值
 	        	that.$Loading.finish();
 	        	that.formItem = result.data;
-				that.progressPercent = 100;
+				that.fileProgressPercent = 100;
 	      	}).catch(function(err) {
 	        	that.$Loading.error();
 	        	that.$Message.error({

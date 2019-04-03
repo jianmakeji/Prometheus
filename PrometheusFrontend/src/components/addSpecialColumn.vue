@@ -15,6 +15,10 @@
                 <input type="file" @change="doUpload" ref="inputFile" class="fileInput" accept="image/*"/>
 				<Progress :percent="progressPercent" />
 	        </FormItem>
+			<FormItem label="专题上传:">
+				<input type="file" @change="downloadFile" ref="inputFile" class="fileInput" accept="application/pdf"/>
+				<Progress :percent="pdfProgressPercent" />
+	        </FormItem>
 			<FormItem label="专题名称:">
 				<Input v-model="formItem.name" placeholder="请输入专栏名称..." clearable></Input>
 			</FormItem>
@@ -34,7 +38,6 @@
 			<FormItem v-for="(imgItem,index) in imgList" :key="index">
 				<img v-if="refresh" v-show="imgItem.length" :src="imgItem" style="width:80px;height:80px;" class="specialColumnImg"><br>
 				<input type="file" @change="addImgUpload" :imgIndex="index" accept="image/*"/>
-				<!-- <Button type="error" @click="deleteBriefImg(index)">删除</Button> -->
 			</FormItem>
 			<FormItem label="所属年级:">
 				<Select v-model="formItem.grade" placeholder="选择年级...">
@@ -115,7 +118,8 @@ export default {
 			posterImage:"",
 		  	imgUrl:"",
 		  	thumbImage:"",
-
+			pdfFile:"",
+			pdfProgressPercent:0,
 
 			gradeData: globel_.gradeData, //所属类别的数据
 			subjectData:globel_.subjectData,
@@ -126,6 +130,7 @@ export default {
 		        thumb: "",
 		        teacherId: "",
 		        name: "",
+				downloadFile:"",
 		        describe: "",
 				grade:0,
 		        price: 0,
@@ -144,6 +149,7 @@ export default {
 			this.formItem.briefImages = this.imgBox.join(",");
 			this.formItem.thumb = this.thumbImage;
 			this.formItem.poster = this.posterImage;
+			this.formItem.downloadFile = this.pdfFile;
 	      	let that = this;
 	      	this.$Loading.start();
 	      	if (this.id == 0) { //新建	post
@@ -152,6 +158,7 @@ export default {
 			        thumb: this.formItem.thumb,
 			        teacherId: this.formItem.teacherId,
 			        name: this.formItem.name,
+					downloadFile:this.formItem.downloadFile,
 			        describe: this.formItem.describe,
 					grade:this.formItem.grade,
 			        price: this.formItem.price,
@@ -184,6 +191,7 @@ export default {
 			        thumb: this.formItem.thumb,
 			        teacherId: this.formItem.teacherId,
 			        name: this.formItem.name,
+					downloadFile:this.formItem.downloadFile,
 			        describe: this.formItem.describe,
 					grade:this.formItem.grade,
 			        price: this.formItem.price,
@@ -212,6 +220,59 @@ export default {
 	        	})
 	      	}
 	    },
+		//pdf上传
+        downloadFile(files) {
+            let that = this;
+            var file = files.target.files[0]; //获取要上传的文件对象
+            this.$http({
+                method: 'get',
+              url: globel_.serverHost + '/api/getSTSSignature/5'
+              }).then((res) => {
+              var client = new OSS({
+                  region: 'oss-cn-hangzhou',
+                  accessKeyId: res.data.credentials.AccessKeyId,
+                  accessKeySecret: res.data.credentials.AccessKeySecret,
+                  stsToken: res.data.credentials.SecurityToken,
+                  bucket: 'jm-prometheus'
+              });
+
+              calculate_object_name(file.name);
+              var newFilename =  g_object_name;
+              client.multipartUpload('downloadFile/' + newFilename, file, {
+                  progress(p) {
+                      that.pdfProgressPercent = p * 100;
+                  }
+              }).then(function(result) {
+                  that.$http.get(globel_.serverHost + globel_.configAPI.getUrlSignature + result.name).then(function(result){
+                      that.pdfFile = newFilename;
+                      that.$Loading.finish();
+                      that.$Message.success({
+                          duration: 2,
+                          content: globel_.configMessage.uploadVideoSuccess
+                      });
+                  }).catch(function(err){
+                      that.$Loading.error();
+                      that.$Message.error({
+                          duration: 2,
+                          content:err
+                      });
+                  })
+
+              }).catch(function(err) {
+                  that.$Loading.error();
+                  that.$Message.error({
+                      duration: 2,
+                      content: err
+                  });
+              });
+          }).catch((err) => {
+              that.$Loading.error();
+              that.$Message.error({
+                  duration: 2,
+                  content: err
+              });
+          });
+        },
 		addImg(){
 			this.imgList.push("");
 		},
@@ -269,10 +330,6 @@ export default {
 				});
 		    });
 		},
-		// deleteBriefImg(index){
-		// 	console.log("deleteBriefImg",index);
-		// 	this.imgList.splice(index,1);
-		// },
 	    priceChange(num) {
 	      this.formItem.price = num;
 	    },
@@ -414,6 +471,10 @@ export default {
 
 	        	// 数据赋值
 	        	that.$Loading.finish();
+
+				that.pdfFile = result.data.downloadFile;
+				that.pdfProgressPercent = 100;
+
 				if(result.data.recommend == 1){
 					that.recommend = true;
 					that.posterImgUrl = result.data.poster;

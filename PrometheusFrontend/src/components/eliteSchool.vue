@@ -223,12 +223,12 @@ export default {
         },
         okTap(){
             let that = this,
-                deleteUrl = globel_.serverHost + globel_.configAPI.deleteEliteCourseById.replace(":id",this.dataList[this.index].Id);
+                deleteUrl = globel_.serverHost + globel_.configAPI.deleteEliteSchoolById.replace(":id",this.dataList[this.index].Id);
             this.$Loading.start();
             this.$http.delete(deleteUrl).then(function(result){
                 if(result.status == 200){
                     that.$Message.success({duration:3,content:globel_.configMessage.deleteSuccess});
-                    let getDataUrl = globel_.serverHost + globel_.configAPI.getEliteCourseData;
+                    let getDataUrl = globel_.serverHost + globel_.configAPI.getEliteSchoolData;
             		that.$http.get( getDataUrl ,{params:{
                         limit:10,
                         offset:that.offset,
