@@ -32,7 +32,8 @@ module.exports = {
   courseVideoPath:'courseVideos/',
   articleImagePath: 'articleImages/',
   qrCodePath: 'qrCode/',
-
+  downloadFile: 'downloadFile/',
+  
   signatureUrl(objectPath,thumbName){
     const config = this.aliConfig();
     let client = new OSS({

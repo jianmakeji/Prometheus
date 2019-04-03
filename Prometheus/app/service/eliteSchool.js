@@ -24,6 +24,17 @@ class EliteSchool extends Service {
   async getEliteSchoolByPage({offset = 0, limit = 10, schoolId = 0, grade = 0, subject = 0}){
     return await this.ctx.model.EliteSchool.getEliteSchoolByPage({offset, limit, schoolId, grade, subject});
   }
+
+  async downloadByCondition({offset = 0, limit = 10, schoolId = 0, grade = 0, subject = 0}){
+    const resultObj = await this.ctx.model.EliteSchool.getEliteSchoolByPage({offset, limit, schoolId, grade, subject});
+    const helper = this.ctx.helper;
+
+    resultObj.forEach((element, index)=>{
+      element.downloadFile = helper.signatureUrl(helper.downloadFile + element.downloadFile);
+    });
+
+    return resultObj;
+  }
 }
 
 module.exports = EliteSchool;

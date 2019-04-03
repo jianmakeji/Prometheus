@@ -23,6 +23,9 @@ class AliOSSController extends Controller {
     else if (fileType == 3){
       dir = ctx.helper.articleImagePath;
     }
+    else if (fileType == 3){
+      dir = ctx.helper.downloadFile;
+    }
 
     let host = "http://" + aliConfigObj.bucket + "." + aliConfigObj.endpoint;
 

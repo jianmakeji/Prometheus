@@ -20,6 +20,7 @@ module.exports = app => {
     collectNum: INTEGER,
     recommend: INTEGER,
     poster: STRING(30),
+    downloadFile: STRING(35),
     created_at: DATE,
     updated_at: DATE,
   });
@@ -102,5 +103,26 @@ module.exports = app => {
     });
   }
 
+  SpecialColumn.downloadByCondition = async function(query){
+    let condition = {
+      offset,
+      limit,
+      order: [[ 'created_at', 'desc' ], [ 'Id', 'desc' ]],
+      where: {
+
+      }
+    };
+
+    if (query.grade != 0){
+      condition.where.grade = query.grade;
+    }
+
+    if (query.subject != 0){
+      condition.where.subject = query.subject;
+    }
+
+    let resultObj = await this.findAndCountAll(condition);
+    return resultObj;
+  }
   return SpecialColumn;
 };

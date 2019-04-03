@@ -41,6 +41,7 @@ class EliteSchoolController extends Controller {
       schoolId: ctx.request.body.schoolId,
       grade: ctx.request.body.grade,
       subject: ctx.request.body.subject,
+      downloadFile: ctx.request.body.downloadFile,
     };
     try{
       await ctx.service.eliteSchool.updateEliteSchool({ id, updates });

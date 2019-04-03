@@ -13,6 +13,7 @@ module.exports = app => {
     schoolId: INTEGER,
     grade: INTEGER,
     subject: INTEGER,
+    downloadFile: STRING(35),
     created_at: DATE,
     updated_at: DATE,
   });

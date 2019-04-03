@@ -48,7 +48,8 @@ class SpecialColumnController extends Controller {
       grade:ctx.request.body.grade,
       briefImages:ctx.request.body.briefImages,
       recommend:ctx.request.body.recommend,
-      poster:ctx.request.body.poster
+      poster:ctx.request.body.poster,
+      downloadFile: ctx.request.body.downloadFile,
     };
     try{
       await ctx.service.specialColumn.update({ id, updates });
