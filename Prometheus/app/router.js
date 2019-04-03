@@ -67,6 +67,7 @@ module.exports = app => {
   router.get('/specialColumnFile', controller.website.home.specialColumnFile);
   router.get('/website/eliteSchool/downloadByCondition', controller.website.eliteSchool.downloadByCondition);
   router.get('/website/specialColumn/downloadByCondition', controller.website.specialColumn.downloadByCondition);
+  router.get('/website/school/getSchoolList', controller.website.school.getSchoolList);
 
   /*
   router.get('/api/website/specialColumn/getSpecialColumnsByTeacherId/:id', controller.website.specialColumn.getSpecialColumnsByTeacherId);
