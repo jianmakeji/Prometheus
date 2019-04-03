@@ -3,7 +3,7 @@
 const Controller = require('egg').Controller;
 
 class SchoolController extends Controller {
-  async downloadByCondition() {
+  async getSchoolList() {
     const ctx = this.ctx;
     const query = {
       limit: ctx.helper.parseInt(ctx.query.limit),
