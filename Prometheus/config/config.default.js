@@ -48,6 +48,14 @@ module.exports = appInfo => {
       origin:'*',
       allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH'
   };
+
+  config.view = {
+    defaultViewEngine: 'nunjucks',
+  };
+
+  config.assets = {
+    publicPath: '/public/',
+  };
 /*
   config.alinode = {
       server: 'wss://agentserver.node.aliyun.com:8080',

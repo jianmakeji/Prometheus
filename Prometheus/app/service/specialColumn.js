@@ -96,6 +96,18 @@ class SpecialColumn extends Service {
 
     return resultObj;
   }
+
+  async downloadByCondition(query) {
+    const resultObj =  await this.ctx.model.SpecialColumn.downloadByCondition(query);
+
+    const helper = this.ctx.helper;
+
+    resultObj.forEach((element, index)=>{
+      element.downloadFile = helper.signatureUrl(helper.downloadFile + element.downloadFile);
+    });
+
+    return resultObj;
+  }
 }
 
 module.exports = SpecialColumn;

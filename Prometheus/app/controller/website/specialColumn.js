@@ -26,6 +26,18 @@ class SpecialColumnController extends Controller {
     };
     ctx.body = await ctx.service.specialColumn.getSpecialColumnsByTeacherId(query);
   }
+
+  async downloadByCondition() {
+    const ctx = this.ctx;
+    const query = {
+      offset: ctx.helper.parseInt(ctx.query.offset),
+      limit: ctx.helper.parseInt(ctx.query.limit),
+      grade: ctx.helper.parseInt(ctx.query.grade),
+      subject: ctx.helper.parseInt(ctx.query.subject),
+    };
+
+    ctx.body = await ctx.service.specialColumn.downloadByCondition(query);
+  }
 }
 
 module.exports = SpecialColumnController;
