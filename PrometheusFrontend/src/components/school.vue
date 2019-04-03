@@ -113,7 +113,7 @@ export default {
                     let getDataUrl = globel_.serverHost + globel_.configAPI.getSchoolData;
             		that.$http.get( getDataUrl ,{ params:{
                         limit:10,
-                        offset:this.offset
+                        offset:that.offset
                     }}).then(function(result){
             			that.$Loading.finish();
             			that.dataList = result.data.rows;
