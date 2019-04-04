@@ -49,7 +49,7 @@ class SdCodeController extends Controller {
 
   async activeSdCode() {
     const ctx = this.ctx;
-    let code = ctx.query.code);
+    let code = ctx.query.code;
     let bindUserId = ctx.helper.parseInt(ctx.query.bindUserId);
     try{
       await ctx.service.sdCode.activeSdCode({code:code,bindUserId:bindUserId});
