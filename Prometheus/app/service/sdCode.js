@@ -4,7 +4,7 @@ const Service = require('egg').Service;
 
 class SdCode extends Service {
 
-  async create({limit = 10 ,specialColumnIds = '', bindUserId = 0, createUserId = 0 }) {
+  async create({limit = 10 ,specialColumnIds = '', createUserId = 0 }) {
     const ctx = this.ctx;
 
     let codeArray = new Array();
@@ -24,7 +24,6 @@ class SdCode extends Service {
         let sdCodeObject = {
           code:sdCode,
           specialColumnIds:specialColumnIds,
-          bindUserId:bindUserId,
           createUserId:createUserId,
           active:0
         };
@@ -61,8 +60,9 @@ class SdCode extends Service {
                 userId:bindUserId,
                 specialColumnId:specialColumnId
               };
-              this.ctx.model.UserSpColumns.createUserSpColumns(userSpColumnObject,transaction);
+              ctx.model.UserSpColumns.createUserSpColumns(userSpColumnObject,transaction);
             }
+            ctx.model.SdCode.updateActive(exist.Id, 1, bindUserId, transaction);
             await transaction.commit();
             activeResult.code = 500;
             activeResult.message = "绑定成功!";
@@ -83,6 +83,22 @@ class SdCode extends Service {
       activeResult.message = "该师道码不存在!";
     }
     return activeResult;
+  }
+
+  async getDataByBindUserId({offset = 0, limit = 10, bindUserId = 0}){
+    return await this.ctx.model.getDataByBindUserId({
+      offset,
+      limit,
+      bindUserId,
+    });
+  }
+
+  async getDataByCreateUserId({offset = 0, limit = 10, createUserId = 0}){
+    return await this.ctx.model.getDataByCreateUserId({
+      offset,
+      limit,
+      createUserId,
+    });
   }
 }
 
