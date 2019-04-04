@@ -1,0 +1,66 @@
+[v-cloak]{
+    display: none;
+}
+body{
+    background: #f8f8f9;
+}
+ .eliteSchoolFile{
+    margin-top: 10px;
+}
+.cube-tab_active {
+    color: #2f54eb;
+    font-weight: bold;
+}
+.cube-tab-bar-slider {
+    background: linear-gradient(to right, #5e7ef7, #9254de) !important;
+}
+
+
+.subjectBtns{
+    width: 100%;
+    height: 40px;
+    margin-top: 5px;
+    padding-top: 5px;
+    background: #fff;
+    display: flex;
+    flex-direction: row;
+}
+.mint-button--small {
+    width: 60px;
+    margin-left: 20px;
+    border-radius: 20px;
+}
+.mint-button.active{
+   background: #85a5ff !important;
+}
+.mint-button.unActive{
+   background: #9a9a9a !important;
+}
+
+.testpaper_list{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 20rpx;
+    padding: 10rpx 0;
+    border-top: solid 2px #fff;
+    background: pink;
+}
+.testpaper_list .testpaper{
+    width: 90%;
+    height: 50px;
+    line-height: 50px;
+    padding-left: 20px;
+    margin: 10px auto;
+    border-radius: 10px;
+    background: #fff;
+    display: flex;
+    flex-direction: row;
+}
+.testpaper_list .title{
+    width: 100%;
+}
+.testpaper_list .triangle{
+    width: 10px;
+    height: 10px;
+}

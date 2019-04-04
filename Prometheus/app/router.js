@@ -63,6 +63,7 @@ module.exports = app => {
   router.resources('wx.eliteCourse', '/api/wx/eliteCourse', wxChecktoken, controller.wx.eliteCourse);
 
   //网站接口
+  router.get('/school', controller.website.home.school);
   router.get('/eliteSchoolFile', controller.website.home.eliteSchoolFile);
   router.get('/specialColumnFile', controller.website.home.specialColumnFile);
   router.get('/website/eliteSchool/downloadByCondition', controller.website.eliteSchool.downloadByCondition);

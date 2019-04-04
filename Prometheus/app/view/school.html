@@ -6,27 +6,18 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<title>师道慧享</title>
-	<!-- <link rel="stylesheet" type="text/css" href="../public/css/src/base.css"/> -->
 	<link rel="stylesheet" type="text/css" href="../public/css/lib/iview.css">
 	<link rel="stylesheet" type="text/css" href="../public/css/lib/cube.min.css">
 	<link rel="stylesheet" type="text/css" href="../public/css/lib/mintUi.css">
-	<link rel="stylesheet" type="text/css" href="../public/css/src/eliteSchoolFile.css" />
+	<link rel="stylesheet" type="text/css" href="../public/css/src/school.css" />
 </head>
 
 <body>
-	<div class="eliteSchoolFile" v-cloak>
-
-		<cube-tab-bar v-model="grade" show-slider inline @click="clickGrade">
-			<cube-tab v-for="(item, index) in gradeData" :label="item.id" :key="item.id">${item.title}</cube-tab>
-		</cube-tab-bar>
-		<div class="subjectBtns">
-			<mt-button :class="currentIndex == index ? 'active' : 'unActive'" type="primary" v-for="(item,index) in subjectData" size="small" @click="clickSubject(index)">${item.title}</mt-button>
-		</div>
-		<div class="testpaper_list">
-			<a class="testpaper" href="#" v-for="item in eliteSchoolData">
-				<p class="title">${item.name}</p>
-				<img class="triangle" src="../public/images/triangle_h.png">
-			</a>
+	<div class="school" v-cloak>
+		<div class='school_list'>
+		      <div class='shool_item' v-for="(item,index) in schoolData" @click='catchSchool(index)'>
+		         <img class='school_img' :src='item.bg'/>
+		      </div>
 		</div>
 	</div>
 
@@ -36,7 +27,7 @@
 	<script type="text/javascript" src="../public/js/lib/cube.min.js"></script>
 	<script type="text/javascript" src="../public/js/lib/mintUi.js"></script>
 	<script type="text/javascript" src="../public/js/src/config.js"></script>
-	<script type="text/javascript" src="../public/js/src/eliteSchoolFile.js"></script>
+	<script type="text/javascript" src="../public/js/src/school.js"></script>
 </body>
 
 </html>

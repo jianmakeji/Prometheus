@@ -1,0 +1,26 @@
+[v-cloak]{
+    display: none;
+}
+body{
+    background: #f8f8f9;
+}
+.school{
+    margin-top: 10px;
+}
+.school_list{
+   width: 100%;
+   margin-top: 100rpx;
+   background: pink;
+}
+.school_list .shool_item{
+    width: 90%;
+   height: 150px;
+   margin: 15px auto;
+   border-radius: 10px;
+   background: gray
+}
+.school_list .school_img{
+   width: 100%;
+   height: 150px;
+   border-radius: 10px;
+}

@@ -7,6 +7,11 @@ class HomeController extends Controller {
     this.ctx.body = 'hi, egg';
   }
 
+  async school(){
+    const ctx = this.ctx;
+    await ctx.render('school.html');
+  }
+
   async eliteSchoolFile(){
     const ctx = this.ctx;
     await ctx.render('eliteSchoolFile.html');
