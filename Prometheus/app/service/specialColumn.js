@@ -102,8 +102,10 @@ class SpecialColumn extends Service {
 
     const helper = this.ctx.helper;
 
-    resultObj.forEach((element, index)=>{
-      element.downloadFile = helper.signatureUrl(helper.downloadFile + element.downloadFile);
+    resultObj.rows.forEach((element, index)=>{
+      if (element.downloadFile != null){
+        element.downloadFile = helper.signatureUrl(helper.downloadFile + element.downloadFile);
+      }
     });
 
     return resultObj;

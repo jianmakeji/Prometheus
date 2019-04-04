@@ -30,7 +30,9 @@ class EliteSchool extends Service {
     const helper = this.ctx.helper;
 
     resultObj.rows.forEach((element, index)=>{
-      element.downloadFile = helper.signatureUrl(helper.downloadFile + element.downloadFile);
+      if (element.downloadFile != null){
+          element.downloadFile = helper.signatureUrl(helper.downloadFile + element.downloadFile);
+      }
     });
 
     return resultObj;

@@ -106,8 +106,8 @@ module.exports = app => {
 
   SpecialColumn.downloadByCondition = async function(query){
     let condition = {
-      offset,
-      limit,
+      offset: query.offset,
+      limit: query.limit,
       order: [[ 'created_at', 'desc' ], [ 'Id', 'desc' ]],
       where: {
 

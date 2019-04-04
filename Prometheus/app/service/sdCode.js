@@ -42,13 +42,47 @@ class SdCode extends Service {
 
   async activeSdCode({code = '', bindUserId = 0}){
     const ctx = this.ctx;
+    let activeResult = {};
     let exist = this.ctx.model.SdCode.getDataByCode(code);
 
     if (exist){
-      if(exist.active){
-        
+      if(exist.active == 1){
+        activeResult.code = 500;
+        activeResult.message = "该师道码已被激活!";
+      }
+      else{
+        let specialColumnIds = exist.specialColumnIds.split(',');
+        if (specialColumnIds.length > 0){
+          try {
+            transaction = await this.ctx.model.transaction();
+
+            for (let specialColumnId of specialColumnIds){
+              let userSpColumnObject = {
+                userId:bindUserId,
+                specialColumnId:specialColumnId
+              };
+              this.ctx.model.UserSpColumns.createUserSpColumns(userSpColumnObject,transaction);
+            }
+            await transaction.commit();
+            activeResult.code = 500;
+            activeResult.message = "绑定成功!";
+          } catch (e) {
+            await transaction.rollback();
+            activeResult.code = 500;
+            activeResult.message = "绑定失败!";
+          }
+        }
+        else{
+          activeResult.code = 500;
+          activeResult.message = "该师道码未绑定专题!";
+        }
       }
     }
+    else{
+      activeResult.code = 500;
+      activeResult.message = "该师道码不存在!";
+    }
+    return activeResult;
   }
 }
 

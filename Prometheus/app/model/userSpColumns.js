@@ -19,8 +19,10 @@ module.exports = app => {
     app.model.UserSpColumns.belongsTo(app.model.SpecialColumn, {targetKey: 'Id', foreignKey: 'specialColumnId'});
   }
 
-  UserSpColumns.createUserSpColumns = async function(userSpColumns){
-    return await this.create(userSpColumns);
+  UserSpColumns.createUserSpColumns = async function(userSpColumns,transaction){
+    return await this.create(userSpColumns,{
+      transaction:transaction
+    });
   }
 
   UserSpColumns.getDataByUserId = async function(userId){
