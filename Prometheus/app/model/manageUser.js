@@ -15,5 +15,10 @@ module.exports = app => {
     updated_at: DATE,
   });
 
+  ManageUser.associate = function() {
+      app.model.ManageUser.hasMany(app.model.SdCode, { sourceKey:'Id', foreignKey:'createUserId' });
+  };
+  
+
   return ManageUser;
 };

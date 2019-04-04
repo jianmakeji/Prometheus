@@ -33,6 +33,8 @@ module.exports = app => {
       }
     });
     app.model.User.hasMany(app.model.Comment,{sourceKey:'Id',foreignKey:'userId'});
+    app.model.User.hasMany(app.model.UserSpColumns,{sourceKey:'Id',foreignKey:'userId'});
+    app.model.User.hasMany(app.model.SdCode,{sourceKey:'Id',foreignKey:'createUserId'});
   };
 
   return User;

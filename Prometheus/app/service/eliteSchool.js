@@ -29,7 +29,7 @@ class EliteSchool extends Service {
     const resultObj = await this.ctx.model.EliteSchool.getEliteSchoolByPage({offset, limit, schoolId, grade, subject});
     const helper = this.ctx.helper;
 
-    resultObj.forEach((element, index)=>{
+    resultObj.rows.forEach((element, index)=>{
       element.downloadFile = helper.signatureUrl(helper.downloadFile + element.downloadFile);
     });
 
