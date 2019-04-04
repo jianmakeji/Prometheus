@@ -19,12 +19,7 @@ let eliteSchoolFile = new Vue({
         		{id:4,title:"化学"}
         	],
             currentIndex:"",
-            eliteSchoolData:[
-                {id:1,name:"dasdfasdf"},
-                {id:2,name:"dasdfasdf"},
-                {id:3,name:"dasdfasdf"},
-                {id:4,name:"dasdfasdf"}
-            ]
+            eliteSchoolData:[]
         }
     },
     created(){
@@ -41,20 +36,47 @@ let eliteSchoolFile = new Vue({
                 subject:this.subject
             },
             success(res){
-                console.log(res);
-                that.schoolData = res.rows
+                that.eliteSchoolData = res.rows
             }
         })
     },
     methods:{
         clickGrade(index){
-            console.log(index);
+            let that = this;
             this.grade = index;
+            $.ajax({
+                url: config.ajaxUrls.downloadEliteSchoolFile,
+                type: 'GET',
+                data: {
+                    limit:100,
+                    offset: 0,
+                    schoolId:this.schoolId,
+                    grade:this.grade,
+                    subject:this.subject
+                },
+                success(res){
+                    that.eliteSchoolData = res.rows
+                }
+            })
         },
         clickSubject(index){
-            console.log(index);
+            let that = this;
             this.currentIndex = index;
             this.subject = this.subjectData[index].id;
+            $.ajax({
+                url: config.ajaxUrls.downloadEliteSchoolFile,
+                type: 'GET',
+                data: {
+                    limit:100,
+                    offset: 0,
+                    schoolId:this.schoolId,
+                    grade:this.grade,
+                    subject:this.subject
+                },
+                success(res){
+                    that.eliteSchoolData = res.rows
+                }
+            })
         }
     }
 })

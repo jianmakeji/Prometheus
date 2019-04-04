@@ -6,7 +6,6 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<title>师道慧享</title>
-	<!-- <link rel="stylesheet" type="text/css" href="../public/css/src/base.css"/> -->
 	<link rel="stylesheet" type="text/css" href="../public/css/lib/iview.css">
 	<link rel="stylesheet" type="text/css" href="../public/css/lib/cube.min.css">
 	<link rel="stylesheet" type="text/css" href="../public/css/lib/mintUi.css">
@@ -23,7 +22,7 @@
 			<mt-button :class="currentIndex == index ? 'active' : 'unActive'" type="primary" v-for="(item,index) in subjectData" size="small" @click="clickSubject(index)">${item.title}</mt-button>
 		</div>
 		<div class="testpaper_list">
-			<a class="testpaper" href="#" v-for="item in eliteSchoolData">
+			<a class="testpaper" :href="item.downloadFile" v-for="item in eliteSchoolData">
 				<p class="title">${item.name}</p>
 				<img class="triangle" src="../public/images/triangle_h.png">
 			</a>
