@@ -23,6 +23,7 @@ module.exports = app => {
   router.get('/api/manage/specialCourse/getSpecialCourseBySpecialColumnId', managerChecktoken, controller.manage.specialCourse.getSpecialCourseBySpecialColumnId);
   router.get('/api/manage/specialCourse/getSpecialCourseByCondition', managerChecktoken, controller.manage.specialCourse.getSpecialCourseByCondition);
   router.get('/api/manage/specialCourse/getQRCode', managerChecktoken, controller.manage.specialCourse.getQRCode);
+  router.get('/api/manage/sdCode/createSdCode', managerChecktoken, controller.manage.sdCode.createSdCode);
 
   //管理后台API接口
   router.resources('manage.users', '/api/manage/users', managerChecktoken, controller.manage.user);
@@ -50,6 +51,7 @@ module.exports = app => {
   router.get('/api/wx/specialCourse/getSpecialCourseBySpecialColumnId', wxChecktoken, controller.wx.specialCourse.getSpecialCourseBySpecialColumnId);
   router.get('/api/wx/specialCourse/getSpecialCourseByCondition', wxChecktoken, controller.wx.specialCourse.getSpecialCourseByCondition);
   router.get('/api/wx/specialCourse/searchByKeywords', wxChecktoken, controller.wx.specialCourse.searchByKeywords);
+  router.get('/api/wx/sdCode/activeSdCode', wxChecktoken, controller.manage.sdCode.activeSdCode);
 
   router.resources('wx.users', '/api/wx/users', controller.wx.user);
   router.resources('wx.exchange', '/api/wx/exchange', wxChecktoken, controller.wx.exchange);

@@ -67,9 +67,10 @@ module.exports = app => {
     });
   }
 
-  SdCode.updateActive = async function(id, active, transaction){
+  SdCode.updateActive = async function(id, active, bindUserId, transaction){
     return await this.update({
-          active: active
+          active: active,
+          bindUserId:bindUserId
         },{
         transaction:transaction,
         where: {

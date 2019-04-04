@@ -10,7 +10,7 @@ class UserSpColumns extends Service {
 
   async getDataByUserId(userId) {
     const userSpColumns = await this.ctx.model.UserSpColumns.getDataByUserId(userId);
-
+    return userSpColumns;
   }
 
 }
