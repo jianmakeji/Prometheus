@@ -123,7 +123,7 @@ Page({
                      });
                      that.setData({
                         commentValue: "",
-                        offset: that.data.commentOffset
+                        commentOffset: 0
                      });
                      // 获取评论数据
                      wx.request({

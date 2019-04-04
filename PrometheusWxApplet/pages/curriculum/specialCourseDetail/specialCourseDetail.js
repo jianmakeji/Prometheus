@@ -283,7 +283,7 @@ Page({
       let that = this;
       if (this.data.commentCount > this.data.commentData.length) {
          this.setData({
-            offset: that.data.commentOffset + 10,
+            commentOffset: that.data.commentOffset + 10,
             commentLoad: true
          });
          wx.request({

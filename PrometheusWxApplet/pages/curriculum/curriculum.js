@@ -153,7 +153,7 @@ Page({
       let that = this;
       if (this.data.specialColumnsData.length < this.data.specialColumnsCount && this.data.currentTab == "1"){
          this.setData({
-            offset: that.data.specialColumnsOffset + 10,
+            specialColumnsOffset: that.data.specialColumnsOffset + 10,
             schoolLoadMore:true
          })
          // 获取专题突破数据
@@ -180,7 +180,7 @@ Page({
          })
       } else if (this.data.schoolData.length < this.data.schoolCount && this.data.currentTab == "0"){
          this.setData({
-            offset: that.data.schoolOffset + 10,
+            schoolOffset: that.data.schoolOffset + 10,
             specialColumnLoad:true
          })
          // 获取名校试题数据
