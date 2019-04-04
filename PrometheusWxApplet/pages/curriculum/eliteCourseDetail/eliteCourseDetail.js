@@ -166,6 +166,7 @@ Page({
    onLoad: function (options) {
       if (options.scene) { //扫二维码进入
          let arr = new Array();
+         arr = options.scene.split("#");
          this.setData({
             eliteCourseId: arr[0],
             category: arr[1]

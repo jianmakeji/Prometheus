@@ -22,10 +22,11 @@
 			<mt-button :class="currentIndex == index ? 'active' : 'unActive'" type="primary" v-for="(item,index) in subjectData" size="small" @click="clickSubject(index)">${item.title}</mt-button>
 		</div>
 		<div class="testpaper_list">
-			<a class="testpaper" :href="item.downloadFile" v-for="item in eliteSchoolData">
+			<a class="testpaper" :href="item.downloadFile != null ? item.downloadFile : 'javascript:void(0)'" v-for="item in eliteSchoolData" @click="clickDownload(item.downloadFile)">
 				<p class="title">${item.name}</p>
 				<img class="triangle" src="../public/images/triangle_h.png">
 			</a>
+			<p class="nomore" v-model="showNomore">暂无更多数据！</p>
 		</div>
 	</div>
 

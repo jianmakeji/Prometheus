@@ -4,6 +4,7 @@ let eliteSchoolFile = new Vue({
     data(){
         return{
             schoolId:"",
+            offset:0,
             grade:7,
             subject:1,
         	gradeData:[
@@ -19,7 +20,10 @@ let eliteSchoolFile = new Vue({
         		{id:4,title:"化学"}
         	],
             currentIndex:"",
-            eliteSchoolData:[]
+            eliteSchoolData:[],
+
+            showNomore:false,
+            scrollModel:false              //滚动锁
         }
     },
     created(){
@@ -29,14 +33,19 @@ let eliteSchoolFile = new Vue({
             url: config.ajaxUrls.downloadEliteSchoolFile,
             type: 'GET',
             data: {
-                limit:100,
-                offset: 0,
+                limit:10,
+                offset: this.offset,
                 schoolId:this.schoolId,
                 grade:this.grade,
                 subject:this.subject
             },
             success(res){
-                that.eliteSchoolData = res.rows
+                that.eliteSchoolData = res.rows;
+                if (that.eliteSchoolData.length == res.count) {
+                    that.scrollModel = false;
+                }else{
+                    that.scrollModel = true;
+                }
             }
         })
     },
@@ -44,39 +53,90 @@ let eliteSchoolFile = new Vue({
         clickGrade(index){
             let that = this;
             this.grade = index;
+            this.offset = 0;
             $.ajax({
                 url: config.ajaxUrls.downloadEliteSchoolFile,
                 type: 'GET',
                 data: {
-                    limit:100,
-                    offset: 0,
+                    limit:10,
+                    offset: this.offset,
                     schoolId:this.schoolId,
                     grade:this.grade,
                     subject:this.subject
                 },
                 success(res){
-                    that.eliteSchoolData = res.rows
+                    that.eliteSchoolData = res.rows;
+                    if (that.eliteSchoolData.length == res.count) {
+                        that.scrollModel = false;
+                    }else{
+                        that.scrollModel = true;
+                    }
                 }
             })
         },
         clickSubject(index){
             let that = this;
             this.currentIndex = index;
+            this.offset = 0;
             this.subject = this.subjectData[index].id;
             $.ajax({
                 url: config.ajaxUrls.downloadEliteSchoolFile,
                 type: 'GET',
                 data: {
-                    limit:100,
-                    offset: 0,
+                    limit:10,
+                    offset: this.offset,
                     schoolId:this.schoolId,
                     grade:this.grade,
                     subject:this.subject
                 },
                 success(res){
-                    that.eliteSchoolData = res.rows
+                    that.eliteSchoolData = res.rows;
+                    if (that.eliteSchoolData.length == res.count) {
+                        that.scrollModel = false;
+                    }else{
+                        that.scrollModel = true;
+                    }
                 }
             })
+        },
+        clickDownload(value){
+            if(value == null){
+                this.$Message.error('该试题暂未上传文档！');
+            }
         }
     }
 })
+$(document).ready(function() {
+    //每次刷新界面滚动条置顶
+    $('html,body').animate({scrollTop:0});
+    /**
+     * 滚动条滚动监听
+     */
+    $(window).scroll(function() {
+        if ($(document).scrollTop() >= $(document).height() - $(window).height() && eliteSchoolFile.scrollModel) {
+            eliteSchoolFile.showNomore = false;
+                eliteSchoolFile.offset += 10;
+                $.ajax({
+                    url: config.ajaxUrls.downloadEliteSchoolFile,
+                    type: 'GET',
+                    data: {
+                        limit:10,
+                        offset: eliteSchoolFile.offset,
+                        schoolId:eliteSchoolFile.schoolId,
+                        grade:eliteSchoolFile.grade,
+                        subject:eliteSchoolFile.subject
+                    },
+                    success(res){
+                        eliteSchoolFile.eliteSchoolData = [...eliteSchoolFile.eliteSchoolData,...res.rows];
+                        if (eliteSchoolFile.eliteSchoolData.length == res.count) {
+                            eliteSchoolFile.scrollModel = false;
+                        }else{
+                            eliteSchoolFile.scrollModel = true;
+                        }
+                    }
+                })
+        }else{
+            eliteSchoolFile.showNomore = true;
+        }
+    })
+});
