@@ -34,6 +34,10 @@
                           	<Icon type="ios-videocam" />
                           	<span>专题视频管理</span>
                       	</MenuItem>
+                        <MenuItem name="9">
+                          	<Icon type="ios-key" />
+                          	<span>专题码管理</span>
+                      	</MenuItem>
                         <MenuItem name="4">
                           	<Icon type="ios-book" />
                           	<span>试题管理</span>
@@ -44,17 +48,13 @@
                       	</MenuItem>
 						<MenuItem name="6">
                           	<Icon type="md-person" />
-                          	<span>用户管理</span>
+                          	<span>老师管理</span>
                       	</MenuItem>
 						<MenuItem name="7">
                           	<Icon type="md-person" />
-                          	<span>老师管理</span>
+                          	<span>用户管理</span>
                       	</MenuItem>
-						<MenuItem name="8">
-                          	<Icon type="logo-bitcoin" />
-                          	<span>交易管理</span>
-                      	</MenuItem>
-                        <MenuItem name="9">
+                        <MenuItem name="8">
                           	<Icon type="ios-chatbubbles" />
                           	<span>评论管理</span>
                       	</MenuItem>
@@ -134,13 +134,13 @@ export default {
     			}else if(event == 5){
     				this.$router.push({name:"eliteCourse"});
     			}else if(event == 6){
-    				this.$router.push({name:"user"});
-    			}else if(event == 7){
     				this.$router.push({name:"teacher"});
+    			}else if(event == 7){
+        			this.$router.push({name:"user"});
     			}else if(event == 8){
-    				this.$router.push({name:"exchange"});
-    			}else if(event == 9){
     				this.$router.push({name:"comment"});
+    			}else if(event == 9){
+    				this.$router.push({name:"specialCode"});
     			}
 	  	},
         loginOut(){
@@ -156,6 +156,10 @@ export default {
             }).then(function(result){
                 if (result.data.status == 200) {
                     that.$Loading.finish();
+                    // 添加缓存userID
+                    window.localStorage.setItem('userId',result.data.userId);
+                    window.localStorage.setItem('Authorization',result.data.token);
+
                     that.loginModal = false;
                     that.$http.defaults.headers.common['Authorization'] = result.data.token;
                     // that.$http.defaults.withCredentials = true;

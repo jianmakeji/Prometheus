@@ -1,8 +1,8 @@
 <script type="text/javascript">
 
 	// const serverHost = "http://prometheus.design-engine.org";
-	const serverHost = "https://bestpro.vip";
-	// const serverHost = "http://192.168.3.252:7001";
+	// const serverHost = "https://bestpro.vip";
+	const serverHost = "http://192.168.3.252:7001";
 	// const serverHost = "http://localhost:8080";
 
 	const aliHttp = "http://jm-prometheus.oss-cn-hangzhou.aliyuncs.com/";
@@ -76,6 +76,10 @@
 		updataTeacherById:"/api/manage/teacher/:id",
 		getTeacherData:"/api/manage/teacher",
 		getTeacherDataById:"/api/manage/teacher/:id",
+
+		// 专题码
+		createSdCode:"/api/manage/sdCode/createSdCode",
+		getDataBySdCode:"/api/manage/sdCode/getDataBySdCode",
 
 		getUser:"/api/manage/users",
 		//评论
