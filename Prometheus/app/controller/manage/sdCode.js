@@ -73,7 +73,7 @@ class SdCodeController extends Controller {
     let query = {
       limit : ctx.helper.parseInt(ctx.query.limit),
       offset : ctx.helper.parseInt(ctx.query.offset),
-      code : ctx.query.code,
+      sdCode : ctx.query.code,
     };
 
     try{

@@ -80,7 +80,7 @@ module.exports = app => {
           attributes: ['username','Id'],
       }],
     };
-
+    
     if (sdCode != '0'){
       condition.where = {
         code:{
