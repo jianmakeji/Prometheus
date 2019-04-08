@@ -15,7 +15,7 @@ class ManageUserController extends Controller {
     let newPas = md5.update(password).digest("hex");
 
     const manageUser = await ctx.service.manageUser.findByUserName(name);
-
+    
     if (manageUser && manageUser.length == 1) {
       if (manageUser[0].password === newPas) {
         //登录成功
@@ -27,7 +27,7 @@ class ManageUserController extends Controller {
           expiresIn: '10 days'
         });
 
-        ctx.body = ctx.helper.loginSuccess('登录成功!',token, manageUser.username, manageUser.Id);
+        ctx.body = ctx.helper.loginSuccess('登录成功!',token, manageUser[0].username, manageUser[0].Id);
 
       } else {
         //密码错误

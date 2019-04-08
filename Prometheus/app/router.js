@@ -23,9 +23,9 @@ module.exports = app => {
   router.get('/api/manage/specialCourse/getSpecialCourseBySpecialColumnId', managerChecktoken, controller.manage.specialCourse.getSpecialCourseBySpecialColumnId);
   router.get('/api/manage/specialCourse/getSpecialCourseByCondition', managerChecktoken, controller.manage.specialCourse.getSpecialCourseByCondition);
   router.get('/api/manage/specialCourse/getQRCode', managerChecktoken, controller.manage.specialCourse.getQRCode);
-  router.get('/api/manage/sdCode/createSdCode', managerChecktoken, controller.manage.sdCode.createSdCode);
+  router.post('/api/manage/sdCode/createSdCode', managerChecktoken, controller.manage.sdCode.createSdCode);
+  router.get('/api/manage/sdCode/getDataBySdCode', managerChecktoken, controller.manage.sdCode.getDataBySdCode);
 
-  //管理后台API接口
   router.resources('manage.users', '/api/manage/users', managerChecktoken, controller.manage.user);
   router.resources('manage.eliteSchool', '/api/manage/eliteSchool', managerChecktoken, controller.manage.eliteSchool);
   router.resources('manage.eliteCourse', '/api/manage/eliteCourse', managerChecktoken, controller.manage.eliteCourse);

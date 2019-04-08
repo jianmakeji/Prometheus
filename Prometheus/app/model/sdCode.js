@@ -67,6 +67,30 @@ module.exports = app => {
     });
   }
 
+  SdCode.getDataBySdCode = async function({offset = 0, limit = 10, sdCode = ""}){
+    let condition = {
+      offset,
+      limit,
+      where:{
+
+      },
+      order: [[ 'created_at', 'desc' ]],
+      include: [{
+          model: app.model.ManageUser,
+          attributes: ['username','Id'],
+      }],
+    };
+
+    if (sdCode != '0'){
+      condition.where = {
+        code:{
+          [app.Sequelize.Op.like]: '%'+sdCode+'%',
+        },
+      }
+    }
+    return await this.findAndCountAll(condition);
+  }
+
   SdCode.updateActive = async function(id, active, bindUserId, transaction){
     return await this.update({
           active: active,

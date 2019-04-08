@@ -10,7 +10,7 @@ class SdCode extends Service {
     let codeArray = new Array();
     for (let i = 0; i < limit; i++){
       let code = ctx.helper.randomCodeString(8);
-      let exist = this.ctx.model.SdCode.getDataByCode(code);
+      let exist = await this.ctx.model.SdCode.getDataByCode(code);
       if (!exist){
         codeArray.push(code);
       }
@@ -27,7 +27,7 @@ class SdCode extends Service {
           createUserId:createUserId,
           active:0
         };
-        this.ctx.model.SdCode.createSdCode(sdCodeObject,transaction);
+        await this.ctx.model.SdCode.createSdCode(sdCodeObject,transaction);
       }
       await transaction.commit();
       return codeArray;
@@ -42,7 +42,7 @@ class SdCode extends Service {
   async activeSdCode({code = '', bindUserId = 0}){
     const ctx = this.ctx;
     let activeResult = {};
-    let exist = this.ctx.model.SdCode.getDataByCode(code);
+    let exist = await this.ctx.model.SdCode.getDataByCode(code);
 
     if (exist){
       if(exist.active == 1){
@@ -52,6 +52,7 @@ class SdCode extends Service {
       else{
         let specialColumnIds = exist.specialColumnIds.split(',');
         if (specialColumnIds.length > 0){
+          let transaction;
           try {
             transaction = await this.ctx.model.transaction();
 
@@ -60,9 +61,9 @@ class SdCode extends Service {
                 userId:bindUserId,
                 specialColumnId:specialColumnId
               };
-              ctx.model.UserSpColumns.createUserSpColumns(userSpColumnObject,transaction);
+              await ctx.model.UserSpColumns.createUserSpColumns(userSpColumnObject,transaction);
             }
-            ctx.model.SdCode.updateActive(exist.Id, 1, bindUserId, transaction);
+            await ctx.model.SdCode.updateActive(exist.Id, 1, bindUserId, transaction);
             await transaction.commit();
             activeResult.code = 500;
             activeResult.message = "绑定成功!";
@@ -86,7 +87,7 @@ class SdCode extends Service {
   }
 
   async getDataByBindUserId({offset = 0, limit = 10, bindUserId = 0}){
-    return await this.ctx.model.getDataByBindUserId({
+    return await this.ctx.model.SdCode.getDataByBindUserId({
       offset,
       limit,
       bindUserId,
@@ -94,10 +95,18 @@ class SdCode extends Service {
   }
 
   async getDataByCreateUserId({offset = 0, limit = 10, createUserId = 0}){
-    return await this.ctx.model.getDataByCreateUserId({
+    return await this.ctx.model.SdCode.getDataByCreateUserId({
       offset,
       limit,
       createUserId,
+    });
+  }
+
+  async getDataBySdCode({offset = 0, limit = 10, sdCode = 0}){
+    return await this.ctx.model.SdCode.getDataBySdCode({
+      offset,
+      limit,
+      sdCode,
     });
   }
 }

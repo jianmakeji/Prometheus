@@ -2,15 +2,18 @@
 
 const Controller = require('egg').Controller;
 const Excel = require('exceljs');
+const path = require('path');
+const fs = require('fs');
 
 class SdCodeController extends Controller {
 
   async createSdCode() {
     const ctx = this.ctx;
+
     let query = {
-      limit : ctx.helper.parseInt(ctx.query.limit),
-      specialColumnIds : ctx.query.specialColumnIds,
-      createUserId : ctx.helper.parseInt(ctx.query.createUserId),
+      limit : ctx.helper.parseInt(ctx.request.body.limit),
+      specialColumnIds : ctx.request.body.specialColumnIds,
+      createUserId : ctx.helper.parseInt(ctx.request.body.createUserId),
     };
     try{
       const specialColumn = await ctx.service.sdCode.create(query);
@@ -21,7 +24,8 @@ class SdCodeController extends Controller {
             { header: '师道码', key: 'code', width: 60 }
         ];
 
-        let filename = "师道码.xlsx";
+        let fileNameRandom = ctx.helper.randomCodeString(8);
+        let filename = fileNameRandom + ".xlsx";
 
         for (let code of specialColumn){
           worksheet.addRow({code: code});
@@ -37,11 +41,13 @@ class SdCodeController extends Controller {
         filename = path.resolve(filePath,filename);
 
         await workbook.xlsx.writeFile(filename);
-        ctx.body = fs.createReadStream(filename);
+        //ctx.body = fs.createReadStream(filename);
+        ctx.body = ctx.helper.success('/public/excel/' + fileNameRandom + '.xlsx');
       }
 
     }
     catch(e){
+      console.log(e);
       ctx.body = ctx.helper.failure(e.message);
     }
 
@@ -53,7 +59,7 @@ class SdCodeController extends Controller {
     let bindUserId = ctx.helper.parseInt(ctx.query.bindUserId);
     try{
       await ctx.service.sdCode.activeSdCode({code:code,bindUserId:bindUserId});
-      ctx.body = ctx.helper.success('删除成功!');
+      ctx.body = ctx.helper.success('激活成功!');
     }
     catch(e){
       ctx.body = ctx.helper.failure(e.message);
@@ -61,6 +67,24 @@ class SdCodeController extends Controller {
 
   }
 
+  async getDataBySdCode() {
+    const ctx = this.ctx;
+
+    let query = {
+      limit : ctx.helper.parseInt(ctx.query.limit),
+      offset : ctx.helper.parseInt(ctx.query.offset),
+      code : ctx.query.code,
+    };
+
+    try{
+      ctx.body = await ctx.service.sdCode.getDataBySdCode(query);
+    }
+    catch(e){
+      console.log(e);
+      ctx.body = ctx.helper.failure(e.message);
+    }
+
+  }
 
 }
 
