@@ -17,6 +17,8 @@ import eliteSchool from '@/components/eliteSchool'
 import addEliteSchool from '@/components/addEliteSchool'
 import eliteCourse from '@/components/eliteCourse'
 import addEliteCourse from '@/components/addEliteCourse'
+import specialCode from '@/components/specialCode'
+import addSpecialCode from '@/components/addSpecialCode'
 
 
 Vue.use(Router)
@@ -91,6 +93,14 @@ export default new Router({
 	    	path: '/addEliteCourse',
 	    	name: 'addEliteCourse',
 	    	component: addEliteCourse
-	    }
+	    },{
+            path:'/specialCode',
+            name:'specialCode',
+            component:specialCode
+        },{
+            path:'/addSpecialCode',
+            name:'addSpecialCode',
+            component:addSpecialCode
+        }
 	]
 })
