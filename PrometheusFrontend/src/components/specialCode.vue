@@ -40,7 +40,16 @@ export default {
             specialColumnData:[],
 			columns:[
 				{ 	title: 'id',	key: 'Id',	align: 'center'	},
-                { title: '专题码', key: 'code', align: 'center' },
+				{ title: '专题码', key: 'code', align: 'center' },
+                { title: '专题码', key: 'code', align: 'center',
+					render:(h, params) =>{
+						return h('p', {
+							style: {
+								color: params.row.active ? "#19be6b" : "#ed4014"
+							},
+						},params.row.active ? "已激活" : "未激活")
+					}
+			 	},
                 { title: '对应专题',key: 'opt', align: 'center',
                     render:(h, params) =>{
                 		return h('div',[
@@ -133,6 +142,7 @@ export default {
 			offset:this.offset,
             code:this.code
 		}}).then(function(result){
+			console.log(result);
 			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;
