@@ -74,7 +74,7 @@ module.exports = app => {
       where:{
 
       },
-      order: [[ 'created_at', 'desc' ]],
+      order: [[ 'Id', 'desc' ]],
       include: [{
           model: app.model.ManageUser,
           attributes: ['username','Id'],
