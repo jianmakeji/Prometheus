@@ -30,9 +30,16 @@ Page({
                wx.showToast({
                   title: res.data.message
                })
-               wx.navigateBack({
-                  url: app.globalData.pageUrl.specialColumnDetail + "?specialColumnId=" + that.data.specialColumnId
+               that.setData({
+                  sdCode:""
                })
+               if(that.data.specialColumnId){
+                  setTimeout(function () {
+                     wx.navigateBack({
+                        url: app.globalData.pageUrl.specialColumnDetail + "?specialColumnId=" + that.data.specialColumnId
+                     })
+                  }, 2000);
+               }
             } else if (res.data.status == 500){
                wx.showToast({
                   title: res.data.message,
