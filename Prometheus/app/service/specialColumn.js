@@ -110,6 +110,47 @@ class SpecialColumn extends Service {
 
     return resultObj;
   }
+
+  async findByUserId({id = 0,thumbName= 'thumb_330_225', userId=0}) {
+
+    const specialColumn = await this.ctx.model.SpecialColumn.getSpecialColumnById(id);
+
+    if (!specialColumn) {
+      this.ctx.throw(404, 'specialColumn not found');
+    }
+
+    let userSpColumns = await this.ctx.model.UserSpColumns.getDataByUserId(userId);
+    let userSpColumnsArray = new Array();
+    for (let userSpColumn of userSpColumns){
+      userSpColumnsArray.push(userSpColumn.specialColumnId);
+    }
+
+    let authority = 0;
+    if (userSpColumnsArray.indexOf(id) != -1){
+      authority = 1;
+    }
+
+    let posterImage;
+
+    const helper = this.ctx.helper;
+    specialColumn.thumb = helper.signatureUrl(helper.courseImagePath + specialColumn.thumb,  thumbName);
+    specialColumn.teacher.avatar = helper.signatureUrl(helper.articleImagePath + specialColumn.teacher.avatar, "thumb_80_80");
+
+    if(specialColumn.briefImages != null && specialColumn.briefImages != ''){
+      let briefImages = specialColumn.briefImages.split(',');
+      let singImages = '';
+      if(briefImages.length > 0){
+        briefImages.forEach((element, index)=>{
+            singImages = singImages + helper.signatureUrl(helper.courseImagePath + element, posterImage) + ',';
+        })
+        specialColumn.briefImages = singImages;
+      }
+    }
+    let result = {};
+    result.authority = authority;
+    result.specialColumn = specialColumn;
+    return result;
+  }
 }
 
 module.exports = SpecialColumn;

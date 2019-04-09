@@ -58,8 +58,13 @@ class SdCodeController extends Controller {
     let code = ctx.query.code;
     let bindUserId = ctx.helper.parseInt(ctx.query.bindUserId);
     try{
-      await ctx.service.sdCode.activeSdCode({code:code,bindUserId:bindUserId});
-      ctx.body = ctx.helper.success('激活成功!');
+      let result = await ctx.service.sdCode.activeSdCode({code:code,bindUserId:bindUserId});
+      if (result.code == 200){
+        ctx.body = ctx.helper.success(result.message);
+      }
+      else{
+        ctx.body = ctx.helper.failure(result.message);
+      }
     }
     catch(e){
       ctx.body = ctx.helper.failure(e.message);

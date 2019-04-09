@@ -78,9 +78,12 @@ module.exports = app => {
       include: [{
           model: app.model.ManageUser,
           attributes: ['username','Id'],
+      },{
+          model: app.model.User,
+          attributes: ['nickName','Id'],
       }],
     };
-    
+
     if (sdCode != '0'){
       condition.where = {
         code:{

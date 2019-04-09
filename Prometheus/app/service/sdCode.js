@@ -65,7 +65,7 @@ class SdCode extends Service {
             }
             await ctx.model.SdCode.updateActive(exist.Id, 1, bindUserId, transaction);
             await transaction.commit();
-            activeResult.code = 500;
+            activeResult.code = 200;
             activeResult.message = "绑定成功!";
           } catch (e) {
             await transaction.rollback();

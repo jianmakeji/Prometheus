@@ -15,11 +15,17 @@ class SpecialColumnController extends Controller {
 
   async show() {
     const ctx = this.ctx;
+    let query = {
+      id:ctx.helper.parseInt(ctx.params.id),
+      thumbName:ctx.query.thumbName,
+      userId:ctx.helper.parseInt(ctx.query.userId),
+    };
+
     try{
-      ctx.body = await ctx.service.specialColumn.find({id:ctx.helper.parseInt(ctx.params.id),thumbName:ctx.query.thumbName});
+      ctx.body = await ctx.service.specialColumn.findByUserId(query);
     }
     catch(e){
-      ctx.body = ctx.helper.failure('未找到对应ID的值!');
+      ctx.body = ctx.helper.failure('数据请求失败!');
     }
   }
 
@@ -40,7 +46,7 @@ class SpecialColumnController extends Controller {
       limit: ctx.helper.parseInt(ctx.query.limit),
       thumbName: ctx.query.thumbName,
     };
-    
+
     ctx.body = await ctx.service.specialColumn.getRecommendSpecialColumn(query);
   }
 }
