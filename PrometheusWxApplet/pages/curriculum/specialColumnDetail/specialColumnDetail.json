@@ -2,7 +2,8 @@
    "usingComponents": {
       "i-tabs": "/dist/tabs/index",
       "i-tab": "/dist/tab/index",
-      "i-load-more": "/dist/load-more/index"
+      "i-load-more": "/dist/load-more/index",
+      "i-button": "/dist/button/index"
    },
    "enablePullDownRefresh":true
 }

@@ -11,13 +11,15 @@ Page({
          {name:"专题简介"},
          {name:"专题目录"}
       ],
+      authority:0,         //专题是否激活 0否
       specialColumnId:"",
       specialColumnData:"",
       briefData:[],
       specialCourseOffset:0,
       specialCourseCount:0,
       specialCourseData:[],
-      specialColumnLoad:false
+      specialColumnLoad:false,
+      bindSpecialColumnFlag:0,   //判断绑定进入
    },
    handleChange(event) {
       this.setData({
@@ -25,16 +27,28 @@ Page({
       });
    },
    tapSpecialCourse(event){
+      if (this.data.authority || event.currentTarget.dataset.num <= 1){
+         let dataset = event.currentTarget.dataset;
+         wx.navigateTo({
+            url: app.globalData.pageUrl.specialCourseDetail + "?specialCourseId=" + dataset.specialCourseId + "&category=1"
+         })
+      }
+   },
+   // 绑定激活码
+   bindCode(event){
+      this.setData({
+         bindSpecialColumnFlag:1
+      })
       let dataset = event.currentTarget.dataset;
       wx.navigateTo({
-         url: app.globalData.pageUrl.specialCourseDetail + "?specialCourseId=" + dataset.specialCourseId + "&category=1"
+         url: app.globalData.pageUrl.bindSpecialColumn + "?specialColumnId=" + dataset.specialColumnId
       })
    },
    /**
     * 生命周期函数--监听页面加载
     */
    onLoad: function (options) {
-      if(options.specialColumnId){
+      if (options.specialColumnId){
          this.setData({
             specialColumnId: options.specialColumnId
          })
@@ -55,18 +69,20 @@ Page({
             header: {
                "Authorization": wx.getStorageSync("Authorization")
             },
+            data:{
+               userId:wx.getStorageSync('userId')
+            },
             success(res) {
                if (res.statusCode == 200) {
-
                   let briefString = new Object(),
                      briefArr = new Array();
-                  briefString = res.data.briefImages;
+                  briefString = res.data.specialColumn.briefImages;
                   briefArr = briefString.split(",");
                   briefArr.pop();
 
                   that.setData({
-                     specialColumnId: res.data.Id,
-                     specialColumnData: res.data,
+                     authority: res.data.authority,
+                     specialColumnData: res.data.specialColumn,
                      briefData: briefArr
                   })
 
@@ -75,7 +91,7 @@ Page({
                      data: {
                         limit: 10,
                         offset: that.data.specialCourseOffset,
-                        id: res.data.Id,
+                        id: that.data.specialColumnId,
                      },
                      header: {
                         "Authorization": wx.getStorageSync("Authorization")
@@ -108,7 +124,12 @@ Page({
     * 生命周期函数--监听页面显示
     */
    onShow: function () {
-      
+      if (this.data.bindSpecialColumnFlag == 1){
+         this.onReady();
+         this.setData({
+            bindSpecialColumnFlag:0
+         })
+      }
    },
    onPullDownRefresh(){
       let that = this;
@@ -120,18 +141,21 @@ Page({
          header: {
             "Authorization": wx.getStorageSync("Authorization")
          },
+         data: {
+            userId: wx.getStorageSync('userId')
+         },
          success(res) {
             if (res.statusCode == 200) {
                wx.stopPullDownRefresh();
                let briefString = new Object(),
                   briefArr = new Array();
-               briefString = res.data.briefImages;
+               briefString = res.data.specialColumn.briefImages;
                briefArr = briefString.split(",");
                briefArr.pop();
 
                that.setData({
-                  specialColumnId: res.data.Id,
-                  specialColumnData: res.data,
+                  authority: res.data.authority,
+                  specialColumnData: res.data.specialColumn,
                   briefData: briefArr
                })
 
@@ -140,7 +164,7 @@ Page({
                   data: {
                      limit: 10,
                      offset: that.data.specialCourseOffset,
-                     id: res.data.Id,
+                     id: that.data.specialColumnId,
                   },
                   header: {
                      "Authorization": wx.getStorageSync("Authorization")

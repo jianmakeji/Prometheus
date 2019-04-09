@@ -26,10 +26,12 @@
          </block>
       </view>
       <view class='special_catalog' wx:if="{{currentTab == 1}}">
+         <i-button class='bindCode' wx:if="{{authority == 0}}" size='small' data-special-column-id="{{specialColumnId}}" bind:click="bindCode" type="warning">观看更多视频请绑定师道码</i-button>
          <block wx:for="{{specialCourseData}}" wx:for-item="item" wx:for-index="index">
-            <view class='catalog' data-special-course-id="{{item.Id}}" catchtap='tapSpecialCourse'>
-               <view class='num'>{{index+1}}</view> 
-               <view class='title'>{{item.name}}</view>
+            <view class='catalog' data-special-course-id="{{item.Id}}" data-num="{{index}}" catchtap='tapSpecialCourse'>
+               <image class="cloak_img" wx:if="{{index > 1 && authority == 0}}" src='/images/cloak.png'></image>
+               <view class="num {{authority == 0 && index > 1 ? 'disable' : ''}}">{{index+1}}</view> 
+               <view class="title {{authority == 0 && index > 1 ? 'disable' : ''}}">{{item.name}}</view>
             </view>
          </block>
          <i-load-more tip="暂无更多数据" loading="{{ specialColumnLoad }}" />

@@ -130,6 +130,13 @@
    margin: 10rpx 0;
    background: #fff;
 }
+.special_info .special_catalog .catalog .cloak_img{
+   width: 32rpx;
+   height: 32rpx;
+   position: absolute;
+   margin-top: 10rpx;
+   right: 20rpx;
+}
 .special_info .special_catalog .catalog .num{
    width: 120rpx;
    height: 176rpx;
@@ -150,3 +157,10 @@
    display: flex;
    align-items: center;
 }
+.special_info .special_catalog .catalog .disable{
+   color: #9b9b9b;
+}
+/* .special_info .special_catalog .bindCode{
+   position: fixed;
+   bottom: 0
+} */

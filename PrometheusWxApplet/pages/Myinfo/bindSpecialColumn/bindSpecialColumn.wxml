@@ -1,0 +1,7 @@
+<!--pages/Myinfo/bindSpecialColumn/bindSpecialColumn.wxml-->
+<view class='sdCode_view'>
+   <text class='message'>*师道码为8位随机码，其中字母为大写！</text>
+   <text class='message'>*为保证用户数据安全，师道码激活成功后不能再次使用，且只能激活对应专题，请放心使用！</text>
+   <i-input class='sdCode_input' value="{{ sdCode }}" bind:change="changeCode" title="师道码" maxlength="8" autofocus placeholder="输入师道码" />
+   <i-button class='bind_btn' bind:click='bindSdCode' type='bestPro'>激活</i-button>
+</view>

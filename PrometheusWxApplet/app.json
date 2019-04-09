@@ -10,6 +10,7 @@
       "pages/search/search",
       "pages/Myinfo/Myinfo",
       "pages/Myinfo/myCollect/myCollect",
+      "pages/Myinfo/bindSpecialColumn/bindSpecialColumn",
       "pages/welcome/welcome"
    ],
    "window": {

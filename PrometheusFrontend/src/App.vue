@@ -36,7 +36,7 @@
                       	</MenuItem>
                         <MenuItem name="9">
                           	<Icon type="ios-key" />
-                          	<span>专题码管理</span>
+                          	<span>师道码管理</span>
                       	</MenuItem>
                         <MenuItem name="4">
                           	<Icon type="ios-book" />

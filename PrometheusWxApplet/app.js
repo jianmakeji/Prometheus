@@ -75,6 +75,8 @@ App({
 
          
          getFavoriteByCategoryAndUserid: "/api/wx/favorite?limit=1000&offset=",
+
+         activeSdCode:"/api/wx/sdCode/activeSdCode"
       },
       gradeData: [
          { id: 7, title: "七年级" },
@@ -109,7 +111,8 @@ App({
          // curriculumDetail: '/pages/curriculum/curriculumDetail/curriculumDetail',
          // curriculumList: "/pages/curriculum/curriculumList/curriculumList",
          welcome: '/pages/welcome/welcome',
-         myCollect: '/pages/Myinfo/myCollect/myCollect'
+         myCollect: '/pages/Myinfo/myCollect/myCollect',
+         bindSpecialColumn:'/pages/Myinfo/bindSpecialColumn/bindSpecialColumn'
       }
    }
 })

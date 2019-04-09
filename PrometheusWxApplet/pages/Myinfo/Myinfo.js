@@ -24,16 +24,11 @@ Page({
          url: app.globalData.pageUrl.myCollect,
       })
    },
-   // myBuy:function(event){
-      
-   // },
-   //  clearStorageClick: function(event) {
-   //      wx.clearStorageSync();
-   //    // wx.setStorageSync("token", "data")
-   //      wx.showToast({
-   //          title: '清除缓存成功',
-   //      })
-   //  },
+   myBuy:function(event){
+      wx.navigateTo({
+         url: app.globalData.pageUrl.bindSpecialColumn,
+      })
+   },
    /**
     * 生命周期函数--监听页面加载
     */

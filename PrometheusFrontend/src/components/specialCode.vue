@@ -2,12 +2,12 @@
 	<div class="specialCode">
 		<Breadcrumb>
 	        <BreadcrumbItem>
-	            <Icon type="ios-build" size="24"/>专题码管理
+	            <Icon type="ios-build" size="24"/>师道码管理
 	        </BreadcrumbItem>
 	    </Breadcrumb><br />
 		<Button icon="md-add" type="primary" @click="newSpecialCode">新建</Button><br /><br />
         <div class="code">
-            <p>专题码：</p>
+            <p>师道码：</p>
             <Input v-model="code" placeholder="输入专题码" clearable @on-enter="searchByCode"/>
         </div>
 		<Table :columns="columns" :data="dataList"></Table><br />
@@ -40,8 +40,8 @@ export default {
             specialColumnData:[],
 			columns:[
 				{ 	title: 'id',	key: 'Id',	align: 'center'	},
-				{ title: '专题码', key: 'code', align: 'center' },
-                { title: '专题码', key: 'code', align: 'center',
+				{ title: '师道码', key: 'code', align: 'center' },
+                { title: '状态', key: 'code', align: 'center',
 					render:(h, params) =>{
 						return h('p', {
 							style: {

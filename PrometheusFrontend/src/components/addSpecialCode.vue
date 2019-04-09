@@ -5,7 +5,7 @@
 
 		<Breadcrumb>
   			<BreadcrumbItem to="/specialCode">
-  				<Icon type="ios-build" size="24"/>专题码管理
+  				<Icon type="ios-build" size="24"/>师道码管理
   			</BreadcrumbItem>
 			<BreadcrumbItem>
   				<Icon type="md-add" size="24"/>{{BreadcrumbTitle}}
@@ -82,7 +82,7 @@ export default {
                         if (result.status == 200) {
                             // 下载随机码表格
                             location.href = globel_.serverHost + result.message;
-                            
+
     		            	that.$Loading.finish();
     		            	that.$Message.success({
     			              	duration: 2,
@@ -116,12 +116,12 @@ export default {
 		})
 
 		if(this.id != 0){		//修改
-            this.BreadcrumbTitle  = "修改专题码";
+            this.BreadcrumbTitle  = "修改师道码";
 			this.submitUrl = globel_.serverHost + globel_.configAPI.getSchoolById.replace(":id",this.id);
 			this.$Loading.start();
 
 		}else{					//新建
-            this.BreadcrumbTitle  = "新建专题码";
+            this.BreadcrumbTitle  = "新建师道码";
 			this.submitUrl = globel_.serverHost + globel_.configAPI.createSdCode;
 		}
 	}

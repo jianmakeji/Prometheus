@@ -204,7 +204,7 @@ Page({
                      success(res){
                         if(res.statusCode == 200){
                            that.setData({
-                              specialColumnTeacherInfo: res.data.teacher
+                              specialColumnTeacherInfo: res.data.specialColumn.teacher
                            })
                         }
                      }
