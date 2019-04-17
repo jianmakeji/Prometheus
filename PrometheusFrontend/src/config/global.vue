@@ -45,6 +45,7 @@
 		getEliteSchoolData:"/api/manage/eliteSchool",
 		updateEliteSchoolById:"/api/manage/eliteSchool/:id",
 		deleteEliteSchoolById:"/api/manage/eliteSchool/:id",
+		getEliteSchoolName:"/api/manage/eliteSchool/getEliteSchoolName",
 
 		//名校试题视频
 		createEliteCourse:"/api/manage/eliteCourse",
@@ -59,6 +60,7 @@
 		updataSpecialColumnById:"/api/manage/specialColumn/:id",
 		getSpecialColumnData:"/api/manage/specialColumn",
 		getSpecialColumnDataById:"/api/manage/specialColumn/:id",
+		getSpecialColumnsByGradeId:"/api/manage/specialColumn/getSpecialColumnsByGradeId",
 
 		//课程增删改查
 		createSpecialCourse:"/api/manage/specialCourse",

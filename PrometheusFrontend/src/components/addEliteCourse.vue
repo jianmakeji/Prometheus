@@ -22,6 +22,16 @@
 			<FormItem label="视频介绍:">
 			   	<Input v-model="formItem.describe" type="textarea" placeholder="请输入视频介绍..."></Input>
 		   	</FormItem>
+            <FormItem label="学校:">
+	            <Select v-model="schoolId" placeholder="选择学校..." @on-change="changeSchool">
+	                <Option v-for="(item,index) in schoolData" :value="item.Id" :key="index">{{item.name}}</Option>
+	            </Select>
+	        </FormItem>
+            <FormItem label="年级:">
+	            <Select v-model="gradeId" placeholder="选择年级..." @on-change="changeGrade">
+	                <Option v-for="(item,index) in gradeData" :value="item.id" :key="index">{{item.title}}</Option>
+	            </Select>
+	        </FormItem>
 			<FormItem label="试题:">
 	            <Select v-model="formItem.eliteSchoolId" placeholder="选择试题...">
 	                <Option v-for="(item,index) in eliteSchoolData" :value="item.Id" :key="index">{{item.name}}</Option>
@@ -85,6 +95,9 @@ export default {
 			id:"",
             BreadcrumbTitle:"",
 			submitUrl:"",
+            schoolId:0,
+            schoolData:[],
+            gradeId:9,
 			gradeData:globel_.gradeData,
 
             videoProgressPercent:0,
@@ -103,6 +116,36 @@ export default {
 		}
 	},
 	methods:{
+        changeSchool(value){
+            let that = this;
+            let getEliteSchoolName = globel_.serverHost + globel_.configAPI.getEliteSchoolName;
+            this.schoolId = value;
+            //获取专题数据作为选择项
+    		this.$http.get( getEliteSchoolName,{params:{
+                grade:this.gradeId,
+                subject:0,
+                schoolId:this.schoolId
+            }} ).then(function(result){
+    			that.eliteSchoolData = result.data;
+    		}).catch(function(err){
+    			that.$Loading.error();
+    		})
+        },
+        changeGrade(value){
+            let that = this;
+            let getEliteSchoolName = globel_.serverHost + globel_.configAPI.getEliteSchoolName;
+            this.gradeId = value;
+            //获取专题数据作为选择项
+            this.$http.get( getEliteSchoolName,{params:{
+                grade:this.gradeId,
+                subject:0,
+                schoolId:this.schoolId
+            }} ).then(function(result){
+                that.eliteSchoolData = result.data;
+            }).catch(function(err){
+                that.$Loading.error();
+            })
+        },
 		submitClick(){
             this.formItem.videoAddress = this.fileVideo;
 			let that = this;
@@ -208,28 +251,30 @@ export default {
 	},
 	created(){
 		let that = this,
+            getSchoolDataUrl = globel_.serverHost + globel_.configAPI.getSchoolData,
             getTeacherDataUrl = globel_.serverHost + globel_.configAPI.getTeacherData,
-			getEliteSchoolDataUrl = globel_.serverHost + globel_.configAPI.getEliteSchoolData;
+			getEliteSchoolName = globel_.serverHost + globel_.configAPI.getEliteSchoolName;
 		this.$Loading.start();
 
-        //获取老师数据作为选择项
-		this.$http.get( getTeacherDataUrl,{params:{
+        // 获取学校数据作为选择项
+		this.$http.get( getSchoolDataUrl,{params:{
             limit:1000,
             offset:0
         }} ).then(function(result){
-			that.teacherData = result.data.rows;
+			that.schoolData = result.data.rows;
+            that.$Loading.finish();
 		}).catch(function(err){
 			that.$Loading.error();
 		})
+
 		//获取专题数据作为选择项
-		this.$http.get( getEliteSchoolDataUrl,{params:{
-            limit:1000,
-            offset:0,
-            grade:0,
+		this.$http.get( getEliteSchoolName,{params:{
+            grade:this.gradeId,
             subject:0,
-            schoolId:0
+            schoolId:this.schoolId
         }} ).then(function(result){
-			that.eliteSchoolData = result.data.rows;
+            console.log(result);
+			that.eliteSchoolData = result.data;
 		}).catch(function(err){
 			that.$Loading.error();
 		})

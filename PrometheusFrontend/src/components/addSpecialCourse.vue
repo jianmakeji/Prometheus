@@ -20,6 +20,11 @@
 			<FormItem label="视频介绍:">
 			   	<Input v-model="formItem.describe" type="textarea" placeholder="请输入视频介绍..."></Input>
 		   	</FormItem>
+			<FormItem label="年级:">
+	            <Select v-model="gradeId" placeholder="选择专题..." @on-change="gradeChange">
+	                <Option v-for="(item,index) in gradeData" :value="item.id" :key="index">{{item.title}}</Option>
+	            </Select>
+	        </FormItem>
 			<FormItem label="专题:">
 	            <Select v-model="formItem.specialColumn" placeholder="选择专题...">
 	                <Option v-for="(item,index) in specialColumnData" :value="item.Id" :key="index">{{item.name}}</Option>
@@ -78,6 +83,7 @@ export default {
 			id:"",
             BreadcrumbTitle:"",
 			submitUrl:"",
+            gradeId:9,
 			gradeData:globel_.gradeData,
 			//图片上传参数
 			g_object_name: '',
@@ -102,6 +108,18 @@ export default {
 		}
 	},
 	methods:{
+        gradeChange(value){
+            let that = this;
+            let getSpecialColumnsByGradeId = globel_.serverHost + globel_.configAPI.getSpecialColumnsByGradeId;
+            //获取专题数据作为选择项
+    		this.$http.get( getSpecialColumnsByGradeId, {params:{
+                grade:this.gradeId
+            }}).then(function(result){
+    			that.specialColumnData = result.data;
+    		}).catch(function(err){
+    			that.$Loading.error();
+    		})
+        },
 		submitClick(){
             this.formItem.videoAddress = this.fileVideo;
 			let that = this;
@@ -261,14 +279,16 @@ export default {
 	},
 	created(){
 		let that = this,
-			getSpecialColumnDataUrl = globel_.serverHost + globel_.configAPI.getSpecialColumnData;
+			getSpecialColumnsByGradeId = globel_.serverHost + globel_.configAPI.getSpecialColumnsByGradeId;
 		this.$Loading.start();
+
 		//获取专题数据作为选择项
-		this.$http.get( getSpecialColumnDataUrl, {params:{
-            limit:1000,
-            offset:0
+		this.$http.get( getSpecialColumnsByGradeId, {params:{
+            grade:this.gradeId
         }}).then(function(result){
-			that.specialColumnData = result.data.rows;
+            console.log(result);
+			that.specialColumnData = result.data;
+            that.$Loading.finish();
 		}).catch(function(err){
 			that.$Loading.error();
 		})
