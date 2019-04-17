@@ -267,6 +267,17 @@ export default {
 			that.$Loading.error();
 		})
 
+        //获取老师数据作为选择项
+		this.$http.get( getTeacherDataUrl,{params:{
+            limit:1000,
+            offset:0
+        }} ).then(function(result){
+			that.teacherData = result.data.rows;
+            that.$Loading.finish();
+		}).catch(function(err){
+			that.$Loading.error();
+		})
+
 		//获取专题数据作为选择项
 		this.$http.get( getEliteSchoolName,{params:{
             grade:this.gradeId,
