@@ -34,10 +34,6 @@
                           	<Icon type="ios-videocam" />
                           	<span>专题视频管理</span>
                       	</MenuItem>
-                        <MenuItem name="9">
-                          	<Icon type="ios-key" />
-                          	<span>师道码管理</span>
-                      	</MenuItem>
                         <MenuItem name="4">
                           	<Icon type="ios-book" />
                           	<span>试题管理</span>
@@ -45,6 +41,10 @@
                         <MenuItem name="5">
                           	<Icon type="ios-book" />
                           	<span>试题视频管理</span>
+                      	</MenuItem>
+                        <MenuItem name="9">
+                          	<Icon type="ios-key" />
+                          	<span>师道码管理</span>
                       	</MenuItem>
 						<MenuItem name="6">
                           	<Icon type="md-person" />
