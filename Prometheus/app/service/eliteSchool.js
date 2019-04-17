@@ -37,6 +37,10 @@ class EliteSchool extends Service {
 
     return resultObj;
   }
+
+  async getEliteSchoolName({schoolId = 0, grade = 0, subject = 0}){
+    return await this.ctx.model.EliteSchool.getEliteSchoolName({schoolId, grade, subject});
+  }
 }
 
 module.exports = EliteSchool;

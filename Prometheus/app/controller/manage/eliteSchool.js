@@ -63,6 +63,18 @@ class EliteSchoolController extends Controller {
       ctx.body = ctx.helper.failure(e.message);
     }
   }
+
+  async getEliteSchoolName() {
+    const ctx = this.ctx;
+    const query = {
+      schoolId: ctx.helper.parseInt(ctx.query.schoolId),
+      grade: ctx.helper.parseInt(ctx.query.grade),
+      subject: ctx.helper.parseInt(ctx.query.subject),
+    };
+
+    ctx.body = await ctx.service.eliteSchool.getEliteSchoolName(query);
+  }
+
 }
 
 module.exports = EliteSchoolController;

@@ -74,10 +74,10 @@ class SpecialColumn extends Service {
   }
 
   async getSpecialColumnsByTeacherId({id = 0, limit = 10, offset =0, thumbName = 'thumb_330_225'}){
-    const resultObj =  this.ctx.model.SpecialColumn.getSpecialColumnsByTeacherId({id,offset,limit});
+    const resultObj =  await this.ctx.model.SpecialColumn.getSpecialColumnsByTeacherId({id,offset,limit});
 
     const helper = this.ctx.helper;
-
+    
     resultObj.rows.forEach((element, index)=>{
       element.thumb = helper.signatureUrl(helper.courseImagePath + element.thumb, thumbName);
     });
@@ -150,6 +150,12 @@ class SpecialColumn extends Service {
     result.authority = authority;
     result.specialColumn = specialColumn;
     return result;
+  }
+
+  async getSpecialColumnsByGradeId({grade = 0}){
+    const resultObj =  await this.ctx.model.SpecialColumn.getSpecialColumnsByGradeId({grade});
+
+    return resultObj;
   }
 }
 

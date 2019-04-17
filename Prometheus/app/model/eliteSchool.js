@@ -77,5 +77,31 @@ module.exports = app => {
     let resultObj = await this.findAndCountAll(condition);
     return resultObj;
   }
+
+  EliteSchool.getEliteSchoolName = async function({schoolId = 0, grade = 0, subject = 0}){
+    let condition = {
+      order: [[ 'created_at', 'desc' ], [ 'Id', 'desc' ]],
+      where: {
+
+      },
+      attributes: ['name','Id'],
+    };
+
+    if (grade != 0){
+      condition.where.grade = grade;
+    }
+
+    if (subject != 0){
+      condition.where.subject = subject;
+    }
+
+    if (schoolId != 0){
+      condition.where.schoolId = schoolId;
+    }
+
+    let resultObj = await this.findAll(condition);
+    return resultObj;
+  }
+
   return EliteSchool;
 };

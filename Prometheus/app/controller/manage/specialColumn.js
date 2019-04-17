@@ -84,6 +84,13 @@ class SpecialColumnController extends Controller {
     ctx.body = await ctx.service.specialColumn.getSpecialColumnsByTeacherId(query);
   }
 
+  async getSpecialColumnsByGradeId(){
+    const ctx = this.ctx;
+    const query = {
+      grade: ctx.helper.parseInt(ctx.query.grade),
+    };
+    ctx.body = await ctx.service.specialColumn.getSpecialColumnsByGradeId(query);
+  }
 }
 
 module.exports = SpecialColumnController;

@@ -72,7 +72,7 @@ module.exports = app => {
   }
 
   SpecialColumn.getSpecialColumnsByTeacherId = async function({id = 0, limit = 10, offset =0}){
-    const resultObj =  this.ctx.model.SpecialColumn.findAndCountAll({
+    const resultObj =  this.findAndCountAll({
       offset,
       limit,
       order: [[ 'created_at', 'desc' ]],
@@ -125,5 +125,17 @@ module.exports = app => {
     let resultObj = await this.findAndCountAll(condition);
     return resultObj;
   }
+
+  SpecialColumn.getSpecialColumnsByGradeId = async function({grade = 0}){
+    const resultObj =  this.findAll({
+      order: [[ 'created_at', 'desc' ]],
+      where: {
+          grade:grade,
+      },
+      attributes: ['name','Id'],
+    });
+    return resultObj;
+  }
+
   return SpecialColumn;
 };

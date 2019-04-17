@@ -20,9 +20,13 @@ module.exports = app => {
   router.get('/api/manage/specialColumn/getSpecialColumnsByTeacherId', managerChecktoken, controller.manage.specialColumn.getSpecialColumnsByTeacherId);
   router.get('/api/manage/eliteCourse/getEliteCourseByEliteSchoolId', managerChecktoken, controller.manage.eliteCourse.getEliteCourseByEliteSchoolId);
   router.get('/api/manage/eliteCourse/getQRCode', managerChecktoken, controller.manage.eliteCourse.getQRCode);
+  router.get('/api/manage/eliteSchool/getEliteSchoolName', managerChecktoken, controller.manage.eliteSchool.getEliteSchoolName);
+
   router.get('/api/manage/specialCourse/getSpecialCourseBySpecialColumnId', managerChecktoken, controller.manage.specialCourse.getSpecialCourseBySpecialColumnId);
   router.get('/api/manage/specialCourse/getSpecialCourseByCondition', managerChecktoken, controller.manage.specialCourse.getSpecialCourseByCondition);
   router.get('/api/manage/specialCourse/getQRCode', managerChecktoken, controller.manage.specialCourse.getQRCode);
+  router.get('/api/manage/specialColumn/getSpecialColumnsByGradeId', controller.manage.specialColumn.getSpecialColumnsByGradeId);
+
   router.post('/api/manage/sdCode/createSdCode', managerChecktoken, controller.manage.sdCode.createSdCode);
   router.get('/api/manage/sdCode/getDataBySdCode', managerChecktoken, controller.manage.sdCode.getDataBySdCode);
 
