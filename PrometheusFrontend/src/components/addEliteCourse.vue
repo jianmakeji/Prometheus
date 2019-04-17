@@ -273,7 +273,6 @@ export default {
             subject:0,
             schoolId:this.schoolId
         }} ).then(function(result){
-            console.log(result);
 			that.eliteSchoolData = result.data;
 		}).catch(function(err){
 			that.$Loading.error();

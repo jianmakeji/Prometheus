@@ -93,7 +93,6 @@ export default {
                 limit:1000,
                 offset:0
             }}).then(function(result){
-                console.log("===",result);
 				// 数据赋值
 				that.$Loading.finish();
 				that.courseList = result.data.rows;

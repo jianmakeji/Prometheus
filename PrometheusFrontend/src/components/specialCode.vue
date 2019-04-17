@@ -142,7 +142,6 @@ export default {
 			offset:this.offset,
             code:this.code
 		}}).then(function(result){
-			console.log(result);
 			that.$Loading.finish();
 			that.dataList = result.data.rows;
 			that.total = result.data.count;

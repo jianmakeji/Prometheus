@@ -147,7 +147,6 @@ export default {
 		submitClick(){
             this.formItem.avatar = this.thumbImage;
 			let that = this;
-            console.log(this.formItem);
 			this.$Loading.start();
 			if(this.id == 0){		//新建	post
 				this.$http.post( this.submitUrl ,{
