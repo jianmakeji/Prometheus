@@ -164,7 +164,7 @@ Page({
    onLoad: function (options) {
       if (options.scene) { //扫二维码进入
          let arr = new Array();
-         arr = options.scene.split("#");
+         arr = decodeURIComponent(options.scene).split("#");
          this.setData({
             specialCourseId: arr[0],
             category: arr[1]
@@ -187,85 +187,113 @@ Page({
             userId: wx.getStorageSync("userId"),
          })
          wx.request({
-            url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialCourseDataById + this.data.specialCourseId,
-            header: {
-               "Authorization": wx.getStorageSync("Authorization")
-            },
-            success(res) {
-               if (res.statusCode == 200) {
-                  that.setData({
-                     specialCourseData: res.data
-                  })
-                  wx.request({
-                     url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnById + res.data.special_column.Id,
-                     header: {
-                        "Authorization": wx.getStorageSync("Authorization")
-                     },
-                     success(res){
-                        if(res.statusCode == 200){
-                           that.setData({
-                              specialColumnTeacherInfo: res.data.specialColumn.teacher
-                           })
-                        }
-                     }
-                  })
-               } else if (res.statusCode == 409) {
-                  getNewToken(res.data.token, that);
-               }
-            }
-         })
-         // 获取收藏数据
-         wx.request({
-            url: app.globalData.serverHost + app.globalData.globalAPI.checkIsFavite,
+            url: app.globalData.serverHost + app.globalData.globalAPI.authirtyCourse,
             data: {
                userId: wx.getStorageSync("userId"),
-               category: 1,
-               specialCourseId: that.data.specialCourseId,
-               eliteCourseId: 0
-            },
-            header: {
-               "Authorization": wx.getStorageSync("Authorization")
-            },
-            success(res) {
-               if (res.statusCode == 200) {
-                  if (res.data.status == 200) {
-                     if (res.data.message == "未收藏") {
-                        that.setData({
-                           collectFlag: 0
-                        })
-                     } else if (res.data.message == "已收藏") {
-                        that.setData({
-                           collectFlag: 1
-                        })
-                     }
-                  }
-               } else if (res.statusCode == 409) {
-                  getNewToken(res.data.token, that);
-               }
-            }
-         })
-         // 获取评论数据
-         wx.request({
-            url: app.globalData.serverHost + app.globalData.globalAPI.getCommentBySpecialCourseId,
-            data: {
-               limit: 10,
-               offset: that.data.commentOffset,
                specialCourseId: that.data.specialCourseId
             },
             header: {
                "Authorization": wx.getStorageSync("Authorization")
             },
-            success(res) {
-               if (res.statusCode == 200) {
-                  that.setData({
-                     commentData: res.data.rows,
-                     commentCount:res.data.count
+            success(authirtyRes) {
+               if (authirtyRes.data == 1){
+                  // 视频对应专题已激活
+                  wx.request({
+                     url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialCourseDataById + that.data.specialCourseId,
+                     header: {
+                        "Authorization": wx.getStorageSync("Authorization")
+                     },
+                     success(res) {
+                        if (res.statusCode == 200) {
+                           that.setData({
+                              specialCourseData: res.data
+                           })
+                           wx.request({
+                              url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnById + res.data.special_column.Id,
+                              header: {
+                                 "Authorization": wx.getStorageSync("Authorization")
+                              },
+                              success(res) {
+                                 if (res.statusCode == 200) {
+                                    that.setData({
+                                       specialColumnTeacherInfo: res.data.specialColumn.teacher
+                                    })
+                                 }
+                              }
+                           })
+                        } else if (res.statusCode == 409) {
+                           getNewToken(res.data.token, that);
+                        }
+                     }
                   })
-               } else if (res.statusCode == 409) {
-                  getNewToken(res.data.token, that);
+                  // 获取收藏数据
+                  wx.request({
+                     url: app.globalData.serverHost + app.globalData.globalAPI.checkIsFavite,
+                     data: {
+                        userId: wx.getStorageSync("userId"),
+                        category: 1,
+                        specialCourseId: that.data.specialCourseId,
+                        eliteCourseId: 0
+                     },
+                     header: {
+                        "Authorization": wx.getStorageSync("Authorization")
+                     },
+                     success(res) {
+                        if (res.statusCode == 200) {
+                           if (res.data.status == 200) {
+                              if (res.data.message == "未收藏") {
+                                 that.setData({
+                                    collectFlag: 0
+                                 })
+                              } else if (res.data.message == "已收藏") {
+                                 that.setData({
+                                    collectFlag: 1
+                                 })
+                              }
+                           }
+                        } else if (res.statusCode == 409) {
+                           getNewToken(res.data.token, that);
+                        }
+                     }
+                  })
+                  // 获取评论数据
+                  wx.request({
+                     url: app.globalData.serverHost + app.globalData.globalAPI.getCommentBySpecialCourseId,
+                     data: {
+                        limit: 10,
+                        offset: that.data.commentOffset,
+                        specialCourseId: that.data.specialCourseId
+                     },
+                     header: {
+                        "Authorization": wx.getStorageSync("Authorization")
+                     },
+                     success(res) {
+                        if (res.statusCode == 200) {
+                           that.setData({
+                              commentData: res.data.rows,
+                              commentCount: res.data.count
+                           })
+                        } else if (res.statusCode == 409) {
+                           getNewToken(res.data.token, that);
+                        }
+                     }
+                  })
+               } else {
+                  // 视频对应专题未激活
+                  wx.showToast({
+                     title: '该视频对应专题未激活，请绑定师道码后再观看！',
+                     icon:"none",
+                     duration:2000
+                  })
+                  setTimeout(function(){
+                     wx.navigateTo({
+                        url: app.globalData.pageUrl.bindSpecialColumn
+                     })
+                  },2000)
                }
             }
          })
+         
       } else {
          wx.redirectTo({
             url: app.globalData.pageUrl.welcome + '?specialCourseId=' + this.data.specialCourseId + "&category=" + this.data.category,

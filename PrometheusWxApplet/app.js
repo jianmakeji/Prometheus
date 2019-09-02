@@ -16,7 +16,7 @@ App({
    // 全局数据
    globalData: {
       serverHost: "https://bestpro.vip",
-      // serverHost: "http://192.168.3.252:7001",
+      // serverHost: "http://192.168.3.191:7001",
 
       // request数据请求路径
       globalAPI: {
@@ -76,6 +76,7 @@ App({
          
          getFavoriteByCategoryAndUserid: "/api/wx/favorite?limit=1000&offset=",
 
+         authirtyCourse:'/api/wx/specialCourse/authirtyCourse',
          activeSdCode:"/api/wx/sdCode/activeSdCode"
       },
       gradeData: [
