@@ -56,7 +56,7 @@ module.exports = app => {
   }
 
   SpecialCourse.getSpecialCourseDetailById = async function(id){
-    const course = await this.findByPk(id);
+    const course = await this.findById(id);
     return course;
   }
 
