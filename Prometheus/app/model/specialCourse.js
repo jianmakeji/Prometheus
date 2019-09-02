@@ -55,6 +55,11 @@ module.exports = app => {
     return course;
   }
 
+  SpecialCourse.getSpecialCourseDetailById = async function(id){
+    const course = await this.findByPk(id);
+    return course;
+  }
+
   SpecialCourse.createSpecialCourse = async function(course){
     return await this.create(course);
   }

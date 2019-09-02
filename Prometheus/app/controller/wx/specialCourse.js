@@ -50,6 +50,13 @@ class SpecialCourseController extends Controller {
     };
     ctx.body = await ctx.service.specialCourse.searchByKeywords(query);
   }
+
+  async authirtyCourse(){
+    const ctx = this.ctx;
+    let userId =  ctx.helper.parseInt(ctx.query.userId);
+    let specialCourseId =  ctx.helper.parseInt(ctx.query.specialCourseId);
+    ctx.body = await ctx.service.specialCourse.authirtyCourse(userId,specialCourseId);
+  }
 }
 
 module.exports = SpecialCourseController;

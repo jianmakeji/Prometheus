@@ -55,6 +55,8 @@ module.exports = app => {
   router.get('/api/wx/specialCourse/getSpecialCourseBySpecialColumnId', wxChecktoken, controller.wx.specialCourse.getSpecialCourseBySpecialColumnId);
   router.get('/api/wx/specialCourse/getSpecialCourseByCondition', wxChecktoken, controller.wx.specialCourse.getSpecialCourseByCondition);
   router.get('/api/wx/specialCourse/searchByKeywords', wxChecktoken, controller.wx.specialCourse.searchByKeywords);
+  router.get('/api/wx/specialCourse/authirtyCourse', wxChecktoken, controller.wx.specialCourse.authirtyCourse);
+  
   router.get('/api/wx/sdCode/activeSdCode', wxChecktoken, controller.manage.sdCode.activeSdCode);
 
   router.resources('wx.users', '/api/wx/users', controller.wx.user);

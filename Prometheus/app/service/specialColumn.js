@@ -77,7 +77,7 @@ class SpecialColumn extends Service {
     const resultObj =  await this.ctx.model.SpecialColumn.getSpecialColumnsByTeacherId({id,offset,limit});
 
     const helper = this.ctx.helper;
-    
+
     resultObj.rows.forEach((element, index)=>{
       element.thumb = helper.signatureUrl(helper.courseImagePath + element.thumb, thumbName);
     });
@@ -156,6 +156,26 @@ class SpecialColumn extends Service {
     const resultObj =  await this.ctx.model.SpecialColumn.getSpecialColumnsByGradeId({grade});
 
     return resultObj;
+  }
+
+  async authirtyCourse(userId,specialCourseId){
+    const course = await this.ctx.model.SpecialCourse.getSpecialCourseDetailById(specialCourseId,transaction);
+    if (!course) {
+      this.ctx.throw(404, 'course not found');
+    }
+
+    let userSpColumns = await this.ctx.model.UserSpColumns.getDataByUserId(userId);
+    let userSpColumnsArray = new Array();
+    for (let userSpColumn of userSpColumns){
+      userSpColumnsArray.push(userSpColumn.specialColumnId);
+    }
+
+    let authority = 0;
+    if (userSpColumnsArray.indexOf(course.specialColumn) != -1){
+      authority = 1;
+    }
+
+    return authority;
   }
 }
 
