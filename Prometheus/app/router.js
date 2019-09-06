@@ -51,7 +51,7 @@ module.exports = app => {
   router.get('/api/wx/favorite/deleteFavorite', wxChecktoken, controller.wx.favorite.deleteFavorite);
   router.get('/api/wx/user/getWxCode', controller.wx.user.getWxCode);
 
-  router.get('/api/wx/eliteCourse/getEliteCourseByEliteSchoolId', wxChecktoken, controller.wx.eliteCourse.getEliteCourseByEliteSchoolId);
+  router.get('/api/wx/eliteCourse/getEliteCourseByEliteSchoolId', controller.wx.eliteCourse.getEliteCourseByEliteSchoolId);
   router.get('/api/wx/specialCourse/getSpecialCourseBySpecialColumnId', wxChecktoken, controller.wx.specialCourse.getSpecialCourseBySpecialColumnId);
   router.get('/api/wx/specialCourse/getSpecialCourseByCondition', wxChecktoken, controller.wx.specialCourse.getSpecialCourseByCondition);
   router.get('/api/wx/specialCourse/authirtyCourse', wxChecktoken, controller.wx.specialCourse.authirtyCourse);
