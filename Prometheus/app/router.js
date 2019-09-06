@@ -42,7 +42,7 @@ module.exports = app => {
 
   //微信小程序数据接口
   router.get('/api/wx/specialColumn/getSpecialColumnsByTeacherId', wxChecktoken, controller.wx.specialColumn.getSpecialColumnsByTeacherId);
-  router.get('/api/wx/specialColumn/getRecommendSpecialColumn', wxChecktoken, controller.wx.specialColumn.getRecommendSpecialColumn);
+  router.get('/api/wx/specialColumn/getRecommendSpecialColumn', controller.wx.specialColumn.getRecommendSpecialColumn);
   router.get('/api/wx/comment/getCommentByEliteCourseId', wxChecktoken, controller.wx.comment.getCommentByEliteCourseId);
   router.get('/api/wx/comment/getCommentBySpecialCourseId', wxChecktoken, controller.wx.comment.getCommentBySpecialCourseId);
   router.get('/api/wx/eliteCourse/searchByKeywords', wxChecktoken, controller.wx.eliteCourse.searchByKeywords);
@@ -64,11 +64,10 @@ module.exports = app => {
   router.resources('wx.specialColumn', '/api/wx/specialColumn', wxChecktoken, controller.wx.specialColumn);
   router.resources('wx.comment', '/api/wx/comment', wxChecktoken, controller.wx.comment);
   router.resources('wx.favorite', '/api/wx/favorite', wxChecktoken, controller.wx.favorite);
-  router.resources('wx.school', '/api/wx/school', wxChecktoken, controller.wx.school);
-  router.resources('wx.eliteSchool', '/api/wx/eliteSchool', wxChecktoken, controller.wx.eliteSchool);
-  router.resources('wx.eliteCourse', '/api/wx/eliteCourse', wxChecktoken, controller.wx.eliteCourse);
+  router.resources('wx.school', '/api/wx/school', controller.wx.school);
+  router.resources('wx.eliteSchool', '/api/wx/eliteSchool', controller.wx.eliteSchool);
+  router.resources('wx.eliteCourse', '/api/wx/eliteCourse', controller.wx.eliteCourse);
   router.resources('wx.specialCourse', '/api/wx/specialCourse', wxChecktoken, controller.wx.specialCourse);
-  router.resources('wx.eliteCourse', '/api/wx/eliteCourse', wxChecktoken, controller.wx.eliteCourse);
 
   //网站接口
   router.get('/school', controller.website.home.school);
