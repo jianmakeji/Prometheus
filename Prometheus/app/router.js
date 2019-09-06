@@ -45,8 +45,8 @@ module.exports = app => {
   router.get('/api/wx/specialColumn/getRecommendSpecialColumn', controller.wx.specialColumn.getRecommendSpecialColumn);
   router.get('/api/wx/comment/getCommentByEliteCourseId', wxChecktoken, controller.wx.comment.getCommentByEliteCourseId);
   router.get('/api/wx/comment/getCommentBySpecialCourseId', wxChecktoken, controller.wx.comment.getCommentBySpecialCourseId);
-  router.get('/api/wx/eliteCourse/searchByKeywords', wxChecktoken, controller.wx.eliteCourse.searchByKeywords);
-  router.get('/api/wx/specialCourse/searchByKeywords', wxChecktoken, controller.wx.specialCourse.searchByKeywords);
+  router.get('/api/wx/eliteCourse/searchByKeywords',  controller.wx.eliteCourse.searchByKeywords);
+  router.get('/api/wx/specialCourse/searchByKeywords',controller.wx.specialCourse.searchByKeywords);
   router.get('/api/wx/favorite/checkIsFavite', wxChecktoken, controller.wx.favorite.checkIsFavite);
   router.get('/api/wx/favorite/deleteFavorite', wxChecktoken, controller.wx.favorite.deleteFavorite);
   router.get('/api/wx/user/getWxCode', controller.wx.user.getWxCode);
@@ -54,7 +54,6 @@ module.exports = app => {
   router.get('/api/wx/eliteCourse/getEliteCourseByEliteSchoolId', wxChecktoken, controller.wx.eliteCourse.getEliteCourseByEliteSchoolId);
   router.get('/api/wx/specialCourse/getSpecialCourseBySpecialColumnId', wxChecktoken, controller.wx.specialCourse.getSpecialCourseBySpecialColumnId);
   router.get('/api/wx/specialCourse/getSpecialCourseByCondition', wxChecktoken, controller.wx.specialCourse.getSpecialCourseByCondition);
-  router.get('/api/wx/specialCourse/searchByKeywords', wxChecktoken, controller.wx.specialCourse.searchByKeywords);
   router.get('/api/wx/specialCourse/authirtyCourse', wxChecktoken, controller.wx.specialCourse.authirtyCourse);
 
   router.get('/api/wx/sdCode/activeSdCode', wxChecktoken, controller.manage.sdCode.activeSdCode);
