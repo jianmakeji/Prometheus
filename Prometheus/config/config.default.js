@@ -18,7 +18,7 @@ module.exports = appInfo => {
     host: '192.168.3.110',
     port: 3306,
     username: 'root',
-    password: 'root',
+    password:'root',
     database: 'PrometheusV2',
     define: {
       freezeTableName: true,

@@ -250,9 +250,16 @@ Page({
             }
          })
       } else {
-         wx.redirectTo({
-            url: app.globalData.pageUrl.welcome + '?eliteCourseId=' + this.data.eliteCourseId + "&category=" + this.data.category,
+         wx.showToast({
+            title: '未登录，无法查看更多详情,2秒后跳转至登录界面！',
+            icon: "none",
+            duration: 2000
          })
+         setTimeout(function () {
+            wx.redirectTo({
+               url: app.globalData.pageUrl.welcome + '?eliteCourseId=' + that.data.eliteCourseId + "&category=" + that.data.category,
+            })
+         }, 2000);
       }
    },
    onShow() {

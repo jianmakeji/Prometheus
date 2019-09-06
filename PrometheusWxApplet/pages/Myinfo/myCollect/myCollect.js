@@ -97,9 +97,16 @@ Page({
             }
          })
       }else{
-         wx.redirectTo({
-            url: app.globalData.pageUrl.welcome
+         wx.showToast({
+            title: '未登录，无法查看更多详情,2秒后跳转至登录界面！',
+            icon: "none",
+            duration: 2000
          })
+         setTimeout(function () {
+            wx.redirectTo({
+               url: app.globalData.pageUrl.welcome,
+            })
+         }, 2000);
       }
    },
    /**

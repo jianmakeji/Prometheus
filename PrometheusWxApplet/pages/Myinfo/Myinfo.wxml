@@ -1,7 +1,7 @@
 <!--pages/Myinfo/Myinfo.wxml-->
 <view class="list-wrap">
    <view class="index_user">
-      <image class='user_icon'src="{{shouquan == 0 ? '/images/click_author.png':headimgurl}}"></image>
+      <image class='user_icon' src="{{shouquan == 0 ? '/images/click_author.png':headimgurl}}" catchtap="login"></image>
       <view class='nickname'>{{shouquan == 1 ? nickname : '游客用户'}}</view>
    </view>
    <view class='scan_item' catchtap="scanClick">

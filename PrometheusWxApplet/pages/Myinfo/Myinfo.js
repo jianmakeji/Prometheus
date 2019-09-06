@@ -7,6 +7,15 @@ Page({
       nickname: "",
       headimgurl: ""
    },
+   login(){
+      if(wx.getStorageSync("token")){
+
+      }else{
+         wx.navigateTo({
+            url: app.globalData.pageUrl.welcome,
+         })
+      }
+   },
    //扫一扫
    scanClick: function(event) {
       wx.scanCode({

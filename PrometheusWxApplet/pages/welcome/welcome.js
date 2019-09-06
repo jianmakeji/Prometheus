@@ -5,21 +5,21 @@ Page({
       courseDetailId: "",
       courseName: "",
 
-      eliteCourseId:"",
-      specialCourseId:"",
-      category:""
+      eliteCourseId: "",
+      specialCourseId: "",
+      category: ""
    },
 
    onLoad: function(options) {
       // options只有id值 和 视频类型变量category 
       // category : 1为专题突破  2为名校试题
       let that = this;
-      if(options.eliteCourseId){
+      if (options.eliteCourseId) {
          this.setData({
             eliteCourseId: options.eliteCourseId,
             category: options.category
          })
-      } else if (options.specialCourseId){
+      } else if (options.specialCourseId) {
          this.setData({
             specialCourseId: options.specialCourseId,
             category: options.category
@@ -51,7 +51,7 @@ Page({
                header: {
                   'content-type': 'application/json'
                },
-               success: function (res) {
+               success: function(res) {
                   wx.setStorageSync("openid", res.data.openid);
                   let data = {
                      nickName: wx.getStorageSync("nickName"),

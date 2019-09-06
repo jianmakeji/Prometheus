@@ -3,20 +3,25 @@ var app = getApp();
 Page({
    data: {
       currentTab: "0",
-      courseType: [
-         { Id: 1, name: "名校试题" },
-         { Id: 2, name:"专题突破"}
+      courseType: [{
+            Id: 1,
+            name: "名校试题"
+         },
+         {
+            Id: 2,
+            name: "专题突破"
+         }
       ],
-      schoolCount:0,
-      specialColumnsCount:0,
-      schoolOffset:0,
-      schoolLoadMore:false,
-      specialColumnsOffset:0,
-      schoolData: [],         //名校数据
-      specialColumnsData:[],  //专题突破数据
-      specialColumnLoad:false
+      schoolCount: 0,
+      specialColumnsCount: 0,
+      schoolOffset: 0,
+      schoolLoadMore: false,
+      specialColumnsOffset: 0,
+      schoolData: [], //名校数据
+      specialColumnsData: [], //专题突破数据
+      specialColumnLoad: false
    },
-   catchSchool(event){
+   catchSchool(event) {
       let schoolId = event.currentTarget.dataset.schoolId;
       wx.navigateTo({
          url: app.globalData.pageUrl.eliteSchool + "?schoolId=" + schoolId
@@ -39,74 +44,62 @@ Page({
          title: '课程',
       })
    },
-   onReady(){
+   onReady() {
       let that = this;
-      if (wx.getStorageSync("token")) {
-         // 获取名校试题数据
-         wx.request({
-            url: app.globalData.serverHost + app.globalData.globalAPI.getSchoolData,
-            data: {
-               limit: 10,
-               offset: that.data.schoolOffset,
-               thumbName:"thumb_330_150"
-            },
-            header: {
-               "Authorization": wx.getStorageSync("Authorization")
-            },
-            success(res) {
-               if (res.statusCode == 200) {
-                  that.setData({
-                     schoolData: res.data.rows,
-                     schoolCount:res.data.count
-                  })
-               } else if (res.statusCode == 409) {
-                  getNewToken(res.data.token, that);
-               }
+      // 获取名校试题数据
+      wx.request({
+         url: app.globalData.serverHost + app.globalData.globalAPI.getSchoolData,
+         data: {
+            limit: 10,
+            offset: that.data.schoolOffset,
+            thumbName: "thumb_330_150"
+         },
+         success(res) {
+            if (res.statusCode == 200) {
+               that.setData({
+                  schoolData: res.data.rows,
+                  schoolCount: res.data.count
+               })
+            } else if (res.statusCode == 409) {
+               getNewToken(res.data.token, that);
             }
-         });
-         // 获取专题突破数据
-         wx.request({
-            url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnData,
-            data: {
-               limit: 10,
-               offset: that.data.specialColumnsOffset,
-               thumbName: "thumb_330_225"
-            },
-            header: {
-               "Authorization": wx.getStorageSync("Authorization")
-            },
-            success(res) {
-               if (res.statusCode == 200) {
-                  that.setData({
-                     specialColumnsData: res.data.rows,
-                     specialColumnsCount:res.data.count
-                  })
-               } else if (res.statusCode == 409) {
-                  getNewToken(res.data.token, that);
-               }
+         }
+      });
+      // 获取专题突破数据
+      wx.request({
+         url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnData,
+         data: {
+            limit: 10,
+            offset: that.data.specialColumnsOffset,
+            thumbName: "thumb_330_225"
+         },
+         success(res) {
+            if (res.statusCode == 200) {
+               that.setData({
+                  specialColumnsData: res.data.rows,
+                  specialColumnsCount: res.data.count
+               })
+            } else if (res.statusCode == 409) {
+               getNewToken(res.data.token, that);
             }
-         })
-      } else {
-         wx.redirectTo({
-            url: app.globalData.pageUrl.welcome,
-         })
-      }
+         }
+      })
    },
    onShow: function() {
-      
+
    },
-   onPullDownRefresh(){
+   onPullDownRefresh() {
       let that = this;
       this.setData({
          schoolOffset: 0,
-         specialColumnsOffset:0
+         specialColumnsOffset: 0
       })
       // 获取名校试题数据
       wx.request({
          url: app.globalData.serverHost + app.globalData.globalAPI.getSchoolData,
          data: {
             limit: 10,
-            offset:that.data.schoolOffset,
+            offset: that.data.schoolOffset,
             thumbName: "thumb_330_150"
          },
          header: {
@@ -134,9 +127,6 @@ Page({
             offset: that.data.specialColumnsOffset,
             thumbName: "thumb_330_225"
          },
-         header: {
-            "Authorization": wx.getStorageSync("Authorization")
-         },
          success(res) {
             if (res.statusCode == 200) {
                wx.stopPullDownRefresh();
@@ -149,23 +139,20 @@ Page({
          }
       })
    },
-   onReachBottom(){
+   onReachBottom() {
       let that = this;
-      if (this.data.specialColumnsData.length < this.data.specialColumnsCount && this.data.currentTab == "1"){
+      if (this.data.specialColumnsData.length < this.data.specialColumnsCount && this.data.currentTab == "1") {
          this.setData({
             specialColumnsOffset: that.data.specialColumnsOffset + 10,
-            schoolLoadMore:true
+            schoolLoadMore: true
          })
          // 获取专题突破数据
          wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.getSpecialColumnData,
             data: {
                limit: 10,
-               offset: this.data.specialColumnsOffset, 
+               offset: this.data.specialColumnsOffset,
                thumbName: "thumb_330_225"
-            },
-            header: {
-               "Authorization": wx.getStorageSync("Authorization")
             },
             success(res) {
                if (res.statusCode == 200) {
@@ -178,10 +165,10 @@ Page({
                }
             }
          })
-      } else if (this.data.schoolData.length < this.data.schoolCount && this.data.currentTab == "0"){
+      } else if (this.data.schoolData.length < this.data.schoolCount && this.data.currentTab == "0") {
          this.setData({
             schoolOffset: that.data.schoolOffset + 10,
-            specialColumnLoad:true
+            specialColumnLoad: true
          })
          // 获取名校试题数据
          wx.request({
@@ -191,21 +178,18 @@ Page({
                offset: this.data.schoolOffset,
                thumbName: "thumb_330_150"
             },
-            header: {
-               "Authorization": wx.getStorageSync("Authorization")
-            },
             success(res) {
                if (res.statusCode == 200) {
                   that.setData({
                      schoolData: that.data.schoolData.concat(res.data.rows),
-                     specialColumnLoad:false
+                     specialColumnLoad: false
                   })
                } else if (res.statusCode == 409) {
                   getNewToken(res.data.token, that);
                }
             }
          })
-      }      
+      }
    },
    /**
     * 用户点击右上角分享

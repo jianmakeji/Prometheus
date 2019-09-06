@@ -1,24 +1,26 @@
 /* pages/welcome/welcome.wxss */
-.loginView{
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    align-items: center;
-    margin: 300rpx auto;
+
+.loginView {
+   display: flex;
+   flex-direction: column;
+   width: 80%;
+   align-items: center;
+   margin: 300rpx auto;
 }
 
-.loginImg{
-    width: 300rpx;
-    height: 300rpx;
-}
-.loginBtn{
-    margin-top: 200rpx;
-    width: 100%;
+.loginImg {
+   width: 300rpx;
+   height: 300rpx;
 }
 
-.version{
-    position: absolute;
-    bottom: 60rpx;
-    color:#80848f;
-    font-size: 16px;
+.loginBtn {
+   margin-top: 200rpx;
+   width: 100%;
+}
+
+.version {
+   position: absolute;
+   bottom: 60rpx;
+   color: #80848f;
+   font-size: 16px;
 }

@@ -21,7 +21,7 @@
       "navigationBarTextStyle": "black"
    },
    "tabBar": {
-      "color":"#000",
+      "color": "#000",
       "selectedColor": "#2f54eb",
       "list": [
          {
@@ -50,5 +50,6 @@
          }
       ]
    },
-   "resizable": true
+   "resizable": true,
+   "sitemapLocation": "sitemap.json"
 }

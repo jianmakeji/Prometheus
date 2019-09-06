@@ -6,11 +6,11 @@ Page({
     * 页面的初始数据
     */
    data: {
-      marginTop:"",
-      pageMarginTop:"",
-      currentPage:"1",
-      totalPage:"",
-      dataList:[]
+      marginTop: "",
+      pageMarginTop: "",
+      currentPage: "1",
+      totalPage: "",
+      dataList: []
    },
    // cardSwiper
    swiperChange(event) {
@@ -20,7 +20,7 @@ Page({
       })
    },
    // 点击推荐专题
-   catchItem(event){
+   catchItem(event) {
       let specialColumnId = event.currentTarget.dataset.specialColumnId;
       wx.navigateTo({
          url: app.globalData.pageUrl.specialColumnDetail + "?specialColumnId=" + specialColumnId,
@@ -29,33 +29,26 @@ Page({
    /**
     * 生命周期函数--监听页面加载
     */
-   onLoad: function (options) {
-      if(wx.getStorageSync("token")){
-
-      }else{
-         wx.redirectTo({
-            url: app.globalData.pageUrl.welcome,
-         })
-      }
+   onLoad: function(options) {
       wx.setNavigationBarTitle({
          title: '推荐',
       })
    },
-   onReady(){
+   onReady() {
       let that = this;
       wx.getSystemInfo({
-         success: function (res) {
+         success: function(res) {
             if (res.screenHeight <= 667) {
                that.setData({
                   marginTop: "20rpx",
                   pageMarginTop: "-60rpx"
                })
-            } else if (res.screenHeight > 667 && res.screenHeight <= 812){
+            } else if (res.screenHeight > 667 && res.screenHeight <= 812) {
                that.setData({
                   marginTop: "48rpx",
                   pageMarginTop: "-60rpx"
                })
-            }else{
+            } else {
                that.setData({
                   marginTop: "96rpx",
                   pageMarginTop: "60rpx"
@@ -63,40 +56,26 @@ Page({
             }
          },
       })
-      if (wx.getStorageSync("token")) {
-         wx.request({
-            url: app.globalData.serverHost + app.globalData.globalAPI.getRecommendSpecialColumn,
-            header: {
-               "Authorization": wx.getStorageSync("Authorization")
-            },
-            data: { limit: 10, thumb:"thumb_330_528"},
-            success(res) {
-               if (res.statusCode == 200) {
-                  that.setData({
-                     dataList: res.data,
-                     totalPage: res.data.length
-                  })
-               } else if (res.statusCode == 409) {
-                  getNewToken(res.data.token, that);
-               }
+      wx.request({
+         url: app.globalData.serverHost + app.globalData.globalAPI.getRecommendSpecialColumn,
+         data: {
+            limit: 10,
+            thumb: "thumb_330_528"
+         },
+         success(res) {
+            if (res.statusCode == 200) {
+               that.setData({
+                  dataList: res.data,
+                  totalPage: res.data.length
+               })
             }
-         })
-      } else {
-         wx.redirectTo({
-            url: app.globalData.pageUrl.welcome
-         })
-      }
+         }
+      })
    },
    /**
     * 生命周期函数--监听页面显示
     */
-   onShow: function () {
-      
+   onShow: function() {
+
    }
 })
-
-function getNewToken(token, that) {
-   wx.setStorageSync("token", token);
-   wx.setStorageSync("Authorization", wx.getStorageSync("token") + "#" + wx.getStorageSync("openid"));
-   that.onReady();
-}

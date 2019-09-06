@@ -10,9 +10,9 @@ Page({
       classTitle: "",
       eliteSchoolId: "",
       offset: 0,
-      count:0,
+      count: 0,
       dataList: [],
-      eliteCourseLoad:false
+      eliteCourseLoad: false
    },
    clickClass: function(event) {
       wx.navigateTo({
@@ -32,45 +32,7 @@ Page({
    },
    onReady() {
       let that = this;
-      if (wx.getStorageSync("token")) {
 
-         wx.request({
-            url: app.globalData.serverHost + app.globalData.globalAPI.getEliteCourseByEliteSchoolId,
-            data: {
-               id: this.data.eliteSchoolId,
-               limit: 10,
-               offset: that.data.offset
-            },
-            header: {
-               "Authorization": wx.getStorageSync("Authorization")
-            },
-            success(res) {
-               if (res.statusCode == 200) {
-                  let dataArr = new Array();
-                  dataArr = res.data.rows;
-                  count:res.data.count;
-                  for (let i = 0; i < dataArr.length; i++) {
-                     dataArr[i].duration = parseInt(dataArr[i].duration / 60) + ":" + (parseInt(dataArr[i].duration % 60 / 10) ? dataArr[i].duration % 60 : "0" + dataArr[i].duration % 60);
-                  }
-                  that.setData({
-                     dataList: dataArr
-                  })
-               } else if (res.statusCode == 409) {
-                  getNewToken(res.data.token, that);
-               }
-            }
-         })
-      } else {
-         wx.redirectTo({
-            url: app.globalData.pageUrl.welcome
-         })
-      }
-   },
-   onPullDownRefresh(){
-      let that = this;
-      this.setData({
-         offset:0
-      })
       wx.request({
          url: app.globalData.serverHost + app.globalData.globalAPI.getEliteCourseByEliteSchoolId,
          data: {
@@ -78,8 +40,34 @@ Page({
             limit: 10,
             offset: that.data.offset
          },
-         header: {
-            "Authorization": wx.getStorageSync("Authorization")
+         success(res) {
+            if (res.statusCode == 200) {
+               let dataArr = new Array();
+               dataArr = res.data.rows;
+               count: res.data.count;
+               for (let i = 0; i < dataArr.length; i++) {
+                  dataArr[i].duration = parseInt(dataArr[i].duration / 60) + ":" + (parseInt(dataArr[i].duration % 60 / 10) ? dataArr[i].duration % 60 : "0" + dataArr[i].duration % 60);
+               }
+               that.setData({
+                  dataList: dataArr
+               })
+            } else if (res.statusCode == 409) {
+               getNewToken(res.data.token, that);
+            }
+         }
+      })
+   },
+   onPullDownRefresh() {
+      let that = this;
+      this.setData({
+         offset: 0
+      })
+      wx.request({
+         url: app.globalData.serverHost + app.globalData.globalAPI.getEliteCourseByEliteSchoolId,
+         data: {
+            id: this.data.eliteSchoolId,
+            limit: 10,
+            offset: that.data.offset
          },
          success(res) {
             if (res.statusCode == 200) {
@@ -98,12 +86,12 @@ Page({
          }
       })
    },
-   onReachBottom(){
+   onReachBottom() {
       let that = this;
-      if (this.data.dataList.length < this.data.count){
+      if (this.data.dataList.length < this.data.count) {
          this.setData({
-            offset:this.data.offset + 10,
-            eliteCourseLoad:true
+            offset: this.data.offset + 10,
+            eliteCourseLoad: true
          })
          wx.request({
             url: app.globalData.serverHost + app.globalData.globalAPI.getEliteCourseByEliteSchoolId,
@@ -111,9 +99,6 @@ Page({
                id: this.data.eliteSchoolId,
                limit: 10,
                offset: that.data.offset
-            },
-            header: {
-               "Authorization": wx.getStorageSync("Authorization")
             },
             success(res) {
                if (res.statusCode == 200) {
@@ -124,7 +109,7 @@ Page({
                   }
                   that.setData({
                      dataList: that.data.dataList.concat(dataArr),
-                     eliteCourseLoad:false
+                     eliteCourseLoad: false
                   })
                } else if (res.statusCode == 409) {
                   getNewToken(res.data.token, that);
@@ -133,16 +118,16 @@ Page({
          })
       }
    },
-   onShareAppMessage(){
+   onShareAppMessage() {
       return {
          title: '师道慧享',
          path: app.globalData.pageUrl.eliteCourse + "?eliteSchoolId=" + this.data.eliteSchoolId,
-         success: function (res) {
+         success: function(res) {
             wx.showToast({
                title: '转发成功！',
             })
          },
-         fail: function (res) {
+         fail: function(res) {
             wx.showToast({
                title: '转发失败!',
                icon: 'none'
